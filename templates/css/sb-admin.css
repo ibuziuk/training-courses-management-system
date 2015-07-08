@@ -21,6 +21,10 @@ body {
     padding-left: 0;
 }
 
+p {
+    margin-top: 25%;
+}
+
 #page-wrapper {
     width: 100%;
     padding: 0;
@@ -28,7 +32,11 @@ body {
 }
 
 #top-pannel {
-    background-color: #3B5999
+    background-color: #3B5999;
+}
+
+#left-menu{
+    background-color: black;
 }
 
 .huge {

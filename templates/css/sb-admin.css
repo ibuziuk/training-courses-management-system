@@ -8,7 +8,7 @@
 
 body {
     margin-top: 100px;
-    background-color: #222;
+    background-color: black;
 }
 
 @media(min-width:768px) {
@@ -22,7 +22,7 @@ body {
 }
 
 #userName {
-    margin-top: 25%;
+    color: #fff;
 }
 
 #page-wrapper {
@@ -51,6 +51,7 @@ body {
 
     #page-wrapper {
         padding: 10px;
+        margin-bottom: 3%;
     }
 }
 
@@ -135,7 +136,7 @@ ul.alert-dropdown {
         border-radius: 0;
         overflow-y: auto;
         background-color: #222;
-        bottom: 0;
+        bottom: 14%;
         overflow-x: hidden;
         padding-bottom: 40px;
     }

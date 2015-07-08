@@ -1,13 +1,13 @@
 .row1 {
-    height: 25%;
+    height: 30%;
 }
 
 .row2 {
-    height: 50%;
+    height: 25%;
 }
 
 .row3 {
-    height: 25%;
+    height: 45%;
 }
 
 .container1 {
@@ -31,6 +31,18 @@ body {
 .login-window {
     height: 100%;
     width: 100%;
+}
+
+.input-login {
+    padding-bottom: 10px;
+}
+
+.input-password {
+    padding-bottom: 5px;
+}
+
+.col-login {
+    height: 100%;
 }
 
 #top-pannel {

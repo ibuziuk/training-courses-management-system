@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,7 +21,6 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body>
@@ -30,7 +28,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-pannel">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu">
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -47,11 +45,13 @@
 
             <ul class="nav navbar-right top-nav">
 
-                <!-- user name should be there -->
-                
-                <li>
+                <!--
+                TODO!!! (in dynamic)
+                <li>         
                     <p id = "userName">userName</p>
+                   
                 </li>
+                -->
 
                 <li class="active">
 
@@ -60,50 +60,66 @@
                         Log Out
                     </a>
                 </li>
-            </ul>
 
+            </ul>
 
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav" id = "left-menu">
-                    <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <li id = "alltrainings">
+                        <a href="alltrainings.html">
+                            <i class="fa fa-fw fa-arrow-circle-o-right"></i> 
+                            All trainings
+                        </a>
                     </li>
-                    <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-                    </li>
-                    <li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+
+                    <li id = "mytrainings">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo">
+                            <i class="fa fa-fw fa-arrow-circle-o-right"></i> My trainings <i class="fa fa-fw fa-caret-down"></i>
+                        </a>
+
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="mytrainings.html">
+                                    <i class="fa fa-fw fa-angle-right"></i>
+                                    As a trainer
+                                </a>
                             </li>
+
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="mytrainings.html">
+                                    <i class="fa fa-fw fa-angle-right"></i>
+                                    As a guest
+                                </a>
                             </li>
+
                         </ul>
                     </li>
-                    <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+
+                    <li id = "newtraining">
+                        <a href="newtraining.html">
+                            <i class="fa fa-fw fa-arrow-circle-o-right"></i> 
+                            Create new training
+                        </a>
                     </li>
-                    <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+
+                    <li id = "newtrainer">
+                        <a href="newtrainer.html">
+                            <i class="fa fa-fw fa-arrow-circle-o-right"></i> 
+                            Add new external trainer
+                        </a>
                     </li>
+
+                    <li id = "users">
+                        <a href="users.html">
+                            <i class="fa fa-fw fa-arrow-circle-o-right"></i> 
+                            Users
+                        </a>
+                    </li>
+
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
+            
         </nav>
 
         <div id="page-wrapper">

@@ -21,7 +21,7 @@ body {
     padding-left: 0;
 }
 
-p {
+#userName {
     margin-top: 25%;
 }
 
@@ -31,7 +31,7 @@ p {
     background-color: #fff;
 }
 
-#top-pannel {
+#top-menu {
     background-color: #3B5999;
 }
 

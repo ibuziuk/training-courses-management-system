@@ -68,7 +68,8 @@ body {
 }
 
 #top-pannel {
-    background-color: #216FA0
+    background-color: #216FA0;
+	border-color: #216FA0;
 }
 
 .huge {

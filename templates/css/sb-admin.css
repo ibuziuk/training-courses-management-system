@@ -1,9 +1,3 @@
-/*!
- * Start Bootstrap - SB Admin Bootstrap Admin Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
 /* Global Styles */
 #languages {
     display: inline;
@@ -28,7 +22,6 @@ html {
 
 #wrapper {
     padding-left: 0;
-    /*margin-bottom: -50px;*/
     height: 100%;
 }
 
@@ -47,11 +40,11 @@ html {
 
 #top-menu {
     background-color: #216FA0;
+	border-color: #216FA0;
 }
 
 #left-menu{
     background-color: black;
-
 }
 
 .huge {

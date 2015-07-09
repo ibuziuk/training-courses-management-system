@@ -5,10 +5,19 @@
  */
 
 /* Global Styles */
+#languages {
+    display: inline;
+}
 
 body {
     margin-top: 100px;
     background-color: black;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+    background-color: white;
 }
 
 @media(min-width: 768px) {
@@ -19,6 +28,8 @@ body {
 
 #wrapper {
     padding-left: 0;
+    /*margin-bottom: -50px;*/
+    height: 100%;
 }
 
 #userName {
@@ -29,6 +40,8 @@ body {
     width: 100%;
     padding: 0;
     background-color: #fff;
+    height: 100%;
+    margin-bottom: -50px;
 }
 
 #top-menu {
@@ -37,6 +50,7 @@ body {
 
 #left-menu{
     background-color: black;
+
 }
 
 .huge {
@@ -51,7 +65,6 @@ body {
 
     #page-wrapper {
         padding: 10px;
-        margin-bottom: 3%;
     }
 }
 
@@ -136,9 +149,8 @@ ul.alert-dropdown {
         border-radius: 0;
         overflow-y: auto;
         background-color: #222;
-        bottom: 14%;
         overflow-x: hidden;
-        padding-bottom: 40px;
+        height: 100%;
     }
 
     .side-nav>li>a {

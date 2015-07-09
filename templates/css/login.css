@@ -29,6 +29,12 @@ html {
     background-color: white;
 }
 
+.language-panel {
+	height: 50px;
+	padding: 12px 15px;
+	font-size: 19px;
+}
+
 body {
     padding-top: 50px;
     height: 100%;
@@ -89,6 +95,13 @@ body {
 }
 
 .top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: #FFFFFF;
+}
+
+.top-nav>li>b {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px;

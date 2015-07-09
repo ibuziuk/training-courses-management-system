@@ -38,10 +38,11 @@ html {
 
 #page-wrapper {
     width: 100%;
-    padding: 0;
+    padding: 50px 0 0;
     background-color: #fff;
     height: 100%;
     margin-bottom: -50px;
+    margin-top: -50px;
 }
 
 #top-menu {
@@ -64,7 +65,7 @@ html {
     }
 
     #page-wrapper {
-        padding: 10px;
+        padding: 50px 10px 10px;
     }
 }
 

@@ -51,6 +51,10 @@ body {
     width: 100%;
 }
 
+.login-button {
+    float: right;
+}
+
 .input-login {
     padding-bottom: 10px;
 }

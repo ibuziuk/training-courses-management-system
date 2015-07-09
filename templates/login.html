@@ -21,16 +21,16 @@
 
     <body>
         <div id="wrapper">
+           
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-pannel">
-                <!-- Brand and toggle get grouped for tbetter mobile display -->
                 <div class="navbar-header">
                     <a class="navbar-brand" href="login.html">
                         <img alt="Brand" src="pics/exadel-logo.png">
                     </a>
-                </div>
-                <!-- /.navbar-collapse -->
+                </div>         
             </nav> 
+            <!-- /.navbar -->
 
             <!-- Container -->
             <div class="container-fluid container1" id="page-wrapper">
@@ -38,29 +38,40 @@
                 <div class="row-fluid row2">
                     <div class="col-lg-4 col-md-3 col-sm-2"></div>
                     <div class="col-lg-4 col-md-6 col-sm-8 col-login">
+                       
+                        <!-- Login window -->
                         <div class="panel panel-default login-window">
-                            <div class="panel-heading">Login form</div>
                             <div class="panel-body">
-                                <div class="input-group input-login">
-                                    <span class="input-group-addon" id="basic-addon1">Login</span>
-                                    <input type="text" class="form-control" placeholder="Login" aria-describedby="basic-addon1">
+                                <div class="row11">
+                                    <div class="col-xs-12 form-group input-login">
+                                        <label for="">Login</label>
+                                        <input type="text" class="form-control" placeholder="Login">
+                                    </div>
                                 </div>
-                                <div class="input-group input-password">
-                                    <span class="input-group-addon" id="basic-addon1">Password</span>
-                                    <input type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+                                <div class="row21">
+                                    <div class="col-xs-12 form-group input-password">
+                                       <label for="">Password</label>
+                                       <input type="text" class="form-control" placeholder="Password">
+                                    </div>
                                 </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"> Remember me
-                                    </label>
+                                <div class="row31">
+                                    <div class="col-xs-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> Remember me
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <a class="login-button" href="welcome.html">
+                                            <button class="btn btn-primary">Log in</button>
+                                        </a>
+                                    </div>
                                 </div>
-                                <a href="welcome.html">
-                                    <button class="btn btn-primary">
-                                    	Log in
-                                    </button>
-                                </a>
                             </div>
                         </div>
+                        <!-- /.login-window -->
+                        
                     </div>
                     <div class="col-lg-4 col-md-3 col-sm-2"></div>
                 </div>
@@ -68,16 +79,8 @@
             </div>
             <!-- /.container1 -->
             
-            <!-- Footer -->
-            <div id="footer">
-                <div class = "container">
-                    <p class = "muted credit">
-                        <i class="fa fa-fw fa-copyright"></i> 
-                        Exadel, Inc. All Rights Reserved. Exadel is a registered trademark of Exadel, Inc. 
-                    </p>
-                </div>
-            </div>
         </div>
         <!-- /#wrapper -->
+        
     </body>
 </html>

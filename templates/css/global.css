@@ -30,8 +30,8 @@ html {
     margin-top: -50px;
 }
 
-#top-menu {
-    background-color: #216FA0;
+#top-menu, #top-menu-col {
+    background-color: #1A394C;
 	border-color: #0f2736;
 }
 
@@ -165,7 +165,7 @@ ul.alert-dropdown {
     .side-nav li a:hover,
     .side-nav li a:focus {
         outline: none;
-        background-color: #000 !important;
+        background-color: #285069 !important;
     }
 }
 

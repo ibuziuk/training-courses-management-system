@@ -32,11 +32,15 @@ html {
 
 #top-menu {
     background-color: #216FA0;
-	border-color: #216FA0;
+	border-color: #0f2736;
 }
 
 #left-menu{
-    background-color: black;
+    background-color: #1A394C;
+}
+
+#left-menu>li>a {
+    border-bottom: solid 1px #0f2736;
 }
 
 .huge {
@@ -66,8 +70,12 @@ html {
     padding-left: 5px;
 }
 
+#top-menu {
+    box-shadow: 0px 2px 14px 2px #0f2736;
+}
+
 .top-nav {
-    padding: 0 15px;
+    padding: 0 15px; 
 }
 
 .top-nav>li {

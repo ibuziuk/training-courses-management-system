@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
     margin-top: 100px;
-    background-color: black;
+    background-color: white;
     height: 100%;
 }
 
@@ -30,9 +30,21 @@ html {
     margin-top: -50px;
 }
 
+#top-menu {
+    opacity: 0.9;
+    box-shadow: 0px 2px 14px 2px #0f2736;
+}
+
 #top-menu, #top-menu-col {
     background-color: #1A394C;
-	border-color: #0f2736;
+}
+
+#menu-button {
+    border-color: #112c3c;
+}
+
+#menu-button:hover {
+    background-color: #112c3c;
 }
 
 #left-menu{
@@ -41,6 +53,15 @@ html {
 
 #left-menu>li>a {
     border-bottom: solid 1px #0f2736;
+    color: white;
+}
+
+#alltrainings {
+    border-top: solid 1px #0f2736;
+}
+
+#left-menu>li>ul>li>a {
+    color: white;
 }
 
 .huge {
@@ -68,10 +89,6 @@ html {
 #langEn {
     padding-right: 5px;
     padding-left: 5px;
-}
-
-#top-menu {
-    box-shadow: 0px 2px 14px 2px #0f2736;
 }
 
 .top-nav {
@@ -178,6 +195,7 @@ ul.alert-dropdown {
     padding: 10px 15px 10px 38px;
     text-decoration: none;
     color: #999;
+      border-bottom: solid 1px #0f2736;
 }
 
 .side-nav>li>ul>li>a:hover {

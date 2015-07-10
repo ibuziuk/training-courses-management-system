@@ -24,12 +24,13 @@ html {
 }
 
 #copyright {
-  color: white;
-  font-size: 10px;
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 50px;
-  padding: 0px 15px;
+    color: white;
+    padding-left: 9px;
+    padding-right: 9px;
+    font-size: 10px;
+    position: absolute;
+    bottom: 50px;
+    display: none;
 }
 
 #page-wrapper {
@@ -55,9 +56,12 @@ html {
     background-color: #112c3c;
 }
 
+#menu-button:focus {
+    background-color: #112c3c;
+}
+
 #left-menu{
     background-color: #1A394C;
-    opacity: 1;
 }
 
 #left-menu>li>a {
@@ -90,16 +94,20 @@ html {
 
 /* Top Navigation */
 
-.language-panel {
-    padding: 0 15px !important;
-}
-
 #langRu {
     padding 15px;
 }
 
 #langEn {
     padding 15px;
+}
+
+.language-panel {
+	height: 50px;
+	padding: 12px 15px;
+	font-size: 19px;
+    float: right;
+    padding: 0 15px !important;
 }
 
 .top-nav {

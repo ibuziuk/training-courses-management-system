@@ -30,24 +30,6 @@ html {
     background-color: white;
 }
 
-.language-panel {
-    padding: 0 15px !important;
-}
-
-#langRu {
-    padding 15px;
-}
-
-#langEn {
-    padding 15px;
-}
-
-.language-panel {
-	height: 50px;
-	padding: 12px 15px;
-	font-size: 19px;
-}
-
 body {
     padding-top: 50px;
     height: 100%;

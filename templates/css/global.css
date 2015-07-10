@@ -108,6 +108,8 @@ html {
 	font-size: 19px;
     float: right;
     padding: 0 15px !important;
+    padding-right: 25px;
+    margin-right: 0px;
 }
 
 .top-nav {

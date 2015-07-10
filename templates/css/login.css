@@ -37,6 +37,8 @@ body {
     min-height: 100%;
     position: relative;
     margin: 0;
+    font-family: 'open sans';
+    font-size: 19px;
 }
 
 #footer {
@@ -48,7 +50,7 @@ body {
     line-height: 50px;
 }
 .login-window {
-    height: 230px;
+    height: 250px;
     width: 100%;
 }
 

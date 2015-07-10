@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>Welcome page</title>
+		<title>All trainings page</title>
 		
 		<!-- Bootstrap Core CSS -->
 		<link href="css/bootstrap.css" rel="stylesheet">
@@ -56,14 +56,14 @@
 						</a>
 					</li>
 
-					<ul class="nav navbar-right top-nav">
+					<ul class="nav navbar-right top-nav language-panel">
 						<li><a id = "langEn" href = "welcome.html">En</a></li>
 						<li><a id = "langRu" href = "welcome.html">Ru</a></li>
                 	</ul>
 				</ul>
 
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-				<div class="collapse navbar-collapse navbar-ex1-collapse" id = "top-menu-col">
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav" id = "left-menu">
 						<li id = "alltrainings">
 							<a href="alltrainings.html">
@@ -71,14 +71,12 @@
 								All trainings
 							</a>
 						</li>
-
 						<li id = "mytrainings">
 							<a href="javascript:;" data-toggle="collapse" data-target="#demo">
 								<i class="fa fa-fw fa-circle-o"></i> 
 								My trainings 
 								<i class="fa fa-fw fa-caret-down"></i>
 							</a>
-
 							<ul id="demo" class="collapse">
 								<li>
 									<a href="mytrainings.html">
@@ -86,36 +84,36 @@
 										As a trainer
 									</a>
 								</li>
-
 								<li>
 									<a href="mytrainings.html">
 										<i class="fa fa-fw fa-angle-right"></i>
 										As a guest
 									</a>
 								</li>
-
 							</ul>
 						</li>
-
 						<li id = "newtraining">
 							<a href="newtraining.html">
 								<i class="fa fa-fw fa-circle-o"></i> 
 								Create new training
 							</a>
 						</li>
-
 						<li id = "newtrainer">
 							<a href="newtrainer.html">
 								<i class="fa fa-fw fa-circle-o"></i> 
 								Add new external trainer
 							</a>
 						</li>
-
 						<li id = "users">
 							<a href="users.html">
 								<i class="fa fa-fw fa-circle-o"></i> 
 								Users
 							</a>
+						</li>
+						<li id = "copyright">
+							<footer>
+								<p>©Exadel, Inc. All Rights Reserved.</p>
+							</footer>
 						</li>
 					</ul>
 				</div>
@@ -128,195 +126,39 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<h1 class="page-header">
-								Notifications <small>Hot news about your trainings</small>
+								All trainings <small>Information about all trainings</small>
 							</h1>
 						</div>
 					</div>
-					<!-- /.row -->
-
-					<div class="row">
-						<div class="col-lg-3 col-md-6">
-							<div class="panel panel-red">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-3">
-											<i class="fa fa-bomb fa-5x"></i>
-										</div>
-										<div class="col-xs-9 text-right">
-											<!-- TODO dynamic!!! -->
-											<div class="huge">26</div>
-											<div>Hot trainings!</div>
-										</div>
-									</div>
-								</div>
-								<!-- TODO change alltrainings.html -->
-								<a href="alltrainings.html">
-									<div class="panel-footer">
-										<span class="pull-left">View Details</span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-3 col-md-6">
-							<div class="panel panel-green">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-3">
-											<i class="fa fa-tasks fa-5x"></i>
-										</div>
-										<div class="col-xs-9 text-right">
-											<!-- TODO dynamic!!! -->
-											<div class="huge">12</div>
-											<div>New trainings!</div>
-										</div>
-									</div>
-								</div>
-								<!-- TODO change alltrainings.html -->
-								<a href="alltrainings.html">
-									<div class="panel-footer">
-										<span class="pull-left">View Details</span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-3 col-md-6">
-							<div class="panel panel-yellow">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-3">
-											<i class="fa fa-shopping-cart fa-5x"></i>
-										</div>
-										<div class="col-xs-9 text-right">
-											<!-- TODO dynamic!!! -->
-											<div class="huge">5</div>
-											<div>We recommend!</div>
-										</div>
-									</div>
-								</div>
-								<!-- TODO change alltrainings.html -->
-								<a href="alltrainings.html">
-									<div class="panel-footer">
-										<span class="pull-left">View Details</span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-3 col-md-6">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-3">
-											<i class="fa fa-support fa-5x"></i>
-										</div>
-										<div class="col-xs-9 text-right">
-											<div class="huge">13</div>
-											<div>General trainings!</div>
-										</div>
-									</div>
-								</div>
-								<!-- TODO change alltrainings.html -->
-								<a href="alltrainiings.html">
-									<div class="panel-footer">
-										<span class="pull-left">View Details</span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-					<!-- /.row -->
-
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-info alert-dismissable">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									&times;
-								</button>
-								<i class="fa fa-info-circle"></i>
-								<!-- TODO dynamic!! -->  
-								<strong>
-									<time>
-										2016-07-21 18:20
-									</time>
-								</strong> 
-								You training 
-								<a href="training.html" class="alert-link">name of training</a> was aproved!
-							</div>
-						</div>
-					</div>
-					<!-- /.row -->
-
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-danger alert-dismissable">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									&times;
-								</button>
-								<i class="fa fa-info-circle"></i>
-								<!-- TODO dynamic!! -->  
-								<strong>
-									<time>
-										2016-07-21 15:10
-									</time>
-								</strong> 
-								You have got training 
-								<a href="training.html" class="alert-link">name of training</a> in an hour!
-							</div>
-						</div>
-					</div>
-					<!-- /.row -->
-
-				   <div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-success alert-dismissable">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									&times;
-								</button>
-								<i class="fa fa-info-circle"></i>
-								<!-- TODO dynamic!! -->  
-								<strong>
-									<time>
-										2016-07-21 12:07
-									</time>
-								</strong> 
-								You have got training 
-								<a href="training.html" class="alert-link">name of training</a> in a day
-							</div>
-						</div>
-					</div>
-					<!-- /.row -->
-
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-warning alert-dismissable">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									&times;
-								</button>
-								<i class="fa fa-info-circle"></i>
-								<!-- TODO dynamic!! -->  
-								<strong>
-									<time>
-										2016-07-21 12:07
-									</time>
-								</strong> 
-								User
-								<a href="user.html" class="alert-link">name of user</a> sent you new
-								<a href="training.html" class="alert-link">name of training</a> to aprove.
-							</div>
-						</div>
-					</div>
-					<!-- /.row -->
-
+                    <!-- /.row -->
+                    
+                    <!-- Tabs -->     
+                    <div class="tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#fut" data-toggle="tab">Fututre trainings</a></li>
+                            <li><a href="#rec" data-toggle="tab">Recomendations</a></li>
+                            <li><a href="#hist" data-toggle="tab">History of trainings</a></li>
+                            <li><a href="#wait" data-toggle="tab">Waiting list</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="fut">
+                                <div class="row">
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="rec">
+                                
+                            </div>
+                            <div class="tab-pane fade" id="hist">
+                                
+                            </div>
+                            <div class="tab-pane fade" id="wait">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- /.ul -->
 				</div>
 				<!-- /.container-fluid -->
 			</div>

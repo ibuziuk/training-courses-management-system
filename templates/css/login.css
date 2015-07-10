@@ -73,9 +73,12 @@ body {
     height: 100%;
 }
 
+.navbar {
+    height: 50px;
+}
+
 #top-pannel {
     background-color: #216FA0;
-	border-color: #216FA0;
 }
 
 .huge {
@@ -114,7 +117,7 @@ body {
 .top-nav>.open>a:hover,
 .top-nav>.open>a:focus {
     color: #fff;
-    background-color: #000;
+    background-color: #00A8E7;
 }
 
 /* Flot Chart Containers */

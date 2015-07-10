@@ -47,6 +47,10 @@ html {
     background-color: #112c3c;
 }
 
+#menu-button:focus {
+    background-color: #112c3c;
+}
+
 #left-menu{
     background-color: #1A394C;
 }

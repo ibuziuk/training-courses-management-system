@@ -38,7 +38,7 @@ body {
     position: relative;
     margin: 0;
     font-family: 'open sans';
-    font-size: 19px;
+    font-size: 15px;
 }
 
 #footer {
@@ -56,6 +56,24 @@ body {
 
 .login-button {
     float: right;
+}
+
+#langRu {
+    padding 15px;
+}
+
+#langEn {
+    padding 15px;
+}
+
+.language-panel {
+	height: 50px;
+	padding: 12px 15px;
+	font-size: 15px;
+    float: right;
+    padding: 0 15px !important;
+    padding-right: 25px;
+    margin-right: 0px;
 }
 
 .input-login {

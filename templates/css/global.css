@@ -3,6 +3,8 @@ body {
     margin-top: 100px;
     background-color: white;
     height: 100%;
+    font-family: 'open sans';
+    font-size: 15px;
 }
 
 html {
@@ -21,6 +23,15 @@ html {
     height: 100%;
 }
 
+#copyright {
+    color: white;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 50px;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
 #page-wrapper {
     width: 100%;
     padding: 50px 0 0;
@@ -33,9 +44,6 @@ html {
 #top-menu {
     opacity: 0.9;
     box-shadow: 0px 2px 14px 2px #0f2736;
-}
-
-#top-menu, #top-menu-col {
     background-color: #1A394C;
 }
 
@@ -47,12 +55,9 @@ html {
     background-color: #112c3c;
 }
 
-#menu-button:focus {
-    background-color: #112c3c;
-}
-
 #left-menu{
     background-color: #1A394C;
+    opacity: 1;
 }
 
 #left-menu>li>a {

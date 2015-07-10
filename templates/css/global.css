@@ -24,13 +24,12 @@ html {
 }
 
 #copyright {
-    color: white;
-    padding-left: 9px;
-    padding-right: 9px;
-    font-size: 10px;
-    position: absolute;
-    bottom: 50px;
-    display: none;
+  color: white;
+  font-size: 10px;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 50px;
+  padding: 0px 15px;
 }
 
 #page-wrapper {
@@ -91,14 +90,16 @@ html {
 
 /* Top Navigation */
 
+.language-panel {
+    padding: 0 15px !important;
+}
+
 #langRu {
-    padding-left: 5px; 
-    padding-right: 5px;
+    padding 15px;
 }
 
 #langEn {
-    padding-right: 5px;
-    padding-left: 5px;
+    padding 15px;
 }
 
 .top-nav {

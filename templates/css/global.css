@@ -25,11 +25,12 @@ html {
 
 #copyright {
     color: white;
-    position: absolute;
-    bottom: 0;
-    padding-bottom: 50px;
     padding-left: 9px;
     padding-right: 9px;
+    font-size: 10px;
+    position: absolute;
+    bottom: 50px;
+    display: none;
 }
 
 #page-wrapper {
@@ -90,20 +91,18 @@ html {
 
 /* Top Navigation */
 
-.language-panel {
-    padding: 0 15px !important;
-}
-
 #langRu {
-    padding: 15px;
+    padding-left: 5px; 
+    padding-right: 5px;
 }
 
 #langEn {
-    padding: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .top-nav {
-    padding: 0 25px; 
+    padding: 0 15px; 
 }
 
 .top-nav>li {
@@ -194,6 +193,10 @@ ul.alert-dropdown {
     .side-nav li a:focus {
         outline: none;
         background-color: #285069 !important;
+    }
+
+    #copyright {
+        display: block;
     }
 }
 

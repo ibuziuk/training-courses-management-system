@@ -120,11 +120,17 @@ html {
 /* Top Navigation */
 
 #langRu {
-    padding 15px;
+    padding: 15px;
+    cursor: pointer;
 }
 
 #langEn {
-    padding 15px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+#logout {
+    cursor: pointer;
 }
 
 .language-panel {

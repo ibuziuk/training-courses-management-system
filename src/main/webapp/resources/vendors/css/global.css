@@ -7,6 +7,24 @@ body {
     font-size: 15px;
 }
 
+#editBtn {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#subBtn {
+    width: 60%;
+    height: 60px;
+}
+
+#audience, #tags, #lng{
+    list-style-type:none;
+    max-height: 100px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-left: 0;
+}
+
 html {
     height: 100%;
     background-color: white;
@@ -25,8 +43,7 @@ html {
 
 #copyright {
     color: white;
-    padding-left: 9px;
-    padding-right: 9px;
+    padding: 10px 10px;
     font-size: 10px;
     position: absolute;
     bottom: 50px;
@@ -43,7 +60,7 @@ html {
 }
 
 #top-menu {
-    opacity: 0.9;
+    
     box-shadow: 0px 2px 14px 2px #0f2736;
     background-color: #1A394C;
 }
@@ -92,14 +109,22 @@ html {
     }
 }
 
+.tab-content {
+	border-top: 0px;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	border-radius: 0 0 4px 4px;
+}
+
 /* Top Navigation */
 
 #langRu {
-    padding: 15px;
+    padding 15px;
 }
 
 #langEn {
-    padding: 15px;
+    padding 15px;
 }
 
 .language-panel {
@@ -209,6 +234,10 @@ ul.alert-dropdown {
     #copyright {
         display: block;
     }
+	
+	#top-menu {
+		opacity: 0.9;
+	}
 }
 
 .side-nav>li>ul {
@@ -297,4 +326,22 @@ ul.alert-dropdown {
 
 .panel-yellow > a:hover {
     color: #df8a13;
+}
+#search-select {
+	padding-right: 0;
+}
+
+.tags {
+	font-size: initial;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	display: inline-block;
+}
+
+.search-row {
+	margin-bottom: 15px;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+	color: white;
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<!-- <%@ page language = "java" contentType = "text/html; charset=UTF-8" pageEncoding = "UTF-8" isErrorPage = "true" %> -->
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="pics/favicon.gif">
+
+        <title>Error page</title>
+
+        <!-- Bootstrap Core CSS -->
+	    <link href="css/bootstrap.css" rel="stylesheet">
+        
+        <!-- Error CSS -->
+        <link href="css/error.css" rel="stylesheet">
+        
+        <!-- <style>
+			<%@include file="css/error.css"%>
+            <%@include file="css/bootstrap.css"%>
+		</style> -->
+    </head>
+
+    <body>
+        <div id="wrapper">
+           
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" id="top-menu" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="login.html">
+                        <img alt="Brand" src="pics/exadel-logo.png">
+                    </a>
+                </div>  
+                <ul class="nav navbar-right top-nav">
+					<li><a id = "langEn" href = "welcome.html">En</a></li>
+					<li><a id = "langRu" href = "welcome.html">Ru</a></li>
+                </ul>   
+            </nav> 
+            <!-- /.navbar -->
+
+            <!-- Container -->
+            <div class="container-fluid">
+                <!-- .error-message -->
+                <div class="row error-message">
+                    <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
+                        <div class="well error">
+                        <span> Error 
+                            <!-- <%
+                                String error = request.getParameter("error");
+                                if (error.equals("400")) {
+                            %>
+                            <%=400%>
+                            <%
+                                } else if (error.equals("404")) {
+                            %>
+                            <%=404%>
+                            <%
+                                } else if (error.equals("500")) {
+                            %>
+                            <%=500%>
+                            <%
+                                }
+                            %> -->
+                            404 
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.error-message -->
+                
+                <!-- contact-message -->
+                <div class="row">
+                    <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
+                        <div class="well"><div class="contact-message">
+                            <span>If you want, you can <a href="">contact us</a>.</span>
+                        </div></div>
+                    </div>
+                </div>
+                <!-- /contact-message -->
+                
+                <!-- Blockquote -->
+                <div class="row">
+                    <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-lg-5 col-md-5 col-sm-7 col-xs-12">
+                        <blockquote>
+                            <p>Быстро поднятое не считается упавшим.</p>
+                            <footer>Admin VK</footer>
+                        </blockquote>
+                    </div> 
+                </div>
+                <!-- /Blockquote -->    
+            </div>
+            <!-- /Container -->    
+        </div>
+        <!-- /#wrapper -->
+    </body>
+</html>

@@ -1,24 +1,7 @@
-.row1 {
-    height: 25%;
-}
-
-.row2 {
-    height: 25%;
-    min-height: 230px;
-}
-
 #top-menu {
     opacity: 0.9;
     box-shadow: 0px 2px 14px 2px #0f2736;
-}
-
-.container1 {
-    height: 100%;
-    margin: 0 auto -50px;
-}
-
-.credit {
-    margin: 0;
+    margin-bottom: 15px;
 }
 
 #wrapper {
@@ -41,59 +24,12 @@ body {
     font-size: 15px;
 }
 
-#footer {
-    background-color: black;
-    height: 50px;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    line-height: 50px;
-}
-.login-window {
-    height: 250px;
-    width: 100%;
-}
-
-.login-button {
-    float: right;
-}
-
 #langRu {
     padding 15px;
 }
 
 #langEn {
     padding 15px;
-}
-
-.language-panel {
-	height: 50px;
-	padding: 12px 15px;
-    float: right;
-    padding: 0 15px !important;
-    padding-right: 25px;
-    margin-right: 0px;
-}
-
-.input-login {
-    padding-bottom: 10px;
-}
-
-.input-password {
-    padding-bottom: 5px;
-}
-
-.col-login {
-    height: 100%;
-}
-
-#top-pannel {
-    background-color: #216FA0;
-}
-
-.huge {
-    font-size: 50px;
-    line-height: normal;
 }
 
 /* Top Navigation */
@@ -141,4 +77,18 @@ body {
 .flot-chart-content {
     width: 100%;
     height: 100%;
+}
+
+@media (min-width: 768px) {
+    .error {
+        margin-top: 25px !important;
+    }
+}
+
+.error {
+    margin-top: 75px;
+}
+
+.error-message {
+    font-size: 50px;
 }

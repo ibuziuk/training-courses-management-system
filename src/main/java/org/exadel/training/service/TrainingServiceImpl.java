@@ -27,6 +27,12 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
+    public List getTrainingsByName(String name){
+        return trainingDAO.getTrainingsByName(name);
+    }
+
+    @Override
+    @Transactional
     public void updateTraining(Training training){
         trainingDAO.updateTraining(training);
     }

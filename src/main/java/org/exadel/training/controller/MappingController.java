@@ -1,4 +1,4 @@
-package org.exadel.training.controller_;
+package org.exadel.training.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

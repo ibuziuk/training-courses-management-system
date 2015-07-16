@@ -14,24 +14,36 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @Override
     public void addTraining(Training training){
-        sessionFactory.getCurrentSession().persist(training);
+        if (training != null)
+        {
+            sessionFactory.getCurrentSession().persist(training);
+        }
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List getAllTraining(){
-        return sessionFactory.getCurrentSession().createQuery("from training").list();
+        return sessionFactory.getCurrentSession().createCriteria(Training.class).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List <Training> getTrainingsByName(String name) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("FROM Training t WHERE t.name = :name").setString("name", name).list();
     }
 
     @Override
     public void updateTraining(Training training){
-        sessionFactory.getCurrentSession().update(training);
+        if (training != null){
+            sessionFactory.getCurrentSession().update(training);
+        }
     }
 
     @Override
     public void removeTraining(Training training){
-        sessionFactory.getCurrentSession().delete(training);
+        if (training != null){
+            sessionFactory.getCurrentSession().delete(training);
+        }
     }
 }
-
-//TODO: check (training != null)

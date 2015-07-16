@@ -9,13 +9,13 @@ import javax.persistence.*;
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long trainingId;
+    private long trainingID;
 
     @NotEmpty
     @Column(length = 500)
     private String name;
 
-    private long trainerId;
+    private long trainerID;
 
     @Column(length = 20)
     private String date;
@@ -37,8 +37,8 @@ public class Training {
     @Column(length = 500)
     private String tags;
 
-    public long getTrainingId() {
-        return trainingId;
+    public long getTrainingID() {
+        return trainingID;
     }
 
     public String getName() {
@@ -49,12 +49,12 @@ public class Training {
         this.name = name;
     }
 
-    public long getTrainerId() {
-        return trainerId;
+    public long getTrainerID() {
+        return trainerID;
     }
 
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
+    public void setTrainerID(long trainerID) {
+        this.trainerID = trainerID;
     }
 
     public String getDate() {

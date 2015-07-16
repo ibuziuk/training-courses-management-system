@@ -15,22 +15,28 @@ public class Training {
     private String name;
 
     private long trainerId;
+
     @Column(length = 20)
     private String date;
+
     @Column(length = 20)
     private String time;
+
     private int MAX_count;
+
     @Column(length = 500)
     private String audience;
+
     @Column(length = 50)
     private String place;
+
     @Column(length = 45)
     private String duration;
+
     @Column(length = 500)
     private String tags;
 
-
-    public long getTrainindId() {
+    public long getTrainingId() {
         return trainingId;
     }
 

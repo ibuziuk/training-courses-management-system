@@ -12,6 +12,7 @@ public class Training {
     private long trainingId;
 
     @NotEmpty
+    @Column(length = 500)
     private String name;
 
     private long trainerId;

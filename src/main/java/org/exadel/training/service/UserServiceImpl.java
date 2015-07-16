@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by Alex on 15.07.2015.
- */
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired

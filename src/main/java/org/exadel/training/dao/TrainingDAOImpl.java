@@ -21,7 +21,7 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List getAllTraining() {
+    public List getAllTrainings() {
         return sessionFactory.getCurrentSession().createCriteria(Training.class).list();
     }
 

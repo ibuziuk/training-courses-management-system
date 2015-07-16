@@ -5,8 +5,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "trainingFeedBack")
-public class TrainingFeedBack {
+@Table(name = "trainingFeedback")
+public class TrainingFeedback {
 
     @NotEmpty
     private long userID;

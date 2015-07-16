@@ -1,6 +1,6 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.TrainingFeedback;
+import org.exadel.training.model.EmployeeFeedback;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TrainingFeedbackDAOImpl implements TrainingFeedbackDAO {
+public class EmployeeFeedbackDAOImpl implements EmployeeFeedbackDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public void addFeedback(TrainingFeedback feedBack) {
+    public void addFeedback(EmployeeFeedback feedBack) {
         if (feedBack != null) {
             sessionFactory.getCurrentSession().persist(feedBack);
         }
@@ -21,7 +21,7 @@ public class TrainingFeedbackDAOImpl implements TrainingFeedbackDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TrainingFeedback> getAllFeedbacks() {
-        return sessionFactory.getCurrentSession().createCriteria(TrainingFeedback.class).list();
+    public List<EmployeeFeedback> getAllFeedbacks() {
+        return sessionFactory.getCurrentSession().createCriteria(EmployeeFeedback.class).list();
     }
 }

@@ -1,11 +1,11 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.TrainingFeedBack;
+import org.exadel.training.model.TrainingFeedback;
 
 import java.util.List;
 
-public interface TrainingFeedBackDAO {
-    void addFeedBack(TrainingFeedBack feedBack);
+public interface TrainingFeedbackDAO {
+    void addFeedback(TrainingFeedback feedBack);
 
-    List<TrainingFeedBack> getAllFeedBacks();
+    List<TrainingFeedback> getAllFeedbacks();
 }

@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsersByRole(int role) {
-        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.roleID = :role").setInteger("role", role).list();
+        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.roleId = :role").setInteger("role", role).list();
     }
 
     @Override

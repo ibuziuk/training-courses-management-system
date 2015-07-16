@@ -5,7 +5,7 @@ import org.exadel.training.model.TrainingFeedback;
 import java.util.List;
 
 public interface TrainingFeedbackDAO {
-    void addFeedback(TrainingFeedback feedBack);
+    void addFeedback(TrainingFeedback feedback);
 
     List<TrainingFeedback> getAllFeedbacks();
 }

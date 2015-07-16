@@ -15,8 +15,8 @@ public class EmployeeFeedbackServiceImpl implements EmployeeFeedbackService {
 
     @Override
     @Transactional
-    public void addFeedback(EmployeeFeedback feedBack) {
-        employeeFeedbackDAO.addFeedback(feedBack);
+    public void addFeedback(EmployeeFeedback feedback) {
+        employeeFeedbackDAO.addFeedback(feedback);
     }
 
     @Override

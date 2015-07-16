@@ -9,13 +9,13 @@ import javax.persistence.*;
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long trainingID;
+    private long trainingId;
 
     @NotEmpty
     @Column(length = 500)
     private String name;
 
-    private long trainerID;
+    private long trainerId;
 
     @Column(length = 20)
     private String date;
@@ -23,7 +23,7 @@ public class Training {
     @Column(length = 20)
     private String time;
 
-    private int MAX_count;
+    private int maxCount;
 
     @Column(length = 500)
     private String audience;
@@ -37,8 +37,8 @@ public class Training {
     @Column(length = 500)
     private String tags;
 
-    public long getTrainingID() {
-        return trainingID;
+    public long getTrainingId() {
+        return trainingId;
     }
 
     public String getName() {
@@ -49,12 +49,12 @@ public class Training {
         this.name = name;
     }
 
-    public long getTrainerID() {
-        return trainerID;
+    public long getTrainerId() {
+        return trainerId;
     }
 
-    public void setTrainerID(long trainerID) {
-        this.trainerID = trainerID;
+    public void setTrainerId(long trainerID) {
+        this.trainerId = trainerID;
     }
 
     public String getDate() {
@@ -73,12 +73,12 @@ public class Training {
         this.time = time;
     }
 
-    public int getMAX_count() {
-        return MAX_count;
+    public int getMaxCount() {
+        return maxCount;
     }
 
-    public void setMAX_count(int MAX_count) {
-        this.MAX_count = MAX_count;
+    public void setMaxCount(int MAX_count) {
+        this.maxCount = MAX_count;
     }
 
     public String getAudience() {

@@ -6,7 +6,7 @@ import org.exadel.training.model.EmployeeFeedback;
 import java.util.List;
 
 public interface EmployeeFeedbackService {
-    void addFeedback(EmployeeFeedback feedBack);
+    void addFeedback(EmployeeFeedback feedback);
 
     List<EmployeeFeedback> getAllFeedbacks();
 }

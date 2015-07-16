@@ -15,8 +15,8 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
 
     @Override
     @Transactional
-    public void addFeedback(TrainingFeedback feedBack) {
-        trainingFeedbackDAO.addFeedback(feedBack);
+    public void addFeedback(TrainingFeedback feedback) {
+        trainingFeedbackDAO.addFeedback(feedback);
     }
 
     @Override

@@ -9,20 +9,20 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userID;
+    private long userId;
 
     @NotEmpty
     @Column(length = 100)
     private String name;
 
-    private int roleID;
+    private int roleId;
 
-    public long getUserID() {
-        return userID;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserId(long userID) {
+        this.userId = userID;
     }
 
     public String getName() {
@@ -33,11 +33,11 @@ public class User {
         this.name = name;
     }
 
-    public int getRoleID() {
-        return roleID;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
+    public void setRoleId(int roleID) {
+        this.roleId = roleID;
     }
 }

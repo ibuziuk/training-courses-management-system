@@ -13,9 +13,9 @@ public class TrainingFeedbackDAOImpl implements TrainingFeedbackDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addFeedback(TrainingFeedback feedBack) {
-        if (feedBack != null) {
-            sessionFactory.getCurrentSession().persist(feedBack);
+    public void addFeedback(TrainingFeedback feedback) {
+        if (feedback != null) {
+            sessionFactory.getCurrentSession().persist(feedback);
         }
     }
 

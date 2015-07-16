@@ -9,10 +9,10 @@ import javax.persistence.*;
 public class TrainingFeedback {
 
     @NotEmpty
-    private long userID;
+    private long userId;
 
     @NotEmpty
-    private long trainerID;
+    private long trainerId;
 
     @Column(length = 4500)
     private String text;
@@ -24,7 +24,7 @@ public class TrainingFeedback {
 
     private int interestingly;
 
-    private int learn_something_new;
+    private int learnSomethingNew;
 
     private int effectiveness;
 
@@ -33,20 +33,20 @@ public class TrainingFeedback {
     @Column(length = 45)
     private String recommending;
 
-    public long getUserID() {
-        return userID;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public long getTrainerID() {
-        return trainerID;
+    public long getTrainerId() {
+        return trainerId;
     }
 
-    public void setTrainerID(long trainerID) {
-        this.trainerID = trainerID;
+    public void setTrainerId(long trainerId) {
+        this.trainerId = trainerId;
     }
 
     public String getText() {
@@ -81,12 +81,12 @@ public class TrainingFeedback {
         this.interestingly = interestingly;
     }
 
-    public int getLearn_something_new() {
-        return learn_something_new;
+    public int getLearnSomethingNew() {
+        return learnSomethingNew;
     }
 
-    public void setLearn_something_new(int learn_something_new) {
-        this.learn_something_new = learn_something_new;
+    public void setLearnSomethingNew(int learnSomethingNew) {
+        this.learnSomethingNew = learnSomethingNew;
     }
 
     public int getEffectiveness() {

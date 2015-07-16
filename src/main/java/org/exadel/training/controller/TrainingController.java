@@ -11,6 +11,7 @@ public class TrainingController {
     public String allTrainings() {
         return "all-trainings";
     }
+
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newTraining() {
         return "new-training";

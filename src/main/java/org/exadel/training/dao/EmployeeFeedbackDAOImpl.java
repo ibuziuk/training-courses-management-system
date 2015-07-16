@@ -13,9 +13,9 @@ public class EmployeeFeedbackDAOImpl implements EmployeeFeedbackDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addFeedback(EmployeeFeedback feedBack) {
-        if (feedBack != null) {
-            sessionFactory.getCurrentSession().persist(feedBack);
+    public void addFeedback(EmployeeFeedback feedback) {
+        if (feedback != null) {
+            sessionFactory.getCurrentSession().persist(feedback);
         }
     }
 

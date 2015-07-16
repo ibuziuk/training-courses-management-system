@@ -9,19 +9,19 @@ import javax.persistence.*;
 public class EmployeeFeedback {
 
     @NotEmpty
-    private long userID;
+    private long userId;
 
     @NotEmpty
-    private long trainerID;
+    private long trainerId;
 
     @Column(length = 20)
     private String date;
 
-    private boolean presence;
+    private boolean present;
 
     private int attitudeToLearning;
 
-    private boolean asks;
+    private boolean askQuestions;
 
     private int communication;
 
@@ -37,20 +37,20 @@ public class EmployeeFeedback {
     @Column(length = 45)
     private String mark;
 
-    public long getUserID() {
-        return userID;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public long getTrainerID() {
-        return trainerID;
+    public long getTrainerId() {
+        return trainerId;
     }
 
-    public void setTrainerID(long trainerID) {
-        this.trainerID = trainerID;
+    public void setTrainerId(long trainerId) {
+        this.trainerId = trainerId;
     }
 
     public String getDate() {
@@ -61,12 +61,12 @@ public class EmployeeFeedback {
         this.date = date;
     }
 
-    public boolean isPresence() {
-        return presence;
+    public boolean isPresent() {
+        return present;
     }
 
-    public void setPresence(boolean presence) {
-        this.presence = presence;
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 
     public int getAttitudeToLearning() {
@@ -77,12 +77,12 @@ public class EmployeeFeedback {
         this.attitudeToLearning = attitudeToLearning;
     }
 
-    public boolean isAsks() {
-        return asks;
+    public boolean isAskQuestions() {
+        return askQuestions;
     }
 
-    public void setAsks(boolean asks) {
-        this.asks = asks;
+    public void setAskQuestions(boolean askQuestions) {
+        this.askQuestions = askQuestions;
     }
 
     public int getCommunication() {

@@ -6,5 +6,6 @@
 <hibernate-configuration>
     <session-factory>
         <mapping class="org.exadel.training.model.Training"/>
+        <mapping class="org.exadel.training.model.User"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,342 +1,202 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="welcomeApp">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-	<title>Welcome page</title>
+    <title>Welcome page</title>
 
-	<!-- Bootstrap Core CSS -->
-	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+    <!-- Bootstrap Core CSS -->
+    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
 
-	<!-- Custom CSS -->
-	<link href="../../resources/vendors/css/global.css" th:href="@{/resources/vendors/css/global.css}" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="../../resources/vendors/css/global.css" th:href="@{/resources/vendors/css/global.css}" rel="stylesheet" />
 
-	<!-- Morris Charts CSS -->
-	<link href="../../resources/vendors/css/plugins/morris.css" th:href="@{/resources/vendors/css/plugins/morris.css}" rel="stylesheet" />
+    <!-- Custom Fonts -->
+    <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
 
-	<!-- Custom Fonts -->
-	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <!-- jQuery -->
+    <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
+
+    <script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
+
+    <!-- Angular -->
+    <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+    <script src="../../resources/js/welcome-app/app.js" th:src="@{/resources/js/welcome-app/app.js}"></script>
+    <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{resources/js/global-ctrls/collapse-ctrl.js}"></script>
+    <script src="../../resources/js/welcome-app/alert-ctrl.js" th:src="@{/resources/js/welcome-app/alert-ctrl.js}"></script>
+    <script src="../../resources/js/welcome-app/square-ctrl.js" th:src="@{/resources/js/welcome-app/square-ctrl.js}"></script>
+    <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 </head>
 
 <body>
 <div id="wrapper">
 
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse" id="menu-button">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-			<a class="navbar-brand">
-				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
-			</a>
-		</div>
+            <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+            </a>
+        </div>
 
-		<!-- Top Menu Items -->
-		<ul class="nav navbar-right top-nav">
-			<!--TODO!!! dynamic-->
-			<li class="active">
-				<a href = "welcome.html">
-					<i class = "fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
-				</a>
-			</li>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <!--TODO!!! dynamic-->
+            <li class="active">
+                <a href = "welcome.html" th:href="@{/welcome}">
+                    <i class = "fa fa-fw fa-user"></i>
+                    <span sec:authentication="name"></span>
+                </a>
+            </li>
 
-			<li class="active">
-				<a id="logout">
-					<i class="fa fa-fw fa-power-off"></i>
-					Log Out
-				</a>
-			</li>
+            <li class="active">
+                <a href="#" th:href="@{/logout}" id="logout">
+                    <i class="fa fa-fw fa-power-off"></i>
+                    Log out
+                </a>
+            </li>
 
-			<ul class="nav navbar-right top-nav language-panel">
-				<li><a id = "langEn" href = "welcome.html">En</a></li>
-				<li><a id = "langRu" href = "welcome.html">Ru</a></li>
-			</ul>
-		</ul>
+            <ul class="nav navbar-right top-nav language-panel">
+                <li><a class = "lang" href = "welcome.html">En</a></li>
+                <li><a class = "lang" href = "welcome.html">Ru</a></li>
+            </ul>
+        </ul>
 
-		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class="collapse navbar-collapse navbar-ex1-collapse">
-			<ul class="nav navbar-nav side-nav" id = "left-menu">
-				<li id = "alltrainings">
-					<a href="allTrainings">
-						<i class="fa fa-fw fa-circle-o"></i>
-						All trainings
-					</a>
-				</li>
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse" collapse="isCollapsed">
+            <ul class="nav navbar-nav side-nav" id = "left-menu">
 
-				<li id = "mytrainings">
-					<a href="javascript:;" data-toggle="collapse" data-target="#demo">
-						<i class="fa fa-fw fa-circle-o"></i>
-						My trainings
-						<i class="fa fa-fw fa-caret-down"></i>
-					</a>
+                <li id = "alltrainings">
+                    <a href="all-trainings.html" th:href="@{/training/all}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        All trainings
+                    </a>
+                </li>
 
-					<ul id="demo" class="collapse">
-						<li>
-							<a href="mytrainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								As a trainer
-							</a>
-						</li>
+                <li id="mytrainings">
+                    <a href="#" ng-click="isCollapsed2=!isCollapsed2">
+                        <i class="fa fa-fw fa-circle"></i>
+                        My trainings
+                        <i class="fa fa-fw fa-caret-down"></i>
+                    </a>
 
-						<li>
-							<a href="mytrainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								As a guest
-							</a>
-						</li>
+                    <ul collapse="isCollapsed2">
+                        <li>
+                            <a href="../my-trainings/my-trainings.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                As a trainer
+                            </a>
+                        </li>
 
-					</ul>
-				</li>
+                        <li>
+                            <a href="../my-trainings/my-trainings.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                As a guest
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-				<li id = "newtraining">
-					<a href="newtraining.html">
-						<i class="fa fa-fw fa-circle-o"></i>
-						Create new training
-					</a>
-				</li>
+                <li id = "newtraining">
+                    <a href="new-training.html" th:href="@{/training/new}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        Create new training
+                    </a>
+                </li>
 
-				<li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
-					<a href="newtrainer.html">
-						<i class="fa fa-fw fa-circle-o"></i>
-						Add new external trainer
-					</a>
-				</li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
+                    <a href="new-trainer.html">
+                        <i class="fa fa-fw fa-circle"></i>
+                        Add new external trainer
+                    </a>
+                </li>
 
-				<li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-					<a href="users.html">
-						<i class="fa fa-fw fa-circle-o"></i>
-						Users
-					</a>
-				</li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
+                    <a href="../users/users.html">
+                        <i class="fa fa-fw fa-circle"></i>
+                        Users
+                    </a>
+                </li>
 
-				<li id = "copyright">
-					<footer>
-						<span>©Exadel, Inc. All Rights Reserved.</span>
-					</footer>
-				</li>
-			</ul>
-		</div>
-	</nav>
+                <li id = "copyright">
+                    <footer>
+                        <span>©Exadel, Inc. All Rights Reserved.</span>
+                    </footer>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-	<div id="page-wrapper">
-		<div class="container-fluid">
+    <div id="page-wrapper">
+        <div class="container-fluid">
 
-			<!-- Page Heading -->
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">
-						Notifications <small>Hot news about your trainings</small>
-					</h1>
-				</div>
-			</div>
-			<!-- /.row -->
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h1 class="page-header">
+                        Notifications <small>Hot news about your trainings</small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /.row -->
 
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-red">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-bomb fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
-									<!-- TODO dynamic!!! -->
-									<div class="huge">26</div>
-									<div>Hot trainings!</div>
-								</div>
-							</div>
-						</div>
-						<!-- TODO change alltrainings.html -->
-						<a href="alltrainings.html">
-							<div class="panel-footer">
-								<span class="pull-left">View Details</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</div>
-						</a>
-					</div>
-				</div>
+            <div class="row" ng-controller="squareCtrl">
+                <square ng-repeat="square in squares">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                        <div class="{{square.className}}">
+                            <div class="panel-heading">
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <i class="{{square.iconType}}"></i>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
+                                        <div class="huge">{{square.number}}</div>
+                                        <div>{{square.text}}</div>
+                                    </div>
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <a href="{{square.link}}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </square>
+            </div>
+            <!-- /.row -->
 
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-tasks fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
-									<!-- TODO dynamic!!! -->
-									<div class="huge">12</div>
-									<div>New trainings!</div>
-								</div>
-							</div>
-						</div>
-						<!-- TODO change alltrainings.html -->
-						<a href="alltrainings.html">
-							<div class="panel-footer">
-								<span class="pull-left">View Details</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-yellow">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-shopping-cart fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
-									<!-- TODO dynamic!!! -->
-									<div class="huge">5</div>
-									<div>We recommend!</div>
-								</div>
-							</div>
-						</div>
-						<!-- TODO change alltrainings.html -->
-						<a href="alltrainings.html">
-							<div class="panel-footer">
-								<span class="pull-left">View Details</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="fa fa-users fa-5x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
-									<div class="huge">13</div>
-									<div>General trainings!</div>
-								</div>
-							</div>
-						</div>
-						<!-- TODO change alltrainings.html -->
-						<a href="alltrainiings.html">
-							<div class="panel-footer">
-								<span class="pull-left">View Details</span>
-								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-								<div class="clearfix"></div>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-			<!-- /.row -->
-
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-info alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-							&times;
-						</button>
-						<i class="fa fa-info-circle"></i>
-						<!-- TODO dynamic!! -->
-						<strong>
-							<time>
-								2016-07-21 18:20
-							</time>
-						</strong>
-						You training
-						<a href="training.html" class="alert-link">name of training</a> was aproved!
-					</div>
-				</div>
-			</div>
-			<!-- /.row -->
-
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-danger alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-							&times;
-						</button>
-						<i class="fa fa-info-circle"></i>
-						<!-- TODO dynamic!! -->
-						<strong>
-							<time>
-								2016-07-21 15:10
-							</time>
-						</strong>
-						You have got training
-						<a href="training.html" class="alert-link">name of training</a> in an hour!
-					</div>
-				</div>
-			</div>
-			<!-- /.row -->
-
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-success alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-							&times;
-						</button>
-						<i class="fa fa-info-circle"></i>
-						<!-- TODO dynamic!! -->
-						<strong>
-							<time>
-								2016-07-21 12:07
-							</time>
-						</strong>
-						You have got training
-						<a href="training.html" class="alert-link">name of training</a> in a day
-					</div>
-				</div>
-			</div>
-			<!-- /.row -->
-
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-warning alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-							&times;
-						</button>
-						<i class="fa fa-info-circle"></i>
-						<!-- TODO dynamic!! -->
-						<strong>
-							<time>
-								2016-07-21 12:07
-							</time>
-						</strong>
-						User
-						<a href="user.html" class="alert-link">name of user</a> sent you new
-						<a href="training.html" class="alert-link">name of training</a> to aprove.
-					</div>
-				</div>
-			</div>
-			<!-- /.row -->
-
-		</div>
-		<!-- /.container-fluid -->
-	</div>
-	<!-- /#page-wrapper -->
+            <div class="row" ng-controller="alertCtrl">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div>
+                        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+                            <p>
+                                <i class="fa fa-info-circle"></i>
+                                <span ng-bind-html="messages[$index]"></span>
+                            </p>
+                        </alert>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
 </div>
 <!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
-
-<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="../../resources/vendors/js/bootstrap.min.js" th:src="@{/resources/vendors/js/bootstrap.min.js}"></script>
 </body>
 </html>

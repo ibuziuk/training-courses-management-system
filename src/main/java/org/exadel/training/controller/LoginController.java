@@ -18,6 +18,6 @@ public class LoginController {
         if (loginError != null) {
             model.addAttribute("loginError", true);
         }
-        return "login/login";
+        return "login";
     }
 }

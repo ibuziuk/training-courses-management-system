@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="newTrainingApp">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+
+    <title>Create new training</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="../../resources/vendors/css/global.css" th:href="@{/resources/vendors/css/global.css}" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+    <!-- jQuery -->
+    <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
+
+    <script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
+
+    <!-- Angular -->
+    <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+    <script src="../../resources/js/new-training-app/app.js" th:src="@{/resources/js/new-training-app/app.js}"></script>
+    <script src="../../resources/js/new-training-app/pagination-ctrl.js" th:src="@{/resources/js/new-training-app/pagination-ctrl.js}"></script>
+    <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+    <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+</head>
+
+<body>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+            </a>
+        </div>
+
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <!--TODO!!! dynamic-->
+            <li class="active">
+                <a href = "welcome.html" th:href="@{/welcome}">
+                    <i class = "fa fa-fw fa-user"></i>
+                    <span sec:authentication="name"></span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="#" th:href="@{/logout}" id="logout">
+                    <i class="fa fa-fw fa-power-off"></i>
+                    Log out
+                </a>
+            </li>
+
+            <ul class="nav navbar-right top-nav language-panel">
+                <li><a id = "langEn" href = "welcome.html">En</a></li>
+                <li><a id = "langRu" href = "welcome.html">Ru</a></li>
+            </ul>
+        </ul>
+
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse" collapse="isCollapsed">
+            <ul class="nav navbar-nav side-nav" id = "left-menu">
+
+                <li id = "alltrainings">
+                    <a href="all-trainings.html" th:href="@{/training/all}">
+                        <i class="fa fa-fw fa-circle-o"></i>
+                        All trainings
+                    </a>
+                </li>
+
+                <li id="mytrainings">
+                    <a href="javascript:;" ng-click="isCollapsed2=!isCollapsed2">
+                        <i class="fa fa-fw fa-circle-o"></i>
+                        My trainings
+                        <i class="fa fa-fw fa-caret-down"></i>
+                    </a>
+
+                    <ul id="demo" collapse="isCollapsed2">
+                        <li>
+                            <a href="../mytrainings.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                As a trainer
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="../mytrainings.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                As a guest
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id = "newtraining">
+                    <a href="new-training.html" th:href="@{/training/new}">
+                        <i class="fa fa-fw fa-circle-o"></i>
+                        Create new training
+                    </a>
+                </li>
+
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
+                    <a href="../newtrainer.html">
+                        <i class="fa fa-fw fa-circle-o"></i>
+                        Add new external trainer
+                    </a>
+                </li>
+
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
+                    <a href="../users.html">
+                        <i class="fa fa-fw fa-circle-o"></i>
+                        Users
+                    </a>
+                </li>
+
+                <li id = "copyright">
+                    <footer>
+                        <span>В©Exadel, Inc. All Rights Reserved.</span>
+                    </footer>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="page-wrapper" ng-controller="paginationCtrl">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        New training creation <small>Fill some fields</small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <pager total-items="totalItems" ng-model="currentPage"></pager>
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+
+                    <div id="step1" ng-show="currentPage == 1">
+                        <div class="form-group">
+                            <label>
+                                Name of training *
+                            </label>
+                            <input class="form-control" placeholder="Assembler for beginners" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Training description</label>
+                            <p>Some sentenses about your training</p>
+                            <textarea class="form-control" rows="5" placeholder="Key concepts, Language design, Use of assembly language"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="step2" ng-show="currentPage == 2">
+                        <div>
+                            <label>Tags *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type here" />
+	                                    <span class="input-group-btn">
+	        								<button class="btn btn-primary" type="button">Search</button>
+	      								</span>
+                            </div>
+                            <ul id = "tags">
+                                <li>
+                                    <input type="checkbox" />
+                                    #Java
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    #PHP
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    #JavaScript
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    #C++
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    #Scala
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    #Go
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    #English
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <label>Choose the audience for your training *</label>
+                            <div>
+										<span>
+											<input type="checkbox" />
+											Select all
+										</span>
+
+										<span>
+											<input type="checkbox" />
+											Deselect all
+										</span>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type here" />
+	                                    <span class="input-group-btn">
+	        								<button class="btn btn-primary" type="button">Search</button>
+	      								</span>
+                            </div>
+                            <ul id = "audience">
+                                <li>
+                                    <input type="checkbox" />
+                                    Java
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    PHP
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    JavaScript
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    C++
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    Scala
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    Go
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="step3" ng-show="currentPage == 3">
+
+                        <div class="form-group">
+                            <label>Choose the type of your training *</label>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Type
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="#">Inner training</a></li>
+                                    <li><a href="#">Outdoor training</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Choose the repetition frequency of your training *</label>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Repetition
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="#">One-off</a></li>
+                                    <li><a href="#">Continuous</a></li>
+                                    <li><a href="#">Weekly</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>Enter the maximum number of guests</label>
+                            <input type="text" class="form-control" placeholder="Type here" />
+                        </div>
+
+                        <div>
+                            <label>Enter the room for training</label>
+                            <input type="text" class="form-control" placeholder="Type here" />
+                        </div>
+
+                        <div>
+                            <label>Choose the language of your training *</label>
+                            <ul id = "lng">
+                                <li>
+                                    <input type="checkbox" />
+                                    English
+                                </li>
+                                <li>
+                                    <input type="checkbox" />
+                                    Russian
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <!--<div class="form-group">
+                            <label>Information about training</label>
+                            <input type="file">
+                        </div>-->
+
+                        <div align="center">
+                            <button class="btn btn-primary" type="button" id="subBtn">Submit</button>
+                        </div>
+                    </div>
+
+
+
+                    <!-- TODO Date and time
+
+                    <div>
+                        <label>Choose the date *</label>
+                        <form>
+                               <input type="date" name="calendar">
+                             </form>
+                         </div>
+
+                    <div>
+                        <label>Choose the time *</label>
+                        <form>
+                               <p><input type="time" min="08:00" max="23:00"></p>
+                          </form>
+                        </div> -->
+
+
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+</body>
+</html>

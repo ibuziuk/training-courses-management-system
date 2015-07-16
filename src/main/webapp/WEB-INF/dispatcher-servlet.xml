@@ -10,7 +10,6 @@
 
     <context:annotation-config/>
 
-    <mvc:resources mapping="/WEB-INF/templates/**" location="/WEB-INF/templates/" />
     <mvc:resources mapping="/resources/vendors/**" location="/resources/vendors/" />
     <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
 

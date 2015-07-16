@@ -13,6 +13,7 @@
         <security:intercept-url pattern="/allTrainings**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <security:intercept-url pattern="/newTraining**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <security:csrf disabled="true"/>
+        <security:remember-me token-validity-seconds="1209600" remember-me-parameter="remember-me" />
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">

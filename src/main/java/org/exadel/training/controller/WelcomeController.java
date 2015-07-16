@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class WelcomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String welcome() {
-        return "welcome";
+        return "welcome/welcome";
     }
 }

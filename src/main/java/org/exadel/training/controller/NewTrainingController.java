@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class NewTrainingController {
     @RequestMapping(method = RequestMethod.GET)
     public String newTraining() {
-        return "newTraining";
+        return "new-training/new-training";
     }
 }

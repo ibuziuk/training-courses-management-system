@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AllTrainingsController {
     @RequestMapping(method = RequestMethod.GET)
     public String allTrainings() {
-        return "allTrainings";
+        return "all-trainings/all-trainings";
     }
 }

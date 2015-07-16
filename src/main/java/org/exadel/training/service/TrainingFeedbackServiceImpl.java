@@ -1,7 +1,7 @@
 package org.exadel.training.service;
 
-import org.exadel.training.dao.TrainingFeed_backDAO;
-import org.exadel.training.model.TrainingFeed_back;
+import org.exadel.training.dao.TrainingFeedbackDAO;
+import org.exadel.training.model.TrainingFeedback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,19 +9,19 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class TrainingFeed_backServiceImpl implements TrainingFeed_backService {
+public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
     @Autowired
-    private TrainingFeed_backDAO trainingFeedbackDAO;
+    private TrainingFeedbackDAO trainingFeedbackDAO;
 
     @Override
     @Transactional
-    public void addFeedback(TrainingFeed_back feedback) {
+    public void addFeedback(TrainingFeedback feedback) {
         trainingFeedbackDAO.addFeedback(feedback);
     }
 
     @Override
     @Transactional
-    public List<TrainingFeed_back> getAllFeedbacks() {
+    public List<TrainingFeedback> getAllFeedbacks() {
         return trainingFeedbackDAO.getAllFeedbacks();
     }
 }

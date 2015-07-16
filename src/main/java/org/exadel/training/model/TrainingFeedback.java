@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "trainingFeedback")
-public class TrainingFeed_back {
+public class TrainingFeedback {
 
     @NotEmpty
     private long userId;

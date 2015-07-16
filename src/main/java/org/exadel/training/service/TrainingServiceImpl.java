@@ -15,31 +15,31 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public void addTraining(Training training){
+    public void addTraining(Training training) {
         trainingDAO.addTraining(training);
     }
 
     @Override
     @Transactional
-    public List getAllTraining(){
+    public List getAllTraining() {
         return trainingDAO.getAllTraining();
     }
 
     @Override
     @Transactional
-    public List getTrainingsByName(String name){
+    public List getTrainingsByName(String name) {
         return trainingDAO.getTrainingsByName(name);
     }
 
     @Override
     @Transactional
-    public void updateTraining(Training training){
+    public void updateTraining(Training training) {
         trainingDAO.updateTraining(training);
     }
 
     @Override
     @Transactional
-    public void removeTraining(Training training){
+    public void removeTraining(Training training) {
         trainingDAO.removeTraining(training);
     }
 }

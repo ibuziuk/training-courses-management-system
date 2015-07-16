@@ -26,6 +26,7 @@
     <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
     <script src="../../resources/js/new-training-app/app.js" th:src="@{/resources/js/new-training-app/app.js}"></script>
     <script src="../../resources/js/new-training-app/pagination-ctrl.js" th:src="@{/resources/js/new-training-app/pagination-ctrl.js}"></script>
+    <script src="../../resources/js/new-training-app/checkbox-ctrl.js" th:src="@{/resources/js/new-training-app/checkbox-ctrl.js}"></script>
     <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
     <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 </head>
@@ -64,8 +65,8 @@
             </li>
 
             <ul class="nav navbar-right top-nav language-panel">
-                <li><a id = "langEn" href = "welcome.html">En</a></li>
-                <li><a id = "langRu" href = "welcome.html">Ru</a></li>
+                <li><a class = "lang" href = "new-training.html">En</a></li>
+                <li><a class= "lang" href = "new-training.html">Ru</a></li>
             </ul>
         </ul>
 
@@ -75,28 +76,28 @@
 
                 <li id = "alltrainings">
                     <a href="all-trainings.html" th:href="@{/training/all}">
-                        <i class="fa fa-fw fa-circle-o"></i>
+                        <i class="fa fa-fw fa-circle"></i>
                         All trainings
                     </a>
                 </li>
 
                 <li id="mytrainings">
-                    <a href="javascript:;" ng-click="isCollapsed2=!isCollapsed2">
-                        <i class="fa fa-fw fa-circle-o"></i>
+                    <a href="#" ng-click="isCollapsed2=!isCollapsed2">
+                        <i class="fa fa-fw fa-circle"></i>
                         My trainings
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
 
-                    <ul id="demo" collapse="isCollapsed2">
+                    <ul collapse="isCollapsed2">
                         <li>
-                            <a href="../mytrainings.html">
+                            <a href="../my-trainings/my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
                                 As a trainer
                             </a>
                         </li>
 
                         <li>
-                            <a href="../mytrainings.html">
+                            <a href="../my-trainings/my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
                                 As a guest
                             </a>
@@ -106,28 +107,28 @@
 
                 <li id = "newtraining">
                     <a href="new-training.html" th:href="@{/training/new}">
-                        <i class="fa fa-fw fa-circle-o"></i>
+                        <i class="fa fa-fw fa-circle"></i>
                         Create new training
                     </a>
                 </li>
 
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
-                    <a href="../newtrainer.html">
-                        <i class="fa fa-fw fa-circle-o"></i>
+                    <a href="new-trainer.html">
+                        <i class="fa fa-fw fa-circle"></i>
                         Add new external trainer
                     </a>
                 </li>
 
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-                    <a href="../users.html">
-                        <i class="fa fa-fw fa-circle-o"></i>
+                    <a href="users.html">
+                        <i class="fa fa-fw fa-circle"></i>
                         Users
                     </a>
                 </li>
 
                 <li id = "copyright">
                     <footer>
-                        <span>В©Exadel, Inc. All Rights Reserved.</span>
+                        <span>©Exadel, Inc. All Rights Reserved.</span>
                     </footer>
                 </li>
             </ul>
@@ -139,7 +140,7 @@
             <!-- Page Heading -->
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h1 class="page-header">
                         New training creation <small>Fill some fields</small>
                     </h1>
@@ -150,14 +151,13 @@
             <pager total-items="totalItems" ng-model="currentPage"></pager>
 
             <div class="row">
-                <div class="col-lg-6 col-lg-offset-3">
-
+                <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
                     <div id="step1" ng-show="currentPage == 1">
                         <div class="form-group">
                             <label>
                                 Name of training *
                             </label>
-                            <input class="form-control" placeholder="Assembler for beginners" />
+                            <input class="form-control" placeholder="Assembler for beginners" required="required" />
                         </div>
 
                         <div class="form-group">
@@ -167,91 +167,43 @@
                         </div>
                     </div>
 
-                    <div id="step2" ng-show="currentPage == 2">
+                    <div id="step2" ng-show="currentPage == 2" ng-controller="checkboxCtrl">
                         <div>
                             <label>Tags *</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type here" />
-	                                    <span class="input-group-btn">
-	        								<button class="btn btn-primary" type="button">Search</button>
-	      								</span>
+                                <input type="text" class="form-control" ng-model="filt1.tag" placeholder="Type here"></input>
                             </div>
                             <ul id = "tags">
-                                <li>
-                                    <input type="checkbox" />
-                                    #Java
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    #PHP
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    #JavaScript
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    #C++
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    #Scala
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    #Go
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    #English
-                                </li>
+                                <checkboxTag ng-repeat="checkboxTag in checkboxTags | filter:filt1">
+                                    <li>
+                                        <input type="{{checkboxTag.type}}" ng-click="checkboxTag.checked = !checkboxTag.checked" ng-checked="checkboxTag.checked">
+                                        {{checkboxTag.tag}}
+                                        </input>
+                                    </li>
+                                </checkboxTag>
                             </ul>
                         </div>
 
                         <div>
-                            <label>Choose the audience for your training *</label>
+                            <label>Audience for your training *</label>
                             <div>
 										<span>
-											<input type="checkbox" />
-											Select all
-										</span>
-
-										<span>
-											<input type="checkbox" />
-											Deselect all
+											<input type="checkbox" ng-click="toggleSeleted()" ng-checked="selectAll">
+												Select all
+                                            </input>
 										</span>
                             </div>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type here" />
-	                                    <span class="input-group-btn">
-	        								<button class="btn btn-primary" type="button">Search</button>
-	      								</span>
+                                <input type="text" class="form-control" ng-model="filt2.audience" placeholder="Type here"></input>
                             </div>
                             <ul id = "audience">
-                                <li>
-                                    <input type="checkbox" />
-                                    Java
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    PHP
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    JavaScript
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    C++
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    Scala
-                                </li>
-                                <li>
-                                    <input type="checkbox" />
-                                    Go
-                                </li>
+                                <checkboxAudience ng-repeat="checkboxAudience in checkboxAudiences | filter:filt2">
+                                    <li>
+                                        <input type="{{checkboxAudience.type}}" ng-checked="checkboxAudience.checked" ng-click = "allChecked(checkboxAudience)">
+                                        {{checkboxAudience.audience}}
+                                        </input>
+                                    </li>
+                                </checkboxAudience>
                             </ul>
                         </div>
                     </div>
@@ -259,7 +211,7 @@
                     <div id="step3" ng-show="currentPage == 3">
 
                         <div class="form-group">
-                            <label>Choose the type of your training *</label>
+                            <label>Type of your training *</label>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     Type
@@ -273,7 +225,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Choose the repetition frequency of your training *</label>
+                            <label>Repetition frequency of your training *</label>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     Repetition
@@ -282,65 +234,40 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                     <li><a href="#">One-off</a></li>
                                     <li><a href="#">Continuous</a></li>
-                                    <li><a href="#">Weekly</a></li>
                                 </ul>
                             </div>
                         </div>
 
                         <div>
-                            <label>Enter the maximum number of guests</label>
+                            <label>Maximum number of guests</label>
+                            <input type="text" class="form-control" placeholder="Type here" />
+                        </div>
+
+                        <!-- Admin staff -->
+                        <div>
+                            <label>Enter the room for training *</label>
                             <input type="text" class="form-control" placeholder="Type here" />
                         </div>
 
                         <div>
-                            <label>Enter the room for training</label>
-                            <input type="text" class="form-control" placeholder="Type here" />
-                        </div>
-
-                        <div>
-                            <label>Choose the language of your training *</label>
+                            <label>Language of your training *</label>
                             <ul id = "lng">
                                 <li>
-                                    <input type="checkbox" />
+                                    <input type="checkbox">
                                     English
+                                    </input>
                                 </li>
                                 <li>
-                                    <input type="checkbox" />
+                                    <input type="checkbox">
                                     Russian
+                                    </input>
                                 </li>
                             </ul>
                         </div>
-
-
-                        <!--<div class="form-group">
-                            <label>Information about training</label>
-                            <input type="file">
-                        </div>-->
-
                         <div align="center">
                             <button class="btn btn-primary" type="button" id="subBtn">Submit</button>
                         </div>
                     </div>
-
-
-
-                    <!-- TODO Date and time
-
-                    <div>
-                        <label>Choose the date *</label>
-                        <form>
-                               <input type="date" name="calendar">
-                             </form>
-                         </div>
-
-                    <div>
-                        <label>Choose the time *</label>
-                        <form>
-                               <p><input type="time" min="08:00" max="23:00"></p>
-                          </form>
-                        </div> -->
-
-
                 </div>
             </div>
             <!-- /.row -->
@@ -348,7 +275,6 @@
         <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
-
 </div>
 <!-- /#wrapper -->
 </body>

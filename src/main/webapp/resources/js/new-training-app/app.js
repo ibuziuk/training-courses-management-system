@@ -1,1 +1,1 @@
-var newTrainingApp = angular.module('newTrainingApp', ['collapseCtrl', 'paginationCtrl', 'ui.bootstrap']);
+var newTrainingApp = angular.module('newTrainingApp', ['collapseCtrl', 'paginationCtrl', 'ui.bootstrap', 'checkboxCtrl']);

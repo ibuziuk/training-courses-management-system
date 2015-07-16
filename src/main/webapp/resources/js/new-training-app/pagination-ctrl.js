@@ -1,6 +1,6 @@
 var paginationCtrl = angular.module('paginationCtrl', []);
 
-paginationCtrl.controller('paginationCtrl', function ($scope, $log) {
+paginationCtrl.controller('paginationCtrl', function ($scope) {
   $scope.totalItems = 30;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 1;

@@ -12,6 +12,7 @@
 
     <mvc:resources mapping="/resources/vendors/**" location="/resources/vendors/" />
     <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
+    <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
 
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/" />

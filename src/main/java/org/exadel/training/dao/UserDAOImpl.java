@@ -7,29 +7,30 @@ import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-/**
- * Created by Alex on 14.07.2015.
- */
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<User> getAllUsers() {
         return sessionFactory.getCurrentSession().createCriteria(User.class).list();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public User getUserById(long id) {
         return (User) sessionFactory.getCurrentSession().get(User.class, id);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsersByName(String name) {
         return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.name = :name").setString("name", name).list();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsersByRole(int role) {
         return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.roleID = :role").setInteger("role", role).list();
@@ -37,21 +38,21 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public void addUser(User user) {
-        if (user!=null) {
+        if (user != null) {
             sessionFactory.getCurrentSession().save(user);
-        };
+        }
     }
 
     @Override
     public void updateUser(User user) {
-        if (user!=null) {
+        if (user != null) {
             sessionFactory.getCurrentSession().merge(user);
         }
     }
 
     @Override
     public void removeUser(User user) {
-        if (user!=null) {
+        if (user != null) {
             sessionFactory.getCurrentSession().delete(user);
         }
     }

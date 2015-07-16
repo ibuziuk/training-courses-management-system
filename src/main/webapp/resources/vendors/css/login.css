@@ -55,11 +55,7 @@ body {
     float: right;
 }
 
-#langRu {
-    padding 15px;
-}
-
-#langEn {
+.lang{
     padding 15px;
 }
 

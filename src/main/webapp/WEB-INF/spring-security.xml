@@ -11,6 +11,7 @@
         <security:form-login login-page="/login" authentication-failure-url="/login?error" default-target-url="/welcome"/>
         <security:intercept-url pattern="/welcome**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <security:intercept-url pattern="/allTrainings**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:intercept-url pattern="/newTraining**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <security:csrf disabled="true"/>
     </security:http>
 

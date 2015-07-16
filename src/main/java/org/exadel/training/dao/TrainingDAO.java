@@ -7,7 +7,7 @@ import java.util.List;
 public interface TrainingDAO {
     void addTraining(Training training);
 
-    List<Training> getAllTraining();
+    List<Training> getAllTrainings();
 
     List<Training> getTrainingsByName(String name);
 

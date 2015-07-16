@@ -22,7 +22,7 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     @Transactional
     public List getAllTraining() {
-        return trainingDAO.getAllTraining();
+        return trainingDAO.getAllTrainings();
     }
 
     @Override

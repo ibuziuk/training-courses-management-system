@@ -119,13 +119,14 @@
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
-                    <a href="new-trainer.html">
+                    <a href="new-trainer.html" th:href="@{/trainer/new}">
                         <i class="fa fa-fw fa-circle"></i>
                         Add new external trainer
                     </a>
                 </li>
+
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-                    <a href="users.html">
+                    <a href="users.html" th:href="@{/user/all}">
                         <i class="fa fa-fw fa-circle"></i>
                         Users
                     </a>

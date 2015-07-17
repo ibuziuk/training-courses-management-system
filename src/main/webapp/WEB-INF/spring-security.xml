@@ -12,6 +12,8 @@
         <security:logout delete-cookies="JSESSIONID" />
         <security:intercept-url pattern="/resources/**" access="permitAll" />
         <security:intercept-url pattern="/login*" access="permitAll" />
+        <security:intercept-url pattern="/trainer/new" access="hasRole('ROLE_ADMIN')" />
+        <security:intercept-url pattern="/user/all" access="hasRole('ROLE_ADMIN')" />
         <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" />
         <security:csrf disabled="true"/>

@@ -3,27 +3,24 @@
 <!-- <%@ page language = "java" contentType = "text/html; charset=UTF-8" pageEncoding = "UTF-8" isErrorPage = "true" %> -->
 
 
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="shortcut icon" href="pics/favicon.gif">
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <link rel="shortcut icon" data-th-href="@{/resources/bootstrap/pics/favicon.gif}"/>
+
 
         <title>Error page</title>
 
         <!-- Bootstrap Core CSS -->
-	    <link href="css/bootstrap.css" rel="stylesheet">
+	    <link data-th-href="@{/resources/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
         
         <!-- Error CSS -->
-        <link href="css/error.css" rel="stylesheet">
-        
-        <!-- <style>
-			<%@include file="css/error.css"%>
-            <%@include file="css/bootstrap.css"%>
-		</style> -->
+        <link data-th-href="@{/resources/bootstrap/css/error.css}" rel="stylesheet"/>
+
     </head>
 
     <body>
@@ -33,7 +30,7 @@
             <nav class="navbar navbar-inverse navbar-fixed-top" id="top-menu" role="navigation">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="login.html">
-                        <img alt="Brand" src="pics/exadel-logo.png">
+                        <img alt="Brand" src="resources/vendors/pics/exadel-logo.png"/>
                     </a>
                 </div>  
                 <ul class="nav navbar-right top-nav">
@@ -49,24 +46,7 @@
                 <div class="row error-message">
                     <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
                         <div class="well error">
-                        <span> Error 
-                            <!-- <%
-                                String error = request.getParameter("error");
-                                if (error.equals("400")) {
-                            %>
-                            <%=400%>
-                            <%
-                                } else if (error.equals("404")) {
-                            %>
-                            <%=404%>
-                            <%
-                                } else if (error.equals("500")) {
-                            %>
-                            <%=500%>
-                            <%
-                                }
-                            %> -->
-                            404 
+                        <span> Error <span th:text="${errorCode}">404</span>
                         </span>
                         </div>
                     </div>
@@ -97,5 +77,6 @@
             <!-- /Container -->    
         </div>
         <!-- /#wrapper -->
+    <span th:text="${errorMessage}">d</span>
     </body>
 </html>

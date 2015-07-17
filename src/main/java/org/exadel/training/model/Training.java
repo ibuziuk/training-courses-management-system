@@ -3,6 +3,7 @@ package org.exadel.training.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "training")
@@ -11,25 +12,36 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long trainingId;
 
-    @NotEmpty
-    @Column(length = 500)
-    private String name;
-
     private long trainerId;
 
-    @Column(length = 20)
-    private String date;
+    @NotEmpty
+    @Column(length = 255)
+    private String title;
 
-    @Column(length = 20)
+    @Column(length = 1000)
+    private String description;
+
+    private Timestamp date;
+
+    private Timestamp start;
+
+    private Timestamp end;
+
+    @Column(length = 10)
+    private String repeat;
+
+    private boolean regular;
+
+    @Column(length = 11)
     private String time;
 
-    private int maxCount;
+    private int maxVisitorsCount;
 
     @Column(length = 500)
     private String audience;
 
     @Column(length = 50)
-    private String place;
+    private String location;
 
     @Column(length = 45)
     private String duration;
@@ -41,12 +53,12 @@ public class Training {
         return trainingId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     public long getTrainerId() {
@@ -57,11 +69,11 @@ public class Training {
         this.trainerId = trainerID;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -73,12 +85,12 @@ public class Training {
         this.time = time;
     }
 
-    public int getMaxCount() {
-        return maxCount;
+    public int getMaxVisitorsCount() {
+        return maxVisitorsCount;
     }
 
-    public void setMaxCount(int MAX_count) {
-        this.maxCount = MAX_count;
+    public void setMaxVisitorsCount(int MAX_count) {
+        this.maxVisitorsCount = MAX_count;
     }
 
     public String getAudience() {
@@ -89,12 +101,12 @@ public class Training {
         this.audience = audience;
     }
 
-    public String getPlace() {
-        return place;
+    public String getLocation() {
+        return location;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setLocation(String place) {
+        this.location = place;
     }
 
     public String getDuration() {
@@ -111,5 +123,13 @@ public class Training {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

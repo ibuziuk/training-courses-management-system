@@ -4,7 +4,6 @@
 
 .row2 {
     height: 25%;
-    min-height: 230px;
 }
 
 #alertLog {
@@ -21,10 +20,6 @@
 .container1 {
     height: 100%;
     margin: 0 auto -50px;
-}
-
-.credit {
-    margin: 0;
 }
 
 #wrapper {
@@ -45,39 +40,16 @@ body {
     margin: 0;
     font-family: 'open sans';
     font-size: 15px;
+
+
 }
 
-.login-window {
-    width: 100%;
-}
-
-.login-button {
+.sign-in-btn {
     float: right;
-}
-
-.lang{
-    padding 15px;
-}
-
-.input-login {
-    padding-bottom: 10px;
-}
-
-.input-password {
-    padding-bottom: 5px;
-}
-
-.col-login {
-    height: 100%;
 }
 
 #top-pannel {
     background-color: #216FA0;
-}
-
-.huge {
-    font-size: 50px;
-    line-height: normal;
 }
 
 /* Top Navigation */
@@ -113,16 +85,4 @@ body {
 .top-nav>.open>a:focus {
     color: #fff;
     background-color: #285069;
-}
-
-/* Flot Chart Containers */
-
-.flot-chart {
-    display: block;
-    height: 400px;
-}
-
-.flot-chart-content {
-    width: 100%;
-    height: 100%;
 }

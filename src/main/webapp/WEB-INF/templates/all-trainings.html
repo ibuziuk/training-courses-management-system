@@ -8,7 +8,16 @@
     <meta name="author" content="" />
     <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-    <title>All trainings page</title>
+    <title th:text="#{allTrainings.page.titile}">All trainings</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
 
     <!-- jQuery -->
     <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
@@ -20,27 +29,10 @@
 
     <!-- Angular -->
     <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
-    <script src="../../resources/vendors/js/ui-grid.js" th:src="@{/resources/vendors/js/ui-grid.js}"></script>
     <script src="../../resources/js/all-trainings-app/app.js" th:src="@{/resources/js/all-trainings-app/app.js}"></script>
     <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
     <script src="../../resources/js/all-trainings-app/tabs-ctrl.js" th:src="@{/resources/js/all-trainings-app/tabs-ctrl.js}"></script>
     <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
-
-    <!-- Custom CSS -->
-    <link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
-
-    <!-- Morris Charts CSS -->
-    <link href="../../resources/vendors/css/plugins/morris.css" th:href="@{/resources/vendors/css/plugins/morris.css}" rel="stylesheet" />
-
-    <!-- Custom Fonts -->
-    <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
-
-    <!-- UI Grid CSS -->
-    <link href="../../resources/vendors/css/ui-grid.css"  th:href="@{/resources/vendors/css/ui-grid.css}" rel="stylesheet" />
-
 </head>
 
 <body>
@@ -72,7 +64,7 @@
             <li class="active">
                 <a href="#" th:href="@{/logout}" id="logout">
                     <i class="fa fa-fw fa-power-off"></i>
-                    Log out
+                    <span th:text="#{label.logout}">Log out</span>
                 </a>
             </li>
 
@@ -88,26 +80,26 @@
                 <li id = "alltrainings">
                     <a href="all-trainings.html" th:href="@{/training/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        All trainings
+                        <span th:text="#{label.allTrainings}">All trainings</span>
                     </a>
                 </li>
                 <li id = "mytrainings">
                     <a href="#" ng-click="isCollapsed2=!isCollapsed2">
                         <i class="fa fa-fw fa-circle"></i>
-                        My trainings
+                        <span th:text="#{label.myTrainings}">My trainings</span>
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
                     <ul collapse="isCollapsed2">
                         <li>
-                            <a href="../my-trainings/my-trainings.html">
+                            <a href="my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a trainer
+                                <span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
                             </a>
                         </li>
                         <li>
-                            <a href="../my-trainings/my-trainings.html">
+                            <a href="my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a guest
+                                <span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
                             </a>
                         </li>
                     </ul>
@@ -115,30 +107,30 @@
                 <li id = "newtraining">
                     <a href="new-training.html" th:href="@{/training/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Create new training
+                        <span th:text="#{label.newTraining}">Create new training</span>
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
                     <a href="new-trainer.html" th:href="@{/trainer/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Add new external trainer
+                        <span th:text="#{label.newTainer}">Add new external trainer</span>
                     </a>
                 </li>
-
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
                     <a href="users.html" th:href="@{/user/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Users
+                        <span th:text="#{label.users}">Users</span>
                     </a>
                 </li>
                 <li id = "copyright">
                     <footer>
-                        <span>©Exadel, Inc. All Rights Reserved.</span>
+                        <span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
                     </footer>
                 </li>
             </ul>
         </div>
     </nav>
+    <!-- /Navigation -->
 
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -147,7 +139,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        All trainings <small>Information about all trainings</small>
+                        <span th:text="#{label.allTrainings}">All trainings</span> <small th:text="#{label.allTrainings.info}">Information about all trainings</small>
                     </h1>
                 </div>
             </div>
@@ -156,10 +148,10 @@
             <!-- Tabs -->
             <div class="tabs">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#fut" data-toggle="tab">Future trainings</a></li>
-                    <li><a href="#rec" data-toggle="tab">Recomendations</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#hist" data-toggle="tab">History of trainings</a></li>
-                    <li><a href="#wait" data-toggle="tab">Waiting list</a></li>
+                    <li class="active"><a href="#fut" data-toggle="tab" th:text="#{label.futureTrainings}">Future trainings</a></li>
+                    <li><a href="#rec" data-toggle="tab" th:text="#{label.recommendations}">Recommendations</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#hist" data-toggle="tab" th:text="#{label.historyOfTrainings}">History of trainings</a></li>
+                    <li><a href="#wait" data-toggle="tab" th:text="#{label.waitingList}">Waiting list</a></li>
                 </ul>
                 <!-- Tab content -->
                 <div class="tab-content panel panel-default panel-body">
@@ -169,18 +161,18 @@
                         <div class="row search-row">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
                                 <select class="form-control">
-                                    <option>By training title</option>
-                                    <option>By trainer name</option>
-                                    <option>By tags</option>
-                                    <option>By date</option>
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
                                     <option>...</option>
                                 </select>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Type here" />
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
       									</span>
                                 </div>
                             </div>
@@ -194,12 +186,12 @@
                                     <table class="table table-bordered table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Date</th>
-                                            <th>Location</th>
-                                            <th>Trainer name</th>
-                                            <th>Places free/all</th>
-                                            <th>Tags</th>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.free}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -252,24 +244,24 @@
                     </div>
                     <!-- /Future trainings -->
 
-                    <!-- Recomendations -->
+                    <!-- Recommendations -->
                     <div class="tab-pane fade" id="rec">
                         <!-- Search row -->
                         <div class="row search-row">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
                                 <select class="form-control">
-                                    <option>By training title</option>
-                                    <option>By trainer name</option>
-                                    <option>By tags</option>
-                                    <option>By date</option>
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
                                     <option>...</option>
                                 </select>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Type here" />
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
       									</span>
                                 </div>
                             </div>
@@ -281,7 +273,7 @@
                             <div class="container-fluid">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Your tags</h3>
+                                        <h3 class="panel-title" th:text="#{label.yourTags}">Your tags</h3>
                                     </div>
                                     <div class="panel-body">
                                         <span class="label label-warning tags">#tag</span>
@@ -303,12 +295,12 @@
                                     <table class="table table-bordered table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Date</th>
-                                            <th>Location</th>
-                                            <th>Trainer name</th>
-                                            <th>Places free/all</th>
-                                            <th>Tags</th>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.free}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -351,7 +343,7 @@
                         </div>
                         <!-- /Trainings -->
                     </div>
-                    <!-- /Recomendations -->
+                    <!-- /Recommendations -->
 
                     <!-- History -->
                     <div sec:authorize="hasRole('ROLE_ADMIN')" class="tab-pane fade" id="hist">
@@ -359,18 +351,18 @@
                         <div class="row search-row">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
                                 <select class="form-control">
-                                    <option>By training title</option>
-                                    <option>By trainer name</option>
-                                    <option>By tags</option>
-                                    <option>By date</option>
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
                                     <option>...</option>
                                 </select>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Type here" />
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
       									</span>
                                 </div>
                             </div>
@@ -384,12 +376,12 @@
                                     <table class="table table-bordered table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Date</th>
-                                            <th>Location</th>
-                                            <th>Trainer name</th>
-                                            <th>Places free/all</th>
-                                            <th>Tags</th>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.free}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -440,18 +432,18 @@
                         <div class="row search-row">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
                                 <select class="form-control">
-                                    <option>By training title</option>
-                                    <option>By trainer name</option>
-                                    <option>By tags</option>
-                                    <option>By date</option>
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
                                     <option>...</option>
                                 </select>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Type here" />
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
       									</span>
                                 </div>
                             </div>
@@ -465,12 +457,12 @@
                                     <table class="table table-bordered table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Date</th>
-                                            <th>Location</th>
-                                            <th>Trainer name</th>
-                                            <th>Places free/all</th>
-                                            <th>Tags</th>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.free}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -524,6 +516,5 @@
     <!-- /#page-wrapper -->
 </div>
 <!-- /#wrapper -->
-
 </body>
 </html>

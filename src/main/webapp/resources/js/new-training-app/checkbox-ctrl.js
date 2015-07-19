@@ -12,15 +12,14 @@ checkboxCtrl.controller('checkboxCtrl', function ($scope) {
 	];
 
 	$scope.checkboxAudiences = [
-		{ type: 'checkbox', audience: 'Java', checked: false},
-		{ type: 'checkbox', audience: 'PHP', checked: false},
-		{ type: 'checkbox', audience: 'JavaScript', checked: false},
-		{ type: 'checkbox', audience: 'C++', checked: false},
-		{ type: 'checkbox', audience: 'Scala', checked: false},
-		{ type: 'checkbox', audience: 'Go', checked: false}
+		{ type: 'checkbox', audience: 'Java developers', checked: false},
+		{ type: 'checkbox', audience: 'PHP developers', checked: false},
+		{ type: 'checkbox', audience: 'JavaScript developers', checked: false},
+		{ type: 'checkbox', audience: 'C++ developers', checked: false},
+		{ type: 'checkbox', audience: 'Scala developers', checked: false},
+		{ type: 'checkbox', audience: 'Go developers', checked: false},
+        { type: 'checkbox', audience: 'Testers', checked: false}
 	];
-
-	window.scope = $scope;
 
 	$scope.selectAll = false;
 	

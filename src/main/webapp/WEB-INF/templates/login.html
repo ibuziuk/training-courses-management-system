@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-    <title>Login page</title>
+    <title th:text="#{login.page.title}">Login</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
@@ -43,35 +43,30 @@
                 <!-- Login window -->
                 <div class="panel panel-default login-window">
                     <div class="panel-body">
-                        <form th:action="@{/login}" method="post">
-                            <div class="row11">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group input-login">
-                                    <div th:if="${loginError}" id="alertLog" class="alert alert-danger" role="alert">
-                                        <p>Wrong password or login</p>
-                                    </div>
-                                    <label for="username">Login</label>
-                                    <input type="text" id="username" class="form-control" name="username" placeholder="Login" autofocus="autofocus" required="required" />
+                        <form class="form" role="form" th:action="@{/login}" method="post">
+                            <div class="form-group">
+                                <div th:if="${loginError}" id="alertLog" class="alert alert-danger" role="alert">
+                                    <p th:text="#{wrongCredentials.text}">Wrong password or login</p>
                                 </div>
                             </div>
-                            <div class="row21">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group input-password">
-                                    <label for="password">Password</label>
-                                    <input type="password" id="password" class="form-control" name="password" placeholder="Password" required="required" />
-                                </div>
+                            <div class="form-group">
+                                <label for="username" th:text="#{label.login}">Login</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Login" th:placeholder="#{label.login}" autofocus="autofocus" required="required" />
                             </div>
-
-                            <div class="row31">
+                            <div class="form-group">
+                                <label for="password" th:text="#{label.password}">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" th:placeholder="#{label.password}" required="required" />
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="remember-me"> Remember me </input>
+                                            <input type="checkbox" name="remember-me" th:text="#{label.rememberMe}">Remember me</input>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <a class="login-button">
-                                        <button type="submit" class="btn btn-primary">Log in</button>
-                                    </a>
+                                    <button type="submit" class="btn btn-primary sign-in-btn" th:text="#{label.signin}">Sign in</button>
                                 </div>
                             </div>
                         </form>
@@ -79,7 +74,6 @@
                 </div>
                 <!-- /.login-window -->
             </div>
-            <div class="col-lg-4 col-md-3 col-sm-2 col-xs-2"></div>
         </div>
     </div>
     <!-- /.container1 -->

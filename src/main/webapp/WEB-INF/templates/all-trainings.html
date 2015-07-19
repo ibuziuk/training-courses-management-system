@@ -205,11 +205,12 @@
                                         <tbody>
                                         <tr th:each="training : ${trainingList}">
                                             <td th:text="${training.title}"></td>
-                                            <td></td>
+                                            <td th:text="${training.date}"></td>
                                             <td th:text="${training.location}"></td>
-                                            <td></td>
+                                            <td th:text="${training.trainer.name}"></td>
                                             <td th:text="${training.maxVisitorsCount}"></td>
-                                            <td><span class="label label-default tags">#tag</span></td>
+                                            <!--<td></td>-->
+                                            <td><span class="label label-default tags" th:each="tag : ${training.currentTags}" th:text="${tag.tag.name}"></span></td>
                                         </tr>
                                         <tr>
                                             <td>JavaScript frameworks: Angular.js. How it works?</td>
@@ -217,39 +218,7 @@
                                             <td>Unit 243</td>
                                             <td>Shchaurouski Slava</td>
                                             <td>10/15</td>
-                                            <td><span class="label label-info tags">#js</span><span class="label label-default tags">#angular.js</span><span class="label label-success tags">#front-end</span><span class="label label-warning tags">#framework</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-default tags">#tag</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-success tags">#tag</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-warning tags">#tag</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-danger tags">#tag</span></td>
+                                            <td><span class="label label-info tags"></span><span class="label label-default tags">#angular.js</span><span class="label label-success tags">#front-end</span><span class="label label-warning tags">#framework</span></td>
                                         </tr>
                                         </tbody>
                                     </table>

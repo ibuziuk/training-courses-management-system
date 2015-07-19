@@ -45,4 +45,9 @@ public class TrainingDAOImpl implements TrainingDAO {
             sessionFactory.getCurrentSession().delete(training);
         }
     }
+
+    @Override
+    public Training getTrainingById(long id){
+        return (Training) sessionFactory.getCurrentSession().get(Training.class, id);
+    }
 }

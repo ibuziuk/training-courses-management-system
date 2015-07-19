@@ -1,40 +1,35 @@
 package org.exadel.training.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "training")
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "training_id")
     private long trainingId;
-
-    private long trainerId;
 
     @NotEmpty
     @Column(length = 255)
     private String title;
 
-    @Column(length = 1000)
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private User trainer;
 
     private Timestamp date;
 
-    private Timestamp start;
-
-    private Timestamp end;
-
-    @Column(length = 10)
-    private String repeat;
-
-    private boolean regular;
-
-    @Column(length = 11)
+    @Column(length = 20)
     private String time;
 
+    @Column(name = "max_visitors_count")
     private int maxVisitorsCount;
 
     @Column(length = 500)
@@ -46,8 +41,22 @@ public class Training {
     @Column(length = 45)
     private String duration;
 
-    @Column(length = 500)
-    private String tags;
+    @Column(length = 1000)
+    private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date start;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date end;
+
+    @Column(length = 20)
+    private String days;
+
+    private boolean regular;
+
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<CurrentTag> currentTags;
 
     public long getTrainingId() {
         return trainingId;
@@ -59,14 +68,6 @@ public class Training {
 
     public void setTitle(String name) {
         this.title = name;
-    }
-
-    public long getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(long trainerID) {
-        this.trainerId = trainerID;
     }
 
     public Timestamp getDate() {
@@ -117,19 +118,59 @@ public class Training {
         this.duration = duration;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
+    }
+
+    public boolean isRegular() {
+        return regular;
+    }
+
+    public void setRegular(boolean regular) {
+        this.regular = regular;
+    }
+
+    public User getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(User trainer) {
+        this.trainer = trainer;
+    }
+
+    public Set<CurrentTag> getCurrentTags() {
+        return currentTags;
+    }
+
+    public void setCurrentTags(Set<CurrentTag> currentTags) {
+        this.currentTags = currentTags;
     }
 }

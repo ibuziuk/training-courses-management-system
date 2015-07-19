@@ -42,4 +42,10 @@ public class TrainingServiceImpl implements TrainingService {
     public void removeTraining(Training training) {
         trainingDAO.removeTraining(training);
     }
+
+    @Override
+    @Transactional
+    public Training getTrainingById(long id){
+        return trainingDAO.getTrainingById(id);
+    }
 }

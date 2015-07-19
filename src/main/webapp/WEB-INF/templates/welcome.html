@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-    <title>Welcome page</title>
+    <title th:text="#{welcome.page.title}">Welcome</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
@@ -50,7 +50,6 @@
 
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
-            <!--TODO!!! dynamic-->
             <li class="active">
                 <a href = "welcome.html" th:href="@{/welcome}">
                     <i class = "fa fa-fw fa-user"></i>
@@ -61,80 +60,73 @@
             <li class="active">
                 <a href="#" th:href="@{/logout}" id="logout">
                     <i class="fa fa-fw fa-power-off"></i>
-                    Log out
+                    <span th:text="#{label.logout}">Log out</span>
                 </a>
             </li>
 
             <ul class="nav navbar-right top-nav language-panel">
-                <li><a class = "lang" href = "welcome.html">En</a></li>
-                <li><a class = "lang" href = "welcome.html">Ru</a></li>
+                <li><a class="lang" href = "all-trainings.html">En</a></li>
+                <li><a class="lang" href = "all-trainings.html">Ru</a></li>
             </ul>
         </ul>
 
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse" collapse="isCollapsed">
             <ul class="nav navbar-nav side-nav" id = "left-menu">
-
                 <li id = "alltrainings">
                     <a href="all-trainings.html" th:href="@{/training/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        All trainings
+                        <span th:text="#{label.allTrainings}">All trainings</span>
                     </a>
                 </li>
-
-                <li id="mytrainings">
+                <li id = "mytrainings">
                     <a href="#" ng-click="isCollapsed2=!isCollapsed2">
                         <i class="fa fa-fw fa-circle"></i>
-                        My trainings
+                        <span th:text="#{label.myTrainings}">My trainings</span>
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
-
                     <ul collapse="isCollapsed2">
                         <li>
                             <a href="../my-trainings/my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a trainer
+                                <span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
                             </a>
                         </li>
-
                         <li>
                             <a href="../my-trainings/my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a guest
+                                <span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-
                 <li id = "newtraining">
                     <a href="new-training.html" th:href="@{/training/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Create new training
+                        <span th:text="#{label.newTraining}">Create new training</span>
                     </a>
                 </li>
-
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
                     <a href="new-trainer.html" th:href="@{/trainer/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Add new external trainer
+                        <span th:text="#{label.newTainer}">Add new external trainer</span>
                     </a>
                 </li>
-
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
                     <a href="users.html" th:href="@{/user/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Users
+                        <span th:text="#{label.users}">Users</span>
                     </a>
                 </li>
-
                 <li id = "copyright">
                     <footer>
-                        <span>©Exadel, Inc. All Rights Reserved.</span>
+                        <span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
                     </footer>
                 </li>
             </ul>
         </div>
     </nav>
+    <!-- /Navigation -->
 
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -143,7 +135,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h1 class="page-header">
-                        Notifications <small>Hot news about your trainings</small>
+                        <span th:text="#{label.notifications}">Notification</span> <small th:text="#{label.notificationsHeader.text}">Hot news about your trainings</small>
                     </h1>
                 </div>
             </div>
@@ -168,7 +160,7 @@
                             </div>
                             <a href="{{square.link}}">
                                 <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-left" th:text="#{label.viewDetails}">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>

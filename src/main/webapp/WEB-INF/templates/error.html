@@ -8,7 +8,7 @@
     <meta name="author" content=""/>
     <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-    <title>Error page</title>
+    <title th:text="#{error.page.title}">Error</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
@@ -26,7 +26,7 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
                 <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
-                </a>
+            </a>
         </div>
         <ul class="nav navbar-right top-nav">
             <li><a class="lang" href = "error.html">En</a></li>
@@ -41,8 +41,7 @@
         <div class="row error-message">
             <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
                 <div class="well error">
-                        <span> Error <span th:text="${errorCode}">404</span>
-                        </span>
+                    <span th:text="#{label.error}">Error</span> <span th:text="${errorCode}">404</span>
                 </div>
             </div>
         </div>
@@ -52,7 +51,7 @@
         <div class="row">
             <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
                 <div class="well"><div class="contact-message">
-                    <span>If you want, you can <a href="">contact us</a>.</span>
+                    <span th:text="#{label.preContactMessage}">If you want, you can</span> <a href="" th:text="#{label.contactUs}">contact us</a>.
                 </div></div>
             </div>
         </div>
@@ -63,7 +62,7 @@
             <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-lg-5 col-md-5 col-sm-7 col-xs-12">
                 <blockquote>
                     <p>Быстро поднятое не считается упавшим.</p>
-                    <footer>Admin VK</footer>
+                    <footer>Somebody</footer>
                 </blockquote>
             </div>
         </div>
@@ -72,6 +71,6 @@
     <!-- /Container -->
 </div>
 <!-- /#wrapper -->
-<span th:text="${errorMessage}">d</span>
+<span th:text="${errorMessage}"></span>
 </body>
 </html>

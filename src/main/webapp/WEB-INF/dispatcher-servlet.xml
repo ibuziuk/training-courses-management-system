@@ -36,6 +36,12 @@
         <property name="characterEncoding" value="UTF-8" />
     </bean>
 
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="WEB-INF/messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
           p:location="WEB-INF/jdbc.properties"/>
 

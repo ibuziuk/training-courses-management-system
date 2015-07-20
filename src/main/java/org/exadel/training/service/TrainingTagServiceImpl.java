@@ -1,6 +1,6 @@
 package org.exadel.training.service;
 
-import org.exadel.training.dao.CurrentTagDAO;
+import org.exadel.training.dao.TrainingTagDAO;
 import org.exadel.training.model.TrainingTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,9 +9,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class CurrentTagServiceImpl implements CurrentTagService {
+public class TrainingTagServiceImpl implements TrainingTagService {
     @Autowired
-    private CurrentTagDAO currentTagDAO;
+    private TrainingTagDAO currentTagDAO;
 
     @Override
     @Transactional

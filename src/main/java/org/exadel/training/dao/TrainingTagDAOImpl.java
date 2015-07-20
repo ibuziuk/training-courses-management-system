@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CurrentTagDAOImpl implements CurrentTagDAO {
+public class TrainingTagDAOImpl implements TrainingTagDAO {
     @Autowired
     private SessionFactory sessionFactory;
 

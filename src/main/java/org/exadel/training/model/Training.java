@@ -54,11 +54,24 @@ public class Training {
 
     private boolean regular;
 
+    @Column(name = "external_type")
+    private boolean externalType;
+
     @Column(name = "is_approved")
     private boolean isApproved;
 
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
+
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<TrainingAudience> trainingAudiences;
+
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingTag> trainingTags;
+
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<CurrentList> currentLists;
 
     public long getTrainingId() {
         return trainingId;
@@ -230,5 +243,37 @@ public class Training {
     public String getDateOnString(){
         TrainingUtil trainingUtil = new TrainingUtil();
         return trainingUtil.DateToString(this.date);
+    }
+
+    public Set<CurrentList> getCurrentLists() {
+        return currentLists;
+    }
+
+    public void setCurrentLists(Set<CurrentList> currentLists) {
+        this.currentLists = currentLists;
+    }
+
+    public boolean isExternalType() {
+        return externalType;
+    }
+
+    public void setExternalType(boolean external) {
+        this.externalType = external;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public Set<TrainingAudience> getTrainingAudiences() {
+        return trainingAudiences;
+    }
+
+    public void setTrainingAudiences(Set<TrainingAudience> trainingAudiences) {
+        this.trainingAudiences = trainingAudiences;
     }
 }

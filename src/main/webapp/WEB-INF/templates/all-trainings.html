@@ -56,7 +56,7 @@
         <ul class="nav navbar-right top-nav">
             <li class="active">
                 <a href = "welcome.html" th:href="@{/welcome}">
-                    <i class = "fa fa-fw fa-user"></i>
+                    <i class = "fa fa-fw fa-visitor"></i>
                     <span sec:authentication="name"></span>
                 </a>
             </li>
@@ -117,7 +117,7 @@
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-                    <a href="users.html" th:href="@{/user/all}">
+                    <a href="users.html" th:href="@{/visitor/all}">
                         <i class="fa fa-fw fa-circle"></i>
                         <span th:text="#{label.users}">Users</span>
                     </a>
@@ -200,7 +200,7 @@
                                             <td th:text="${training.getDateOnString()}"></td>
                                             <td th:text="|#{label.unit} ${training.location}|"></td>
                                             <td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
-                                            <td th:text="'2/'+${training.maxVisitorsCount}"></td>
+                                            <td th:text="${training.currentLists.size()}+'/'+${training.maxVisitorsCount}"></td>
                                             <td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
                                         </tr>
                                         <tr>

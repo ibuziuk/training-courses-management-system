@@ -13,8 +13,8 @@ public class CurrentListDAOImpl implements CurrentListDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addVisitor(long userID, long trainingID) {
-            sessionFactory.getCurrentSession().persist(userID);
+    public void addVisitor(long userId, long trainingId) {
+            sessionFactory.getCurrentSession().persist(userId);
     }
 
     @SuppressWarnings("unchecked")
@@ -24,7 +24,7 @@ public class CurrentListDAOImpl implements CurrentListDAO {
     }
 
     @Override
-    public void removeVisitor(long userID, long trainingID) {
-            sessionFactory.getCurrentSession().delete(userID);
+    public void removeVisitor(long userId, long trainingId) {
+            sessionFactory.getCurrentSession().delete(userId);
     }
 }

@@ -7,6 +7,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "absence")
 public class Absence {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "absence_id")
+    private int id;
 
     @NotEmpty
     private long userId;
@@ -18,6 +22,10 @@ public class Absence {
     private String reasonText;
 
     private boolean isReasonable;
+
+    public int getId() {
+        return id;
+    }
 
     public long getUserId() {
         return userId;

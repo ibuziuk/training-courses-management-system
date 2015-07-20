@@ -7,6 +7,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "trainingRaiting")
 public class TrainingRaiting {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "training_raiting_id")
+    private int id;
 
     @NotEmpty
     private long userId;
@@ -15,6 +19,10 @@ public class TrainingRaiting {
     private long trainerId;
 
     private int starCount;
+
+    public int getId() {
+        return id;
+    }
 
     public long getUserId() {
         return userId;

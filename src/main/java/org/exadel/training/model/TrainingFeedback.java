@@ -3,10 +3,15 @@ package org.exadel.training.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "trainingFeedback")
 public class TrainingFeedback {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "training_feed_back_id")
+    private int id;
 
     @NotEmpty
     private long userId;
@@ -17,8 +22,7 @@ public class TrainingFeedback {
     @Column(length = 4500)
     private String text;
 
-    @Column(length = 20)
-    private String date;
+    private Timestamp date;
 
     private int understandably;
 
@@ -32,6 +36,10 @@ public class TrainingFeedback {
 
     @Column(length = 45)
     private String recommending;
+
+    public int getId() {
+        return id;
+    }
 
     public long getUserId() {
         return userId;
@@ -57,11 +65,11 @@ public class TrainingFeedback {
         this.text = text;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

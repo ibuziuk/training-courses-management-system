@@ -9,18 +9,15 @@ import javax.persistence.*;
 public class Role{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userId;
+    @Column(name = "role_id")
+    private long roleId;
 
     @NotEmpty
     @Column(length = 20)
     private String type;
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public long getRoleId() {
+        return roleId;
     }
 
     public String getType() {

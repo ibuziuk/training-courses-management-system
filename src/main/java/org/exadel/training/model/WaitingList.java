@@ -7,6 +7,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "waitingList")
 public class WaitingList {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "waiting_list_id")
+    private long id;
 
     @NotEmpty
     private long userId;
@@ -16,6 +20,10 @@ public class WaitingList {
 
     @Column(length = 20)
     private String date;
+
+    public long getId() {
+        return id;
+    }
 
     public long getUserId() {
         return userId;

@@ -15,8 +15,8 @@ public class CurrentListServiceImpl implements CurrentListService {
 
     @Override
     @Transactional
-    public void addVisitor(long userID, long trainingID) {
-        currentListDAO.addVisitor(userID,trainingID);
+    public void addVisitor(long userId, long trainingId) {
+        currentListDAO.addVisitor(userId,trainingId);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CurrentListServiceImpl implements CurrentListService {
 
     @Override
     @Transactional
-    public void removeVisitor(long userID, long trainingID) {
-        currentListDAO.removeVisitor(userID,trainingID);
+    public void removeVisitor(long userId, long trainingId) {
+        currentListDAO.removeVisitor(userId,trainingId);
     }
 }

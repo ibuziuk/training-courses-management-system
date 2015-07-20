@@ -11,6 +11,7 @@ public class Tag {
     @Column(name = "tag_id")
     private int tagId;
 
+    @Column(length = 45)
     private String name;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
@@ -18,10 +19,6 @@ public class Tag {
 
     public int getTagId() {
         return tagId;
-    }
-
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
     }
 
     public String getName() {

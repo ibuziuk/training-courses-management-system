@@ -35,10 +35,6 @@ public class User {
         return userId;
     }
 
-    public void setUserId(long userID) {
-        this.userId = userID;
-    }
-
     public String getName() {
         return name;
     }

@@ -206,11 +206,11 @@
                                         <tr th:each="training : ${trainingList}">
                                             <td th:text="${training.title}"></td>
                                             <td th:text="${training.date}"></td>
-                                            <td th:text="${training.location}"></td>
+                                            <td th:text="|Unit ${training.location}|"></td>
                                             <td th:text="${training.trainer.name}"></td>
-                                            <td th:text="${training.maxVisitorsCount}"></td>
+                                            <td th:text="|/${training.maxVisitorsCount}|"></td>
                                             <!--<td></td>-->
-                                            <td><span class="label label-default tags" th:each="tag : ${training.currentTags}" th:text="${tag.tag.name}"></span></td>
+                                            <td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
                                         </tr>
                                         <tr>
                                             <td>JavaScript frameworks: Angular.js. How it works?</td>

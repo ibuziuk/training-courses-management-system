@@ -1,11 +1,11 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.CurrentTag;
+import org.exadel.training.model.TrainingTag;
 
 import java.util.List;
 
 public interface CurrentTagDAO {
-    void addCurrentTag(CurrentTag currentTag);
+    void addCurrentTag(TrainingTag trainingTag);
 
-    List<CurrentTag> getAllCurrentTags();
+    List<TrainingTag> getAllCurrentTags();
 }

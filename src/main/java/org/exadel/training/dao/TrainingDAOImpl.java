@@ -5,6 +5,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
@@ -21,8 +24,11 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List getAllTrainings() {
-        return sessionFactory.getCurrentSession().createCriteria(Training.class).list();
+    public List <Training> getAllTrainings() {
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Training.class).list());
+        List <Training> list = new ArrayList<>(result);
+        return list;
+//        return sessionFactory.getCurrentSession().createCriteria(Training.class).list();
     }
 
     @SuppressWarnings("unchecked")

@@ -3,11 +3,11 @@ package org.exadel.training.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "current_tag")
-public class CurrentTag {
+@Table(name = "training_tag")
+public class TrainingTag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "current_tag_id")
+    @Column(name = "training_tag_id")
     private int id;
 
     @ManyToOne

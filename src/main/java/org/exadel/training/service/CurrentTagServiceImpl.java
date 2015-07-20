@@ -1,7 +1,7 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.CurrentTagDAO;
-import org.exadel.training.model.CurrentTag;
+import org.exadel.training.model.TrainingTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,13 @@ public class CurrentTagServiceImpl implements CurrentTagService{
 
     @Override
     @Transactional
-    public void addCurrentTag(CurrentTag currentTag){
-        currentTagDAO.addCurrentTag(currentTag);
+    public void addCurrentTag(TrainingTag trainingTag){
+        currentTagDAO.addCurrentTag(trainingTag);
     }
 
     @Override
     @Transactional
-    public List<CurrentTag> getAllCurrentTags(){
+    public List<TrainingTag> getAllCurrentTags(){
         return currentTagDAO.getAllCurrentTags();
     }
 }

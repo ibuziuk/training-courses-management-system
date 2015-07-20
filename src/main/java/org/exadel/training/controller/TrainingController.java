@@ -1,6 +1,6 @@
 package org.exadel.training.controller;
 
-import org.exadel.training.model.CurrentTag;
+import org.exadel.training.model.TrainingTag;
 import org.exadel.training.model.Training;
 import org.exadel.training.service.CurrentTagService;
 import org.exadel.training.service.TrainingService;
@@ -21,7 +21,7 @@ public class TrainingController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allTrainings(Map<String, Object> map) {
-        map.put("currentTag", new CurrentTag());
+        map.put("currentTag", new TrainingTag());
         map.put("training", new Training());
         map.put("trainingList", trainingService.getAllTraining());
         map.put("currentList", currentTagService.getAllCurrentTags());

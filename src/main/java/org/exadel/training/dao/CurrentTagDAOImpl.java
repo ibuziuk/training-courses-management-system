@@ -1,6 +1,6 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.CurrentTag;
+import org.exadel.training.model.TrainingTag;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,14 +13,14 @@ public class CurrentTagDAOImpl implements CurrentTagDAO{
     private SessionFactory sessionFactory;
 
     @Override
-    public void addCurrentTag(CurrentTag currentTag){
-        if (currentTag != null){
-            sessionFactory.getCurrentSession().persist(currentTag);
+    public void addCurrentTag(TrainingTag trainingTag){
+        if (trainingTag != null){
+            sessionFactory.getCurrentSession().persist(trainingTag);
         }
     }
 
     @Override
-    public List<CurrentTag> getAllCurrentTags(){
-        return sessionFactory.getCurrentSession().createCriteria(CurrentTag.class).list();
+    public List<TrainingTag> getAllCurrentTags(){
+        return sessionFactory.getCurrentSession().createCriteria(TrainingTag.class).list();
     }
 }

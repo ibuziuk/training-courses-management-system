@@ -8,9 +8,9 @@ import java.util.List;
 public interface TrainingService {
     void addTraining(Training training);
 
-    List getAllTraining();
+    List<Training> getAllTraining();
 
-    List getTrainingsByName(String name);
+    List<Training> getTrainingsByName(String name);
 
     void updateTraining(Training training);
 

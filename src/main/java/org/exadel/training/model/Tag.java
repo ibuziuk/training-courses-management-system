@@ -14,7 +14,7 @@ public class Tag {
     private String name;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
-    private Set<CurrentTag> currentTags;
+    private Set<TrainingTag> trainingTags;
 
     public int getTagId() {
         return tagId;
@@ -32,11 +32,11 @@ public class Tag {
         this.name = name;
     }
 
-    public Set<CurrentTag> getCurrentTags() {
-        return currentTags;
+    public Set<TrainingTag> getTrainingTags() {
+        return trainingTags;
     }
 
-    public void setCurrentTags(Set<CurrentTag> currentTags) {
-        this.currentTags = currentTags;
+    public void setTrainingTags(Set<TrainingTag> trainingTags) {
+        this.trainingTags = trainingTags;
     }
 }

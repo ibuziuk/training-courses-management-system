@@ -19,6 +19,7 @@ public class TrainingTagDAOImpl implements TrainingTagDAO {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<TrainingTag> getAllTrainingTags() {
         return sessionFactory.getCurrentSession().createCriteria(TrainingTag.class).list();

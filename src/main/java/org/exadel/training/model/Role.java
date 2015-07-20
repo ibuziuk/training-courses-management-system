@@ -13,18 +13,18 @@ public class Role {
     private long roleId;
 
     @NotEmpty
-    @Column(length = 20)
-    private String type;
+    @Column(length = 20, unique = true, nullable = false)
+    private String role;
 
     public long getRoleId() {
         return roleId;
     }
 
-    public String getType() {
-        return type;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getRole() {
+        return role;
     }
 }

@@ -27,10 +27,11 @@ public class User {
     @Column(unique = true)
     private String login;
 
+    @Column(length = 60)
     private String password;
 
-    @Column(name = "e_mail")
-    private String eMail;
+    @Column(name = "e_mail", unique = true)
+    private String email;
 
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE)
     private Set<Training> trainings;
@@ -71,12 +72,12 @@ public class User {
         this.password = password;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSurname() {

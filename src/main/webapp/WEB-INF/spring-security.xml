@@ -9,19 +9,25 @@
 
     <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
         <security:form-login login-page="/login" authentication-failure-url="/login?error" default-target-url="/welcome"/>
-        <security:intercept-url pattern="/welcome**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <security:intercept-url pattern="/allTrainings**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <security:intercept-url pattern="/newTraining**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:logout delete-cookies="JSESSIONID" />
+        <security:intercept-url pattern="/resources/**" access="permitAll" />
+        <security:intercept-url pattern="/login*" access="permitAll" />
+        <security:intercept-url pattern="/trainer/new" access="hasRole('ROLE_ADMIN')" />
+        <security:intercept-url pattern="/user/all" access="hasRole('ROLE_ADMIN')" />
+        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" />
         <security:csrf disabled="true"/>
-        <security:remember-me token-validity-seconds="1209600" remember-me-parameter="remember-me" />
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
+            <security:password-encoder ref="bCryptPasswordEncoder" />
             <security:user-service>
-                <security:user name="user" password="user" authorities="ROLE_USER" />
-                <security:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
+                <security:user name="user" password="$2a$10$sdDp3Pm8BCoBmsRqV7LYPONjtctN9o0M5vFv76SUJ7tiZqLolPJbC" authorities="ROLE_USER" />
+                <security:user name="admin" password="$2a$10$P/sxbK0Y0.GfcFqhSNHFQezkHaYqFGuM1VDNFJngd0LVl0P.tXn2O" authorities="ROLE_USER, ROLE_ADMIN" />
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
+
+    <bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
 </beans>

@@ -29,7 +29,7 @@ public class TrainingDAOImpl implements TrainingDAO {
     @Override
     public List<Training> getTrainingsByName(String name) {
         return sessionFactory.getCurrentSession()
-                .createQuery("FROM Training t WHERE t.name = :name").setString("name", name).list();
+                .createQuery("FROM Training t WHERE t.title = :name").setString("name", name).list();
     }
 
     @Override
@@ -44,5 +44,10 @@ public class TrainingDAOImpl implements TrainingDAO {
         if (training != null) {
             sessionFactory.getCurrentSession().delete(training);
         }
+    }
+
+    @Override
+    public Training getTrainingById(long id){
+        return (Training) sessionFactory.getCurrentSession().get(Training.class, id);
     }
 }

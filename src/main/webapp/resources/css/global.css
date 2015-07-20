@@ -7,10 +7,6 @@ body {
     font-size: 15px;
 }
 
-.a {
-    cursor: pointer;
-}
-
 #editBtn {
     margin-left: 10px;
     margin-top: 10px;
@@ -133,7 +129,7 @@ html {
 /* Top Navigation */
 
 .lang {
-    padding: 15px;
+    padding 15px;
 }
 
 .language-panel {
@@ -353,4 +349,23 @@ ul.alert-dropdown {
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
 	color: white;
+}
+.right-calendar-buttons {
+    float: right;
+}
+
+.calendar-button-group {
+    margin-top: 45px;
+}
+
+.calendar {
+    padding-bottom: 50px;
+}
+
+.calendar-icons {
+    color: white;
+}
+.calendar-title {
+    margin-bottom: 0px;
+    margin-top: 0px;
 }

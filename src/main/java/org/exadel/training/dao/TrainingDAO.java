@@ -14,4 +14,6 @@ public interface TrainingDAO {
     void updateTraining(Training training);
 
     void removeTraining(Training training);
+
+    Training getTrainingById(long id);
 }

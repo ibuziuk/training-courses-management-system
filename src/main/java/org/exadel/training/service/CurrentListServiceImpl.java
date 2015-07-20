@@ -1,7 +1,6 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.CurrentListDAO;
-import org.exadel.training.model.CurrentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ public class CurrentListServiceImpl implements CurrentListService {
     @Override
     @Transactional
     public void addVisitor(long userId, long trainingId) {
-        currentListDAO.addVisitor(userId,trainingId);
+        currentListDAO.addVisitor(userId, trainingId);
     }
 
     @Override
@@ -28,6 +27,6 @@ public class CurrentListServiceImpl implements CurrentListService {
     @Override
     @Transactional
     public void removeVisitor(long userId, long trainingId) {
-        currentListDAO.removeVisitor(userId,trainingId);
+        currentListDAO.removeVisitor(userId, trainingId);
     }
 }

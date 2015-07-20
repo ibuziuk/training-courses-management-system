@@ -45,7 +45,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public Training getTrainingById(long id){
+    public Training getTrainingById(long id) {
         return trainingDAO.getTrainingById(id);
     }
 }

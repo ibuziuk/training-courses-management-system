@@ -5,8 +5,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class RegularLessonDAOImpl implements RegularLessonDAO {
     @Autowired
@@ -34,7 +32,7 @@ public class RegularLessonDAOImpl implements RegularLessonDAO {
     }
 
     @Override
-    public RegularLesson getRegularLessonById(long id){
+    public RegularLesson getRegularLessonById(long id) {
         return (RegularLesson) sessionFactory.getCurrentSession().get(RegularLesson.class, id);
     }
 }

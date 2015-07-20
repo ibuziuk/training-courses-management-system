@@ -8,19 +8,19 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CurrentTagDAOImpl implements CurrentTagDAO{
+public class CurrentTagDAOImpl implements CurrentTagDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public void addCurrentTag(TrainingTag trainingTag){
-        if (trainingTag != null){
+    public void addCurrentTag(TrainingTag trainingTag) {
+        if (trainingTag != null) {
             sessionFactory.getCurrentSession().persist(trainingTag);
         }
     }
 
     @Override
-    public List<TrainingTag> getAllCurrentTags(){
+    public List<TrainingTag> getAllCurrentTags() {
         return sessionFactory.getCurrentSession().createCriteria(TrainingTag.class).list();
     }
 }

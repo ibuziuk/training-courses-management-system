@@ -11,14 +11,14 @@ public class TagDAOImpl implements TagDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addTag(Tag tag){
-        if(tag != null){
+    public void addTag(Tag tag) {
+        if (tag != null) {
             sessionFactory.getCurrentSession().persist(tag);
         }
     }
 
     @Override
-    public Tag getTagById(int id){
+    public Tag getTagById(int id) {
         return (Tag) sessionFactory.getCurrentSession().get(Tag.class, id);
     }
 }

@@ -9,19 +9,19 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class CurrentTagServiceImpl implements CurrentTagService{
+public class CurrentTagServiceImpl implements CurrentTagService {
     @Autowired
     private CurrentTagDAO currentTagDAO;
 
     @Override
     @Transactional
-    public void addCurrentTag(TrainingTag trainingTag){
+    public void addCurrentTag(TrainingTag trainingTag) {
         currentTagDAO.addCurrentTag(trainingTag);
     }
 
     @Override
     @Transactional
-    public List<TrainingTag> getAllCurrentTags(){
+    public List<TrainingTag> getAllCurrentTags() {
         return currentTagDAO.getAllCurrentTags();
     }
 }

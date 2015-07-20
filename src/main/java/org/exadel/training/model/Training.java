@@ -179,9 +179,7 @@ public class Training {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Training training = (Training) o;
-
         if (trainingId != training.trainingId) return false;
         if (!trainer.equals(training.trainer)) return false;
         if (maxVisitorsCount != training.maxVisitorsCount) return false;
@@ -189,17 +187,14 @@ public class Training {
         if (audience != null ? !audience.equals(training.audience) : training.audience != null) return false;
         if (date != null ? !date.equals(training.date) : training.date != null) return false;
         if (days != null ? !days.equals(training.days) : training.days != null) return false;
-        if (description != null ? !description.equals(training.description) : training.description != null)
-            return false;
+        if (description != null ? !description.equals(training.description) : training.description != null) return false;
         if (duration != training.duration) return false;
         if (end != null ? !end.equals(training.end) : training.end != null) return false;
         if (location != training.location) return false;
         if (start != null ? !start.equals(training.start) : training.start != null) return false;
         if (time != null ? !time.equals(training.time) : training.time != null) return false;
         if (!title.equals(training.title)) return false;
-        if (trainingTags != null ? !trainingTags.equals(training.trainingTags) : training.trainingTags != null)
-            return false;
-
+        if (trainingTags != null ? !trainingTags.equals(training.trainingTags) : training.trainingTags != null) return false;
         return true;
     }
 

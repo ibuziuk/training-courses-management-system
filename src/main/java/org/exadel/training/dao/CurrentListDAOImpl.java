@@ -1,6 +1,5 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.CurrentList;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +13,7 @@ public class CurrentListDAOImpl implements CurrentListDAO {
 
     @Override
     public void addVisitor(long userId, long trainingId) {
-            sessionFactory.getCurrentSession().persist(userId);
+        sessionFactory.getCurrentSession().persist(userId);
     }
 
     @SuppressWarnings("unchecked")
@@ -25,6 +24,6 @@ public class CurrentListDAOImpl implements CurrentListDAO {
 
     @Override
     public void removeVisitor(long userId, long trainingId) {
-            sessionFactory.getCurrentSession().delete(userId);
+        sessionFactory.getCurrentSession().delete(userId);
     }
 }

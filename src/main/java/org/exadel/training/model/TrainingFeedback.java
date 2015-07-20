@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 public class TrainingFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "training_feed_back_id")
+    @Column(name = "training_feedback_id")
     private int id;
 
     @NotEmpty

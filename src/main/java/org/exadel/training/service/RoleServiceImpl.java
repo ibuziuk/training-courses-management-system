@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -15,7 +14,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public  void addRole(Role role) {
+    public void addRole(Role role) {
         roleDAO.addRole(role);
     }
 

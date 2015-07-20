@@ -2,8 +2,6 @@ package org.exadel.training.dao;
 
 import org.exadel.training.model.RegularLesson;
 
-import java.util.List;
-
 public interface RegularLessonDAO {
     void addRegularLesson(RegularLesson regularLesson);
 

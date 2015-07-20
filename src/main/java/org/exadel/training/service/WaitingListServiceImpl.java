@@ -1,7 +1,6 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.WaitingListDAO;
-import org.exadel.training.model.WaitingList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ public class WaitingListServiceImpl implements WaitingListService {
     @Override
     @Transactional
     public void addVisitor(long userID, long trainingID) {
-        waitingListDAO.addVisitor(userID,trainingID);
+        waitingListDAO.addVisitor(userID, trainingID);
     }
 
     @Override
@@ -28,6 +27,6 @@ public class WaitingListServiceImpl implements WaitingListService {
     @Override
     @Transactional
     public void removeVisitor(long userID, long trainingID) {
-        waitingListDAO.removeVisitor(userID,trainingID);
+        waitingListDAO.removeVisitor(userID, trainingID);
     }
 }

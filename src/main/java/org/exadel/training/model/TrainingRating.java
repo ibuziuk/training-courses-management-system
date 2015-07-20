@@ -5,11 +5,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "trainingRaiting")
-public class TrainingRaiting {
+@Table(name = "trainingRating")
+public class TrainingRating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "training_raiting_id")
+    @Column(name = "training_rating_id")
     private int id;
 
     @NotEmpty

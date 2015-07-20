@@ -24,9 +24,9 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List <Training> getAllTrainings() {
+    public List<Training> getAllTrainings() {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Training.class).list());
-        List <Training> list = new ArrayList<>(result);
+        List<Training> list = new ArrayList<>(result);
         return list;
 //        return sessionFactory.getCurrentSession().createCriteria(Training.class).list();
     }
@@ -53,7 +53,7 @@ public class TrainingDAOImpl implements TrainingDAO {
     }
 
     @Override
-    public Training getTrainingById(long id){
+    public Training getTrainingById(long id) {
         return (Training) sessionFactory.getCurrentSession().get(Training.class, id);
     }
 }

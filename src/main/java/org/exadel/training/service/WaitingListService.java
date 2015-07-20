@@ -1,8 +1,6 @@
 package org.exadel.training.service;
 
 
-import org.exadel.training.model.WaitingList;
-
 import java.util.List;
 
 public interface WaitingListService {

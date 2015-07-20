@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.context.Context;
 
 @Controller
 public class LoginController {
@@ -22,8 +23,9 @@ public class LoginController {
         if (loginError != null) {
             model.addAttribute("loginError", true);
         }
-        String[] mails = {"alexey_hw@tut.by"};
-        emailNotifierService.send_email_notification(mails,"login","login sucesfull");
+        String[] mails = {"yaroshevich.yana@gmail.com","phantom.rvr@gmail.com","toshabely@gmail.com","alexey_hw@tut.by","shchaurouski.slava@gmail.com","gennady.trubach@mail.ru"};
+        Context ctx = new Context();
+        emailNotifierService.sendEmailNotification(mails, "login", ctx);
         return "login";
     }
 }

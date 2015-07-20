@@ -1,82 +1,76 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-<!-- <%@ page language = "java" contentType = "text/html; charset=UTF-8" pageEncoding = "UTF-8" isErrorPage = "true" %> -->
+    <title th:text="#{error.page.title}">Error</title>
 
+    <!-- Bootstrap Core CSS -->
+    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="description" content=""/>
-        <meta name="author" content=""/>
-        <link rel="shortcut icon" data-th-href="@{/resources/bootstrap/pics/favicon.gif}"/>
+    <!-- Error CSS -->
+    <link href="../../resources/css/error.css" th:href="@{/resources/css/error.css}" rel="stylesheet" />
 
+</head>
 
-        <title>Error page</title>
+<body>
+<div id="wrapper">
 
-        <!-- Bootstrap Core CSS -->
-	    <link data-th-href="@{/resources/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
-        
-        <!-- Error CSS -->
-        <link data-th-href="@{/resources/bootstrap/css/error.css}" rel="stylesheet"/>
-
-    </head>
-
-    <body>
-        <div id="wrapper">
-           
-            <!-- Navigation -->
-            <nav class="navbar navbar-inverse navbar-fixed-top" id="top-menu" role="navigation">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="login.html">
-                        <img alt="Brand" src="resources/vendors/pics/exadel-logo.png"/>
-                    </a>
-                </div>  
-                <ul class="nav navbar-right top-nav">
-					<li><a id = "langEn" href = "welcome.html">En</a></li>
-					<li><a id = "langRu" href = "welcome.html">Ru</a></li>
-                </ul>   
-            </nav> 
-            <!-- /.navbar -->
-
-            <!-- Container -->
-            <div class="container-fluid">
-                <!-- .error-message -->
-                <div class="row error-message">
-                    <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
-                        <div class="well error">
-                        <span> Error <span th:text="${errorCode}">404</span>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.error-message -->
-                
-                <!-- contact-message -->
-                <div class="row">
-                    <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
-                        <div class="well"><div class="contact-message">
-                            <span>If you want, you can <a href="">contact us</a>.</span>
-                        </div></div>
-                    </div>
-                </div>
-                <!-- /contact-message -->
-                
-                <!-- Blockquote -->
-                <div class="row">
-                    <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-lg-5 col-md-5 col-sm-7 col-xs-12">
-                        <blockquote>
-                            <p>Быстро поднятое не считается упавшим.</p>
-                            <footer>Admin VK</footer>
-                        </blockquote>
-                    </div> 
-                </div>
-                <!-- /Blockquote -->    
-            </div>
-            <!-- /Container -->    
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="top-menu" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+            </a>
         </div>
-        <!-- /#wrapper -->
-    <span th:text="${errorMessage}">d</span>
-    </body>
+        <ul class="nav navbar-right top-nav">
+            <li><a class="lang" href = "error.html">En</a></li>
+            <li><a class="lang" href = "error.html">Ru</a></li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Container -->
+    <div class="container-fluid">
+        <!-- .error-message -->
+        <div class="row error-message">
+            <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
+                <div class="well error">
+                    <span th:text="#{label.error}">Error</span> <span th:text="${errorCode}">404</span>
+                </div>
+            </div>
+        </div>
+        <!-- /.error-message -->
+
+        <!-- contact-message -->
+        <div class="row">
+            <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
+                <div class="well"><div class="contact-message">
+                    <span th:text="#{label.preContactMessage}">If you want, you can</span> <a href="" th:text="#{label.contactUs}">contact us</a>.
+                </div></div>
+            </div>
+        </div>
+        <!-- /contact-message -->
+
+        <!-- Blockquote -->
+        <div class="row">
+            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-lg-5 col-md-5 col-sm-7 col-xs-12">
+                <blockquote>
+                    <p>Быстро поднятое не считается упавшим.</p>
+                    <footer>Somebody</footer>
+                </blockquote>
+            </div>
+        </div>
+        <!-- /Blockquote -->
+    </div>
+    <!-- /Container -->
+</div>
+<!-- /#wrapper -->
+<span th:text="${errorMessage}"></span>
+</body>
 </html>

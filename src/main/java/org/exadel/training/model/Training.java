@@ -23,7 +23,7 @@ public class Training {
     @Column(length = 20)
     private String time;
 
-    private int MAX_count;
+    private int maxCount;
 
     @Column(length = 500)
     private String audience;
@@ -53,8 +53,8 @@ public class Training {
         return trainerId;
     }
 
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
+    public void setTrainerId(long trainerID) {
+        this.trainerId = trainerID;
     }
 
     public String getDate() {
@@ -73,12 +73,12 @@ public class Training {
         this.time = time;
     }
 
-    public int getMAX_count() {
-        return MAX_count;
+    public int getMaxCount() {
+        return maxCount;
     }
 
-    public void setMAX_count(int MAX_count) {
-        this.MAX_count = MAX_count;
+    public void setMaxCount(int MAX_count) {
+        this.maxCount = MAX_count;
     }
 
     public String getAudience() {

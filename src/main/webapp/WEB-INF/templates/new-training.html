@@ -8,7 +8,7 @@
     <meta name="author" content="" />
     <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
 
-    <title>Create new training</title>
+    <title th:text="#{newTraining.page.title}">Create new training</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
@@ -68,7 +68,7 @@
             <li class="active">
                 <a href="#" th:href="@{/logout}" id="logout">
                     <i class="fa fa-fw fa-power-off"></i>
-                    Log out
+                    <span th:text="#{label.logout}">Log out</span>
                 </a>
             </li>
 
@@ -85,14 +85,14 @@
                 <li id = "alltrainings">
                     <a href="all-trainings.html" th:href="@{/training/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        All trainings
+                        <span th:text="#{label.allTrainings}">All trainings</span>
                     </a>
                 </li>
 
                 <li id="mytrainings">
                     <a href="#" ng-click="isCollapsed2=!isCollapsed2">
                         <i class="fa fa-fw fa-circle"></i>
-                        My trainings
+                        <span th:text="#{label.myTrainings}">My trainings</span>
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
 
@@ -100,14 +100,14 @@
                         <li>
                             <a href="my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a trainer
+                                <span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a guest
+                                <span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
                             </a>
                         </li>
                     </ul>
@@ -116,27 +116,27 @@
                 <li id = "newtraining">
                     <a href="new-training.html" th:href="@{/training/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Create new training
+                        <span th:text="#{label.newTraining}">Create new training</span>
                     </a>
                 </li>
 
                 <li id = "newtrainer">
                     <a href="new-trainer.html" th:href="@{/trainer/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Add new external trainer
+                        <span th:text="#{label.newTainer}">Add new external trainer</span>
                     </a>
                 </li>
 
                 <li id = "users">
                     <a href="users.html" th:href="@{/user/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Users
+                        <span th:text="#{label.users}">Users</span>
                     </a>
                 </li>
 
                 <li id = "copyright">
                     <footer>
-                        <span>©Exadel, Inc. All Rights Reserved.</span>
+                        <span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
                     </footer>
                 </li>
             </ul>

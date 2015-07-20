@@ -33,5 +33,3 @@ public class TrainingController {
         return "new-training";
     }
 }
-
-//TODO: get all tags on each training

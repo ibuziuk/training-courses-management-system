@@ -205,7 +205,7 @@
                                         <tbody>
                                         <tr th:each="training : ${trainingList}">
                                             <td th:text="${training.title}"></td>
-                                            <td th:text="${training.date}"></td>
+                                            <td th:text="${training.getDateOnString()}"></td>
                                             <td th:text="|Unit ${training.location}|"></td>
                                             <td th:text="${training.trainer.name}"></td>
                                             <td th:text="|/${training.maxVisitorsCount}|"></td>

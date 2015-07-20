@@ -16,15 +16,11 @@ import java.util.Map;
 public class TrainingController {
     @Autowired
     private TrainingService trainingService;
-    @Autowired
-    private CurrentTagService currentTagService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allTrainings(Map<String, Object> map) {
-        map.put("currentTag", new TrainingTag());
         map.put("training", new Training());
         map.put("trainingList", trainingService.getAllTraining());
-        map.put("currentList", currentTagService.getAllCurrentTags());
         return "all-trainings";
     }
 

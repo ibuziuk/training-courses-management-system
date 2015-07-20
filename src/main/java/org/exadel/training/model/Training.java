@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import org.exadel.training.utils.TrainingUtil;
+
 @Entity
 @Table(name = "training")
 public class Training {
@@ -229,5 +231,10 @@ public class Training {
 
     public void setApproved(boolean isApproved) {
         this.isApproved = isApproved;
+    }
+
+    public String getDateOnString(){
+        TrainingUtil trainingUtil = new TrainingUtil();
+        return trainingUtil.DateToString(this.date);
     }
 }

@@ -28,7 +28,6 @@ public class TrainingDAOImpl implements TrainingDAO {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Training.class).list());
         List<Training> list = new ArrayList<>(result);
         return list;
-//        return sessionFactory.getCurrentSession().createCriteria(Training.class).list();
     }
 
     @SuppressWarnings("unchecked")

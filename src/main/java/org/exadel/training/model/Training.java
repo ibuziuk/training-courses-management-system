@@ -1,5 +1,6 @@
 package org.exadel.training.model;
 
+import org.exadel.training.utils.TrainingUtil;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -224,5 +225,10 @@ public class Training {
 
     public void setApproved(boolean isApproved) {
         this.isApproved = isApproved;
+    }
+
+    public String getDateOnString(){
+        TrainingUtil trainingUtil = new TrainingUtil();
+        return trainingUtil.DateToString(this.date);
     }
 }

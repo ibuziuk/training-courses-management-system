@@ -197,9 +197,9 @@
                                         <tbody>
                                         <tr th:each="training : ${trainingList}">
                                             <td th:text="${training.title}"></td>
-                                            <td th:text="${training.date}"></td>
+                                            <td th:text="${training.getDateOnString()}"></td>
                                             <td th:text="|#{label.unit} ${training.location}|"></td>
-                                            <td th:text="${training.trainer.name}"></td>
+                                            <td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
                                             <td th:text="'2/'+${training.maxVisitorsCount}"></td>
                                             <td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
                                         </tr>

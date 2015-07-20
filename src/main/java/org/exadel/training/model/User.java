@@ -14,8 +14,12 @@ public class User {
     private long userId;
 
     @NotEmpty
-    @Column(length = 100)
+    @Column(length = 25)
     private String name;
+
+    @NotEmpty
+    @Column(length = 25)
+    private String surname;
 
     @Column(name = "role_id")
     private int roleId;
@@ -77,5 +81,13 @@ public class User {
 
     public void seteMail(String eMail) {
         this.eMail = eMail;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String soname) {
+        this.surname = soname;
     }
 }

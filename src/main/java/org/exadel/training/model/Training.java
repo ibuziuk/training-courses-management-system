@@ -26,11 +26,11 @@ public class Training {
 
     private Timestamp date;
 
-    @Column(length = 20)
-    private String time;
-
     @Column(name = "max_visitors_count")
     private int maxVisitorsCount;
+
+    @Column(length = 20)
+    private String time;
 
     @Column(length = 500)
     private String audience;

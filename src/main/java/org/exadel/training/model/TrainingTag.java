@@ -18,6 +18,10 @@ public class TrainingTag {
     @JoinColumn(name = "training_id")
     private Training training;
 
+    public int getId() {
+        return id;
+    }
+
     public Tag getTag() {
         return tag;
     }

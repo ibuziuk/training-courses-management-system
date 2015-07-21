@@ -9,6 +9,10 @@ public interface TrainingDAO {
 
     List<Training> getAllTrainings();
 
+    List<Training> getFutureTrainings();
+
+    List<Training> getPastTrainings();
+
     List<Training> getTrainingsByName(String name);
 
     void updateTraining(Training training);

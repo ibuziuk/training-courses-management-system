@@ -16,7 +16,7 @@ public class Language {
     @NotEmpty
     private String value;
 
-    @OneToMany(mappedBy = "language", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "language", fetch = FetchType.LAZY)
     private Set<Training> trainings;
 
     public int getId() {

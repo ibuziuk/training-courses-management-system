@@ -18,7 +18,8 @@ public class TrainingController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allTrainings(Map<String, Object> map) {
         map.put("training", new Training());
-        map.put("trainingList", trainingService.getAllTraining());
+        map.put("futureList", trainingService.getFutureTrainings());
+        map.put("pastList", trainingService.getPastTrainings());
         return "all-trainings";
     }
 

@@ -205,9 +205,9 @@
                     <div id = "step2" ng-show="currentPage == 2" ng-controller="dropdownCtrl">
                         <div>
                             <label>Type of your training *</label>
-                            <br>
-                            <div class="btn-group" dropdown dropdown-append-to-body>
-                                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                            <br />
+                            <div class="btn-group" dropdown="dropdown" dropdown-append-to-body="dropdown-append-to-body">
+                                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="dropdown-toggle">
                                     {{toShowType}}<span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
@@ -217,13 +217,13 @@
                             </div>
                         </div>
 
-                        </br>
+                        <br />
 
                         <div>
                             <label>Repetition frequency of your training *</label>
-                            </br>
-                            <div class="btn-group" dropdown dropdown-append-to-body>
-                                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                            <br />
+                            <div class="btn-group" dropdown="dropdown" dropdown-append-to-body="dropdown-append-to-body">
+                                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="dropdown-toggle">
                                     {{toShowRepet}}<span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
@@ -234,17 +234,17 @@
                             </div>
                         </div>
 
-                        </br>
+                        <br />
 
                         <div ng-show="whatChosen == 1">
                             <label>Quantity of days per week *</label>
-                            </br>
-                            <input type="text" placeholder="Type here" ng-model="days" ng-change="toShow()">
+                            <br />
+                            <input type="text" placeholder="Type here" ng-model="days" ng-change="toShow()" />
                         </div>
                         <div ng-show="whatChosen == 2">
                             <label>Quantity of days *</label>
-                            </br>
-                            <input type="text" placeholder="Type here" ng-model="days" ng-change="toShow()">
+                            <br />
+                            <input type="text" placeholder="Type here" ng-model="days" ng-change="toShow()" />
                         </div>
 
                     </div>
@@ -254,7 +254,7 @@
                             <label>
                                 Name of training *
                             </label>
-                            <input class="form-control" placeholder="Assembler for beginners" required="required">
+                            <input class="form-control" placeholder="Assembler for beginners" required="required" />
                         </div>
 
                         <div ng-repeat="description in descriptions track by $index">

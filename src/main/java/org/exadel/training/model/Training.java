@@ -215,20 +215,6 @@ public class Training {
     @Override
     public int hashCode() {
         int result = (int) (trainingId ^ (trainingId >>> 32));
-        result = 31 * result + title.hashCode();
-        result = 31 * result + trainer.hashCode();
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + maxVisitorsCount;
-        result = 31 * result + (audience != null ? audience.hashCode() : 0);
-        result = 31 * result + location;
-        result = 31 * result + duration;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (start != null ? start.hashCode() : 0);
-        result = 31 * result + (end != null ? end.hashCode() : 0);
-        result = 31 * result + (days != null ? days.hashCode() : 0);
-        result = 31 * result + (regular ? 1 : 0);
-        result = 31 * result + (trainingTags != null ? trainingTags.hashCode() : 0);
         return result;
     }
 

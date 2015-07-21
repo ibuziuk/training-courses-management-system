@@ -52,7 +52,7 @@
         <ul class="nav navbar-right top-nav">
             <li class="active">
                 <a href = "welcome.html" th:href="@{/welcome}">
-                    <i class = "fa fa-fw fa-visitor"></i>
+                    <i class = "fa fa-fw fa-user"></i>
                     <span sec:authentication="name"></span>
                 </a>
             </li>
@@ -113,7 +113,7 @@
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-                    <a href="users.html" th:href="@{/visitor/all}">
+                    <a href="users.html" th:href="@{/user/all}">
                         <i class="fa fa-fw fa-circle"></i>
                         <span th:text="#{label.users}">Users</span>
                     </a>

@@ -30,7 +30,7 @@
         <property name="templateMode" value="HTML5" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="false" />
-        <property name="order" value="2"/>
+        <property name="order" value="1"/>
     </bean>
 
     <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
@@ -38,14 +38,14 @@
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
         <property name="characterEncoding" value="UTF-8" />
-        <property name="order" value="1"/>
+        <property name="order" value="2"/>
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolvers">
             <set>
-                <ref bean="emailTemplateResolver"/>
                 <ref bean="webTemplateResolver"/>
+                <ref bean="emailTemplateResolver"/>
             </set>
         </property>
         <property name="additionalDialects">

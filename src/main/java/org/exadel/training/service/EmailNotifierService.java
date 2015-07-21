@@ -28,20 +28,18 @@ public class EmailNotifierService {
     private ServletContext servletContext;
 
     public void sendEmailNotification(final String to[], final String subject, final Context context) {
-        File file = new File(servletContext.getRealPath("").toString()+"resources/vendors/pics/exadel-logo.png");
+        File file = new File(servletContext.getRealPath("").toString() + "resources/vendors/pics/exadel-logo.png");
         byte[] bytes = null;
         try {
             bytes = Files.readAllBytes(file.toPath());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
         }
         final byte[] imageBytes = bytes;
         context.setVariable("imageResourceName", IMAGE_RESOURCE_NAME);
         final String htmlContent = templateEngine.process("mail", context);
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper message = new MimeMessageHelper(mimeMessage,true,"UTF-8");
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 message.setTo(to);
                 message.setFrom(MAIL_FROM);
                 message.setSubject(subject);
@@ -50,7 +48,6 @@ public class EmailNotifierService {
                 message.addInline(IMAGE_RESOURCE_NAME, imageSource, "image/png");
             }
         };
-
         mailSender.send(preparator);
     }
 }

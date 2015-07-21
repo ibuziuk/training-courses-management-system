@@ -17,12 +17,19 @@ body {
     height: 60px;
 }
 
-#audience, #tags, #lng{
+#lng {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#audience, #tags{
     list-style-type:none;
     max-height: 100px;
     overflow-x: hidden;
     overflow-y: scroll;
     padding-left: 0;
+    border-style: dotted;
+    border-width: 1px;
 }
 
 html {
@@ -60,8 +67,7 @@ html {
 }
 
 #top-menu {
-    
-    box-shadow: 0px 2px 14px 2px #0f2736;
+    box-shadow: 0 2px 14px 2px #0f2736;
     background-color: #1A394C;
 }
 
@@ -110,37 +116,24 @@ html {
 }
 
 .tab-content {
-	border-top: 0px;
+	border-top: 0;
 	border-right: 1px solid #ddd;
 	border-left: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	border-radius: 0 0 4px 4px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
 }
 
 /* Top Navigation */
 
-#langRu {
-    padding: 15px;
-    cursor: pointer;
-}
-
-#langEn {
-    padding: 15px;
-    cursor: pointer;
-}
-
-#logout {
-    cursor: pointer;
-}
-
 .language-panel {
 	height: 50px;
-	padding: 12px 15px;
 	font-size: 15px;
     float: right;
-    padding: 0 15px !important;
-    padding-right: 25px;
-    margin-right: 0px;
+    padding: 0 15px;
+    margin-right: 0;
 }
 
 .top-nav {
@@ -350,4 +343,23 @@ ul.alert-dropdown {
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
 	color: white;
+}
+.right-calendar-buttons {
+    float: right;
+}
+
+.calendar-button-group {
+    margin-top: 45px;
+}
+
+.calendar {
+    padding-bottom: 50px;
+}
+
+.calendar-icons {
+    color: white;
+}
+.calendar-title {
+    margin-bottom: 0px;
+    margin-top: 0px;
 }

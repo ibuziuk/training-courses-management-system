@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-    <mvc:default-servlet-handler/>
 
     <mvc:annotation-driven />
     <context:component-scan base-package="org.exadel.training" />
 
     <context:annotation-config/>
-    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+
+    <mvc:resources mapping="/resources/vendors/**" location="/resources/vendors/" />
+    <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
+    <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
+
+    <bean id="webTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="false" />
+        <property name="order" value="1"/>
+    </bean>
+
+    <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+        <property name="prefix" value="../templates/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML5" />
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="order" value="2"/>
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
-        <property name="templateResolver" ref="templateResolver" />
+        <property name="templateResolvers">
+            <set>
+                <ref bean="webTemplateResolver"/>
+                <ref bean="emailTemplateResolver"/>
+            </set>
+        </property>
         <property name="additionalDialects">
             <set>
                 <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect" />
@@ -33,9 +51,35 @@
         <property name="characterEncoding" value="UTF-8" />
     </bean>
 
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="WEB-INF/jdbc.properties"/>
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${host}"/>
+        <property name="port" value="${port}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="exadel3&amp;%"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">${mail.transport.protocol}</prop>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+                <prop key="mail.debug">${mail.debug}</prop>
+            </props>
+        </property>
+    </bean>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="WEB-INF/messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>WEB-INF/jdbc.properties</value>
+                <value>WEB-INF/mail.properties</value>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
           p:url="${jdbc.databaseurl}" p:username="${jdbc.username}" p:password="${jdbc.password}" />
@@ -56,8 +100,7 @@
 
     <tx:annotation-driven />
 
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
 

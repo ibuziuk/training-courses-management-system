@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="allTrainingsApp">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+
+    <title th:text="#{allTrainings.page.titile}">All trainings</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+    <!-- jQuery -->
+    <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
+
+    <script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
+
+    <!-- Angular -->
+    <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+    <script src="../../resources/js/all-trainings-app/app.js" th:src="@{/resources/js/all-trainings-app/app.js}"></script>
+    <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+    <script src="../../resources/js/all-trainings-app/tabs-ctrl.js" th:src="@{/resources/js/all-trainings-app/tabs-ctrl.js}"></script>
+    <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+</head>
+
+<body>
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+            </a>
+        </div>
+
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <li class="active">
+                <a href = "welcome.html" th:href="@{/welcome}">
+                    <i class = "fa fa-fw fa-user"></i>
+                    <span sec:authentication="name"></span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="#" th:href="@{/logout}" id="logout">
+                    <i class="fa fa-fw fa-power-off"></i>
+                    <span th:text="#{label.logout}">Log out</span>
+                </a>
+            </li>
+
+            <ul class="nav navbar-right top-nav language-panel">
+                <li><a class="lang" href = "all-trainings.html">En</a></li>
+                <li><a class="lang" href = "all-trainings.html">Ru</a></li>
+            </ul>
+        </ul>
+
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse" collapse="isCollapsed">
+            <ul class="nav navbar-nav side-nav" id = "left-menu">
+                <li id = "alltrainings">
+                    <a href="all-trainings.html" th:href="@{/training/all}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        <span th:text="#{label.allTrainings}">All trainings</span>
+                    </a>
+                </li>
+                <li id = "mytrainings">
+                    <a href="#" ng-click="isCollapsed2=!isCollapsed2">
+                        <i class="fa fa-fw fa-circle"></i>
+                        <span th:text="#{label.myTrainings}">My trainings</span>
+                        <i class="fa fa-fw fa-caret-down"></i>
+                    </a>
+                    <ul collapse="isCollapsed2">
+                        <li>
+                            <a href="my-trainings.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                <span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="my-trainings.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                <span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li id = "newtraining">
+                    <a href="new-training.html" th:href="@{/training/new}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        <span th:text="#{label.newTraining}">Create new training</span>
+                    </a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
+                    <a href="new-trainer.html" th:href="@{/trainer/new}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        <span th:text="#{label.newTainer}">Add new external trainer</span>
+                    </a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
+                    <a href="users.html" th:href="@{/user/all}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        <span th:text="#{label.users}">Users</span>
+                    </a>
+                </li>
+                <li id = "copyright">
+                    <footer>
+                        <span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
+                    </footer>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- /Navigation -->
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        <span th:text="#{label.allTrainings}">All trainings</span> <small th:text="#{label.allTrainings.info}">Information about all trainings</small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /Page Heading -->
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#fut" data-toggle="tab" th:text="#{label.futureTrainings}">Future trainings</a></li>
+                    <li><a href="#rec" data-toggle="tab" th:text="#{label.recommendations}">Recommendations</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#hist" data-toggle="tab" th:text="#{label.historyOfTrainings}">History of trainings</a></li>
+                </ul>
+                <!-- Tab content -->
+                <div class="tab-content panel panel-default panel-body">
+                    <!-- Future trainings -->
+                    <div class="tab-pane fade in active" id="fut">
+                        <!-- Search row -->
+                        <div class="row search-row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
+                                <select class="form-control">
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
+                                    	<span class="input-group-btn">
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
+      									</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Trainings -->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.time}">Time</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="training : ${trainingList}">
+                                            <td th:text="${training.title}"></td>
+                                            <td th:text="${training.getDateOnString()}"></td>
+                                            <td>12:00</td>
+                                            <td th:text="|#{label.unit} ${training.location}|"></td>
+                                            <td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
+                                            <td th:text="'2/'+${training.maxVisitorsCount}"></td>
+                                            <td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>JavaScript frameworks: Angular.js. How it works?</td>
+                                            <td>5 May 2015</td>
+                                            <td>12:00</td>
+                                            <td>Unit 243</td>
+                                            <td>Shchaurouski Slava</td>
+                                            <td>10/15</td>
+                                            <td><span class="label label-info tags"></span><span class="label label-default tags">#angular.js</span><span class="label label-success tags">#front-end</span><span class="label label-warning tags">#framework</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Trainings -->
+                    </div>
+                    <!-- /Future trainings -->
+
+                    <!-- Recommendations -->
+                    <div class="tab-pane fade" id="rec">
+                        <!-- Search row -->
+                        <div class="row search-row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
+                                <select class="form-control">
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
+                                    	<span class="input-group-btn">
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
+      									</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Search row -->
+
+                        <!-- Tags row -->
+                        <div class="row">
+                            <div class="container-fluid">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" th:text="#{label.yourTags}">Your tags</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <span class="label label-warning tags">#tag</span>
+                                        <span class="label label-danger tags">#tag</span>
+                                        <span class="label label-success tags">#tag</span>
+                                        <span class="label label-default tags">#tag</span>
+                                        <span class="label label-info tags">#tag</span>
+                                        <span class="label label-primary tags">#tag</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Tags row -->
+
+                        <!-- Trainings -->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.time}">Time</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-info tags">#tag</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-default tags">#tag</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-success tags">#tag</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-warning tags">#tag</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Trainings -->
+                    </div>
+                    <!-- /Recommendations -->
+
+                    <!-- History -->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="tab-pane fade" id="hist">
+                        <!-- Search row -->
+                        <div class="row search-row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
+                                <select class="form-control">
+                                    <option th:text="#{label.search.byTitle}">By training title</option>
+                                    <option th:text="#{label.search.byTrainer}">By trainer name</option>
+                                    <option th:text="#{label.search.byTags}">By tags</option>
+                                    <option th:text="#{label.search.byDate}">By date</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
+                                    	<span class="input-group-btn">
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
+      									</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Trainings -->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{label.title}">Title</th>
+                                            <th th:text="#{label.date}">Date</th>
+                                            <th th:text="#{label.time}">Time</th>
+                                            <th th:text="#{label.location}">Location</th>
+                                            <th th:text="#{label.trainerName}">Trainer name</th>
+                                            <th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span th:text="#{label.all}">all</span></th>
+                                            <th th:text="#{label.tags}">Tags</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-info tags">#tag</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-default tags">#tag</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-success tags">#tag</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Item 1</td>
+                                            <td>Item 2</td>
+                                            <td>Item 3</td>
+                                            <td>Item 4</td>
+                                            <td>Item 5</td>
+                                            <td><span class="label label-warning tags">#tag</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Trainings -->
+                    </div>
+                    <!-- /History -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /Tabs -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+</body>
+</html>

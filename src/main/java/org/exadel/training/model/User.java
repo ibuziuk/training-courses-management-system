@@ -3,26 +3,41 @@ package org.exadel.training.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userID;
+    @Column(name = "user_id")
+    private long userId;
 
     @NotEmpty
-    @Column(length = 100)
+    @Column(length = 25)
     private String name;
 
-    private int roleID;
+    @NotEmpty
+    @Column(length = 25)
+    private String surname;
 
-    public long getUserID() {
-        return userID;
-    }
+    @Column(name = "role_id")
+    private int roleId;
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    @Column(unique = true)
+    private String login;
+
+    @Column(length = 60)
+    private String password;
+
+    @Column(name = "e_mail", unique = true)
+    private String email;
+
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE)
+    private Set<Training> trainings;
+
+    public long getUserId() {
+        return userId;
     }
 
     public String getName() {
@@ -33,11 +48,43 @@ public class User {
         this.name = name;
     }
 
-    public int getRoleID() {
-        return roleID;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
+    public void setRoleId(int roleID) {
+        this.roleId = roleID;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String soname) {
+        this.surname = soname;
     }
 }

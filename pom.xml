@@ -9,6 +9,8 @@
     <url>http://maven.apache.org</url>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springframework.version>4.1.7.RELEASE</springframework.version>
         <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
         <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
@@ -62,6 +64,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
             <version>${springframework.version}</version>
         </dependency>
 
@@ -130,6 +138,13 @@
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
+        </dependency>
+
+        <!-- Mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
         </dependency>
 
     </dependencies>

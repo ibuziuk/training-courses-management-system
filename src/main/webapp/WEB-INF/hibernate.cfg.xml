@@ -10,5 +10,9 @@
         <mapping class="org.exadel.training.model.Role"/>
         <mapping class="org.exadel.training.model.Tag"/>
         <mapping class="org.exadel.training.model.TrainingTag"/>
+        <mapping class="org.exadel.training.model.CurrentList"/>
+        <mapping class="org.exadel.training.model.Language"/>
+        <mapping class="org.exadel.training.model.TrainingAudience"/>
+        <mapping class="org.exadel.training.model.Audience"/>
     </session-factory>
 </hibernate-configuration>

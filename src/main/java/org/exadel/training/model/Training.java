@@ -54,11 +54,24 @@ public class Training {
 
     private boolean regular;
 
+    @Column(name = "external_type")
+    private boolean externalType;
+
     @Column(name = "is_approved")
     private boolean isApproved;
 
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
+
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<TrainingAudience> trainingAudiences;
+
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingTag> trainingTags;
+
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<CurrentList> currentLists;
 
     public long getTrainingId() {
         return trainingId;
@@ -182,40 +195,12 @@ public class Training {
         if (o == null || getClass() != o.getClass()) return false;
         Training training = (Training) o;
         if (trainingId != training.trainingId) return false;
-        if (!trainer.equals(training.trainer)) return false;
-        if (maxVisitorsCount != training.maxVisitorsCount) return false;
-        if (regular != training.regular) return false;
-        if (audience != null ? !audience.equals(training.audience) : training.audience != null) return false;
-        if (date != null ? !date.equals(training.date) : training.date != null) return false;
-        if (days != null ? !days.equals(training.days) : training.days != null) return false;
-        if (description != null ? !description.equals(training.description) : training.description != null) return false;
-        if (duration != training.duration) return false;
-        if (end != null ? !end.equals(training.end) : training.end != null) return false;
-        if (location != training.location) return false;
-        if (start != null ? !start.equals(training.start) : training.start != null) return false;
-        if (time != null ? !time.equals(training.time) : training.time != null) return false;
-        if (!title.equals(training.title)) return false;
-        if (trainingTags != null ? !trainingTags.equals(training.trainingTags) : training.trainingTags != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (trainingId ^ (trainingId >>> 32));
-        result = 31 * result + title.hashCode();
-        result = 31 * result + trainer.hashCode();
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + maxVisitorsCount;
-        result = 31 * result + (audience != null ? audience.hashCode() : 0);
-        result = 31 * result + location;
-        result = 31 * result + duration;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (start != null ? start.hashCode() : 0);
-        result = 31 * result + (end != null ? end.hashCode() : 0);
-        result = 31 * result + (days != null ? days.hashCode() : 0);
-        result = 31 * result + (regular ? 1 : 0);
-        result = 31 * result + (trainingTags != null ? trainingTags.hashCode() : 0);
         return result;
     }
 
@@ -230,5 +215,37 @@ public class Training {
     public String getDateOnString(){
         TrainingUtil trainingUtil = new TrainingUtil();
         return trainingUtil.DateToString(this.date);
+    }
+
+    public Set<CurrentList> getCurrentLists() {
+        return currentLists;
+    }
+
+    public void setCurrentLists(Set<CurrentList> currentLists) {
+        this.currentLists = currentLists;
+    }
+
+    public boolean isExternalType() {
+        return externalType;
+    }
+
+    public void setExternalType(boolean external) {
+        this.externalType = external;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public Set<TrainingAudience> getTrainingAudiences() {
+        return trainingAudiences;
+    }
+
+    public void setTrainingAudiences(Set<TrainingAudience> trainingAudiences) {
+        this.trainingAudiences = trainingAudiences;
     }
 }

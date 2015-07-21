@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "currentList")
+@Table(name = "current_list")
 public class CurrentList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,28 +13,32 @@ public class CurrentList {
     private int id;
 
     @NotEmpty
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User visitor;
 
     @NotEmpty
-    private long trainingId;
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
 
     public int getId() {
         return id;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getVisitor() {
+        return visitor;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setVisitor(User visitor) {
+        this.visitor = visitor;
     }
 
-    public long getTrainingId() {
-        return trainingId;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setTrainingId(long trainingId) {
-        this.trainingId = trainingId;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }

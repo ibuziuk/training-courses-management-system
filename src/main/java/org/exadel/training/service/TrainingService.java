@@ -10,6 +10,10 @@ public interface TrainingService {
 
     List<Training> getAllTraining();
 
+    List<Training> getFutureTrainings();
+
+    List<Training> getPastTrainings();
+
     List<Training> getTrainingsByName(String name);
 
     void updateTraining(Training training);

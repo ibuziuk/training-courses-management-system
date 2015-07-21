@@ -195,7 +195,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="training : ${trainingList}">
+                                        <tr th:each="training : ${futureList}">
                                             <td th:text="${training.title}"></td>
                                             <td th:text="${training.getDateOnString()}"></td>
                                             <td>12:00</td>
@@ -365,37 +365,14 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-info tags">#tag</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-default tags">#tag</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-success tags">#tag</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Item 1</td>
-                                            <td>Item 2</td>
-                                            <td>Item 3</td>
-                                            <td>Item 4</td>
-                                            <td>Item 5</td>
-                                            <td><span class="label label-warning tags">#tag</span></td>
+                                        <tr th:each="training : ${pastList}">
+                                            <td th:text="${training.title}"></td>
+                                            <td th:text="${training.getDateOnString()}"></td>
+                                            <td>12:00</td>
+                                            <td th:text="|#{label.unit} ${training.location}|"></td>
+                                            <td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
+                                            <td th:text="${training.currentLists.size()}+'/'+${training.maxVisitorsCount}"></td>
+                                            <td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -198,6 +198,7 @@
                                         <tr th:each="training : ${trainingList}">
                                             <td th:text="${training.title}"></td>
                                             <td th:text="${training.getDateOnString()}"></td>
+                                            <td>12:00</td>
                                             <td th:text="|#{label.unit} ${training.location}|"></td>
                                             <td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
                                             <td th:text="'2/'+${training.maxVisitorsCount}"></td>
@@ -206,6 +207,7 @@
                                         <tr>
                                             <td>JavaScript frameworks: Angular.js. How it works?</td>
                                             <td>5 May 2015</td>
+                                            <td>12:00</td>
                                             <td>Unit 243</td>
                                             <td>Shchaurouski Slava</td>
                                             <td>10/15</td>

@@ -1,3 +1,5 @@
+'use strict';
+
 var tabsCtrl = angular.module('tabsCtrl', []),
     tag = function(title, color) {
         return { 

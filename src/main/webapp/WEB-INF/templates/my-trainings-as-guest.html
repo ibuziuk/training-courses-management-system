@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="myTrainingsApp">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+
+    <title>My trainings</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+    <!-- Calendar CSS -->
+    <link href="../../resources/vendors/css/angular-bootstrap-calendar.css" th:href="@{/resources/vendors/css/angular-bootstrap-calendar.css}" rel="stylesheet" type="text/css" />
+
+    <!-- ng-table CSS -->
+    <link href="../../resources/vendors/css/ng-table.css" th:href="@{/resources/vendors/css/ng-table.css}" />
+
+    <!-- jQuery -->
+    <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
+
+    <!-- Angular -->
+    <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+    <script src="../../resources/vendors/js/interact.js" th:src="@{/resources/vendors/js/interact.js}"></script>
+    <script src="../../resources/vendors/js/moment.js" th:src="@{/resources/vendors/js/moment.js}"></script>
+    <script src="../../resources/vendors/js/angular-bootstrap-calendar-tpls.js" th:src="@{/resources/vendors/js/angular-bootstrap-calendar-tpls.js}"></script>
+    <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+    <script src="../../resources/vendors/js/ng-table.js" th:src="@{/resources/vendors/js/ng-table.js}"></script>
+    <script src="../../resources/js/my-trainings-as-guest-app/app.js" th:src="@{/resources/js/my-trainings--as-guest-app/app.js}"></script>
+    <script src="../../resources/js/my-trainings-as-guest-app/future-tab-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/future-tab-ctrl.js}"></script>
+    <script src="../../resources/js/my-trainings-as-guest-app/history-tab-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/history-tab-ctrl.js}"></script>
+    <script src="../../resources/js/my-trainings-as-guest-app/wait-tab-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/wait-tab-ctrl.js}"></script>
+    <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+</head>
+
+<body>
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+            </a>
+        </div>
+
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <li class="active">
+                <a href = "welcome.html" th:href="@{/welcome}">
+                    <i class = "fa fa-fw fa-user"></i>
+                    <span sec:authentication="name"></span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="#" th:href="@{/logout}" id="logout">
+                    <i class="fa fa-fw fa-power-off"></i>
+                    Log out
+                </a>
+            </li>
+
+            <ul class="nav navbar-right top-nav language-panel">
+                <li><a class="lang" href = "all-trainings.html">En</a></li>
+                <li><a class="lang" href = "all-trainings.html">Ru</a></li>
+            </ul>
+        </ul>
+
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse" collapse="isCollapsed">
+            <ul class="nav navbar-nav side-nav" id = "left-menu">
+                <li id = "alltrainings">
+                    <a href="all-trainings.html" th:href="@{/training/all}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        All trainings
+                    </a>
+                </li>
+                <li id = "mytrainings">
+                    <a href="#" ng-click="isCollapsed2=!isCollapsed2">
+                        <i class="fa fa-fw fa-circle"></i>
+                        My trainings
+                        <i class="fa fa-fw fa-caret-down"></i>
+                    </a>
+                    <ul collapse="isCollapsed2">
+                        <li>
+                            <a href="my-trainings-as-trainer.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                As a trainer
+                            </a>
+                        </li>
+                        <li>
+                            <a href="my-trainings-as-guest.html">
+                                <i class="fa fa-fw fa-angle-right"></i>
+                                As a guest
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li id = "newtraining">
+                    <a href="new-training.html" th:href="@{/training/new}">
+                        <i class="fa fa-fw fa-circle"></i>
+                        Create new training
+                    </a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
+                    <a href="new-trainer.html">
+                        <i class="fa fa-fw fa-circle"></i>
+                        Add new external trainer
+                    </a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
+                    <a href="users.html">
+                        <i class="fa fa-fw fa-circle"></i>
+                        Users
+                    </a>
+                </li>
+                <li id = "copyright">
+                    <footer>
+                        <span>©Exadel, Inc. All Rights Reserved.</span>
+                    </footer>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- /Navigation -->
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        My trainings <small>as a guest</small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /Page Heading -->
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#fut" data-toggle="tab">Future trainings</a></li>
+                    <li><a href="#hist" data-toggle="tab">History of trainings</a></li>
+                    <li><a href="#wait" data-toggle="tab">Waiting list</a></li>
+                </ul>
+            </div>
+            <!-- /Tabs -->
+
+            <!-- Tab content -->
+            <div class="tab-content panel panel-default panel-body">
+
+                <!-- Future -->
+                <div class="tab-pane fade in active" id="fut" ng-controller="futureTabCtrl as vm">
+
+                    <!-- Switcher -->
+                    <div class="row switcher">
+                        <div class="btn-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label class="btn btn-primary active" ng-model="switcher.view" btn-radio="'table'">Table</label>
+                            <label class="btn btn-primary" ng-model="switcher.view" btn-radio="'calendar'">Calendar</label>
+                        </div>
+                    </div>
+                    <!-- /Switcher -->
+
+                    <!-- Table view -->
+                    <div ng-show="switcher.view == 'table'">
+                        <!-- Search row -->
+                        <div class="search-row row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">
+                                <select class="form-control">
+                                    <option>By training title</option>
+                                    <option>By trainer name</option>
+                                    <option>By tags</option>
+                                    <option>By date</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Type here" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Search</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover" ng-table>
+                                <tr ng-repeat="training in trainings">
+                                    <td data-title="'Title'">{{training.title}}</td>
+                                    <td data-title="'Date'">{{training.date}}</td>
+                                    <td data-title="'Location'">{{training.location}}</td>
+                                    <td data-title="'Trainer name'">{{training.trainerName}}</td>
+                                    <td data-title="'Places'">{{training.places}}</td>
+                                    <td data-title="'Tags'">
+                                        <span ng-repeat="tag in training.tags" class="label tags label-{{tag.color}}">{{tag.value}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /Table view -->
+
+                    <!-- Calendar-view -->
+                    <div ng-show="switcher.view == 'calendar'">
+                        <!-- Button group -->
+                        <div class="row calendar-button-group">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="btn-group">
+                                                <button
+                                                        class="btn btn-primary"
+                                                        mwl-date-modifier
+                                                        date="vm.calendarDay"
+                                                        decrement="vm.calendarView">
+                                                    Previous
+                                                </button>
+                                                <button
+                                                        class="btn btn-default"
+                                                        mwl-date-modifier
+                                                        date="vm.calendarDay"
+                                                        set-to-today>
+                                                    Today
+                                                </button>
+                                                <button
+                                                        class="btn btn-primary"
+                                                        mwl-date-modifier
+                                                        date="vm.calendarDay"
+                                                        increment="vm.calendarView">
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <h2 class="text-center calendar-title">{{ vm.calendarTitle }}</h2>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="btn-group right-calendar-buttons">
+                                                <label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'year'">Year</label>
+                                                <label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'month'">Month</label>
+                                                <label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'week'">Week</label>
+                                                <label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'day'">Day</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Button group -->
+
+                        <!-- Calendar -->
+                        <div class="calendar">
+                            <mwl-calendar
+                                    events="vm.events"
+                                    view="vm.calendarView"
+                                    view-title="vm.calendarTitle"
+                                    current-day="vm.calendarDay"
+                                    on-event-click="vm.eventClicked(calendarEvent)"
+                                    on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+                                    edit-event-html="'<a target=\'_blank\' href=\'trainings-edit.html\'><i class=\'glyphicon glyphicon-pencil calendar-icons\'></i></a>'"
+                                    delete-event-html="'<i class=\'glyphicon glyphicon-remove calendar-icons\'></i>'"
+                                    on-edit-event-click="vm.eventEdited(calendarEvent)"
+                                    on-delete-event-click="vm.eventDeleted(calendarEvent)"
+                                    auto-open="true"
+                                    day-view-start="06:00"
+                                    day-view-end="22:00"
+                                    day-view-split="30"
+                                    cell-modifier="vm.modifyCell(calendarCell)">
+                            </mwl-calendar>
+                        </div>
+                        <!-- /Calendar -->
+                    </div>
+                    <!-- Calendar-view -->
+                </div>
+                <!-- /Future -->
+
+                <!-- History -->
+                <div class="tab-pane fade in" id="hist" ng-controller="historyTabCtrl as vm">
+
+                    <!-- Switcher -->
+                    <div class="row switcher">
+                        <div class="btn-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label class="btn btn-primary active" ng-model="switcher.view" btn-radio="'table'">Table</label>
+                            <label class="btn btn-primary" ng-model="switcher.view" btn-radio="'calendar'">Calendar</label>
+                        </div>
+                    </div>
+                    <!-- /Switcher -->
+                </div>
+                <!-- /History -->
+
+                <!-- Wait -->
+                <div class="tab-pane fade in" id="wait" ng-controller="waitTabCtrl as vm">
+
+                    <!-- Switcher -->
+                    <div class="row switcher">
+                        <div class="btn-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label class="btn btn-primary active" ng-model="switcher.view" btn-radio="'table'">Table</label>
+                            <label class="btn btn-primary" ng-model="switcher.view" btn-radio="'calendar'">Calendar</label>
+                        </div>
+                    </div>
+                    <!-- /Switcher -->
+                </div>
+                <!-- /Wait -->
+            </div>
+            <!-- /Tab content -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+</body>
+</html>

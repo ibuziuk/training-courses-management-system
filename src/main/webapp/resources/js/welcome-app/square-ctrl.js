@@ -1,3 +1,5 @@
+'use strict';
+
 var squareCtrl = angular.module('squareCtrl', []);
 
 squareCtrl.controller('squareCtrl', ['$scope', function($scope){

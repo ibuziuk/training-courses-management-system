@@ -281,13 +281,13 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
                 }
             }
             
-           /*var res = $http.post('/savecompany_json', training);
+           var res = $http.post('/rest/training', training);
 		   res.success(function(data, status, headers, config) {
                $scope.message = data;
 		   });
 		   res.error(function(data, status, headers, config) {
                alert( "failure message: " + JSON.stringify({data: data}));
-           });	*/
+           });
             
            trainings.push(training);
         } 

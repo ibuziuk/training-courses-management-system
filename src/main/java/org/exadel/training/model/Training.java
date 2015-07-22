@@ -194,14 +194,12 @@ public class Training {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Training training = (Training) o;
-        if (trainingId != training.trainingId) return false;
-        return true;
+        return trainingId == training.trainingId;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (trainingId ^ (trainingId >>> 32));
-        return result;
+        return (int) (trainingId ^ (trainingId >>> 32));
     }
 
     public boolean isApproved() {
@@ -212,7 +210,7 @@ public class Training {
         this.isApproved = isApproved;
     }
 
-    public String getDateOnString(){
+    public String getDateOnString() {
         TrainingUtil trainingUtil = new TrainingUtil();
         return trainingUtil.DateToString(this.date);
     }

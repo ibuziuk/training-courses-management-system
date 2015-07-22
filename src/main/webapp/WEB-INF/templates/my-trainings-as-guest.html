@@ -26,7 +26,9 @@
     <link href="../../resources/vendors/css/ng-table.css" th:href="@{/resources/vendors/css/ng-table.css}" />
 
     <!-- jQuery -->
-    <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js"></script>
+    <script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
+
+    <script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
@@ -38,7 +40,7 @@
     <script src="../../resources/vendors/js/angular-bootstrap-calendar-tpls.js" th:src="@{/resources/vendors/js/angular-bootstrap-calendar-tpls.js}"></script>
     <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
     <script src="../../resources/vendors/js/ng-table.js" th:src="@{/resources/vendors/js/ng-table.js}"></script>
-    <script src="../../resources/js/my-trainings-as-guest-app/app.js" th:src="@{/resources/js/my-trainings--as-guest-app/app.js}"></script>
+    <script src="../../resources/js/my-trainings-as-guest-app/app.js" th:src="@{/resources/js/my-trainings-as-guest-app/app.js}"></script>
     <script src="../../resources/js/my-trainings-as-guest-app/future-tab-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/future-tab-ctrl.js}"></script>
     <script src="../../resources/js/my-trainings-as-guest-app/history-tab-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/history-tab-ctrl.js}"></script>
     <script src="../../resources/js/my-trainings-as-guest-app/wait-tab-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/wait-tab-ctrl.js}"></script>
@@ -74,13 +76,13 @@
             <li class="active">
                 <a href="#" th:href="@{/logout}" id="logout">
                     <i class="fa fa-fw fa-power-off"></i>
-                    Log out
+                    <span th:text="#{label.logout}">Log out</span>
                 </a>
             </li>
 
             <ul class="nav navbar-right top-nav language-panel">
-                <li><a class="lang" href = "all-trainings.html">En</a></li>
-                <li><a class="lang" href = "all-trainings.html">Ru</a></li>
+                <li><a class="lang" href = "my-trainings-as-guest.html">En</a></li>
+                <li><a class="lang" href = "my-trainings-as-guest.html">Ru</a></li>
             </ul>
         </ul>
 
@@ -90,26 +92,26 @@
                 <li id = "alltrainings">
                     <a href="all-trainings.html" th:href="@{/training/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        All trainings
+                        <span th:text="#{label.allTrainings}">All trainings</span>
                     </a>
                 </li>
                 <li id = "mytrainings">
                     <a href="#" ng-click="isCollapsed2=!isCollapsed2">
                         <i class="fa fa-fw fa-circle"></i>
-                        My trainings
+                        <span th:text="#{label.myTrainings}">My trainings</span>
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
                     <ul collapse="isCollapsed2">
                         <li>
-                            <a href="my-trainings-as-trainer.html">
+                            <a href="../my-trainings/my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a trainer
+                                <span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
                             </a>
                         </li>
                         <li>
-                            <a href="my-trainings-as-guest.html">
+                            <a href="my-trainings-as-guest.html" th:href="@{/training/my}">
                                 <i class="fa fa-fw fa-angle-right"></i>
-                                As a guest
+                                <span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
                             </a>
                         </li>
                     </ul>
@@ -117,24 +119,24 @@
                 <li id = "newtraining">
                     <a href="new-training.html" th:href="@{/training/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Create new training
+                        <span th:text="#{label.newTraining}">Create new training</span>
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
-                    <a href="new-trainer.html">
+                    <a href="new-trainer.html" th:href="@{/trainer/new}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Add new external trainer
+                        <span th:text="#{label.newTainer}">Add new external trainer</span>
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-                    <a href="users.html">
+                    <a href="users.html" th:href="@{/user/all}">
                         <i class="fa fa-fw fa-circle"></i>
-                        Users
+                        <span th:text="#{label.users}">Users</span>
                     </a>
                 </li>
                 <li id = "copyright">
                     <footer>
-                        <span>©Exadel, Inc. All Rights Reserved.</span>
+                        <span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
                     </footer>
                 </li>
             </ul>
@@ -205,7 +207,7 @@
                         <!-- /.row -->
 
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover" ng-table>
+                            <table class="table table-bordered table-striped table-hover" ng-table="">
                                 <tr ng-repeat="training in trainings">
                                     <td data-title="'Title'">{{training.title}}</td>
                                     <td data-title="'Date'">{{training.date}}</td>
@@ -232,21 +234,21 @@
                                             <div class="btn-group">
                                                 <button
                                                         class="btn btn-primary"
-                                                        mwl-date-modifier
+                                                        mwl-date-modifier=""
                                                         date="vm.calendarDay"
                                                         decrement="vm.calendarView">
                                                     Previous
                                                 </button>
                                                 <button
                                                         class="btn btn-default"
-                                                        mwl-date-modifier
+                                                        mwl-date-modifier=""
                                                         date="vm.calendarDay"
-                                                        set-to-today>
+                                                        set-to-today="">
                                                     Today
                                                 </button>
                                                 <button
                                                         class="btn btn-primary"
-                                                        mwl-date-modifier
+                                                        mwl-date-modifier=""
                                                         date="vm.calendarDay"
                                                         increment="vm.calendarView">
                                                     Next
@@ -279,8 +281,8 @@
                                     current-day="vm.calendarDay"
                                     on-event-click="vm.eventClicked(calendarEvent)"
                                     on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-                                    edit-event-html="'<a target=\'_blank\' href=\'trainings-edit.html\'><i class=\'glyphicon glyphicon-pencil calendar-icons\'></i></a>'"
-                                    delete-event-html="'<i class=\'glyphicon glyphicon-remove calendar-icons\'></i>'"
+                                    edit-event-html=""
+                                    delete-event-html=""
                                     on-edit-event-click="vm.eventEdited(calendarEvent)"
                                     on-delete-event-click="vm.eventDeleted(calendarEvent)"
                                     auto-open="true"

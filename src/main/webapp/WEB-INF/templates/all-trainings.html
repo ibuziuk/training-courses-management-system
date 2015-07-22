@@ -29,6 +29,7 @@
 
     <!-- Angular -->
     <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+    <script src="../../resources/vendors/js/angular-route.js" th:src="@{/resources/vendors/js/angular-route.js}"></script>
     <script src="../../resources/js/all-trainings-app/app.js" th:src="@{/resources/js/all-trainings-app/app.js}"></script>
     <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
     <script src="../../resources/js/all-trainings-app/tabs-ctrl.js" th:src="@{/resources/js/all-trainings-app/tabs-ctrl.js}"></script>
@@ -90,14 +91,14 @@
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
                     <ul collapse="isCollapsed2">
-                        <li>
+                        <li ng-click="">
                             <a href="my-trainings.html">
                                 <i class="fa fa-fw fa-angle-right"></i>
                                 <span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="my-trainings.html">
+                        <li ng-click="">
+                            <a href="my-trainings-as-guest.html" th:href="@{/training/my}">
                                 <i class="fa fa-fw fa-angle-right"></i>
                                 <span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
                             </a>

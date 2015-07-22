@@ -27,4 +27,9 @@ public class TrainingController {
     public String newTraining() {
         return "new-training";
     }
+
+    @RequestMapping(value = "/my", method = RequestMethod.GET)
+    public String myTraining() {
+        return "my-trainings-as-guest";
+    }
 }

@@ -4867,14 +4867,15 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pager li > span {
   display: inline-block;
   padding: 5px 14px;
-  background-color: #fff;
+  background-color: #1A394C;
+  color: white;
   border: 1px solid #ddd;
   border-radius: 15px;
 }
 .pager li > a:hover,
 .pager li > a:focus {
   text-decoration: none;
-  background-color: #eee;
+  background-color: #1A394C;
 }
 .pager .next > a,
 .pager .next > span {
@@ -4888,9 +4889,9 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pager .disabled > a:hover,
 .pager .disabled > a:focus,
 .pager .disabled > span {
-  color: #777;
+  color: white;
   cursor: not-allowed;
-  background-color: #fff;
+  background-color: #1A394C;
 }
 .label {
   display: inline;

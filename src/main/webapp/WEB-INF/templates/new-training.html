@@ -51,7 +51,6 @@
 
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
-            <!--TODO!!! dynamic-->
             <li class="active">
                 <a href = "welcome.html" th:href="@{/welcome}">
                     <i class = "fa fa-fw fa-user"></i>
@@ -78,14 +77,14 @@
 
                 <li id = "alltrainings">
                     <a href="all-trainings.html" th:href="@{/training/all}">
-                        <i class="fa fa-fw fa-circle"></i>
+                        <i class="fa fa-fw fa-circle-o"></i>
                         <span th:text="#{label.allTrainings}">All trainings</span>
                     </a>
                 </li>
 
                 <li id="mytrainings">
                     <a href="#" ng-click="isCollapsed2=!isCollapsed2">
-                        <i class="fa fa-fw fa-circle"></i>
+                        <i class="fa fa-fw fa-circle-o"></i>
                         <span th:text="#{label.myTrainings}">My trainings</span>
                         <i class="fa fa-fw fa-caret-down"></i>
                     </a>
@@ -116,14 +115,14 @@
 
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
                     <a href="new-trainer.html" th:href="@{/trainer/new}">
-                        <i class="fa fa-fw fa-circle"></i>
+                        <i class="fa fa-fw fa-circle-o"></i>
                         <span th:text="#{label.newTainer}">Add new external trainer</span>
                     </a>
                 </li>
 
                 <li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
                     <a href="users.html" th:href="@{/user/all}">
-                        <i class="fa fa-fw fa-circle"></i>
+                        <i class="fa fa-fw fa-circle-o"></i>
                         <span th:text="#{label.users}">Users</span>
                     </a>
                 </li>

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "absence")
+@Table(name = "regular_lesson")
 public class RegularLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

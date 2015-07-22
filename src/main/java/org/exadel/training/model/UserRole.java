@@ -11,4 +11,7 @@ public class UserRole {
     private int id;
 
 
+    public int getId() {
+        return id;
+    }
 }

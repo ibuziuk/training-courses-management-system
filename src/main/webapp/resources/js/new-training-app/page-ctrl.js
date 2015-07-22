@@ -4,6 +4,9 @@ var pageCtrl = angular.module('pageCtrl', []);
 
 pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.submitLink = '#';
+    $scope.errorText = '';
+    
+    window.scope = $scope;
     
     /* Checkboxes Page 1 */
     
@@ -157,7 +160,6 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
         var trainings = [];
         
         for (var i = 0; i < $scope.qDescr; i++){
-        
             var training = {};
 
             /* Tags */
@@ -169,8 +171,11 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
 
             if (training.tags.length == 0){
-                alert('You shoud choose at list one tag!');
-                return false;
+                $scope.errorText = 'You shoud choose at list one tag!';
+                return;
+            }
+            else {
+                $scope.errorText = '';
             }
 
             /* Audience */
@@ -182,8 +187,11 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
 
             if (training.audience.length == 0){
-                alert('You shoud choose an audience for your training!');
-                return false;
+                $scope.errorText = 'You shoud choose an audience for your training!';
+                return;
+            }
+            else {
+                $scope.errorText = '';
             }
 
             /* Type of training */
@@ -192,15 +200,27 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             /* Repetition frequency */
             training.regular = ($scope.toShowRepet == 'Weekly ') ? true : false;
             
+            if ($scope.toShowRepet == 'Weekly ' || $scope.toShowRepet == 'Continuous '){
+                if ($scope.days == undefined || $scope.days.length == 0){
+                    $scope.errorText = 'You shoud enter quantity of days!';
+                    return;
+                }
+                else
+                    $scope.errorText = '';
+            }
+            
             /* Training language */
             training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
             
             /* Training name */
             training.title = $scope.trainingName;
             
-            if (training.title.length == 0){
-                alert('You should enter the name of your training!');
-                return false;
+            if (training.title == undefined || training.title.length == 0){
+                $scope.errorText = 'You should enter the name of your training!';
+                return;
+            }
+            else {
+                $scope.errorText = '';
             }
             
             if ($scope.toShowRepet == 'Continuous '){
@@ -210,47 +230,64 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             /* Training description */
             training.description = $scope.descriptions[i].text;
             
-            if (training.description.length == 0){
-                alert('You should enter the name of your training!');
-                return false;
+            if (training.description == undefined || training.description.length == 0){
+                $scope.errorText = 'You should enter the description of your training!';
+                return;
+            }
+            else {
+                $scope.errorText = '';
             }
             
             /* Training visitors */
             training.visitors = $scope.guests;
             
-            if (training.visitors.length == 0){
-                alert('You should enter quantity of guests!');
-                return false;
+            if (training.visitors == undefined || training.visitors.length == 0){
+                $scope.errorText = 'You should enter quantity of guests!';
+                return;
+            }
+            else {
+                $scope.errorText = '';
             }
             
             /* Training duration */
             training.duration = $scope.duration;
             
-            if (training.duration.length == 0){
-                alert('You should enter quantity of guests!');
-                return false;
+            if (training.duration == undefined || training.duration.length == 0){
+                $scope.errorText = 'You should enter duration!';
+                return;
+            }
+            else {
+                $scope.errorText = '';
             }
             
             /* Training dates */
             training.days = '';
             training.startTime = [];
             training.rooms = [];
+            training.dates = [];
             
             if ($scope.toShowRepet == 'Weekly '){
                 for (var j = 0; j < $scope.datepickers.length; j++){
-                    training.startTime.push($scope.datepickers[j].time.toLocaleTimeString);
+                    training.startTime.push($scope.datepickers[j].time.toLocaleTimeString());
                     training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
                     training.rooms += $scope.datepickers[j].room;
                 }
             }
+            else if ($scope.toShowRepet == 'Continuous ' || $scope.toShowRepet == 'One-off '){
+                for (var j = 0; j < $scope.datepickers.length; j++){
+                    training.startTime.push($scope.datepickers[j].time.toLocaleTimeString());
+                    training.rooms += $scope.datepickers[j].room;
+                    training.dates.push($scope.datepickers[j].dt.toDateString());
+                }
+            }
             
-           var res = $http.post('/savecompany_json', training);
+           /*var res = $http.post('/savecompany_json', training);
 		   res.success(function(data, status, headers, config) {
                $scope.message = data;
 		   });
 		   res.error(function(data, status, headers, config) {
                alert( "failure message: " + JSON.stringify({data: data}));
-           });	
+           });	*/
             
            trainings.push(training);
         } 

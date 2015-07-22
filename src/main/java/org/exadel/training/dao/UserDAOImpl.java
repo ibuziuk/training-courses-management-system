@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.hibernate.SessionFactory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
@@ -15,7 +18,8 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getAllUsers() {
-        return sessionFactory.getCurrentSession().createCriteria(User.class).list();
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(User.class).list());
+        return new ArrayList<>(result);
     }
 
     @SuppressWarnings("unchecked")

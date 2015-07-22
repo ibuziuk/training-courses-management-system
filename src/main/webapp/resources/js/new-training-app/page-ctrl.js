@@ -64,9 +64,9 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
     var types = ['Inner training ', 'Outer training '];
     var languages = ['English ', 'Russian '];
     
-    $scope.toShowRepet = repetitions[0];
-    $scope.toShowType = types[0];
-    $scope.toShowLanguage = languages[0];
+    $scope.toShowRepet = 'Select repetition ';
+    $scope.toShowType = 'Select type ';
+    $scope.toShowLanguage = 'Select language ';
 
     $scope.chooseRepet = function(rep){
         $scope.toShowRepet = repetitions[rep];
@@ -82,12 +82,12 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
     
     /* Descriptions Page 3 */
     
-    $scope.qDescr = 1;
+    $scope.qDescr = 0;
     
     $scope.toShow = function(){     
         if ($scope.toShowRepet == 'One-off ' || $scope.toShowRepet == 'Weekly ')
             $scope.qDescr = 1;
-        else 
+        else if ($scope.toShowRepet == 'Continuous ')
             $scope.qDescr = $scope.days;
     
         $scope.descriptions = [];
@@ -159,6 +159,11 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.trainingCreation = function(){
         var trainings = [];
         
+        if ($scope.qDescr == 0){
+            $scope.errorText = 'You shoud choose the repetition of your training!';
+            return;
+        }
+            
         for (var i = 0; i < $scope.qDescr; i++){
             var training = {};
 
@@ -195,10 +200,20 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
 
             /* Type of training */
-            training.type = ($scope.toShowType == 'Inner training ') ? false : true;
+            if ($scope.toShowType != 'Select type ')
+                training.type = ($scope.toShowType == 'Inner training ') ? false : true;
+            else {
+                $scope.errorText = 'You shoud choose the type of your training!';
+                return;
+            }
             
             /* Repetition frequency */
-            training.regular = ($scope.toShowRepet == 'Weekly ') ? true : false;
+            if ($scope.toShowRepet != 'Select repetition ')
+                training.regular = ($scope.toShowRepet == 'Weekly ') ? true : false;
+            else {
+                $scope.errorText = 'You shoud choose the repetition of your training!';
+                return;
+            }
             
             if ($scope.toShowRepet == 'Weekly ' || $scope.toShowRepet == 'Continuous '){
                 if ($scope.days == undefined || $scope.days.length == 0){
@@ -210,7 +225,12 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
             
             /* Training language */
-            training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
+            if ($scope.toShowLanguage != 'Select language ')
+                training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
+            else {
+                $scope.errorText = 'You shoud choose the language of your training!';
+                return;
+            }
             
             /* Training name */
             training.title = $scope.trainingName;

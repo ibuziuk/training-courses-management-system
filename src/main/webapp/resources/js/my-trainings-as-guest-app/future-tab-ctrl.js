@@ -9,7 +9,7 @@ futureTabCtrl.controller('futureTabCtrl', ['$scope', '$http', function($scope, $
     vm.calendarDay = new Date();
     vm.calendarView = 'month';
 
-    $http.get('events.json').success (function(data, status, headers, config) {
+    $http.get('/training/my').success (function(data, status, headers, config) {
         vm.events = data;
     }).error(function() {
         vm.events = [];

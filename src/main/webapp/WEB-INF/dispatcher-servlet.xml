@@ -55,7 +55,7 @@
         <property name="host" value="${host}"/>
         <property name="port" value="${port}"/>
         <property name="username" value="${username}"/>
-        <property name="password" value="exadel3&amp;%"/>
+        <property name="password" value="${password}"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.transport.protocol">${mail.transport.protocol}</prop>
@@ -79,7 +79,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
           p:url="${jdbc.databaseurl}" p:username="${jdbc.username}" p:password="${jdbc.password}" />

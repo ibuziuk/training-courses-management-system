@@ -1,1 +1,3 @@
-var newTrainingApp = angular.module('newTrainingApp', ['collapseCtrl', 'paginationCtrl', 'ui.bootstrap', 'checkboxCtrl', 'dropdownCtrl', 'pageCtrl']);
+
+'use strict';
+var newTrainingApp = angular.module('newTrainingApp', ['collapseCtrl', 'paginationCtrl', 'pageCtrl', 'ui.bootstrap']);

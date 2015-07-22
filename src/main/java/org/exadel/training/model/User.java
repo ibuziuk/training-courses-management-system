@@ -33,8 +33,11 @@ public class User {
     @Column(name = "e_mail", unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Training> trainings;
+
+    @OneToMany(mappedBy = "visitor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private Set<CurrentList> currentLists;
 
     public long getUserId() {
         return userId;
@@ -86,5 +89,21 @@ public class User {
 
     public void setSurname(String soname) {
         this.surname = soname;
+    }
+
+    public Set<Training> getTrainings() {
+        return trainings;
+    }
+
+    public void setTrainings(Set<Training> trainings) {
+        this.trainings = trainings;
+    }
+
+    public Set<CurrentList> getCurrentLists() {
+        return currentLists;
+    }
+
+    public void setCurrentLists(Set<CurrentList> currentLists) {
+        this.currentLists = currentLists;
     }
 }

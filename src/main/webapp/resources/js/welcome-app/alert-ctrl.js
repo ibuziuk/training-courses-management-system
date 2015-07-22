@@ -1,3 +1,5 @@
+'use strict';
+
 var alertCtrl = angular.module('alertCtrl', []);
 
 alertCtrl.controller('alertCtrl', ['$scope', '$sce', function($scope, $sce){

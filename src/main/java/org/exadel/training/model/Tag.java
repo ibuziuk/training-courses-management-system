@@ -17,6 +17,8 @@ public class Tag {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
     private Set<TrainingTag> trainingTags;
 
+    private String color;
+
     public int getTagId() {
         return tagId;
     }
@@ -35,5 +37,13 @@ public class Tag {
 
     public void setTrainingTags(Set<TrainingTag> trainingTags) {
         this.trainingTags = trainingTags;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

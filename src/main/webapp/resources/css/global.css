@@ -326,7 +326,7 @@ ul.alert-dropdown {
 .panel-yellow > a:hover {
     color: #df8a13;
 }
-#search-select {
+.search-select {
 	padding-right: 0;
 }
 
@@ -348,12 +348,12 @@ ul.alert-dropdown {
     float: right;
 }
 
-.calendar-button-group {
-    margin-top: 45px;
+.calendar {
+    padding-bottom: 15px;
 }
 
-.calendar {
-    padding-bottom: 50px;
+.switcher {
+    padding-bottom: 15px;
 }
 
 .calendar-icons {

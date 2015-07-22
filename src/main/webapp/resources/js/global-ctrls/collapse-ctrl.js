@@ -1,3 +1,5 @@
+'use strict';
+
 var collapseCtrl = angular.module('collapseCtrl', []);
 
 collapseCtrl.controller('collapseCtrl', function ($scope) {

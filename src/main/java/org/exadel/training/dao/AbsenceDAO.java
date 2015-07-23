@@ -7,5 +7,7 @@ import java.util.List;
 public interface AbsenceDAO {
     void addAbsence(Absence absence);
 
+    void updateAbsence(Absence absence);
+
     List<Absence> getAllAbsences();
 }

@@ -26,14 +26,18 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getUsersByName(String name) {
-        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.name = :name").setString("name", name).list();
+    public User getUserByLogin(String login) {
+        List<User> list = sessionFactory.getCurrentSession().createQuery("FROM User WHERE login = :login").setString("login", login).list();
+        if(list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getUsersByRole(int role) {
-        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.roleId = :role").setInteger("role", role).list();
+    public List<User> getUsersByName(String name) {
+        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.name = :name").setString("name", name).list();
     }
 
     @Override

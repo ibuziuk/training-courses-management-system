@@ -15,17 +15,13 @@
         <security:intercept-url pattern="/trainer/new" access="hasRole('ROLE_ADMIN')" />
         <security:intercept-url pattern="/user/all" access="hasRole('ROLE_ADMIN')" />
         <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" />
+        <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" user-service-ref="userDetailsServiceImpl"/>
         <security:csrf disabled="true"/>
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider>
+        <security:authentication-provider user-service-ref="myUserDetailsService">
             <security:password-encoder ref="bCryptPasswordEncoder" />
-            <security:user-service>
-                <security:user name="user" password="$2a$10$sdDp3Pm8BCoBmsRqV7LYPONjtctN9o0M5vFv76SUJ7tiZqLolPJbC" authorities="ROLE_USER" />
-                <security:user name="admin" password="$2a$10$P/sxbK0Y0.GfcFqhSNHFQezkHaYqFGuM1VDNFJngd0LVl0P.tXn2O" authorities="ROLE_USER, ROLE_ADMIN" />
-            </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
 

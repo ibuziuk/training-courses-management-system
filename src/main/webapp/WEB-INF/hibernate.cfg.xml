@@ -8,6 +8,7 @@
         <mapping class="org.exadel.training.model.Training"/>
         <mapping class="org.exadel.training.model.User"/>
         <mapping class="org.exadel.training.model.Role"/>
+        <mapping class="org.exadel.training.model.UserRole"/>
         <mapping class="org.exadel.training.model.Tag"/>
         <mapping class="org.exadel.training.model.TrainingTag"/>
         <mapping class="org.exadel.training.model.CurrentList"/>

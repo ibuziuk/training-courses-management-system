@@ -20,8 +20,12 @@
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref="myUserDetailsService">
+        <security:authentication-provider>
             <security:password-encoder ref="bCryptPasswordEncoder" />
+            <security:user-service>
+                <security:user name="admin" password="$2a$10$P/sxbK0Y0.GfcFqhSNHFQezkHaYqFGuM1VDNFJngd0LVl0P.tXn2O" authorities="ROLE_ADMIN, ROLE_USER" />
+                <security:user name="user" password="$2a$10$xz2g47uSBjkXvjrtJhaSyuh6oqdxneIghjsk1ckdKPAkbfNKNoxry" authorities="ROLE_USER"/>
+            </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
 </beans>

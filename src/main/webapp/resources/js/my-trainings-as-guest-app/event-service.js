@@ -1,4 +1,4 @@
-angular.module('eventService').factory('eventService', [function() {
+angular.module('myTrainingsApp').factory('event', [function() {
     var service = [];
 
     var event = function(title, type, startsAt, endsAt, editable, deletable, draggable, resizable, incrementsBadgeTotal) {

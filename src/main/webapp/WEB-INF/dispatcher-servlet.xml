@@ -105,4 +105,6 @@
     </bean>
 
     <bean id="myUserDetailsService" class="org.exadel.training.service.UserDetailsServiceImpl" />
+
+    <bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
 </beans>

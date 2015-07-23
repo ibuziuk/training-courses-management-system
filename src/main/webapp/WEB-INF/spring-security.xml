@@ -24,6 +24,4 @@
             <security:password-encoder ref="bCryptPasswordEncoder" />
         </security:authentication-provider>
     </security:authentication-manager>
-
-    <bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
 </beans>

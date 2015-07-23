@@ -12,8 +12,6 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
         html: false
     });
 
-    ngNotify.set('You shoud choose at list one tag!');
-
     /* Checkboxes Page 1 */
     
     $scope.checkboxTags = [
@@ -38,9 +36,9 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
 
 	$scope.selectAll = false;
 	
-	$scope.toggleSeleted = function() {
+	$scope.toggleSeleted = function(){
         $scope.selectAll = !$scope.selectAll;
-       	for (var i = 0; i < $scope.checkboxAudiences.length; i++) {
+        for (var i = 0; i < $scope.checkboxAudiences.length; i++) {
             $scope.checkboxAudiences[i].checked = $scope.selectAll;
         }
     };
@@ -166,7 +164,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
         var trainings = [];
         
         if ($scope.qDescr == 0){
-            //$scope.errorText = 'You shoud choose the repetition of your training!';
+            ngNotify.set('You shoud choose the repetition of your training!');
             return;
         }
             
@@ -182,11 +180,8 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
             }
 
             if (training.tags.length == 0){
-                //ngNotify.set('You shoud choose at list one tag!');
+                ngNotify.set('You shoud choose at list one tag!');
                 return;
-            }
-            else {
-                //$scope.errorText = '';
             }
 
             /* Audience */
@@ -198,18 +193,15 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
             }
 
             if (training.audience.length == 0){
-                //$scope.errorText = 'You shoud choose an audience for your training!';
+                ngNotify.set('You shoud choose an audience for your training!');
                 return;
-            }
-            else {
-                //$scope.errorText = '';
             }
 
             /* Type of training */
             if ($scope.toShowType != 'Select type ')
                 training.type = ($scope.toShowType == 'Inner training ') ? false : true;
             else {
-                //$scope.errorText = 'You shoud choose the type of your training!';
+                ngNotify.set('You shoud choose the type of your training!');
                 return;
             }
             
@@ -217,24 +209,22 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
             if ($scope.toShowRepet != 'Select repetition ')
                 training.regular = ($scope.toShowRepet == 'Weekly ') ? true : false;
             else {
-                //$scope.errorText = 'You shoud choose the repetition of your training!';
+                ngNotify.set('You shoud choose the repetition of your training!');
                 return;
             }
             
             if ($scope.toShowRepet == 'Weekly ' || $scope.toShowRepet == 'Continuous '){
                 if ($scope.days == undefined || $scope.days.length == 0){
-                    //$scope.errorText = 'You shoud enter quantity of days!';
+                    ngNotify.set('You shoud enter quantity of days!');
                     return;
                 }
-                else
-                    $scope.errorText = '';
             }
             
             /* Training language */
             if ($scope.toShowLanguage != 'Select language ')
                 training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
             else {
-                //$scope.errorText = 'You shoud choose the language of your training!';
+                ngNotify.set('You shoud choose the language of your training!');
                 return;
             }
             
@@ -242,11 +232,8 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
             training.title = $scope.trainingName;
             
             if (training.title == undefined || training.title.length == 0){
-                //$scope.errorText = 'You should enter the name of your training!';
+                ngNotify.set('You should enter the name of your training!');
                 return;
-            }
-            else {
-                $scope.errorText = '';
             }
             
             if ($scope.toShowRepet == 'Continuous '){
@@ -257,57 +244,50 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
             training.description = $scope.descriptions[i].text;
             
             if (training.description == undefined || training.description.length == 0){
-                //$scope.errorText = 'You should enter the description of your training!';
+                ngNotify.set('You should enter the description of your training!');
                 return;
-            }
-            else {
-                //$scope.errorText = '';
             }
             
             /* Training visitors */
             training.visitors = $scope.guests;
             
             if (training.visitors == undefined || training.visitors.length == 0){
-                //$scope.errorText = 'You should enter quantity of guests!';
+                ngNotify.set('You should enter quantity of guests!');
                 return;
-            }
-            else {
-                //$scope.errorText = '';
             }
             
             /* Training duration */
             training.duration = $scope.duration;
             
             if (training.duration == undefined || training.duration.length == 0){
-                //$scope.errorText = 'You should enter duration!';
+                ngNotify.set('You should enter duration!');
                 return;
             }
-            else {
-                //$scope.errorText = '';
-            }
-            
+        
             /* Training dates */
             training.days = '';
-            training.startTime = [];
             training.rooms = [];
             training.dates = [];
+            training.times = [];
             
             if ($scope.toShowRepet == 'Weekly '){
+                training.dates.push($scope.dateWeekly.getDate() + '.' + $scope.dateWeekly.getMonth() + '.' + $scope.dateWeekly.getYear());
                 for (var j = 0; j < $scope.datepickers.length; j++){
-                    training.startTime.push($scope.datepickers[j].time.toLocaleTimeString());
                     training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
+                    training.times.push($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
                     training.rooms += $scope.datepickers[j].room;
                 }
             }
             else if ($scope.toShowRepet == 'Continuous ' || $scope.toShowRepet == 'One-off '){
                 for (var j = 0; j < $scope.datepickers.length; j++){
-                    training.startTime.push($scope.datepickers[j].time.toLocaleTimeString());
                     training.rooms += $scope.datepickers[j].room;
-                    training.dates.push($scope.datepickers[j].dt.toDateString());
+                    var date = $scope.datepickers[j].dt.getDate()+'.'+$scope.datepickers[j].dt.getMonth()+'.'+$scope.datepickers[j].dt.getYear();
+                    training.dates.push(date);
+                    training.times.push($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
                 }
             }
             
-           var res = $http.post('/rest/training', training);
+           /*var res = $http.post('/rest/training', training);
 		   res.success(function(data, status, headers, config) {
                $scope.message = data;
 		   });
@@ -315,7 +295,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
                alert( "failure message: " + JSON.stringify({data: data}));
            });
             
-           trainings.push(training);
-        } 
+           trainings.push(training);*/
+        }
     }
 }]);

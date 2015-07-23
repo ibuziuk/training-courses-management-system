@@ -1,11 +1,9 @@
 'use strict';
 
-var pageCtrl = angular.module('pageCtrl', []);
-
-pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
+angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $http, ngNotify) {
     $scope.submitLink = '#';
     
-    /*ngNotify.config({
+    ngNotify.config({
         theme: 'pastel',
         position: 'bottom',
         duration: 3000,
@@ -13,13 +11,9 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
         sticky: true,
         html: false
     });
-    */
-    
-    //ngNotify.set('You shoud choose at list one tag!');
-    
-    
-    window.scope = $scope;
-    
+
+    ngNotify.set('You shoud choose at list one tag!');
+
     /* Checkboxes Page 1 */
     
     $scope.checkboxTags = [
@@ -68,7 +62,7 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
         }
         $scope.selectAll = true;
-    }
+    };
     
     /* Dropdowns Page 2 */
     
@@ -82,15 +76,15 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.chooseRepet = function(rep){
         $scope.toShowRepet = repetitions[rep];
-    }
+    };
 
     $scope.chooseType = function(rep){
         $scope.toShowType = types[rep];
-    }
+    };
   
     $scope.chooseLanguage = function(rep){
         $scope.toShowLanguage = languages[rep];
-    }
+    };
     
     /* Descriptions Page 3 */
     
@@ -116,7 +110,7 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
         
         $scope.today();
         return true;
-    }
+    };
     
     /* Date and time Page 5 */
     
@@ -162,7 +156,7 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.chooseWeekDay = function(rep, index){
         $scope.datepickers[index].whatChosen = rep;
         $scope.datepickers[index].toShowWeekDay = days[rep];
-    }
+    };
     
     $scope.toShow();
     

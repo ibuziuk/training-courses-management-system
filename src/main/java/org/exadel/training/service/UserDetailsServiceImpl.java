@@ -1,8 +1,8 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.UserDAO;
+import org.exadel.training.model.Role;
 import org.exadel.training.model.User;
-import org.exadel.training.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,14 +29,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Wrong login");
         }
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRoles());
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+    private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
         Set<GrantedAuthority> authoritySet = new HashSet<>();
-        for (UserRole userRole : userRoles) {
-            authoritySet.add(new SimpleGrantedAuthority(userRole.getRole().getRole()));
+        for (Role role : roles) {
+            authoritySet.add(new SimpleGrantedAuthority(role.getRole()));
         }
         return new ArrayList<>(authoritySet);
     }

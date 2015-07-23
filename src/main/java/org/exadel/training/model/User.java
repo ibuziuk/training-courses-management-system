@@ -30,8 +30,11 @@ public class User {
     @Column(name = "e_mail", unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "user")
-    private Set<UserRole> userRoles;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Training> trainings;
@@ -51,12 +54,12 @@ public class User {
         this.name = name;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getLogin() {

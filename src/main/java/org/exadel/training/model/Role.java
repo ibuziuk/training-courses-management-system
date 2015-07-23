@@ -17,8 +17,8 @@ public class Role {
     @Column(length = 20, unique = true, nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "role")
-    private Set<UserRole> userRoles;
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     public long getRoleId() {
         return roleId;
@@ -32,11 +32,11 @@ public class Role {
         return role;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

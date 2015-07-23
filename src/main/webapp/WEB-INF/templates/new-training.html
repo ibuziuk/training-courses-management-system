@@ -13,6 +13,9 @@
 
     <!-- Custom CSS -->
     <link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+    
+    <!-- ngNotify CSS -->
+    <link href="../../resources/vendors/css/ng-notify.min.css" th:href="@{/resources/vendors/css/ng-notify.min.css}"/>
 
     <!-- Custom Fonts -->
     <link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
@@ -25,6 +28,9 @@
     <!-- Angular -->
     <script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
     <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+    
+    <!-- ngNotify -->
+    <script src="../../resources/vendors/js/ng-notify.min.js" th:src="@{/resources/vendors/js/ng-notify.min.js}"></script>
 
     <!-- Angular controllers -->
     <script src="../../resources/js/new-training-app/app.js" th:src="@{/resources/js/new-training-app/app.js}"></script>
@@ -149,7 +155,7 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                <h4 style="color:red" ng-show="errorText.length != 0">{{errorText}}</h4>
+                
                 <pager total-items="totalItems" ng-model="currentPage"></pager>
 
                 <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">

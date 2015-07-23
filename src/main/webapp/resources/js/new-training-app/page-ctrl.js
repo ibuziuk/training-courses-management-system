@@ -4,7 +4,19 @@ var pageCtrl = angular.module('pageCtrl', []);
 
 pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.submitLink = '#';
-    $scope.errorText = '';
+    
+    /*ngNotify.config({
+        theme: 'pastel',
+        position: 'bottom',
+        duration: 3000,
+        type: 'error',
+        sticky: true,
+        html: false
+    });
+    */
+    
+    //ngNotify.set('You shoud choose at list one tag!');
+    
     
     window.scope = $scope;
     
@@ -160,7 +172,7 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
         var trainings = [];
         
         if ($scope.qDescr == 0){
-            $scope.errorText = 'You shoud choose the repetition of your training!';
+            //$scope.errorText = 'You shoud choose the repetition of your training!';
             return;
         }
             
@@ -176,11 +188,11 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
 
             if (training.tags.length == 0){
-                $scope.errorText = 'You shoud choose at list one tag!';
+                //ngNotify.set('You shoud choose at list one tag!');
                 return;
             }
             else {
-                $scope.errorText = '';
+                //$scope.errorText = '';
             }
 
             /* Audience */
@@ -192,18 +204,18 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             }
 
             if (training.audience.length == 0){
-                $scope.errorText = 'You shoud choose an audience for your training!';
+                //$scope.errorText = 'You shoud choose an audience for your training!';
                 return;
             }
             else {
-                $scope.errorText = '';
+                //$scope.errorText = '';
             }
 
             /* Type of training */
             if ($scope.toShowType != 'Select type ')
                 training.type = ($scope.toShowType == 'Inner training ') ? false : true;
             else {
-                $scope.errorText = 'You shoud choose the type of your training!';
+                //$scope.errorText = 'You shoud choose the type of your training!';
                 return;
             }
             
@@ -211,13 +223,13 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             if ($scope.toShowRepet != 'Select repetition ')
                 training.regular = ($scope.toShowRepet == 'Weekly ') ? true : false;
             else {
-                $scope.errorText = 'You shoud choose the repetition of your training!';
+                //$scope.errorText = 'You shoud choose the repetition of your training!';
                 return;
             }
             
             if ($scope.toShowRepet == 'Weekly ' || $scope.toShowRepet == 'Continuous '){
                 if ($scope.days == undefined || $scope.days.length == 0){
-                    $scope.errorText = 'You shoud enter quantity of days!';
+                    //$scope.errorText = 'You shoud enter quantity of days!';
                     return;
                 }
                 else
@@ -228,7 +240,7 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             if ($scope.toShowLanguage != 'Select language ')
                 training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
             else {
-                $scope.errorText = 'You shoud choose the language of your training!';
+                //$scope.errorText = 'You shoud choose the language of your training!';
                 return;
             }
             
@@ -236,7 +248,7 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             training.title = $scope.trainingName;
             
             if (training.title == undefined || training.title.length == 0){
-                $scope.errorText = 'You should enter the name of your training!';
+                //$scope.errorText = 'You should enter the name of your training!';
                 return;
             }
             else {
@@ -251,33 +263,33 @@ pageCtrl.controller('pageCtrl', ['$scope', '$http', function ($scope, $http) {
             training.description = $scope.descriptions[i].text;
             
             if (training.description == undefined || training.description.length == 0){
-                $scope.errorText = 'You should enter the description of your training!';
+                //$scope.errorText = 'You should enter the description of your training!';
                 return;
             }
             else {
-                $scope.errorText = '';
+                //$scope.errorText = '';
             }
             
             /* Training visitors */
             training.visitors = $scope.guests;
             
             if (training.visitors == undefined || training.visitors.length == 0){
-                $scope.errorText = 'You should enter quantity of guests!';
+                //$scope.errorText = 'You should enter quantity of guests!';
                 return;
             }
             else {
-                $scope.errorText = '';
+                //$scope.errorText = '';
             }
             
             /* Training duration */
             training.duration = $scope.duration;
             
             if (training.duration == undefined || training.duration.length == 0){
-                $scope.errorText = 'You should enter duration!';
+                //$scope.errorText = 'You should enter duration!';
                 return;
             }
             else {
-                $scope.errorText = '';
+                //$scope.errorText = '';
             }
             
             /* Training dates */

@@ -2,14 +2,16 @@
 
 var calendarController = angular.module('calendarController', []);
 
-calendarController.controller('calendarController', ['$scope', '$http', 'event', function($scope, $http, event){
+calendarController.controller('calendarController', ['$scope', '$http', 'event', 'moment', function($scope, $http, event, moment){
     var vm = this;
 
     vm.calendarDay = new Date();
     vm.calendarView = 'month';
+	$scope.events = [];
 
     $http.get('/rest/calendar').then(function(response) {
-        vm.events = event.parse(response.data);
+	    $scope.events = event.parse(response.data);
+	    vm.events = $scope.events;
     }, function() {
         console.log('error');
     });

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -22,5 +23,11 @@ public class TagServiceImpl implements TagService {
     @Transactional
     public Tag getTagById(int id) {
         return tagDAO.getTagById(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Tag> getAllTags(){
+        return tagDAO.getAllTags();
     }
 }

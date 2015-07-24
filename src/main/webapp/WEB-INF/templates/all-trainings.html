@@ -202,7 +202,7 @@
                                             <td>12:00</td>
                                             <td th:text="|#{label.unit} ${training.location}|"></td>
                                             <td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
-                                            <td th:text="'2/'+${training.maxVisitorsCount}"></td>
+                                            <td th:text="${training.currentLists.size()} + '/'+${training.maxVisitorsCount}"></td>
                                             <td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
                                         </tr>
                                         <tr>

@@ -19,6 +19,13 @@ public class AbsenceDAOImpl implements AbsenceDAO {
         }
     }
 
+    @Override
+    public void updateAbsence(Absence absence){
+        if(absence != null){
+            sessionFactory.getCurrentSession().update(absence);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Absence> getAllAbsences() {

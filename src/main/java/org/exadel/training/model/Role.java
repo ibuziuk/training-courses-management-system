@@ -3,6 +3,7 @@ package org.exadel.training.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -16,6 +17,9 @@ public class Role {
     @Column(length = 20, unique = true, nullable = false)
     private String role;
 
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+
     public long getRoleId() {
         return roleId;
     }
@@ -26,5 +30,13 @@ public class Role {
 
     public String getRole() {
         return role;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

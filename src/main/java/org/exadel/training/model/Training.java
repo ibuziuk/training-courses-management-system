@@ -1,5 +1,6 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.exadel.training.utils.TrainingUtil;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -62,14 +63,18 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name = "language_id")
+    @JsonIgnore
     private Language language;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingAudience> trainingAudiences;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingTag> trainingTags;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<CurrentList> currentLists;
 
@@ -194,14 +199,12 @@ public class Training {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Training training = (Training) o;
-        if (trainingId != training.trainingId) return false;
-        return true;
+        return trainingId == training.trainingId;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (trainingId ^ (trainingId >>> 32));
-        return result;
+        return (int) (trainingId ^ (trainingId >>> 32));
     }
 
     public boolean isApproved() {
@@ -212,7 +215,7 @@ public class Training {
         this.isApproved = isApproved;
     }
 
-    public String getDateOnString(){
+    public String getDateOnString() {
         TrainingUtil trainingUtil = new TrainingUtil();
         return trainingUtil.DateToString(this.date);
     }

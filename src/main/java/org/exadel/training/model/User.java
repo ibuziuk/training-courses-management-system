@@ -21,9 +21,6 @@ public class User {
     @Column(length = 25)
     private String surname;
 
-    @Column(name = "role_id")
-    private int roleId;
-
     @Column(unique = true)
     private String login;
 
@@ -32,6 +29,12 @@ public class User {
 
     @Column(name = "e_mail", unique = true)
     private String email;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Training> trainings;
@@ -51,12 +54,12 @@ public class User {
         this.name = name;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRoleId(int roleID) {
-        this.roleId = roleID;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getLogin() {

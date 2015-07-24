@@ -9,8 +9,6 @@ public interface UserService {
 
     List<User> getUsersByName(String name);
 
-    List<User> getUsersByRole(int role);
-
     User getUserById(long id);
 
     void addUser(User user);

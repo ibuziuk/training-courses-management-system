@@ -8,5 +8,7 @@ import java.util.List;
 public interface AbsenceService {
     void addAbsence(Absence absence);
 
+    void updateAbsence(Absence absence);
+
     List<Absence> getAllAbsences();
 }

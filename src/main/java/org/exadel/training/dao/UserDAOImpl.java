@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.hibernate.SessionFactory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
@@ -15,7 +18,8 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getAllUsers() {
-        return sessionFactory.getCurrentSession().createCriteria(User.class).list();
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(User.class).list());
+        return new ArrayList<>(result);
     }
 
     @SuppressWarnings("unchecked")
@@ -26,14 +30,18 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getUsersByName(String name) {
-        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.name = :name").setString("name", name).list();
+    public User getUserByLogin(String login) {
+        List<User> list = sessionFactory.getCurrentSession().createQuery("FROM User WHERE login = :login").setString("login", login).list();
+        if(list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getUsersByRole(int role) {
-        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.roleId = :role").setInteger("role", role).list();
+    public List<User> getUsersByName(String name) {
+        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.name = :name").setString("name", name).list();
     }
 
     @Override

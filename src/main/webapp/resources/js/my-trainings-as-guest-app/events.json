@@ -1,0 +1,38 @@
+[
+  {
+    title: 'Front-end',
+    type: 'warning',
+    startsAt: '7.20.2015.14:00',
+    endsAt: '7.20.2015.16:00'
+  },
+  {
+    title: 'Back-end',
+    type: 'info',
+    startsAt: '7.22.2015.13:00',
+    endsAt: '7.23.2015.14:00'
+  },
+  {
+    title: 'SQL',
+    type: 'important',
+    startsAt: '7.23.2015.12:00',
+    endsAt: '7.23.2015.13:00'
+  },
+  {
+    title: 'Java',
+    type: 'success',
+    startsAt: '7.28.2015.12:00',
+    endsAt: '7.30.2015.14:00'
+  },
+  {
+    title: 'C++',
+    type: 'special',
+    startsAt: '8.03.2015.12:00',
+    endsAt: '8.03.2015.13:00'
+  },
+  {
+    title: 'PHP',
+    type: 'inverse',
+    startsAt: '6.07.2015.12:00',
+    endsAt: '6.07.2015.13:00'
+  }
+]

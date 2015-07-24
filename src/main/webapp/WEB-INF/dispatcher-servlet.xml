@@ -21,7 +21,7 @@
         <property name="templateMode" value="HTML5" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="false" />
-        <property name="order" value="1"/>
+        <property name="order" value="2"/>
     </bean>
 
     <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
@@ -29,7 +29,7 @@
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
         <property name="characterEncoding" value="UTF-8" />
-        <property name="order" value="2"/>
+        <property name="order" value="1"/>
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
@@ -101,7 +101,10 @@
     <tx:annotation-driven />
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"></property>
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+    <bean id="myUserDetailsService" class="org.exadel.training.service.UserDetailsServiceImpl" />
+
+    <bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
 </beans>

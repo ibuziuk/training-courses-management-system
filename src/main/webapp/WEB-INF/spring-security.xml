@@ -15,7 +15,7 @@
         <security:intercept-url pattern="/trainer/new" access="hasRole('ROLE_ADMIN')" />
         <security:intercept-url pattern="/user/all" access="hasRole('ROLE_ADMIN')" />
         <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" />
+        <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" user-service-ref="userDetailsServiceImpl"/>
         <security:csrf disabled="true"/>
     </security:http>
 
@@ -23,11 +23,9 @@
         <security:authentication-provider>
             <security:password-encoder ref="bCryptPasswordEncoder" />
             <security:user-service>
-                <security:user name="user" password="$2a$10$sdDp3Pm8BCoBmsRqV7LYPONjtctN9o0M5vFv76SUJ7tiZqLolPJbC" authorities="ROLE_USER" />
-                <security:user name="admin" password="$2a$10$P/sxbK0Y0.GfcFqhSNHFQezkHaYqFGuM1VDNFJngd0LVl0P.tXn2O" authorities="ROLE_USER, ROLE_ADMIN" />
+                <security:user name="admin" password="$2a$10$P/sxbK0Y0.GfcFqhSNHFQezkHaYqFGuM1VDNFJngd0LVl0P.tXn2O" authorities="ROLE_ADMIN, ROLE_USER" />
+                <security:user name="user" password="$2a$10$xz2g47uSBjkXvjrtJhaSyuh6oqdxneIghjsk1ckdKPAkbfNKNoxry" authorities="ROLE_USER"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
-
-    <bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
 </beans>

@@ -9,9 +9,9 @@ public interface UserDAO {
 
     List<User> getUsersByName(String name);
 
-    List<User> getUsersByRole(int role);
-
     User getUserById(long id);
+
+    User getUserByLogin(String login);
 
     void addUser(User user);
 

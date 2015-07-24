@@ -5,6 +5,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+
 @Repository
 public class LanguageDAOImpl implements LanguageDAO{
     @Autowired
@@ -15,5 +20,12 @@ public class LanguageDAOImpl implements LanguageDAO{
         if (language != null){
             sessionFactory.getCurrentSession().persist(language);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Language> getAllLanguages(){
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Language.class).list());
+        return new ArrayList<>(result);
     }
 }

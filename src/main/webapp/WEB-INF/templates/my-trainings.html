@@ -41,9 +41,10 @@
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 	<script src="../../resources/vendors/js/ng-table.js" th:src="@{/resources/vendors/js/ng-table.js}"></script>
 	<script src="../../resources/js/my-trainings-as-guest-app/app.js" th:src="@{/resources/js/my-trainings-as-guest-app/app.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/calendar-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/calendar-ctrl.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/table-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/table-ctrl.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/event-service.js" th:src="@{/resources/js/my-trainings-as-guest-app/event-service.js}"></script>
+	<script src="../../resources/js/my-trainings-as-guest-app/controllers/calendar-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/controllers/calendar-ctrl.js}"></script>
+	<script src="../../resources/js/my-trainings-as-guest-app/controllers/table-ctrl.js" th:src="@{/resources/js/my-trainings-as-guest-app/controllers/table-ctrl.js}"></script>
+	<script src="../../resources/js/my-trainings-as-guest-app/services/calendar-event-service.js" th:src="@{/resources/js/my-trainings-as-guest-app/services/calendar-event-service.js}"></script>
+	<script src="../../resources/js/my-trainings-as-guest-app/services/table-event-service.js" th:src="@{/resources/js/my-trainings-as-guest-app/services/table-event-service.js}"></script>
 	<script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
 </head>
 
@@ -81,8 +82,8 @@
 			</li>
 
 			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href = "my-trainings-as-guest.html">En</a></li>
-				<li><a class="lang" href = "my-trainings-as-guest.html">Ru</a></li>
+				<li><a class="lang" href = "my-trainings.html">En</a></li>
+				<li><a class="lang" href = "my-trainings.html">Ru</a></li>
 			</ul>
 		</ul>
 
@@ -96,25 +97,10 @@
 					</a>
 				</li>
 				<li id = "mytrainings">
-					<a href="#" ng-click="isCollapsed2=!isCollapsed2">
+					<a href="my-trainings.html" th:href="@{/training/my}">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
-						<i class="fa fa-fw fa-caret-down"></i>
 					</a>
-					<ul collapse="isCollapsed2">
-						<li>
-							<a href="../my-trainings/my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
-							</a>
-						</li>
-						<li>
-							<a href="my-trainings-as-guest.html" th:href="@{/training/my}">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li id = "newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
@@ -157,8 +143,6 @@
 			</div>
 			<!-- /Page Heading -->
 
-			<!-- =================================================================== -->
-
 			<!-- Tabs -->
 			<div class="tabs">
 				<ul class="nav nav-tabs">
@@ -170,7 +154,6 @@
 
 			<!-- Tab content -->
 			<div class="tab-content panel panel-default panel-body">
-
 				<!-- Calendar-view -->
 				<div class="tab-pane fade in active" id="calendar" ng-controller="calendarController as vm">
 					<!-- Button group -->
@@ -246,184 +229,45 @@
 
 				<!-- Table view -->
 				<div class="tab-pane fade in" id="table" ng-controller="tableController">
+
+					<!-- Search row -->
+					<div class="search-row row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">
+							<select class="form-control">
+								<option>By training title</option>
+								<option>By trainer name</option>
+								<option>By tags</option>
+								<option>By date</option>
+								<option>...</option>
+							</select>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Type here" />
+								<span class="input-group-btn"><button class="btn btn-default" type="button">Search</button></span>
+							</div>
+						</div>
+					</div>
+					<!-- /.row -->
+
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-hover" ng-table="">
+							<tr ng-repeat="training in trainings">
+								<td data-title="'Title'">{{training.title}}</td>
+								<td data-title="'Date'">{{training.date}}</td>
+								<td data-title="'Location'">{{training.location}}</td>
+								<td data-title="'Trainer name'">{{training.trainerName}}</td>
+								<td data-title="'Places'">{{training.places}}</td>
+								<td data-title="'Tags'">
+									<span ng-repeat="tag in training.tags" class="label tags label-{{tag.color}}">{{tag.value}}</span>
+								</td>
+							</tr>
+						</table>
+					</div>
 				</div>
 				<!-- /Table view -->
 			</div>
-
-
-
-			<!-- =================================================================== -->
-
-			<!--&lt;!&ndash; Tabs &ndash;&gt;-->
-			<!--<div class="tabs">-->
-			<!--<ul class="nav nav-tabs">-->
-			<!--<li class="active"><a href="#fut" data-toggle="tab">Future trainings</a></li>-->
-			<!--<li><a href="#hist" data-toggle="tab">History of trainings</a></li>-->
-			<!--<li><a href="#wait" data-toggle="tab">Waiting list</a></li>-->
-			<!--</ul>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Tabs &ndash;&gt;-->
-
-			<!--&lt;!&ndash; Tab content &ndash;&gt;-->
-			<!--<div class="tab-content panel panel-default panel-body">-->
-
-			<!--&lt;!&ndash; Future &ndash;&gt;-->
-			<!--<div class="tab-pane fade in active" id="fut" ng-controller="futureTabCtrl as vm">-->
-
-			<!--&lt;!&ndash; Switcher &ndash;&gt;-->
-			<!--<div class="row switcher">-->
-			<!--<div class="btn-group col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-			<!--<label class="btn btn-primary active" ng-model="switcher.view" btn-radio="'table'">Table</label>-->
-			<!--<label class="btn btn-primary" ng-model="switcher.view" btn-radio="'calendar'">Calendar</label>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Switcher &ndash;&gt;-->
-
-			<!--&lt;!&ndash; Table view &ndash;&gt;-->
-			<!--<div ng-show="switcher.view == 'table'">-->
-			<!--&lt;!&ndash; Search row &ndash;&gt;-->
-			<!--<div class="search-row row">-->
-			<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">-->
-			<!--<select class="form-control">-->
-			<!--<option>By training title</option>-->
-			<!--<option>By trainer name</option>-->
-			<!--<option>By tags</option>-->
-			<!--<option>By date</option>-->
-			<!--<option>...</option>-->
-			<!--</select>-->
-			<!--</div>-->
-			<!--<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">-->
-			<!--<div class="input-group">-->
-			<!--<input type="text" class="form-control" placeholder="Type here" />-->
-			<!--<span class="input-group-btn">-->
-			<!--<button class="btn btn-default" type="button">Search</button>-->
-			<!--</span>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /.row &ndash;&gt;-->
-
-			<!--<div class="table-responsive">-->
-			<!--<table class="table table-bordered table-striped table-hover" ng-table="">-->
-			<!--<tr ng-repeat="training in trainings">-->
-			<!--<td data-title="'Title'">{{training.title}}</td>-->
-			<!--<td data-title="'Date'">{{training.date}}</td>-->
-			<!--<td data-title="'Location'">{{training.location}}</td>-->
-			<!--<td data-title="'Trainer name'">{{training.trainerName}}</td>-->
-			<!--<td data-title="'Places'">{{training.places}}</td>-->
-			<!--<td data-title="'Tags'">-->
-			<!--<span ng-repeat="tag in training.tags" class="label tags label-{{tag.color}}">{{tag.value}}</span>-->
-			<!--</td>-->
-			<!--</tr>-->
-			<!--</table>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Table view &ndash;&gt;-->
-
-			<!--&lt;!&ndash; Calendar-view &ndash;&gt;-->
-			<!--<div ng-show="switcher.view == 'calendar'">-->
-			<!--&lt;!&ndash; Button group &ndash;&gt;-->
-			<!--<div class="row calendar-button-group">-->
-			<!--<div class="col-lg-12">-->
-			<!--<div class="panel panel-default panel-body">-->
-			<!--<div class="row">-->
-			<!--<div class="col-lg-4">-->
-			<!--<div class="btn-group">-->
-			<!--<button-->
-			<!--class="btn btn-primary"-->
-			<!--mwl-date-modifier=""-->
-			<!--date="vm.calendarDay"-->
-			<!--decrement="vm.calendarView">-->
-			<!--Previous-->
-			<!--</button>-->
-			<!--<button-->
-			<!--class="btn btn-default"-->
-			<!--mwl-date-modifier=""-->
-			<!--date="vm.calendarDay"-->
-			<!--set-to-today="">-->
-			<!--Today-->
-			<!--</button>-->
-			<!--<button-->
-			<!--class="btn btn-primary"-->
-			<!--mwl-date-modifier=""-->
-			<!--date="vm.calendarDay"-->
-			<!--increment="vm.calendarView">-->
-			<!--Next-->
-			<!--</button>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--<div class="col-lg-4">-->
-			<!--<h2 class="text-center calendar-title">{{ vm.calendarTitle }}</h2>-->
-			<!--</div>-->
-			<!--<div class="col-lg-4">-->
-			<!--<div class="btn-group right-calendar-buttons">-->
-			<!--<label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'year'">Year</label>-->
-			<!--<label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'month'">Month</label>-->
-			<!--<label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'week'">Week</label>-->
-			<!--<label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'day'">Day</label>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Button group &ndash;&gt;-->
-
-			<!--&lt;!&ndash; Calendar &ndash;&gt;-->
-			<!--<div class="calendar">-->
-			<!--<mwl-calendar-->
-			<!--events="vm.events"-->
-			<!--view="vm.calendarView"-->
-			<!--view-title="vm.calendarTitle"-->
-			<!--current-day="vm.calendarDay"-->
-			<!--on-event-click="vm.eventClicked(calendarEvent)"-->
-			<!--on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"-->
-			<!--edit-event-html=""-->
-			<!--delete-event-html=""-->
-			<!--on-edit-event-click="vm.eventEdited(calendarEvent)"-->
-			<!--on-delete-event-click="vm.eventDeleted(calendarEvent)"-->
-			<!--auto-open="true"-->
-			<!--day-view-start="06:00"-->
-			<!--day-view-end="22:00"-->
-			<!--day-view-split="30"-->
-			<!--cell-modifier="vm.modifyCell(calendarCell)">-->
-			<!--</mwl-calendar>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Calendar &ndash;&gt;-->
-			<!--</div>-->
-			<!--&lt;!&ndash; Calendar-view &ndash;&gt;-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Future &ndash;&gt;-->
-
-			<!--&lt;!&ndash; History &ndash;&gt;-->
-			<!--<div class="tab-pane fade in" id="hist" ng-controller="historyTabCtrl as vm">-->
-
-			<!--&lt;!&ndash; Switcher &ndash;&gt;-->
-			<!--<div class="row switcher">-->
-			<!--<div class="btn-group col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-			<!--<label class="btn btn-primary active" ng-model="switcher.view" btn-radio="'table'">Table</label>-->
-			<!--<label class="btn btn-primary" ng-model="switcher.view" btn-radio="'calendar'">Calendar</label>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Switcher &ndash;&gt;-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /History &ndash;&gt;-->
-
-			<!--&lt;!&ndash; Wait &ndash;&gt;-->
-			<!--<div class="tab-pane fade in" id="wait" ng-controller="waitTabCtrl as vm">-->
-
-			<!--&lt;!&ndash; Switcher &ndash;&gt;-->
-			<!--<div class="row switcher">-->
-			<!--<div class="btn-group col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-			<!--<label class="btn btn-primary active" ng-model="switcher.view" btn-radio="'table'">Table</label>-->
-			<!--<label class="btn btn-primary" ng-model="switcher.view" btn-radio="'calendar'">Calendar</label>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Switcher &ndash;&gt;-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Wait &ndash;&gt;-->
-			<!--</div>-->
-			<!--&lt;!&ndash; /Tab content &ndash;&gt;-->
+			<!-- /Tab content -->
 		</div>
 		<!-- /.container-fluid -->
 	</div>

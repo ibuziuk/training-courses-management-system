@@ -32,6 +32,7 @@ public class User {
     private String email;
 
     @JsonIgnore
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -39,6 +40,7 @@ public class User {
     private Set<Role> roles;
 
     @JsonIgnore
+
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Training> trainings;
 

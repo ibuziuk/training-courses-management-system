@@ -1,6 +1,6 @@
-'use strict';
+angular.module('myTrainingsApp').factory('calendarEvent', ['contextRoot', function(contextRoot) {
+	"use strict";
 
-angular.module('myTrainingsApp').factory('event', [function() {
 	var service = [];
 
 	var event = function(title, type, startsAt, endsAt, editable, deletable, draggable, resizable, incrementsBadgeTotal) {
@@ -20,8 +20,8 @@ angular.module('myTrainingsApp').factory('event', [function() {
 	service.parse = function(data) {
 		var type,
 				today = new Date();
-		for (var i = 0; i < data.length; i++) {
 
+		for (var i = 0; i < data.length; i++) {
 			if (data[i].approved) {
 				if (service.isFuture(today.getTime(), data[i].date)) {
 					type = 'success';
@@ -36,11 +36,8 @@ angular.module('myTrainingsApp').factory('event', [function() {
 	};
 
 	service.isFuture = function(today, trainingDay) {
-		if (today < trainingDay) {
-			return true;
-		} else {
-			return false;
-		}
+		return today < trainingDay;
 	};
+
 	return service;
 }]);

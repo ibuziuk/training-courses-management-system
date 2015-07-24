@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="usersApp">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+
+		<title>Users</title>
+		
+		<!-- Bootstrap Core CSS -->
+		<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+
+		<!-- Custom CSS -->
+		<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+
+		<!-- Custom Fonts -->
+		<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+		
+        <!-- jQuery -->
+		<script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js"></script>
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
+       
+        <!-- Angular -->
+		<script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+		<script src="../../resources/js/users-app/app.js" th:src="@{/resources/js/users-app/app.js}"></script>
+        <script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+        <script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+        
+	</head>
+
+	<body>
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+					<a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+						<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+					</a>
+				</div>
+
+				<!-- Top Menu Items -->
+				<ul class="nav navbar-right top-nav">
+					<li class="active">
+						<a href = "welcome.html" th:href="@{/welcome}">
+							<i class = "fa fa-fw fa-user"></i>
+							<span sec:authentication="name"></span>
+						</a>
+					</li>
+
+					<li class="active">
+						<a href="#" th:href="@{/logout}" id="logout">
+							<i class="fa fa-fw fa-power-off"></i>
+							Log out
+						</a>
+					</li>
+
+					<ul class="nav navbar-right top-nav language-panel">
+						<li><a class="lang" href = "users.html">En</a></li>
+						<li><a class="lang" href = "users.html">Ru</a></li>
+					</ul>
+				</ul>
+
+				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+				<div class="collapse navbar-collapse" collapse="isCollapsed">
+					<ul class="nav navbar-nav side-nav" id = "left-menu">
+						<li id = "alltrainings">
+							<a href="all-trainings.html" th:href="@{/training/all}">
+								<i class="fa fa-fw fa-circle-o"></i>
+								All trainings
+							</a>
+						</li>
+						<li id = "mytrainings">
+							<a href="#" ng-click="isCollapsed2=!isCollapsed2">
+								<i class="fa fa-fw fa-circle-o"></i>
+								My trainings
+								<i class="fa fa-fw fa-caret-down"></i>
+							</a>
+							<ul collapse="isCollapsed2">
+								<li>
+									<a href="my-trainings.html">
+										<i class="fa fa-fw fa-angle-right"></i>
+										As a trainer
+									</a>
+								</li>
+								<li>
+									<a href="my-trainings.html">
+										<i class="fa fa-fw fa-angle-right"></i>
+										As a guest
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li id = "newtraining">
+							<a href="new-training.html" th:href="@{/training/new}">
+								<i class="fa fa-fw fa-circle-o"></i>
+								Create new training
+							</a>
+						</li>
+						<li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
+							<a href="new-trainer.html">
+								<i class="fa fa-fw fa-circle-o"></i>
+								Add new external trainer
+							</a>
+						</li>
+						<li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
+							<a href="users.html">
+								<i class="fa fa-fw fa-circle"></i>
+								Users
+							</a>
+						</li>
+						<li id = "copyright">
+							<footer>
+								<span>©Exadel, Inc. All Rights Reserved.</span>
+							</footer>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- /Navigation -->
+
+			<div id="page-wrapper">
+				<div class="container-fluid">
+
+					<!-- Page Heading -->
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">
+								Users <small>Information about all users</small>
+							</h1>
+						</div>
+					</div>
+                    <!-- /Page Heading -->
+                    
+                    <!-- Main panel -->
+					<div class="panel panel-default panel-body">
+						<!-- Container-fluid -->
+						<div class="container-fluid">
+							<!-- Search row -->
+							<div class="row search-row">
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
+									<select class="form-control">
+										<option>By first name</option>
+										<option>By last name</option>
+										<option>By position</option>
+										<option>...</option>
+									</select>
+								</div>
+								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+									<div class="input-group">
+									<input type="text" class="form-control" placeholder="Type here">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Search</button>
+									</span>
+								</div>
+								</div>          
+							</div>
+							<!-- /.row -->
+
+							<!-- Users -->
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="table-responsive">
+										<table class="table table-bordered table-striped table-hover table-condensed">
+											<thead>
+												<tr>
+													<th>First Name</th>
+													<th>Last Name</th>
+													<th>Position</th>
+													<th>...</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item 1</td>
+													<td>Item 2</td>
+													<td>Item 3</td>
+													<td>Item 4</td>
+												</tr>
+												<tr>
+													<td>Item 1</td>
+													<td>Item 2</td>
+													<td>Item 3</td>
+													<td>Item 4</td>
+												</tr>
+												<tr>
+													<td>Item 1</td>
+													<td>Item 2</td>
+													<td>Item 3</td>
+													<td>Item 4</td>
+												</tr>
+												<tr>
+													<td>Item 1</td>
+													<td>Item 2</td>
+													<td>Item 3</td>
+													<td>Item 4</td>
+												</tr>
+												<tr>
+													<td>Item 1</td>
+													<td>Item 2</td>
+													<td>Item 3</td>
+													<td>Item 4</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- /Users -->
+						</div>
+						<!-- /.container-fluid -->
+					</div>
+					<!-- /Main panel -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+	</body>
+</html>

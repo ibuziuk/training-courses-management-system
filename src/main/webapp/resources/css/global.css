@@ -3,17 +3,22 @@ textarea {
     resize: none;
 }
 
+#editBtn, #attendenceBtn{
+    margin-bottom: 7px;
+    margin-left: 2%;
+}
+
+#opinionBtn{
+    margin-bottom: 30px;
+     margin-left: 2%;
+}
+
 body {
     margin-top: 100px;
     background-color: white;
     height: 100%;
     font-family: 'open sans';
     font-size: 15px;
-}
-
-#editBtn {
-    margin-left: 10px;
-    margin-top: 10px;
 }
 
 #subBtn {

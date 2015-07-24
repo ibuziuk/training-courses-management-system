@@ -1,4 +1,4 @@
-'use strict';
+"use strict"
 
 angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 'ngNotify', function ($scope, $http, $q, ngNotify) {
     ngNotify.config({
@@ -43,8 +43,9 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
 
     function getIndex(aud){
     	for (var i = 0; i < $scope.checkboxAudiences.length; i++) {
-    		if ($scope.checkboxAudiences[i].audience == aud.audience)
-    			return i;
+    		if ($scope.checkboxAudiences[i].audience === aud.audience) {
+                return i;
+            }
     	}
     }
 
@@ -87,10 +88,12 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
     $scope.qDescr = 0;
     
     $scope.toShow = function(){     
-        if ($scope.toShowRepet == 'One-off ' || $scope.toShowRepet == 'Weekly ')
+        if ($scope.toShowRepet === 'One-off ' || $scope.toShowRepet === 'Weekly ') {
             $scope.qDescr = 1;
-        else if ($scope.toShowRepet == 'Continuous ')
+        }
+        else if ($scope.toShowRepet === 'Continuous ') {
             $scope.qDescr = $scope.days;
+        }
     
         $scope.descriptions = [];
         for (var i = 0; i < $scope.qDescr; i++) {
@@ -98,7 +101,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
         }
         
         $scope.datepickers = [];
-        $scope.qDates = ($scope.toShowRepet == 'Weekly ') ? $scope.days : $scope.qDescr;
+        $scope.qDates = ($scope.toShowRepet === 'Weekly ') ? $scope.days : $scope.qDescr;
         
         for (var i = 0; i < $scope.qDates; i++){
             $scope.datepickers[i] = {'dt' : null, 'time': new Date(), 'toShowWeekDay': 'Select day of week ', 'room': ''};
@@ -170,11 +173,11 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             /* Tags */
             training.tags = [];
             for (var j in $scope.checkboxTags){
-                if ($scope.checkboxTags[j].checked == true){
+                if ($scope.checkboxTags[j].checked){
                     training.tags.push($scope.checkboxTags[j].tag.substring(1));
                 }
             }
-            if (training.tags.length == 0){
+            if (training.tags.length === 0){
                 ngNotify.set('You should choose at list one tag!');
                 return;
             }
@@ -182,41 +185,44 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             /* Audience */
             training.audience = [];
             for (var j in $scope.checkboxAudiences){
-                if ($scope.checkboxAudiences[j].checked == true){
+                if ($scope.checkboxAudiences[j].checked){
                     training.audience.push($scope.checkboxAudiences[j].audience);
                 }
             }
-            if (training.audience.length == 0){
+            if (training.audience.length === 0){
                 ngNotify.set('You should choose an audience for your training!');
                 return;
             }
 
             /* Type of training */
-            if ($scope.toShowType != 'Select type ')
-                training.type = !($scope.toShowType == 'Inner training ');
+            if ($scope.toShowType !== 'Select type ') {
+                training.type = !($scope.toShowType === 'Inner training ');
+            }
             else {
                 ngNotify.set('You should choose the type of your training!');
                 return;
             }
             
             /* Repetition frequency */
-            if ($scope.toShowRepet != 'Select repetition ')
-                training.regular = ($scope.toShowRepet == 'Weekly ');
+            if ($scope.toShowRepet !== 'Select repetition ') {
+                training.regular = ($scope.toShowRepet === 'Weekly ');
+            }
             else {
                 ngNotify.set('You should choose the repetition of your training!');
                 return;
             }
             
-            if ($scope.toShowRepet == 'Weekly ' || $scope.toShowRepet == 'Continuous '){
-                if ($scope.days == undefined || $scope.days.length == 0){
+            if ($scope.toShowRepet === 'Weekly ' || $scope.toShowRepet === 'Continuous '){
+                if ($scope.days === undefined || $scope.days.length === 0){
                     ngNotify.set('You should enter quantity of days!');
                     return;
                 }
             }
             
             /* Training language */
-            if ($scope.toShowLanguage != 'Select language ')
+            if ($scope.toShowLanguage !== 'Select language ') {
                 training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
+            }
             else {
                 ngNotify.set('You should choose the language of your training!');
                 return;
@@ -225,12 +231,12 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             /* Training name */
             training.title = $scope.trainingName;
             
-            if (training.title == undefined || training.title.length == 0){
+            if (training.title === undefined || training.title.length === 0){
                 ngNotify.set('You should enter the name of your training!');
                 return;
             }
             
-            if ($scope.toShowRepet == 'Continuous '){
+            if ($scope.toShowRepet === 'Continuous '){
                 training.title += (' #' + (i + 1));
             }
             
@@ -294,20 +300,11 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
                 training.date = date;
                 training.times.push($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
             }
-            
-            /*var res = $http.post('/rest/training', training);
-            res.success(function(data, status, headers, config) {
-                $scope.message = data;
-            });
-            res.error(function(data, status, headers, config) {
-                alert( "failure message: " + JSON.stringify({data: data}));
-            });*/
-            trainingsRequests.push(function(training){
-                $http.post('/rest/training', training);
-            });
+            trainingsRequests[i] = $http.post('/rest/training', training);
         }
-        $q.all(trainingsRequests).then(function(results){
-            console.log(results);
-        });
+        $q.all(trainingsRequests).then(function(results) {
+                console.log(results[0].data);
+            }
+        );
     }
 }]);

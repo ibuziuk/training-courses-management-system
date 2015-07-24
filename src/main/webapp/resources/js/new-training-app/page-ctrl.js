@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $http, ngNotify) {
+angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 'ngNotify', function ($scope, $http, $q, ngNotify) {
     ngNotify.config({
         theme: 'pastel',
         position: 'bottom',
@@ -157,7 +157,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
     /* Final (on submit button) */
     
     $scope.trainingCreation = function(){
-        var trainings = [];
+        var trainingsRequests = [];
         
         if ($scope.qDescr == 0){
             ngNotify.set('You should fill all fields!');
@@ -295,15 +295,19 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
                 training.times.push($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
             }
             
-            var res = $http.post('/rest/training', training);
+            /*var res = $http.post('/rest/training', training);
             res.success(function(data, status, headers, config) {
                 $scope.message = data;
             });
             res.error(function(data, status, headers, config) {
                 alert( "failure message: " + JSON.stringify({data: data}));
+            });*/
+            trainingsRequests.push(function(training){
+                $http.post('/rest/training', training);
             });
-
-            trainings.push(training);
         }
+        $q.all(trainingsRequests).then(function(results){
+            console.log(results);
+        });
     }
 }]);

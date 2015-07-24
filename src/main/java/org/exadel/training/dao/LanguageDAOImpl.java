@@ -16,4 +16,18 @@ public class LanguageDAOImpl implements LanguageDAO{
             sessionFactory.getCurrentSession().persist(language);
         }
     }
+
+    @Override
+    public Language getLanguageByValue(String value) {
+        if (value != null){
+            Language language = null;
+            try {
+                language = (Language) sessionFactory.getCurrentSession().createQuery("FROM Language u WHERE u.value = :value").setString("value", value).list().get(0);
+            }
+            catch(Exception e)
+            {return null;}
+            return language;
+        }
+        return null;
+    }
 }

@@ -14,7 +14,7 @@ public class Tag {
     @Column(length = 45)
     private String name;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "tag", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private Set<TrainingTag> trainingTags;
 
     private String color;

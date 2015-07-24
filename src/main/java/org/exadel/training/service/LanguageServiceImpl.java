@@ -17,4 +17,10 @@ public class LanguageServiceImpl implements LanguageService{
     public void addLanguage(Language language){
         languageDAO.addLanguage(language);
     }
+
+    @Override
+    @Transactional
+    public Language getLanguageByValue(String value) {
+        return languageDAO.getLanguageByValue(value);
+    }
 }

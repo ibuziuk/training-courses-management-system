@@ -4,4 +4,5 @@ import org.exadel.training.model.Language;
 
 public interface LanguageService {
     void addLanguage(Language language);
+    Language getLanguageByValue(String value);
 }

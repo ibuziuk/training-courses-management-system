@@ -261,11 +261,11 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
             /* Training dates */
             training.days = '';
             training.rooms = [];
-            training.dates = [];
+            training.date = '';
             training.times = [];
             
             if ($scope.toShowRepet == 'Weekly '){
-                training.dates.push($scope.dateWeekly.getDate() + '.' + $scope.dateWeekly.getMonth() + '.' + $scope.dateWeekly.getFullYear());
+                training.date = $scope.dateWeekly.getDate() + '.' + $scope.dateWeekly.getMonth() + '.' + $scope.dateWeekly.getFullYear();
                 for (var j = 0; j < $scope.datepickers.length; j++){
                     if ($scope.datepickers[j].toShowWeekDay != 'Select day of week ')
                         training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
@@ -291,7 +291,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', 'ngNot
                     return;
                 }
                 var date = $scope.datepickers[i].dt.getDate()+'.'+$scope.datepickers[i].dt.getMonth()+'.'+$scope.datepickers[i].dt.getFullYear();
-                training.dates.push(date);
+                training.date = date;
                 training.times.push($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
             }
             

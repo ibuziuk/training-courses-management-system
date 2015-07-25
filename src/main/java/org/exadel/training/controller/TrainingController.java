@@ -30,6 +30,6 @@ public class TrainingController {
 
     @RequestMapping(value = "/my", method = RequestMethod.GET)
     public String myTraining() {
-        return "my-trainings-as-guest";
+        return "my-trainings";
     }
 }

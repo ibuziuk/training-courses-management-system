@@ -1,5 +1,6 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Role {
     @Column(length = 20, unique = true, nullable = false)
     private String role;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 

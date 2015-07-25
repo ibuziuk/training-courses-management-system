@@ -1,27 +1,28 @@
+"use strict";
+
 var calendarController = angular.module('calendarController', []);
 
-calendarController.controller('calendarController', ['$scope', '$http', '$location', 'calendarEvent', 'contextRoot', function($scope, $http, $location, calendarEvent, contextRoot){
-	"use strict";
+calendarController.controller('calendarController', ['$scope', '$http', '$location', 'calendarEvent', 'contextRoot', function ($scope, $http, $location, calendarEvent, contextRoot) {
 	var vm = this;
 
 	vm.calendarDay = new Date();
 	vm.calendarView = 'month';
 
-	$http.get('/rest/calendar').then(function(response) {
+	$http.get('/rest/calendar').then(function (response) {
 		vm.events = calendarEvent.parse(response.data);
-	}, function() {
+	}, function () {
 
 	});
 
-	vm.eventClicked = function(event) {
+	vm.eventClicked = function (event) {
 
 	};
 
-	vm.eventEdited = function(event) {
+	vm.eventEdited = function (event) {
 
 	};
 
-	vm.eventDeleted = function(event) {
+	vm.eventDeleted = function (event) {
 		var answer = confirm("Do you really want delete this training?");
 
 		if (answer) {
@@ -30,11 +31,11 @@ calendarController.controller('calendarController', ['$scope', '$http', '$locati
 		}
 	};
 
-	vm.eventTimesChanged = function(event) {
+	vm.eventTimesChanged = function (event) {
 
 	};
 
-	vm.toggle = function($event, field, event) {
+	vm.toggle = function ($event, field, event) {
 		$event.preventDefault();
 		$event.stopPropagation();
 		event[field] = !event[field];

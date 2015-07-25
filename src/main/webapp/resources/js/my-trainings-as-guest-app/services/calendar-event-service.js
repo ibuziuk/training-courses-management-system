@@ -1,9 +1,9 @@
-angular.module('myTrainingsApp').factory('calendarEvent', ['contextRoot', function(contextRoot) {
-	"use strict";
+"use strict";
 
+angular.module('myTrainingsApp').factory('calendarEvent', ['contextRoot', function (contextRoot) {
 	var service = [];
 
-	var event = function(title, type, startsAt, endsAt, editable, deletable, draggable, resizable, incrementsBadgeTotal) {
+	var event = function (title, type, startsAt, endsAt, editable, deletable, draggable, resizable, incrementsBadgeTotal) {
 		return {
 			title: title,
 			type: type,
@@ -17,7 +17,7 @@ angular.module('myTrainingsApp').factory('calendarEvent', ['contextRoot', functi
 		};
 	};
 
-	service.parse = function(data) {
+	service.parse = function (data) {
 		var type,
 				today = new Date();
 
@@ -35,7 +35,7 @@ angular.module('myTrainingsApp').factory('calendarEvent', ['contextRoot', functi
 		return service;
 	};
 
-	service.isFuture = function(today, trainingDay) {
+	service.isFuture = function (today, trainingDay) {
 		return today < trainingDay;
 	};
 

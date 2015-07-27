@@ -14,18 +14,18 @@ public class CalendarController {
     @Autowired
     TrainingService trainingService;
 
-    @RequestMapping(value = "/rest/calendar")
+    @RequestMapping(value = "rest/calendar")
 
     public List<Training> getUsers() {
         return trainingService.getAllTraining();
     }
 
-    @RequestMapping(value = "/rest/calendar/trainer", method = RequestMethod.GET)
+    @RequestMapping(value = "rest/calendar/trainer", method = RequestMethod.GET)
     public List<Training> getByTrainer() {
         return trainingService.getTrainingsByTrainer(1);
     }
 
-    @RequestMapping(value = "/rest/calendar/visitor", method = RequestMethod.GET)
+    @RequestMapping(value = "rest/calendar/visitor", method = RequestMethod.GET)
     public List<Training> getByVisitor() {
         return trainingService.getTrainingsByVisitor(1);
     }

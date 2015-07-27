@@ -29,22 +29,22 @@ table.factory('tableService', ['moment', function (moment) {
 					}
 				}
 			}
-		} else {
-			for (var j = 0; j < data.length; j++) {
-				if (data[j].approved) {
-					if (service.isFuture(today, data[j].date)) {
-						type = 'info';
-						service.push(event(type, data[j].title, moment(data[j].date).format('DD MMMM YYYY'), data[j].location, data[j].trainer.name, data[j].maxVisitorsCount, []));
-					} else {
-						type = 'danger';
-						service.push(event(type, data[j].title, moment(data[j].date).format('DD MMMM YYYY'), data[j].location, data[j].trainer.name, data[j].maxVisitorsCount, []));
-					}
-				} else {
-					type = 'active';
-					service.push(event(type, data[j].title, moment(data[j].date).format('DD MMMM YYYY'), data[j].location, data[j].trainer.name, data[j].maxVisitorsCount, []));
-				}
-			}
-		}
+		}// else {
+		//	for (var j = 0; j < data.length; j++) {
+		//		if (data[j].approved) {
+		//			if (service.isFuture(today, data[j].date)) {
+		//				type = 'info';
+		//				service.push(event(type, data[j].title, moment(data[j].date).format('DD MMMM YYYY'), data[j].location, data[j].trainer.name, data[j].maxVisitorsCount, []));
+		//			} else {
+		//				type = 'danger';
+		//				service.push(event(type, data[j].title, moment(data[j].date).format('DD MMMM YYYY'), data[j].location, data[j].trainer.name, data[j].maxVisitorsCount, []));
+		//			}
+		//		} else {
+		//			type = 'active';
+		//			service.push(event(type, data[j].title, moment(data[j].date).format('DD MMMM YYYY'), data[j].location, data[j].trainer.name, data[j].maxVisitorsCount, []));
+		//		}
+		//	}
+		//}
 		return service;
 	};
 

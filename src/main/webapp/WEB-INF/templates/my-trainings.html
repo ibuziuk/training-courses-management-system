@@ -47,25 +47,25 @@
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
 	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 	<script src="../../resources/vendors/js/ng-table.js" th:src="@{/resources/vendors/js/ng-table.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/app.js"
-	        th:src="@{/resources/js/my-trainings-as-guest-app/app.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/calendar-ctrl.js"
-	        th:src="@{/resources/js/my-trainings-as-guest-app/calendar-ctrl.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/table-ctrl.js"
-	        th:src="@{/resources/js/my-trainings-as-guest-app/table-ctrl.js}"></script>
-	<script src="../../resources/js/my-trainings-as-guest-app/event-service.js"
-	        th:src="@{/resources/js/my-trainings-as-guest-app/event-service.js}"></script>
-	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
-	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+	<script src="../../resources/js/my-trainings-app/app.js"
+	        th:src="@{/resources/js/my-trainings-app/app.js}"></script>
+	<script src="../../resources/js/my-trainings-app/calendar/calendar-ctrl.js"
+	        th:src="@{/resources/js/my-trainings-app/calendar/calendar-ctrl.js}"></script>
+	<script src="../../resources/js/my-trainings-app/table/table-ctrl.js"
+	        th:src="@{/resources/js/my-trainings-app/table/table-ctrl.js}"></script>
+	<script src="../../resources/js/my-trainings-app/calendar/calendar-service.js"
+	        th:src="@{/resources/js/my-trainings-app/calendar/calendar-service.js}"></script>
+	<script src="../../resources/js/my-trainings-app/table/table-service.js"
+	        th:src="@{/resources/js/my-trainings-app/table/table-service.js}"></script>
 </head>
 
 <body>
 <div id="wrapper">
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-menu" ng-controller="collapseCtrl">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-menu">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+			<button type="button" class="navbar-toggle" id="menu-button">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>

@@ -69,7 +69,7 @@
 			<li class="active">
 				<a href="welcome.html" th:href="@{/welcome}">
 					<i class="fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span sec:authentication="principal.firstName"></span>
 				</a>
 			</li>
 
@@ -224,7 +224,7 @@
 											<td th:text="${training.getDateOnString()}"></td>
 											<td>12:00</td>
 											<td th:text="|#{label.unit} ${training.location}|"></td>
-											<td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
+											<td th:text="|${training.trainer.firstName} ${training.trainer.lastName}|"></td>
 											<td th:text="${training.visitors.size()} + '/'+${training.maxVisitorsCount}"></td>
 											<td><span class="label label-info tags" th:each="tag : ${training.tags}"
 											          th:text="'#'+${tag.name}"></span></td>
@@ -407,7 +407,7 @@
 											<td th:text="${training.getDateOnString()}"></td>
 											<td>12:00</td>
 											<td th:text="|#{label.unit} ${training.location}|"></td>
-											<td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
+											<td th:text="|${training.trainer.firstName} ${training.trainer.lastName}|"></td>
 											<td th:text="${training.visitors.size()}+'/'+${training.maxVisitorsCount}"></td>
 											<td><span class="label label-info tags" th:each="tag : ${training.tags}"
 											          th:text="'#'+${tag.name}"></span></td>

@@ -24,6 +24,6 @@ public final class TrainingUtil {
     }
 
     private static String getMonthName(int num) {
-        return months[num - 1];
+        return months[num];
     }
 }

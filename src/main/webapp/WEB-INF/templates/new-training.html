@@ -64,7 +64,7 @@
 			<li class="active">
 				<a href="welcome.html" th:href="@{/welcome}">
 					<i class="fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span sec:authentication="principal.firstName"></span>
 				</a>
 			</li>
 

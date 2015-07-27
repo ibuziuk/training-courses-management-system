@@ -63,7 +63,7 @@
 			<li class="active">
 				<a href="welcome.html" th:href="@{/welcome}">
 					<i class="fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span sec:authentication="principal.firstName"></span>
 				</a>
 			</li>
 
@@ -191,17 +191,15 @@
 										<th th:text="#{label.login}">Login</th>
 										<th th:text="#{label.email}">Email</th>
 										<th th:text="#{label.role}">Role</th>
-										<th th:text="#{label.profile}">Profile</th>
 									</tr>
 									</thead>
 									<tbody>
 									<tr th:each="user : ${userList}">
 										<td th:text="${user.firstName}"></td>
 										<td th:text="${user.lastName}"></td>
-										<td th:text="${user.login}"></td>
+										<td><a th:text="${user.login}" th:href="${user.userId}"></a></td>
 										<td th:text="${user.email}"></td>
 										<td th:text="${user.getRoleForView()}"></td>
-										<td><a th:href="@{${user.userId}}" th:target="blank" th:text="..."></a></td>
 									</tr>
 									</tbody>
 								</table>

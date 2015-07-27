@@ -2,7 +2,9 @@ package org.exadel.training.controller.rest;
 
 import org.exadel.training.model.Training;
 import org.exadel.training.service.TrainingService;
+import org.exadel.training.utils.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,19 +16,15 @@ public class CalendarController {
     @Autowired
     TrainingService trainingService;
 
-    @RequestMapping(value = "/rest/calendar")
-
-    public List<Training> getUsers() {
-        return trainingService.getAllTraining();
-    }
-
     @RequestMapping(value = "/rest/calendar/trainer", method = RequestMethod.GET)
     public List<Training> getByTrainer() {
-        return trainingService.getTrainingsByTrainer(1);
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return trainingService.getTrainingsByTrainer(userDetails.getId());
     }
 
     @RequestMapping(value = "/rest/calendar/visitor", method = RequestMethod.GET)
     public List<Training> getByVisitor() {
-        return trainingService.getTrainingsByVisitor(1);
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return trainingService.getTrainingsByVisitor(userDetails.getId());
     }
 }

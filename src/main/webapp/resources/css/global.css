@@ -17,8 +17,13 @@ body {
 }
 
 #subBtn {
-    width: 60%;
-    height: 60px;
+    width: 140px;
+    height: 40px;
+}
+
+#aproveBtn, #disaproveBtn {
+    width: 80px;
+    height: 40px;
 }
 
 #lng {

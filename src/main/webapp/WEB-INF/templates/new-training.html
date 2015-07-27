@@ -100,27 +100,10 @@
 				</li>
 
 				<li id="mytrainings">
-					<a href="#" ng-click="isCollapsed2=!isCollapsed2">
+					<a href="my-trainings.html" th:href="@{/training/my}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
-						<i class="fa fa-fw fa-caret-down"></i>
 					</a>
-
-					<ul collapse="isCollapsed2">
-						<li>
-							<a href="my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
-							</a>
-						</li>
-
-						<li>
-							<a href="my-trainings-as-guest.html" th:href="@{/training/my}">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
-							</a>
-						</li>
-					</ul>
 				</li>
 
 				<li id="newtraining">
@@ -187,10 +170,10 @@
 								<ul id="tags">
 									<checkboxTag ng-repeat="checkboxTag in checkboxTags | filter:filt1">
 										<li>
-											<input type="{{checkboxTag.type}}"
+											<input type="checkbox"
 											       ng-click="checkboxTag.checked = !checkboxTag.checked"
 											       ng-checked="checkboxTag.checked">
-											{{checkboxTag.tag}}
+											{{checkboxTag.name}}
 											</input>
 										</li>
 									</checkboxTag>
@@ -214,10 +197,10 @@
 								<ul id="audience">
 									<checkboxAudience ng-repeat="checkboxAudience in checkboxAudiences | filter:filt2">
 										<li>
-											<input type="{{checkboxAudience.type}}"
+											<input type="checkbox"
 											       ng-checked="checkboxAudience.checked"
 											       ng-click="allChecked(checkboxAudience)">
-											{{checkboxAudience.audience}}
+											{{checkboxAudience.value}}
 											</input>
 										</li>
 									</checkboxAudience>
@@ -383,7 +366,7 @@
 
 									<br/>
 
-									<div>
+									<div style="text-align: center">
 										<a href="#">
 											<button class="btn btn-primary" type="button" id="subBtn"
 											        ng-click="trainingCreation()">
@@ -392,12 +375,12 @@
 										</a>
 									</div>
 
-									<div id="aproveBtns">
+									<div style="text-align: center">
 										<a href="#">
-											<button type="button" class="btn btn-danger">Disaprove</button>
+											<button type="button" class="btn btn-danger" id="disaproveBtn">Disaprove</button>
 										</a>
 										<a href="#">
-											<button type="button" class="btn btn-success">Aprove</button>
+											<button type="button" class="btn btn-success" id="aproveBtn">Aprove</button>
 										</a>
 									</div>
 								</div>

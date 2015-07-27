@@ -53,6 +53,14 @@ public class User {
     @ManyToMany(mappedBy = "visitors")
     private Set<Training> trainings;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<WaitingList> waiting;
+
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "waiting")
+//    private Set<Training> waiting;
+
     public long getUserId() {
         return userId;
     }
@@ -123,5 +131,13 @@ public class User {
 
     public String getRoleForView() {
         return buildRoleForView(roles);
+    }
+
+    public Set<WaitingList> getWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(Set<WaitingList> waiting) {
+        this.waiting = waiting;
     }
 }

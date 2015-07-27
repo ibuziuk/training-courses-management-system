@@ -1,7 +1,10 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.TrainingDAO;
+import org.exadel.training.dao.UserDAO;
+import org.exadel.training.dao.WaitingListDAO;
 import org.exadel.training.model.Training;
+import org.exadel.training.model.WaitingList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,12 @@ import java.util.List;
 public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private TrainingDAO trainingDAO;
+
+    @Autowired
+    private UserDAO userDAO;
+
+    @Autowired
+    private WaitingListDAO waitingListDAO;
 
     @Override
     @Transactional
@@ -71,5 +80,22 @@ public class TrainingServiceImpl implements TrainingService {
     @Transactional
     public List<Training> getTrainingsByVisitor(long id) {
         return trainingDAO.getTrainingsByVisitor(id);
+    }
+
+    @Override
+    @Transactional
+    public boolean registerForTraining(long trainingId, long userId){
+        Training training = trainingDAO.getTrainingById(trainingId);
+        if (training.getVisitors().size() < training.getMaxVisitorsCount()){
+            training.getVisitors().add(userDAO.getUserById(userId));
+            return true;
+        }
+        waitingListDAO.addVisitor(trainingId, userId);
+//        WaitingList wl = new WaitingList();
+//        wl.setUser(userDAO.getUserById(userId));
+//        wl.setTraining(training);
+//        wl.setDate(new Timestamp(new Date().getTime()));
+//        training.getWaiting().add(userDAO.getUserById(userId));
+        return false;
     }
 }

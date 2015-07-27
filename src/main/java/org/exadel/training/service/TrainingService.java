@@ -25,4 +25,6 @@ public interface TrainingService {
     List<Training> getTrainingsByTrainer(long id);
 
     List<Training> getTrainingsByVisitor(long id);
+
+    boolean registerForTraining(long trainingId, long userId);
 }

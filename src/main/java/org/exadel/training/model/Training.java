@@ -87,6 +87,18 @@ public class Training {
             })
     private Set<User> visitors = new HashSet<>(0);
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<WaitingList> waiting;
+
+//    @JsonIgnore
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinTable(name = "training_user_waiting", joinColumns = {
+//            @JoinColumn(name = "training_id", nullable = false)},
+//            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)
+//            })
+//    private Set<User> waiting = new HashSet<>(0);
+
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<RegularLesson> lessons = new HashSet<>(0);
 
@@ -263,4 +275,20 @@ public class Training {
     public void setLessons(Set<RegularLesson> lessons) {
         this.lessons = lessons;
     }
+
+    public Set<WaitingList> getWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(Set<WaitingList> waiting) {
+        this.waiting = waiting;
+    }
+
+//    public Set<User> getWaiting() {
+//        return waiting;
+//    }
+//
+//    public void setWaiting(Set<User> waiting) {
+//        this.waiting = waiting;
+//    }
 }

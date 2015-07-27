@@ -27,4 +27,13 @@ public class CalendarController {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return trainingService.getTrainingsByVisitor(userDetails.getId());
     }
+
+    @RequestMapping(value = "/q")
+    public String reg(){
+        boolean flag = trainingService.registerForTraining(1, 1);
+        if (flag){
+            return "true";
+        }
+        return "false";
+    }
 }

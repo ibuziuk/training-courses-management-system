@@ -24,9 +24,11 @@ public class User {
     @Column(name = "last_name", nullable = false, length = 25)
     private String lastName;
 
+    @JsonIgnore
     @Column(unique = true, nullable = false)
     private String login;
 
+    @JsonIgnore
     @Column(length = 60, nullable = false)
     private String password;
 
@@ -41,12 +43,12 @@ public class User {
     private Set<Role> roles;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<Training> trainings;
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+    private Set<Training> leads;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "visitor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<CurrentList> currentLists;
+    @ManyToMany(mappedBy = "visitors")
+    private Set<Training> trainings;
 
     public long getUserId() {
         return userId;
@@ -108,12 +110,12 @@ public class User {
         this.trainings = trainings;
     }
 
-    public Set<CurrentList> getCurrentLists() {
-        return currentLists;
+    public Set<Training> getLeads() {
+        return leads;
     }
 
-    public void setCurrentLists(Set<CurrentList> currentLists) {
-        this.currentLists = currentLists;
+    public void setLeads(Set<Training> leads) {
+        this.leads = leads;
     }
 
     public String getRoleForView() {

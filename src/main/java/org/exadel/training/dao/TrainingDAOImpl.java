@@ -1,7 +1,9 @@
 package org.exadel.training.dao;
 
 import org.exadel.training.model.Training;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,9 @@ import java.util.List;
 public class TrainingDAOImpl implements TrainingDAO {
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private UserDAO userDAO;
 
     @Override
     public void addTraining(Training training) {
@@ -58,7 +63,8 @@ public class TrainingDAOImpl implements TrainingDAO {
     }
 
     @Override
-    public void removeTraining(Training training) {
+    public void removeTrainingById(long id) {
+        Training training = getTrainingById(id);
         if (training != null) {
             sessionFactory.getCurrentSession().delete(training);
         }
@@ -67,5 +73,22 @@ public class TrainingDAOImpl implements TrainingDAO {
     @Override
     public Training getTrainingById(long id) {
         return (Training) sessionFactory.getCurrentSession().get(Training.class, id);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getTrainingsByTrainer(long id) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
+        criteria.add(Restrictions.eq("trainer.id", id));
+        Collection result = new LinkedHashSet(criteria.list());
+        return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getTrainingsByVisitor(long id) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
+        criteria.createAlias("visitors", "visitorsAlias").add(Restrictions.eq("visitorsAlias.userId", id));
+        return criteria.list();
     }
 }

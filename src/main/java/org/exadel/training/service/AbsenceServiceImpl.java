@@ -21,7 +21,7 @@ public class AbsenceServiceImpl implements AbsenceService {
 
     @Override
     @Transactional
-    public void updateAbsence(Absence absence){
+    public void updateAbsence(Absence absence) {
         absenceDAO.updateAbsence(absence);
     }
 

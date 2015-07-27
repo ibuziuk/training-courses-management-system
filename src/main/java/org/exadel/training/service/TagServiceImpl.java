@@ -27,7 +27,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @Transactional
-    public List<Tag> getAllTags(){
+    public List<Tag> getAllTags() {
         return tagDAO.getAllTags();
     }
 }

@@ -1,6 +1,9 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,8 +16,9 @@ public class Audience {
 
     private String value;
 
-    @OneToMany(mappedBy = "audience", fetch = FetchType.EAGER)
-    private Set<TrainingAudience> trainingAudiences;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "audiences")
+    private Set<Training> trainings = new HashSet<>(0);
 
     public int getId() {
         return id;
@@ -28,11 +32,11 @@ public class Audience {
         this.value = value;
     }
 
-    public Set<TrainingAudience> getTrainingAudiences() {
-        return trainingAudiences;
+    public Set<Training> getTrainings() {
+        return trainings;
     }
 
-    public void setTrainingAudiences(Set<TrainingAudience> trainingAudiences) {
-        this.trainingAudiences = trainingAudiences;
+    public void setTrainings(Set<Training> trainings) {
+        this.trainings = trainings;
     }
 }

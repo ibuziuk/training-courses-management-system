@@ -21,14 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> getUsersByName(String name) {
-        return userDAO.getUsersByName(name);
-    }
-
-    @Override
-    @Transactional
-    public List<User> getUsersByRole(int role) {
-        return userDAO.getUsersByRole(role);
+    public List<User> getUsersByName(String firstName, String lastName) {
+        return userDAO.getUsersByName(firstName, lastName);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class TagDAOImpl implements TagDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Tag> getAllTags(){
+    public List<Tag> getAllTags() {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Tag.class).list());
         return new ArrayList<>(result);
     }

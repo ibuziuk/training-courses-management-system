@@ -1,7 +1,5 @@
 package org.exadel.training.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,24 +11,19 @@ public class RegularLesson {
     @Column(name = "lesson_id")
     private int lessonId;
 
-    @NotEmpty
-    private long trainingId;
-
     private Timestamp date;
+
+    private int location;
 
     @Column(length = 20)
     private String time;
 
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
+
     public int getLessonId() {
         return lessonId;
-    }
-
-    public long getTrainingId() {
-        return trainingId;
-    }
-
-    public void setTrainingId(long trainingId) {
-        this.trainingId = trainingId;
     }
 
     public Timestamp getDate() {
@@ -47,6 +40,22 @@ public class RegularLesson {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }
 

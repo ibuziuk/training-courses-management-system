@@ -1,6 +1,9 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,8 +17,9 @@ public class Tag {
     @Column(length = 45)
     private String name;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
-    private Set<TrainingTag> trainingTags;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags")
+    private Set<Training> trainings = new HashSet<>(0);
 
     private String color;
 
@@ -31,19 +35,19 @@ public class Tag {
         this.name = name;
     }
 
-    public Set<TrainingTag> getTrainingTags() {
-        return trainingTags;
-    }
-
-    public void setTrainingTags(Set<TrainingTag> trainingTags) {
-        this.trainingTags = trainingTags;
-    }
-
     public String getColor() {
         return color;
     }
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Set<Training> getTrainings() {
+        return trainings;
+    }
+
+    public void setTrainings(Set<Training> trainings) {
+        this.trainings = trainings;
     }
 }

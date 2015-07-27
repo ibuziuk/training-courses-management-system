@@ -11,27 +11,27 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
-public class AudienceDAOImpl implements AudienceDAO{
+public class AudienceDAOImpl implements AudienceDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public void addAudience(Audience audience){
-        if(audience != null){
+    public void addAudience(Audience audience) {
+        if (audience != null) {
             sessionFactory.getCurrentSession().persist(audience);
         }
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Audience> getAllAudience(){
+    public List<Audience> getAllAudience() {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Audience.class).list());
         return new ArrayList<>(result);
     }
 
     @Override
-    public void updateAudience(Audience audience){
-        if(audience != null){
+    public void updateAudience(Audience audience) {
+        if (audience != null) {
             sessionFactory.getCurrentSession().update(audience);
         }
     }

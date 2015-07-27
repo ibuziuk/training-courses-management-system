@@ -18,7 +18,11 @@ public interface TrainingService {
 
     void updateTraining(Training training);
 
-    void removeTraining(Training training);
+    void removeTrainingById(long id);
 
     Training getTrainingById(long id);
+
+    List<Training> getTrainingsByTrainer(long id);
+
+    List<Training> getTrainingsByVisitor(long id);
 }

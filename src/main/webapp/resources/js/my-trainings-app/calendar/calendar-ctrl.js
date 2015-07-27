@@ -4,17 +4,29 @@ var calendar = angular.module('calendar', []);
 
 calendar.controller('calendarController', ['$scope', '$http', '$location', 'calendarService', 'contextRoot', 'moment', function ($scope, $http, $location, calendarService, contextRoot, moment) {
 	var vm = this,
-			now = moment();
+			now = moment(),
+			eventsAsVisitor = [],
+			eventsAsTrainer = [],
+			trainer = 'trainer',
+			visitor = 'visitor';
 
 	moment.locale('en');
 	vm.calendarDay = now;
 	vm.calendarView = 'month';
 
-	$http.get('/rest/calendar').then(function (response) {
-		vm.events = calendarService.parse(response.data);
+	$http.get('/rest/calendar/visitor').then(function (response) {
+		eventsAsVisitor = calendarService.parse(response.data, visitor);
 	}, function () {
 
 	});
+
+	$http.get('/rest/calendar/trainer').then(function (response) {
+		eventsAsTrainer = calendarService.parse(response.data, trainer);
+	}, function () {
+
+	});
+
+	vm.events = eventsAsVisitor.concat(eventsAsTrainer);
 
 	vm.eventClicked = function (event) {
 

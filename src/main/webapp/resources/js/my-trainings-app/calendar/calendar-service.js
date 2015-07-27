@@ -16,21 +16,41 @@ calendar.factory('calendarService', ['contextRoot', 'moment', function (contextR
 				};
 			};
 
-	service.parse = function (data) {
+	service.parse = function (data, who) {
 		var type,
 				today = moment(moment()).unix(),
 				deletable = false;
 
-		for (var i = 0; i < data.length; i++) {
-			if (data[i].approved) {
-				if (service.isFuture(today, data[i].date)) {
-					type = 'success';
-					deletable = true;
-					service.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+		if (who === 'visitor') {
+			for (var i = 0; i < data.length; i++) {
+				if (data[i].approved) {
+					if (service.isFuture(today, data[i].date)) {
+						type = 'success';
+						deletable = true;
+						service.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					} else {
+						type = 'warning';
+						deletable = false;
+						service.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					}
+				}
+			}
+		} else {
+			for (var j = 0; j < data.length; j++) {
+				if (data[j].approved) {
+					if (service.isFuture(today, data[j].date)) {
+						type = 'info';
+						deletable = true;
+						service.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+					} else {
+						type = 'important';
+						deletable = false;
+						service.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+					}
 				} else {
-					type = 'warning';
-					deletable = false;
-					service.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					type = 'inverse';
+					deletable = true;
+					service.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
 				}
 			}
 		}

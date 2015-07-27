@@ -1,15 +1,15 @@
 "use strict";
 
-var calendarController = angular.module('calendarController', []);
+var calendar = angular.module('calendar', []);
 
-calendarController.controller('calendarController', ['$scope', '$http', '$location', 'calendarEvent', 'contextRoot', function ($scope, $http, $location, calendarEvent, contextRoot) {
+calendar.controller('calendarController', ['$scope', '$http', '$location', 'calendarService', 'contextRoot', function ($scope, $http, $location, calendarService, contextRoot) {
 	var vm = this;
 
 	vm.calendarDay = new Date();
 	vm.calendarView = 'month';
 
 	$http.get('/rest/calendar').then(function (response) {
-		vm.events = calendarEvent.parse(response.data);
+		vm.events = calendarService.parse(response.data);
 	}, function () {
 
 	});

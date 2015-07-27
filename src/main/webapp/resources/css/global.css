@@ -26,8 +26,8 @@ body {
 	padding-left: 0;
 }
 
-#audience, #tags{
-	list-style-type:none;
+#audience, #tags {
+	list-style-type: none;
 	max-height: 100px;
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -40,7 +40,7 @@ html {
 	background-color: white;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
 	body {
 		margin-top: 50px;
 	}
@@ -63,43 +63,43 @@ html {
 #page-wrapper {
 	width: 100%;
 	padding: 50px 0 0;
-	background-color: #fff;
+	background-color: #FFFFFF;
 	height: 100%;
 	margin-bottom: -50px;
 	margin-top: -50px;
 }
 
 #top-menu {
-	box-shadow: 0 2px 14px 2px #0f2736;
+	box-shadow: 0 2px 14px 2px #0F2736;
 	background-color: #1A394C;
 }
 
 #menu-button {
-	border-color: #112c3c;
+	border-color: #112C3C;
 }
 
 #menu-button:hover {
-	background-color: #112c3c;
+	background-color: #112C3C;
 }
 
 #menu-button:focus {
-	background-color: #112c3c;
+	background-color: #112C3C;
 }
 
-#left-menu{
+#left-menu {
 	background-color: #1A394C;
 }
 
-#left-menu>li>a {
-	border-bottom: solid 1px #0f2736;
+#left-menu > li > a {
+	border-bottom: solid 1px #0F2736;
 	color: white;
 }
 
 #alltrainings {
-	border-top: solid 1px #0f2736;
+	border-top: solid 1px #0F2736;
 }
 
-#left-menu>li>ul>li>a {
+#left-menu > li > ul > li > a {
 	color: white;
 }
 
@@ -108,7 +108,7 @@ html {
 	line-height: normal;
 }
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
 	#wrapper {
 		padding-left: 225px;
 	}
@@ -120,9 +120,9 @@ html {
 
 .tab-content {
 	border-top: 0;
-	border-right: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #DDDDDD;
+	border-left: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
 	border-radius: 0 0 4px 4px;
 	padding-left: 15px;
 	padding-right: 15px;
@@ -143,12 +143,12 @@ html {
 	padding: 0 15px;
 }
 
-.top-nav>li {
+.top-nav > li {
 	display: inline-block;
 	float: left;
 }
 
-.top-nav>li>a {
+.top-nav > li > a {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	line-height: 20px;
@@ -157,27 +157,27 @@ html {
 
 /*    hover navbar buttons    */
 
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
-	color: #fff;
+.top-nav > li > a:focus,
+.top-nav > .open > a,
+.top-nav > .open > a:hover,
+.top-nav > .open > a:focus {
+	color: #FFFFFF;
 	background-color: #285069;
 }
 
-.top-nav>.open>.dropdown-menu {
+.top-nav > .open > .dropdown-menu {
 	float: left;
 	position: absolute;
 	margin-top: 0;
-	border: 1px solid rgba(0,0,0,.15);
+	border: 1px solid rgba(0, 0, 0, .15);
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
-	background-color: #fff;
-	-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-	box-shadow: 0 6px 12px rgba(0,0,0,.175);
+	background-color: #FFFFFF;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
-.top-nav>.open>.dropdown-menu>li>a {
+.top-nav > .open > .dropdown-menu > li > a {
 	white-space: normal;
 }
 
@@ -190,10 +190,10 @@ ul.message-dropdown {
 
 li.message-preview {
 	width: 275px;
-	border-bottom: 1px solid rgba(0,0,0,.15);
+	border-bottom: 1px solid rgba(0, 0, 0, .15);
 }
 
-li.message-preview>a {
+li.message-preview > a {
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
@@ -208,7 +208,7 @@ ul.alert-dropdown {
 
 /* Side Navigation */
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
 	.side-nav {
 		position: fixed;
 		top: 51px;
@@ -218,12 +218,12 @@ ul.alert-dropdown {
 		border: none;
 		border-radius: 0;
 		overflow-y: auto;
-		background-color: #222;
+		background-color: #222222;
 		overflow-x: hidden;
 		height: 100%;
 	}
 
-	.side-nav>li>a {
+	.side-nav > li > a {
 		width: 225px;
 	}
 
@@ -242,20 +242,20 @@ ul.alert-dropdown {
 	}
 }
 
-.side-nav>li>ul {
+.side-nav > li > ul {
 	padding: 0;
 }
 
-.side-nav>li>ul>li>a {
+.side-nav > li > ul > li > a {
 	display: block;
 	padding: 10px 15px 10px 38px;
 	text-decoration: none;
-	color: #999;
-	border-bottom: solid 1px #0f2736;
+	color: #999999;
+	border-bottom: solid 1px #0F2736;
 }
 
-.side-nav>li>ul>li>a:hover {
-	color: #fff;
+.side-nav > li > ul > li > a:hover {
+	color: #FFFFFF;
 }
 
 /* Flot Chart Containers */
@@ -277,58 +277,59 @@ ul.alert-dropdown {
 }
 
 .panel-green {
-	border-color: #5cb85c;
+	border-color: #5CB85C;
 }
 
 .panel-green > .panel-heading {
-	border-color: #5cb85c;
-	color: #fff;
-	background-color: #5cb85c;
+	border-color: #5CB85C;
+	color: #FFFFFF;
+	background-color: #5CB85C;
 }
 
 .panel-green > a {
-	color: #5cb85c;
+	color: #5CB85C;
 }
 
 .panel-green > a:hover {
-	color: #3d8b3d;
+	color: #3D8B3D;
 }
 
 .panel-red {
-	border-color: #d9534f;
+	border-color: #D9534F;
 }
 
 .panel-red > .panel-heading {
-	border-color: #d9534f;
-	color: #fff;
-	background-color: #d9534f;
+	border-color: #D9534F;
+	color: #FFFFFF;
+	background-color: #D9534F;
 }
 
 .panel-red > a {
-	color: #d9534f;
+	color: #D9534F;
 }
 
 .panel-red > a:hover {
-	color: #b52b27;
+	color: #B52B27;
 }
 
 .panel-yellow {
-	border-color: #f0ad4e;
+	border-color: #F0AD4E;
 }
 
 .panel-yellow > .panel-heading {
-	border-color: #f0ad4e;
-	color: #fff;
-	background-color: #f0ad4e;
+	border-color: #F0AD4E;
+	color: #FFFFFF;
+	background-color: #F0AD4E;
 }
 
 .panel-yellow > a {
-	color: #f0ad4e;
+	color: #F0AD4E;
 }
 
 .panel-yellow > a:hover {
-	color: #df8a13;
+	color: #DF8A13;
 }
+
 .search-select {
 	padding-right: 0;
 }
@@ -347,6 +348,7 @@ ul.alert-dropdown {
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
 	color: white;
 }
+
 .right-calendar-buttons {
 	float: right;
 }
@@ -362,6 +364,7 @@ ul.alert-dropdown {
 .calendar-icons {
 	color: white;
 }
+
 .calendar-title {
 	margin-bottom: 0;
 	margin-top: 0;

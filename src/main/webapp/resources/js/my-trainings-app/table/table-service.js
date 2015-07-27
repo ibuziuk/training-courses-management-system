@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('myTrainingsApp').factory('tableEvent', [function () {
+table.factory('tableService', [function () {
 	var service = [],
 			event = function (title, date, location, trainerName, places, tags) {
 				return {

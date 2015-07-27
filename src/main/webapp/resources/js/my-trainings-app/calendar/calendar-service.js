@@ -1,21 +1,20 @@
 "use strict";
 
-angular.module('myTrainingsApp').factory('calendarEvent', ['contextRoot', function (contextRoot) {
-	var service = [];
-
-	var event = function (title, type, startsAt, endsAt, editable, deletable, draggable, resizable, incrementsBadgeTotal) {
-		return {
-			title: title,
-			type: type,
-			startsAt: startsAt,
-			endsAt: endsAt,
-			editable: false,
-			deletable: false,
-			draggable: false,
-			resizable: false,
-			incrementsBadgeTotal: true
-		};
-	};
+calendar.factory('calendarService', ['contextRoot', function (contextRoot) {
+	var service = [],
+			event = function (title, type, startsAt, endsAt, editable, deletable, draggable, resizable, incrementsBadgeTotal) {
+				return {
+					title: title,
+					type: type,
+					startsAt: startsAt,
+					endsAt: endsAt,
+					editable: false,
+					deletable: false,
+					draggable: false,
+					resizable: false,
+					incrementsBadgeTotal: true
+				};
+			};
 
 	service.parse = function (data) {
 		var type,

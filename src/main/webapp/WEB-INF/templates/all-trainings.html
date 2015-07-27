@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="allTrainingsApp">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="allTrainingsApp">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="description" content=""/>
+	<meta name="author" content=""/>
+	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif"
+	      th:href="@{/resources/vendors/pics/favicon.gif}"/>
 
 	<title th:text="#{allTrainings.page.titile}">All trainings</title>
 
 	<!-- Bootstrap Core CSS -->
-	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
+	      rel="stylesheet"/>
 
 	<!-- Custom CSS -->
-	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
 	<!-- Custom Fonts -->
-	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
+	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
 	<!-- jQuery -->
 	<script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
@@ -29,35 +33,37 @@
 
 	<!-- Angular -->
 	<script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
-	<script src="../../resources/vendors/js/angular-route.js" th:src="@{/resources/vendors/js/angular-route.js}"></script>
-	<script src="../../resources/js/all-trainings-app/app.js" th:src="@{/resources/js/all-trainings-app/app.js}"></script>
-	<script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
-	<script src="../../resources/js/all-trainings-app/tabs-ctrl.js" th:src="@{/resources/js/all-trainings-app/tabs-ctrl.js}"></script>
-	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+	<script src="../../resources/vendors/js/angular-route.js"
+	        th:src="@{/resources/vendors/js/angular-route.js}"></script>
+	<script src="../../resources/js/all-trainings-app/app.js"
+	        th:src="@{/resources/js/all-trainings-app/app.js}"></script>
+	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
+	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 </head>
 
 <body>
 <div id="wrapper">
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-menu">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+			<button type="button" class="navbar-toggle" id="menu-button">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
 
 			<a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
-				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png"
+				     th:src="@{/resources/vendors/pics/exadel-logo.png}"/>
 			</a>
 		</div>
 
 		<!-- Top Menu Items -->
 		<ul class="nav navbar-right top-nav">
 			<li class="active">
-				<a href = "welcome.html" th:href="@{/welcome}">
-					<i class = "fa fa-fw fa-user"></i>
+				<a href="welcome.html" th:href="@{/welcome}">
+					<i class="fa fa-fw fa-user"></i>
 					<span sec:authentication="name"></span>
 				</a>
 			</li>
@@ -70,60 +76,45 @@
 			</li>
 
 			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href = "all-trainings.html">En</a></li>
-				<li><a class="lang" href = "all-trainings.html">Ru</a></li>
+				<li><a class="lang" href="all-trainings.html">En</a></li>
+				<li><a class="lang" href="all-trainings.html">Ru</a></li>
 			</ul>
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class="collapse navbar-collapse" collapse="isCollapsed">
-			<ul class="nav navbar-nav side-nav" id = "left-menu">
-				<li id = "alltrainings">
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav side-nav" id="left-menu">
+				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
 					</a>
 				</li>
-				<li id = "mytrainings">
-					<a href="#" ng-click="isCollapsed2=!isCollapsed2">
+				<li id="mytrainings" th:href="@{/training/my}">
+					<a href="my-trainings.html">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
-						<i class="fa fa-fw fa-caret-down"></i>
 					</a>
-					<ul collapse="isCollapsed2">
-						<li ng-click="">
-							<a href="my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
-							</a>
-						</li>
-						<li ng-click="">
-							<a href="my-trainings.html" th:href="@{/training/my}">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
-							</a>
-						</li>
-					</ul>
 				</li>
-				<li id = "newtraining">
+				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
+				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
 					<a href="new-trainer.html" th:href="@{/trainer/new}">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
+				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">
 					<a href="users.html" th:href="@{/user/all}">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.users}">Users</span>
 					</a>
 				</li>
-				<li id = "copyright">
+				<li id="copyright">
 					<footer>
 						<span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
 					</footer>
@@ -140,7 +131,8 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						<span th:text="#{label.allTrainings}">All trainings</span> <small th:text="#{label.allTrainings.info}">Information about all trainings</small>
+						<span th:text="#{label.allTrainings}">All trainings</span>
+						<small th:text="#{label.allTrainings.info}">Information about all trainings</small>
 					</h1>
 				</div>
 			</div>
@@ -149,9 +141,12 @@
 			<!-- Tabs -->
 			<div class="tabs">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="#fut" data-toggle="tab" th:text="#{label.futureTrainings}">Future trainings</a></li>
+					<li class="active"><a href="#fut" data-toggle="tab" th:text="#{label.futureTrainings}">Future
+						trainings</a></li>
 					<li><a href="#rec" data-toggle="tab" th:text="#{label.recommendations}">Recommendations</a></li>
-					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#hist" data-toggle="tab" th:text="#{label.historyOfTrainings}">History of trainings</a></li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#hist" data-toggle="tab"
+					                                             th:text="#{label.historyOfTrainings}">History of
+						trainings</a></li>
 				</ul>
 				<!-- Tab content -->
 				<div class="tab-content panel panel-default panel-body">
@@ -170,9 +165,12 @@
 							</div>
 							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
+									<input type="text" class="form-control" placeholder="Type here"
+									       th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">
+										        Search
+									        </button>
       									</span>
 								</div>
 							</div>
@@ -191,7 +189,9 @@
 											<th th:text="#{label.time}">Time</th>
 											<th th:text="#{label.location}">Location</th>
 											<th th:text="#{label.trainerName}">Trainer name</th>
-											<th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span th:text="#{label.all}">all</span></th>
+											<th><span th:text="#{label.places}">Places</span> <span
+													th:text="#{label.occupied}">free</span>/<span
+													th:text="#{label.all}">all</span></th>
 											<th th:text="#{label.tags}">Tags</th>
 										</tr>
 										</thead>
@@ -203,7 +203,9 @@
 											<td th:text="|#{label.unit} ${training.location}|"></td>
 											<td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
 											<td th:text="${training.currentLists.size()} + '/'+${training.maxVisitorsCount}"></td>
-											<td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
+											<td><span class="label label-info tags"
+											          th:each="tag : ${training.trainingTags}"
+											          th:text="'#'+${tag.tag.name}"></span></td>
 										</tr>
 										<tr>
 											<td>JavaScript frameworks: Angular.js. How it works?</td>
@@ -212,7 +214,10 @@
 											<td>Unit 243</td>
 											<td>Shchaurouski Slava</td>
 											<td>10/15</td>
-											<td><span class="label label-info tags"></span><span class="label label-default tags">#angular.js</span><span class="label label-success tags">#front-end</span><span class="label label-warning tags">#framework</span></td>
+											<td><span class="label label-info tags"></span><span
+													class="label label-default tags">#angular.js</span><span
+													class="label label-success tags">#front-end</span><span
+													class="label label-warning tags">#framework</span></td>
 										</tr>
 										</tbody>
 									</table>
@@ -238,9 +243,12 @@
 							</div>
 							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
+									<input type="text" class="form-control" placeholder="Type here"
+									       th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">
+										        Search
+									        </button>
       									</span>
 								</div>
 							</div>
@@ -279,7 +287,9 @@
 											<th th:text="#{label.time}">Time</th>
 											<th th:text="#{label.location}">Location</th>
 											<th th:text="#{label.trainerName}">Trainer name</th>
-											<th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span th:text="#{label.all}">all</span></th>
+											<th><span th:text="#{label.places}">Places</span> <span
+													th:text="#{label.occupied}">free</span>/<span
+													th:text="#{label.all}">all</span></th>
 											<th th:text="#{label.tags}">Tags</th>
 										</tr>
 										</thead>
@@ -340,9 +350,12 @@
 							</div>
 							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Type here" th:placeholder="#{label.typeHere}"/>
+									<input type="text" class="form-control" placeholder="Type here"
+									       th:placeholder="#{label.typeHere}"/>
                                     	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}">Search</button>
+        									<button class="btn btn-default" type="button" th:text="#{label.search}">
+										        Search
+									        </button>
       									</span>
 								</div>
 							</div>
@@ -361,7 +374,9 @@
 											<th th:text="#{label.time}">Time</th>
 											<th th:text="#{label.location}">Location</th>
 											<th th:text="#{label.trainerName}">Trainer name</th>
-											<th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span th:text="#{label.all}">all</span></th>
+											<th><span th:text="#{label.places}">Places</span> <span
+													th:text="#{label.occupied}">free</span>/<span
+													th:text="#{label.all}">all</span></th>
 											<th th:text="#{label.tags}">Tags</th>
 										</tr>
 										</thead>
@@ -373,7 +388,9 @@
 											<td th:text="|#{label.unit} ${training.location}|"></td>
 											<td th:text="|${training.trainer.name} ${training.trainer.surname}|"></td>
 											<td th:text="${training.currentLists.size()}+'/'+${training.maxVisitorsCount}"></td>
-											<td><span class="label label-info tags" th:each="tag : ${training.trainingTags}" th:text="'#'+${tag.tag.name}"></span></td>
+											<td><span class="label label-info tags"
+											          th:each="tag : ${training.trainingTags}"
+											          th:text="'#'+${tag.tag.name}"></span></td>
 										</tr>
 										</tbody>
 									</table>

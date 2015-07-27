@@ -72,7 +72,6 @@ public class Training {
             })
     private Set<Audience> audiences = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "training_tag", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},

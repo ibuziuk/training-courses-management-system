@@ -16,10 +16,12 @@ public class User {
     @Column(name = "user_id")
     private long userId;
 
+    @JsonIgnore
     @NotEmpty
     @Column(name = "first_name", nullable = false, length = 25)
     private String firstName;
 
+    @JsonIgnore
     @NotEmpty
     @Column(name = "last_name", nullable = false, length = 25)
     private String lastName;
@@ -32,6 +34,7 @@ public class User {
     @Column(length = 60, nullable = false)
     private String password;
 
+    @JsonIgnore
     @Column(name = "e_mail", unique = true)
     private String email;
 

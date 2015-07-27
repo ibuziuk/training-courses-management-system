@@ -17,9 +17,6 @@ public class TrainingDAOImpl implements TrainingDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private UserDAO userDAO;
-
     @Override
     public void addTraining(Training training) {
         if (training != null) {
@@ -51,8 +48,9 @@ public class TrainingDAOImpl implements TrainingDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<Training> getTrainingsByName(String name) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("FROM Training t WHERE t.title = :name").setString("name", name).list();
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .add(Restrictions.eq("title", name)).list());
+        return new ArrayList<>(result);
     }
 
     @Override

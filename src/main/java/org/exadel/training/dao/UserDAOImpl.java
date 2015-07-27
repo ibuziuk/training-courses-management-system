@@ -1,10 +1,16 @@
 package org.exadel.training.dao;
 
 import org.exadel.training.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
@@ -15,7 +21,7 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getAllUsers() {
-        return sessionFactory.getCurrentSession().createQuery("FROM User ORDER BY firstName, lastName").list();
+        return sessionFactory.getCurrentSession().createCriteria(User.class).addOrder(Order.asc("firstName")).addOrder(Order.asc("lastName")).list();
     }
 
     @SuppressWarnings("unchecked")
@@ -27,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public User getUserByLogin(String login) {
-        List<User> list = sessionFactory.getCurrentSession().createQuery("FROM User WHERE login = :login").setString("login", login).list();
+        List<User> list = sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("login", login)).list();
         if (list.size() == 0) {
             return null;
         }
@@ -37,21 +43,24 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsersByName(String firstName, String lastName) {
-        /*return sessionFactory.getCurrentSession().createQuery("FROM User WHERE firstName = :firstName AND lastName = :lastName").setString("firstName", firstName).setString("lastName", lastName).list();*/
-        return null;
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("firstName", firstName));
+        criteria.add(Restrictions.eq("lastName", lastName));
+        Collection result = new LinkedHashSet(criteria.list());
+        return new ArrayList<>(result);
     }
 
     @Override
     public void addUser(User user) {
         if (user != null) {
-            sessionFactory.getCurrentSession().save(user);
+            sessionFactory.getCurrentSession().persist(user);
         }
     }
 
     @Override
     public void updateUser(User user) {
         if (user != null) {
-            sessionFactory.getCurrentSession().merge(user);
+            sessionFactory.getCurrentSession().update(user);
         }
     }
 

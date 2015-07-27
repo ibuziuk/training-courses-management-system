@@ -9,19 +9,19 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class LanguageServiceImpl implements LanguageService{
+public class LanguageServiceImpl implements LanguageService {
     @Autowired
     private LanguageDAO languageDAO;
 
     @Override
     @Transactional
-    public void addLanguage(Language language){
+    public void addLanguage(Language language) {
         languageDAO.addLanguage(language);
     }
 
     @Override
     @Transactional
-    public List<Language> getAllLanguages(){
+    public List<Language> getAllLanguages() {
         return languageDAO.getAllLanguages();
     }
 }

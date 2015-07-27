@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.exadel.training.utils.RoleUtil.buildRoleForView;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -15,25 +17,24 @@ public class User {
     private long userId;
 
     @NotEmpty
-    @Column(length = 25)
-    private String name;
+    @Column(name = "first_name", nullable = false, length = 25)
+    private String firstName;
 
     @NotEmpty
-    @Column(length = 25)
-    private String surname;
+    @Column(name = "last_name", nullable = false, length = 25)
+    private String lastName;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String login;
 
-    @Column(length = 60)
+    @Column(length = 60, nullable = false)
     private String password;
 
     @Column(name = "e_mail", unique = true)
     private String email;
 
     @JsonIgnore
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
@@ -52,20 +53,20 @@ public class User {
         return userId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getLogin() {
@@ -92,12 +93,12 @@ public class User {
         this.email = email;
     }
 
-    public String getSurname() {
-        return surname;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setSurname(String soname) {
-        this.surname = soname;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Set<Training> getTrainings() {
@@ -114,5 +115,9 @@ public class User {
 
     public void setCurrentLists(Set<CurrentList> currentLists) {
         this.currentLists = currentLists;
+    }
+
+    public String getRoleForView() {
+        return buildRoleForView(roles);
     }
 }

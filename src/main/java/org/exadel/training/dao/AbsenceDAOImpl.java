@@ -20,8 +20,8 @@ public class AbsenceDAOImpl implements AbsenceDAO {
     }
 
     @Override
-    public void updateAbsence(Absence absence){
-        if(absence != null){
+    public void updateAbsence(Absence absence) {
+        if (absence != null) {
             sessionFactory.getCurrentSession().update(absence);
         }
     }

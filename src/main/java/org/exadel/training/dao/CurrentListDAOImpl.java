@@ -16,7 +16,7 @@ public class CurrentListDAOImpl implements CurrentListDAO {
 
     @Override
     public void addVisitor(User visitor, Training training) {
-        if (visitor != null && training != null){
+        if (visitor != null && training != null) {
             CurrentList currentList = new CurrentList();
             currentList.setTraining(training);
             currentList.setVisitor(visitor);
@@ -32,7 +32,7 @@ public class CurrentListDAOImpl implements CurrentListDAO {
 
     @Override
     public void removeVisitor(User visitor, Training training) {
-        if(visitor != null && training != null){
+        if (visitor != null && training != null) {
             CurrentList currentList = new CurrentList();
             currentList.setVisitor(visitor);
             currentList.setTraining(training);

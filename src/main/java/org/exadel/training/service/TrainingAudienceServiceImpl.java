@@ -15,13 +15,13 @@ public class TrainingAudienceServiceImpl implements TrainingAudienceService {
 
     @Override
     @Transactional
-    public void addTrainingAudience(TrainingAudience trainingAudience){
+    public void addTrainingAudience(TrainingAudience trainingAudience) {
         trainingAudienceDAO.addTrainingAudience(trainingAudience);
     }
 
     @Override
     @Transactional
-    public List<TrainingAudience> getAllTrainingAudience(){
+    public List<TrainingAudience> getAllTrainingAudience() {
         return trainingAudienceDAO.getAllTrainingAudience();
     }
 }

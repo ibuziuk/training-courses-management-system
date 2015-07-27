@@ -1,13 +1,10 @@
 package org.exadel.training.dao;
 
 import org.exadel.training.model.User;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.hibernate.SessionFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
@@ -18,8 +15,7 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getAllUsers() {
-        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(User.class).list());
-        return new ArrayList<>(result);
+        return sessionFactory.getCurrentSession().createQuery("FROM User").list();
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByLogin(String login) {
         List<User> list = sessionFactory.getCurrentSession().createQuery("FROM User WHERE login = :login").setString("login", login).list();
-        if(list.size() == 0) {
+        if (list.size() == 0) {
             return null;
         }
         return list.get(0);
@@ -40,8 +36,9 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getUsersByName(String name) {
-        return sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.name = :name").setString("name", name).list();
+    public List<User> getUsersByName(String firstName, String lastName) {
+        /*return sessionFactory.getCurrentSession().createQuery("FROM User WHERE firstName = :firstName AND lastName = :lastName").setString("firstName", firstName).setString("lastName", lastName).list();*/
+        return null;
     }
 
     @Override

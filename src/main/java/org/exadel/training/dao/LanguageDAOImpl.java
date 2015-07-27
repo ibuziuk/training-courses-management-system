@@ -11,20 +11,20 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
-public class LanguageDAOImpl implements LanguageDAO{
+public class LanguageDAOImpl implements LanguageDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public void addLanguage(Language language){
-        if (language != null){
+    public void addLanguage(Language language) {
+        if (language != null) {
             sessionFactory.getCurrentSession().persist(language);
         }
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Language> getAllLanguages(){
+    public List<Language> getAllLanguages() {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Language.class).list());
         return new ArrayList<>(result);
     }

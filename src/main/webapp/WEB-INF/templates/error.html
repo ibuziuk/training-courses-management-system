@@ -1,74 +1,81 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="description" content=""/>
+	<meta name="author" content=""/>
+	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif"
+	      th:href="@{/resources/vendors/pics/favicon.gif}"/>
 
-    <title th:text="#{error.page.title}">Error</title>
+	<title th:text="#{error.page.title}">Error</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+	<!-- Bootstrap Core CSS -->
+	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
+	      rel="stylesheet"/>
 
-    <!-- Error CSS -->
-    <link href="../../resources/css/error.css" th:href="@{/resources/css/error.css}" rel="stylesheet" />
+	<!-- Error CSS -->
+	<link href="../../resources/css/error.css" th:href="@{/resources/css/error.css}" rel="stylesheet"/>
 
 </head>
 
 <body>
 <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" id="top-menu" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
-                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
-            </a>
-        </div>
-        <ul class="nav navbar-right top-nav">
-            <li><a class = "lang" href = "?language=en">En</a></li>
-            <li><a class = "lang" href = "?language=ru">Ru</a></li>
-        </ul>
-    </nav>
-    <!-- /.navbar -->
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="top-menu" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png"
+				     th:src="@{/resources/vendors/pics/exadel-logo.png}"/>
+			</a>
+		</div>
+		<ul class="nav navbar-right top-nav">
+			<li><a class="lang" href="?language=en">En</a></li>
+			<li><a class="lang" href="?language=ru">Ru</a></li>
+		</ul>
+	</nav>
+	<!-- /.navbar -->
 
-    <!-- Container -->
-    <div class="container-fluid">
-        <!-- .error-message -->
-        <div class="row error-message">
-            <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
-                <div class="well error">
-                    <span th:text="#{label.error}">Error</span> <span th:text="${errorCode}">404</span>
-                </div>
-            </div>
-        </div>
-        <!-- /.error-message -->
+	<!-- Container -->
+	<div class="container-fluid">
+		<!-- .error-message -->
+		<div class="row error-message">
+			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
+				<div class="well error">
+					<span th:text="#{label.error}">Error</span> <span th:text="${errorCode}">404</span>
+				</div>
+			</div>
+		</div>
+		<!-- /.error-message -->
 
-        <!-- contact-message -->
-        <div class="row">
-            <div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
-                <div class="well"><div class="contact-message">
-                    <span th:text="#{label.preContactMessage}">If you want, you can</span> <a href="" th:text="#{label.contactUs}">contact us</a>.
-                </div></div>
-            </div>
-        </div>
-        <!-- /contact-message -->
+		<!-- contact-message -->
+		<div class="row">
+			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-lg-6 col-md-6 col-sm-8 col-xs-12">
+				<div class="well">
+					<div class="contact-message">
+						<span th:text="#{label.preContactMessage}">If you want, you can</span> <a href=""
+						                                                                          th:text="#{label.contactUs}">contact
+						us</a>.
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /contact-message -->
 
-        <!-- Blockquote -->
-        <div class="row">
-            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-lg-5 col-md-5 col-sm-7 col-xs-12">
-                <blockquote>
-                    <p>Быстро поднятое не считается упавшим.</p>
-                    <footer>Somebody</footer>
-                </blockquote>
-            </div>
-        </div>
-        <!-- /Blockquote -->
-    </div>
-    <!-- /Container -->
+		<!-- Blockquote -->
+		<div class="row">
+			<div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-lg-5 col-md-5 col-sm-7 col-xs-12">
+				<blockquote>
+					<p>Быстро поднятое не считается упавшим.</p>
+					<footer>Somebody</footer>
+				</blockquote>
+			</div>
+		</div>
+		<!-- /Blockquote -->
+	</div>
+	<!-- /Container -->
 </div>
 <!-- /#wrapper -->
 <span th:text="${errorMessage}"></span>

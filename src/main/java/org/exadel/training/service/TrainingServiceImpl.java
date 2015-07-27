@@ -27,13 +27,13 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public List<Training> getFutureTrainings(){
+    public List<Training> getFutureTrainings() {
         return trainingDAO.getFutureTrainings();
     }
 
     @Override
     @Transactional
-    public List<Training> getPastTrainings(){
+    public List<Training> getPastTrainings() {
         return trainingDAO.getPastTrainings();
     }
 

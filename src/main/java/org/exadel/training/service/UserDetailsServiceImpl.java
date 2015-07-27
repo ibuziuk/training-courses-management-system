@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.exadel.training.utils.RoleUtil.buildRoleForAuthorization;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
@@ -36,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
         Set<GrantedAuthority> authoritySet = new HashSet<>();
         for (Role role : roles) {
-            authoritySet.add(new SimpleGrantedAuthority(role.getRole()));
+            authoritySet.add(new SimpleGrantedAuthority(buildRoleForAuthorization(role.getRole())));
         }
         return new ArrayList<>(authoritySet);
     }

@@ -1,7 +1,6 @@
 package org.exadel.training.service;
 
 
-import org.exadel.training.model.CurrentList;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 

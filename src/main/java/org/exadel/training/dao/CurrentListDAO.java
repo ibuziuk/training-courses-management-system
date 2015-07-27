@@ -1,6 +1,5 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.CurrentList;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 

@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en" style="font-size: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0);">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      style="font-size: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0);">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8"/>
 </head>
 <body style="font-family: 'sans-serif'; font-size: 14px; line-height: 1.42857143; color: #333; margin: 0;">
 <div>
-    <div style="border-radius: 0; position: relative; top: 0; left: 0; right: 0; min-height: 50px; margin-bottom: 20px; background-color: #314D5E; box-shadow: 0 2px 14px 2px #0f2736;">
-        <div>
-            <div style="height: 50px; float: left; font-size: 18px; line-height: 20px; padding: 12px 15px;">
-                <img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="'cid:' + ${imageResourceName}" style="vertical-align: middle; border: 0;" />
-            </div>
-        </div>
-    </div>
-    <p style="color: #1A394C; font-size: 25px; margin-bottom: 10px; font-family: inherit; font-weight: 500; display: block; box-sizing: border-box;" align="center">Dear <span sec:authentication="name">sir,</span></p>
-    <p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> you have received a training <a href="http://google.com"><span> Name of training</span></a> to approve.</p>
-    <p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> Sincerely, Exadel Training System.</p>
+	<div style="border-radius: 0; position: relative; top: 0; left: 0; right: 0; min-height: 50px; margin-bottom: 20px; background-color: #314D5E; box-shadow: 0 2px 14px 2px #0f2736;">
+		<div>
+			<div style="height: 50px; float: left; font-size: 18px; line-height: 20px; padding: 12px 15px;">
+				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png"
+				     th:src="'cid:' + ${imageResourceName}" style="vertical-align: middle; border: 0;"/>
+			</div>
+		</div>
+	</div>
+	<p style="color: #1A394C; font-size: 25px; margin-bottom: 10px; font-family: inherit; font-weight: 500; display: block; box-sizing: border-box;"
+	   align="center">Dear <span sec:authentication="name">sir,</span></p>
+
+	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> you have
+		received a training <a href="http://google.com"><span> Name of training</span></a> to approve.</p>
+
+	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> Sincerely,
+		Exadel Training System.</p>
 </div>
 </body>
 </html>

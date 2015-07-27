@@ -1,6 +1,6 @@
-"use strict"
+'use strict';
 
-angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 'ngNotify', function ($scope, $http, $q, ngNotify) {
+angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q', 'ngNotify', function ($scope, $http, $q, ngNotify) {
     ngNotify.config({
         theme: 'pastel',
         position: 'bottom',
@@ -115,8 +115,9 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
     
     /* Date */
     $scope.today = function() {
-        for (var i = 0; i < $scope.qDates; i++)
+        for (var i = 0; i < $scope.qDates; i++) {
             $scope.datepickers[i].dt = new Date();
+        }
     };
     
     $scope.toggleMin = function() {
@@ -162,7 +163,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
     $scope.trainingCreation = function(){
         var trainingsRequests = [];
         
-        if ($scope.qDescr == 0){
+        if ($scope.qDescr === 0){
             ngNotify.set('You should fill all fields!');
             return;
         }
@@ -243,7 +244,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             /* Training description */
             training.description = $scope.descriptions[i].text;
             
-            if (training.description == undefined || training.description.length == 0){
+            if (training.description === undefined || training.description.length === 0){
                 ngNotify.set('You should enter the description of your training!');
                 return;
             }
@@ -251,7 +252,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             /* Training visitors */
             training.visitors = $scope.guests;
             
-            if (training.visitors == undefined || training.visitors.length == 0){
+            if (training.visitors === undefined || training.visitors.length === 0){
                 ngNotify.set('You should enter quantity of guests!');
                 return;
             }
@@ -259,7 +260,7 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             /* Training duration */
             training.duration = $scope.duration;
             
-            if (training.duration == undefined || training.duration.length == 0){
+            if (training.duration === undefined || training.duration.length === 0){
                 ngNotify.set('You should enter duration!');
                 return;
             }
@@ -270,26 +271,28 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             training.date = '';
             training.times = [];
             
-            if ($scope.toShowRepet == 'Weekly '){
+            if ($scope.toShowRepet === 'Weekly '){
                 training.date = $scope.dateWeekly.getDate() + '.' + $scope.dateWeekly.getMonth() + '.' + $scope.dateWeekly.getFullYear();
                 for (var j = 0; j < $scope.datepickers.length; j++){
-                    if ($scope.datepickers[j].toShowWeekDay != 'Select day of week ')
+                    if ($scope.datepickers[j].toShowWeekDay !== 'Select day of week ') {
                         training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
+                    }
                     else {
                         ngNotify.set('You should select all week days!');
                         return;
                     }
                     training.times.push($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
-                    if ($scope.datepickers[j].room != undefined && $scope.datepickers[j].room.length != 0)
+                    if ($scope.datepickers[j].room !== undefined && $scope.datepickers[j].room.length !== 0) {
                         training.rooms.push($scope.datepickers[j].room);
+                    }
                     else {
                         ngNotify.set('You should enter all rooms!');
                         return;
                     }
                 }
             }
-            else if ($scope.toShowRepet == 'Continuous ' || $scope.toShowRepet == 'One-off '){
-                if ($scope.datepickers[i].room != undefined && $scope.datepickers[i].room.length != 0) {
+            else if ($scope.toShowRepet === 'Continuous ' || $scope.toShowRepet === 'One-off '){
+                if ($scope.datepickers[i].room !== undefined && $scope.datepickers[i].room.length !== 0) {
                     training.rooms.push($scope.datepickers[i].room);
                 }
                 else {
@@ -303,8 +306,10 @@ angular.module('pageCtrl', []).controller('pageCtrl', ['$scope', '$http', '$q', 
             trainingsRequests[i] = $http.post('/rest/training', training);
         }
         $q.all(trainingsRequests).then(function(results) {
-                console.log(results[0].data);
+                /* console.log(results[0].data); */
+                /* TODO training.html construction using results */
+
             }
         );
-    }
+    };
 }]);

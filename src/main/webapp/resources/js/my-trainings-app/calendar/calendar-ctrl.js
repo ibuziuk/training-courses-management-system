@@ -2,10 +2,12 @@
 
 var calendar = angular.module('calendar', []);
 
-calendar.controller('calendarController', ['$scope', '$http', '$location', 'calendarService', 'contextRoot', function ($scope, $http, $location, calendarService, contextRoot) {
-	var vm = this;
+calendar.controller('calendarController', ['$scope', '$http', '$location', 'calendarService', 'contextRoot', 'moment', function ($scope, $http, $location, calendarService, contextRoot, moment) {
+	var vm = this,
+			now = moment();
 
-	vm.calendarDay = new Date();
+	moment.locale('en');
+	vm.calendarDay = now;
 	vm.calendarView = 'month';
 
 	$http.get('/rest/calendar').then(function (response) {

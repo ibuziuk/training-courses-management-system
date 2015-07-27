@@ -1,7 +1,7 @@
 "use strict";
 
 calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function (contextRoot, $http, moment) {
-	var service = [],
+	var service = {},
 			event = function (title, type, startsAt, endsAt, deletable, editable, draggable, resizable, incrementsBadgeTotal) {
 				return {
 					title: title,
@@ -18,29 +18,22 @@ calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function 
 
 	 // TODO promises and $q!!!
 
-	service.trainerGet = function () {
-		var trainerEvents = [];
+	service.trainerGet = function (callback) {
 		$http.get('/rest/calendar/trainer')
-				.then(function (response) {
-					trainerEvents = service.trainerParsing(response.data);
-					return trainerEvents;
-				}, function () {
-					return 'error';
+				.then(function(response){callback(response);}, function () {
+					console.log('error');
 				});
 	};
 
-	service.visitorGet = function () {
-		var visitorEvents = [];
+	service.visitorGet = function (callback) {
 		$http.get('/rest/calendar/visitor')
-				.then(function (response) {
-					visitorEvents = service.visitorParsing(response.data)
-					return visitorEvents;
-				}, function () {
-
+				.then(function (response) {callback(response);} , function () {
+					console.log('error');
 				});
 	};
 
 	service.trainerParsing = function (data) {
+		var eventsTrainer = [];
 		var type,
 				today = moment(moment()).unix(),
 				deletable = false;
@@ -50,42 +43,42 @@ calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function 
 				if (service.isFuture(today, data[j].date)) {
 					type = 'info';
 					deletable = true;
-					service.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+					eventsTrainer.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
 				} else {
 					type = 'important';
 					deletable = false;
-					service.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+					eventsTrainer.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
 				}
 			} else {
 				type = 'inverse';
 				deletable = true;
-				service.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+				eventsTrainer.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
 			}
 		}
-
-		return service;
+		return eventsTrainer;
 	};
 
 	service.visitorParsing = function (data) {
 		var type,
 				today = moment(moment()).unix(),
-				deletable = false;
+				deletable = false,
+
+		eventsVisitor = [];
 
 		for (var i = 0; i < data.length; i++) {
 			if (data[i].approved) {
 				if (service.isFuture(today, data[i].date)) {
 					type = 'success';
 					deletable = true;
-					service.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 				} else {
 					type = 'warning';
 					deletable = false;
-					service.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 				}
 			}
 		}
-
-		return service;
+		return eventsVisitor;
 	};
 
 	service.isFuture = function (today, trainingDay) {

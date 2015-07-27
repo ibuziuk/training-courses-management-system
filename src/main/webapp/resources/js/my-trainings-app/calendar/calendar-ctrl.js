@@ -10,39 +10,44 @@ calendar.controller('calendarController', ['$scope', '$http', '$location', 'cale
 			events = [];
 	moment.locale('en');
 
-	trainerEvents = calendarService.trainerGet();
-	visitorEvents = calendarService.visitorGet();
+	calendarService.trainerGet(function (response) {
+		trainerEvents = calendarService.trainerParsing(response.data);
+		calendarService.visitorGet(function (response) {
+			visitorEvents = calendarService.visitorParsing(response.data);
+			events = trainerEvents.concat(visitorEvents);
+			vm.events = events;
+			vm.calendarDay = now;
+			vm.calendarView = 'month';
 
-	events = trainerEvents.concat(visitorEvents);
+			vm.eventClicked = function (event) {
 
-	vm.events = events;
-	vm.calendarDay = now;
-	vm.calendarView = 'month';
+			};
 
-	vm.eventClicked = function (event) {
+			vm.eventEdited = function (event) {
 
-	};
+			};
 
-	vm.eventEdited = function (event) {
+			vm.eventDeleted = function (event) {
+				var answer = confirm('Do you really want delete this training?');
 
-	};
+				if (answer) {
+					var x = vm.events.indexOf(event);
+					vm.events.splice(x, 1);
+				}
+			};
 
-	vm.eventDeleted = function (event) {
-		var answer = confirm('Do you really want delete this training?');
+			vm.eventTimesChanged = function (event) {
 
-		if (answer) {
-			var x = vm.events.indexOf(event);
-			vm.events.splice(x, 1);
-		}
-	};
+			};
 
-	vm.eventTimesChanged = function (event) {
+			vm.toggle = function ($event, field, event) {
+				$event.preventDefault();
+				$event.stopPropagation();
+				event[field] = !event[field];
+			};
+		});
+	});
 
-	};
 
-	vm.toggle = function ($event, field, event) {
-		$event.preventDefault();
-		$event.stopPropagation();
-		event[field] = !event[field];
-	};
+
 }]);

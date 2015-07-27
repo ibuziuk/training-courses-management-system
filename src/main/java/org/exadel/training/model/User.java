@@ -41,7 +41,6 @@ public class User {
     private Set<Role> roles;
 
     @JsonIgnore
-
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Training> trainings;
 

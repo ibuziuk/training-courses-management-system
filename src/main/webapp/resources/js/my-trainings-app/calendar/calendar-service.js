@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function (contextRoot, $http, moment) {
 	var service = {},
-			event = function (title, type, startsAt, endsAt, deletable, editable, draggable, resizable, incrementsBadgeTotal) {
+			event = function (title, type, startsAt, endsAt, deletable) {
 				return {
 					title: title,
 					type: type,
@@ -14,45 +14,30 @@ calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function 
 					resizable: false,
 					incrementsBadgeTotal: true
 				};
-			};
-
-	 // TODO promises and $q!!!
-
-	service.trainerGet = function (callback) {
-		$http.get('/rest/calendar/trainer')
-				.then(function(response){callback(response);}, function () {
-					console.log('error');
-				});
-	};
-
-	service.visitorGet = function (callback) {
-		$http.get('/rest/calendar/visitor')
-				.then(function (response) {callback(response);} , function () {
-					console.log('error');
-				});
-	};
+			},
+			today = moment(moment()).unix();
 
 	service.trainerParsing = function (data) {
-		var eventsTrainer = [];
-		var type,
-				today = moment(moment()).unix(),
-				deletable = false;
+		var eventsTrainer = [],
+				type,
+				deletable = false,
+				i;
 
-		for (var j = 0; j < data.length; j++) {
-			if (data[j].approved) {
-				if (service.isFuture(today, data[j].date)) {
+		for (i = 0; i < data.length; i++) {
+			if (data[i].approved) {
+				if (service.isFuture(today, data[i].date)) {
 					type = 'info';
 					deletable = true;
-					eventsTrainer.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 				} else {
 					type = 'important';
 					deletable = false;
-					eventsTrainer.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 				}
 			} else {
 				type = 'inverse';
 				deletable = true;
-				eventsTrainer.push(event(data[j].title, type, data[j].date, service.endsAt(data[j].date, data[j].duration), deletable));
+				eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 			}
 		}
 		return eventsTrainer;
@@ -60,12 +45,11 @@ calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function 
 
 	service.visitorParsing = function (data) {
 		var type,
-				today = moment(moment()).unix(),
 				deletable = false,
+				eventsVisitor = [],
+				i;
 
-		eventsVisitor = [];
-
-		for (var i = 0; i < data.length; i++) {
+		for (i = 0; i < data.length; i++) {
 			if (data[i].approved) {
 				if (service.isFuture(today, data[i].date)) {
 					type = 'success';

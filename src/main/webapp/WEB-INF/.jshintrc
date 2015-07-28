@@ -23,6 +23,7 @@
     "app": true,
     "contextRoot": true,
     "$": false,
-    "confirm": false
+    "confirm": false,
+    "console": false
   }
 }

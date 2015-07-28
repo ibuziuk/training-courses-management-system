@@ -1,26 +1,15 @@
-"use strict";
+'use strict';
 
 var table = angular.module('table', []);
 
-table.controller('tableController', ['$scope', '$http', 'tableService', function ($scope, $http, tableService) {
+table.controller('tableController', ['$scope', '$http', '$q', 'tableService', function ($scope, $http, $q, tableService) {
 	$scope.trainings = [];
 
-	var eventsAsVisitor = [],
-			eventsAsTrainer = [],
-			trainer = 'trainer',
-			visitor = 'visitor';
+	var trainerGet = $http.get('/rest/calendar/trainer'),
+			visitorGet = $http.get('/rest/calendar/visitor');
 
-	$http.get('/rest/calendar/visitor').then(function (response) {
-		eventsAsVisitor = tableService.parse(response.data, visitor);
-	}, function () {
-
+	$q.all([trainerGet, visitorGet]).then(function (results) {
+		$scope.trainings = $scope.trainings.concat(tableService.trainerParsing(results[0].data));
+		$scope.trainings = $scope.trainings.concat(tableService.visitorParsing(results[1].data));
 	});
-
-	$http.get('/rest/calendar/trainer').then(function (response) {
-		eventsAsTrainer = tableService.parse(response.data, trainer);
-	}, function () {
-
-	});
-
-	$scope.trainings = eventsAsVisitor.concat(eventsAsTrainer);
 }]);

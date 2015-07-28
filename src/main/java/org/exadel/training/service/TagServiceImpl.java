@@ -19,16 +19,16 @@ public class TagServiceImpl implements TagService {
         tagDAO.addTag(tag);
     }
 
-    @Override
     @Transactional
-    public Tag getTagById(int id) {
-        return tagDAO.getTagById(id);
+    @Override
+    public Tag getTagByName(String name) {
+        return tagDAO.getTagByName(name);
     }
 
     @Override
     @Transactional
-    public Tag getTagByName(String name) {
-        return tagDAO.getTagByName(name);
+    public Tag getTagById(int id) {
+        return tagDAO.getTagById(id);
     }
 
     @Override

@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AudienceService {
     void addAudience(Audience audience);
+
+    List<Audience> getAllAudience();
     Audience getAudienceByValue(String value);
-    List<Audience> getAllAudiences();
+    void updateAudience(Audience audience);
 }

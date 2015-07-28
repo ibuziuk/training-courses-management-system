@@ -21,6 +21,7 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
         $http.get('/rest/audience').then(function(obj){
             $scope.checkboxAudiences = obj.data;
             $scope.selectAll = false;
+            $scope.dateWeekly = '';
 
             $scope.toggleSeleted = function(){
                 $scope.selectAll = !$scope.selectAll;

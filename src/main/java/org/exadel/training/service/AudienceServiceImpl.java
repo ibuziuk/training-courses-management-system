@@ -9,25 +9,31 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class AudienceServiceImpl implements AudienceService{
+public class AudienceServiceImpl implements AudienceService {
     @Autowired
     private AudienceDAO audienceDAO;
 
     @Override
     @Transactional
+    public void addAudience(Audience audience) {
+        audienceDAO.addAudience(audience);
+    }
+
+    @Transactional
+    @Override
     public Audience getAudienceByValue(String value) {
         return audienceDAO.getAudienceByValue(value);
     }
 
     @Override
     @Transactional
-    public List<Audience> getAllAudiences() {
-        return audienceDAO.getAllAudiences();
+    public List<Audience> getAllAudience() {
+        return audienceDAO.getAllAudience();
     }
 
     @Override
     @Transactional
-    public void addAudience(Audience audience){
-        audienceDAO.addAudience(audience);
+    public void updateAudience(Audience audience) {
+        audienceDAO.updateAudience(audience);
     }
 }

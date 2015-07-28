@@ -27,13 +27,13 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public List<Training> getFutureTrainings(){
+    public List<Training> getFutureTrainings() {
         return trainingDAO.getFutureTrainings();
     }
 
     @Override
     @Transactional
-    public List<Training> getPastTrainings(){
+    public List<Training> getPastTrainings() {
         return trainingDAO.getPastTrainings();
     }
 
@@ -51,13 +51,25 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public void removeTraining(Training training) {
-        trainingDAO.removeTraining(training);
+    public void removeTrainingById(long id) {
+        trainingDAO.removeTrainingById(id);
     }
 
     @Override
     @Transactional
     public Training getTrainingById(long id) {
         return trainingDAO.getTrainingById(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> getTrainingsByTrainer(long id) {
+        return trainingDAO.getTrainingsByTrainer(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> getTrainingsByVisitor(long id) {
+        return trainingDAO.getTrainingsByVisitor(id);
     }
 }

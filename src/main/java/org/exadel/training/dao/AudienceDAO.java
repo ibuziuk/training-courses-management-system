@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface AudienceDAO {
     void addAudience(Audience audience);
+    List<Audience> getAllAudience();
+    void updateAudience(Audience audience);
     Audience getAudienceByValue(String value);
-    List<Audience> getAllAudiences();
 }

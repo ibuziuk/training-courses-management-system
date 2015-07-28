@@ -6,15 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
-public class LanguageServiceImpl implements LanguageService{
+public class LanguageServiceImpl implements LanguageService {
     @Autowired
     private LanguageDAO languageDAO;
 
     @Override
     @Transactional
-    public void addLanguage(Language language){
+    public void addLanguage(Language language) {
         languageDAO.addLanguage(language);
     }
 
@@ -22,5 +23,11 @@ public class LanguageServiceImpl implements LanguageService{
     @Transactional
     public Language getLanguageByValue(String value) {
         return languageDAO.getLanguageByValue(value);
+    }
+
+    @Override
+    @Transactional
+    public List<Language> getAllLanguages() {
+        return languageDAO.getAllLanguages();
     }
 }

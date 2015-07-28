@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "trainingFeedback")
+@Table(name = "employee_feedback")
 public class EmployeeFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,9 +1,12 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.Set;
+
+import static org.exadel.training.utils.RoleUtil.buildRoleForView;
 
 @Entity
 @Table(name = "user")
@@ -14,49 +17,57 @@ public class User {
     private long userId;
 
     @NotEmpty
-    @Column(length = 25)
-    private String name;
+    @Column(name = "first_name", nullable = false, length = 25)
+    private String firstName;
 
     @NotEmpty
-    @Column(length = 25)
-    private String surname;
+    @Column(name = "last_name", nullable = false, length = 25)
+    private String lastName;
 
-    @Column(name = "role_id")
-    private int roleId;
-
-    @Column(unique = true)
+    @JsonIgnore
+    @Column(unique = true, nullable = false)
     private String login;
 
-    @Column(length = 60)
+    @JsonIgnore
+    @Column(length = 60, nullable = false)
     private String password;
 
     @Column(name = "e_mail", unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "trainer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<Training> trainings;
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
 
-    @OneToMany(mappedBy = "visitor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<CurrentList> currentLists;
+    @JsonIgnore
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+    private Set<Training> leads;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "visitors")
+    private Set<Training> trainings;
 
     public long getUserId() {
         return userId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setRoleId(int roleID) {
-        this.roleId = roleID;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getLogin() {
@@ -83,12 +94,12 @@ public class User {
         this.email = email;
     }
 
-    public String getSurname() {
-        return surname;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setSurname(String soname) {
-        this.surname = soname;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Set<Training> getTrainings() {
@@ -99,11 +110,15 @@ public class User {
         this.trainings = trainings;
     }
 
-    public Set<CurrentList> getCurrentLists() {
-        return currentLists;
+    public Set<Training> getLeads() {
+        return leads;
     }
 
-    public void setCurrentLists(Set<CurrentList> currentLists) {
-        this.currentLists = currentLists;
+    public void setLeads(Set<Training> leads) {
+        this.leads = leads;
+    }
+
+    public String getRoleForView() {
+        return buildRoleForView(roles);
     }
 }

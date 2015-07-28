@@ -71,7 +71,7 @@
 			<li class="active">
 				<a href="welcome.html" th:href="@{/welcome}">
 					<i class="fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span sec:authentication="principal.firstName"></span>
 				</a>
 			</li>
 
@@ -83,8 +83,8 @@
 			</li>
 
 			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href="new-training.html">En</a></li>
-				<li><a class="lang" href="new-training.html">Ru</a></li>
+				<li><a class="lang" href="?language=en">En</a></li>
+				<li><a class="lang" href="?language=ru">Ru</a></li>
 			</ul>
 		</ul>
 
@@ -217,8 +217,8 @@
 										{{toShowType}}<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
-										<li><a href="#" ng-click="chooseType(0)">Inner training </a></li>
-										<li><a href="#" ng-click="chooseType(1)">Outer training </a></li>
+										<li><a href="" ng-click="chooseType(0)">Inner training </a></li>
+										<li><a href="" ng-click="chooseType(1)">Outer training </a></li>
 									</ul>
 								</div>
 							</div>
@@ -233,9 +233,9 @@
 										{{toShowRepet}}<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
-										<li><a href="#" ng-click="chooseRepet(0); toShow()">One-off </a></li>
-										<li><a href="#" ng-click="chooseRepet(1); toShow()">Weekly </a></li>
-										<li><a href="#" ng-click="chooseRepet(2); toShow()">Continuous </a></li>
+										<li><a href="" ng-click="chooseRepet(0); toShow()">One-off </a></li>
+										<li><a href="" ng-click="chooseRepet(1); toShow()">Weekly </a></li>
+										<li><a href="" ng-click="chooseRepet(2); toShow()">Continuous </a></li>
 									</ul>
 								</div>
 							</div>
@@ -264,8 +264,8 @@
 										{{toShowLanguage}}<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
-										<li><a href="#" ng-click="chooseLanguage(0);">English </a></li>
-										<li><a href="#" ng-click="chooseLanguage(1);">Russian </a></li>
+										<li><a href="" ng-click="chooseLanguage(0);">English </a></li>
+										<li><a href="" ng-click="chooseLanguage(1);">Russian </a></li>
 									</ul>
 								</div>
 							</div>
@@ -330,19 +330,19 @@
 													{{datepicker.toShowWeekDay}}<span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu" role="menu">
-													<li><a href="#" ng-click="chooseWeekDay(0, $index);">Monday </a>
+													<li><a href="" ng-click="chooseWeekDay(0, $index);">Monday </a>
 													</li>
-													<li><a href="#" ng-click="chooseWeekDay(1, $index);">Tuesday </a>
+													<li><a href="" ng-click="chooseWeekDay(1, $index);">Tuesday </a>
 													</li>
-													<li><a href="#" ng-click="chooseWeekDay(2, $index);">Wednesday </a>
+													<li><a href="" ng-click="chooseWeekDay(2, $index);">Wednesday </a>
 													</li>
-													<li><a href="#" ng-click="chooseWeekDay(3, $index);">Thursday </a>
+													<li><a href="" ng-click="chooseWeekDay(3, $index);">Thursday </a>
 													</li>
-													<li><a href="#" ng-click="chooseWeekDay(4, $index);">Friday </a>
+													<li><a href="" ng-click="chooseWeekDay(4, $index);">Friday </a>
 													</li>
-													<li><a href="#" ng-click="chooseWeekDay(5, $index);">Saturday </a>
+													<li><a href="" ng-click="chooseWeekDay(5, $index);">Saturday </a>
 													</li>
-													<li><a href="#" ng-click="chooseWeekDay(6, $index);">Sunday </a>
+													<li><a href="" ng-click="chooseWeekDay(6, $index);">Sunday </a>
 													</li>
 												</ul>
 											</div>
@@ -377,7 +377,8 @@
 
 									<div style="text-align: center">
 										<a href="#">
-											<button type="button" class="btn btn-danger" id="disaproveBtn">Disaprove</button>
+											<button type="button" class="btn btn-danger" id="disaproveBtn">Disaprove
+											</button>
 										</a>
 										<a href="#">
 											<button type="button" class="btn btn-success" id="aproveBtn">Aprove</button>

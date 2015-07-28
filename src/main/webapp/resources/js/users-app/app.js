@@ -1,3 +1,3 @@
 'use strict';
 
-var usersApp = angular.module('usersApp', ['collapseCtrl', 'ui.bootstrap']);
+angular.module('usersApp', ['collapseCtrl', 'ui.bootstrap']);

@@ -1,5 +1,6 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.exadel.training.utils.TrainingUtil;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -32,9 +34,6 @@ public class Training {
 
     @Column(length = 20)
     private String time;
-
-    @Column(length = 500)
-    private String audience;
 
     private int location;
 
@@ -62,16 +61,35 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name = "language_id")
+    @JsonIgnore
     private Language language;
 
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<TrainingAudience> trainingAudiences;
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "training_audience",
+            joinColumns = {@JoinColumn(name = "training_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "audience_id", nullable = false)})
+    private Set<Audience> audiences = new HashSet<>(0);
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "training_tag", joinColumns = {
+            @JoinColumn(name = "training_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id", nullable = false)
+            })
+    private Set<Tag> tags = new HashSet<>(0);
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "training_user", joinColumns = {
+            @JoinColumn(name = "training_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)
+            })
+    private Set<User> visitors = new HashSet<>(0);
 
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<TrainingTag> trainingTags;
-
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<CurrentList> currentLists;
+    private Set<RegularLesson> lessons = new HashSet<>(0);
 
     public long getTrainingId() {
         return trainingId;
@@ -107,14 +125,6 @@ public class Training {
 
     public void setMaxVisitorsCount(int MAX_count) {
         this.maxVisitorsCount = MAX_count;
-    }
-
-    public String getAudience() {
-        return audience;
-    }
-
-    public void setAudience(String audience) {
-        this.audience = audience;
     }
 
     public int getLocation() {
@@ -181,14 +191,6 @@ public class Training {
         this.trainer = trainer;
     }
 
-    public Set<TrainingTag> getTrainingTags() {
-        return trainingTags;
-    }
-
-    public void setTrainingTags(Set<TrainingTag> trainingTags) {
-        this.trainingTags = trainingTags;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -215,14 +217,6 @@ public class Training {
         return trainingUtil.DateToString(this.date);
     }
 
-    public Set<CurrentList> getCurrentLists() {
-        return currentLists;
-    }
-
-    public void setCurrentLists(Set<CurrentList> currentLists) {
-        this.currentLists = currentLists;
-    }
-
     public boolean isExternalType() {
         return externalType;
     }
@@ -239,11 +233,35 @@ public class Training {
         this.language = language;
     }
 
-    public Set<TrainingAudience> getTrainingAudiences() {
-        return trainingAudiences;
+    public Set<User> getVisitors() {
+        return visitors;
     }
 
-    public void setTrainingAudiences(Set<TrainingAudience> trainingAudiences) {
-        this.trainingAudiences = trainingAudiences;
+    public void setVisitors(Set<User> visitors) {
+        this.visitors = visitors;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Set<Audience> getAudiences() {
+        return audiences;
+    }
+
+    public void setAudiences(Set<Audience> audiences) {
+        this.audiences = audiences;
+    }
+
+    public Set<RegularLesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<RegularLesson> lessons) {
+        this.lessons = lessons;
     }
 }

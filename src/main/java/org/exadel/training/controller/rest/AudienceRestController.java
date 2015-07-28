@@ -19,6 +19,6 @@ public class AudienceRestController {
     @RequestMapping(value = "/rest/audience", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Audience> getAudience() {
-        return audienceService.getAllAudiences();
+        return audienceService.getAllAudience();
     }
 }

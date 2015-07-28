@@ -21,6 +21,12 @@ public class AbsenceServiceImpl implements AbsenceService {
 
     @Override
     @Transactional
+    public void updateAbsence(Absence absence) {
+        absenceDAO.updateAbsence(absence);
+    }
+
+    @Override
+    @Transactional
     public List<Absence> getAllAbsences() {
         return absenceDAO.getAllAbsences();
     }

@@ -26,5 +26,7 @@ public interface TrainingService {
 
     List<Training> getTrainingsByVisitor(long id);
 
-    boolean registerForTraining(long trainingId, long userId);
+    String registerForTraining(long trainingId, long userId);
+
+    String removeVisitor(long trainingId, long userId);
 }

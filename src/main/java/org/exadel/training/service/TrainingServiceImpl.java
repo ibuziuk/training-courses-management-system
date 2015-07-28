@@ -4,7 +4,7 @@ import org.exadel.training.dao.TrainingDAO;
 import org.exadel.training.dao.UserDAO;
 import org.exadel.training.dao.WaitingListDAO;
 import org.exadel.training.model.Training;
-import org.exadel.training.model.WaitingList;
+import org.exadel.training.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,18 +84,28 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public boolean registerForTraining(long trainingId, long userId){
+    public String registerForTraining(long trainingId, long userId){
         Training training = trainingDAO.getTrainingById(trainingId);
-        if (training.getVisitors().size() < training.getMaxVisitorsCount()){
-            training.getVisitors().add(userDAO.getUserById(userId));
-            return true;
+        User user = userDAO.getUserById(userId);
+        if (training.getVisitors().contains(user)){
+            return "Already exist.";
         }
-        waitingListDAO.addVisitor(trainingId, userId);
-//        WaitingList wl = new WaitingList();
-//        wl.setUser(userDAO.getUserById(userId));
-//        wl.setTraining(training);
-//        wl.setDate(new Timestamp(new Date().getTime()));
-//        training.getWaiting().add(userDAO.getUserById(userId));
-        return false;
+        if (training.getVisitors().size() < training.getMaxVisitorsCount()){
+            training.getVisitors().add(user);
+            return "Success";
+        }
+        return waitingListDAO.addVisitor(trainingId, userId);
+    }
+
+    @Override
+    @Transactional
+    public String removeVisitor(long trainingId, long userId){
+        Training training = trainingDAO.getTrainingById(trainingId);
+        User user = userDAO.getUserById(userId);
+        if (training.getVisitors().contains(user)){
+            training.getVisitors().remove(user);
+            return "Success.";
+        }
+        return waitingListDAO.removeVisitor(trainingId, userId);
     }
 }

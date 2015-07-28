@@ -22,12 +22,16 @@ public class WaitingListDAOImpl implements WaitingListDAO {
     private UserDAO userDAO;
 
     @Override
-    public void addVisitor(long trainingID, long userID) {
-        WaitingList waitingList = new WaitingList();
-        waitingList.setTraining(trainingDAO.getTrainingById(trainingID));
-        waitingList.setUser(userDAO.getUserById(userID));
-        waitingList.setDate(new Timestamp(new Date().getTime()));
-        sessionFactory.getCurrentSession().persist(waitingList);
+    public String addVisitor(long trainingID, long userID) {
+        if (!checkingExist(trainingID, userID)){
+            WaitingList waitingList = new WaitingList();
+            waitingList.setTraining(trainingDAO.getTrainingById(trainingID));
+            waitingList.setUser(userDAO.getUserById(userID));
+            waitingList.setDate(new Timestamp(new Date().getTime()));
+            sessionFactory.getCurrentSession().persist(waitingList);
+            return "Adding for waiting-list.";
+        }
+        return "Already exist in waiting-list.";
     }
 
     @SuppressWarnings("unchecked")
@@ -37,14 +41,23 @@ public class WaitingListDAOImpl implements WaitingListDAO {
     }
 
     @Override
-    public void removeVisitor(long trainingID, long userID) {
-        //not checked
+    public String removeVisitor(long trainingID, long userID) {
         List list = sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
                 .add(Restrictions.eq("training.trainingId", trainingID))
                 .add(Restrictions.eq("user.userId", userID))
                 .list();
         if(list.size() != 0){
             sessionFactory.getCurrentSession().delete(list.get(0));
+            return "Remove from waiting-list.";
         }
+        return "Record does not exist.";
+    }
+
+    private boolean checkingExist(long trainingId, long userId){
+        List list = sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
+                .add(Restrictions.eq("user.userId", userId))
+                .add(Restrictions.eq("training.trainingId", trainingId))
+                .list();
+        return (list.size() != 0);
     }
 }

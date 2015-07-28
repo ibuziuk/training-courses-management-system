@@ -5,6 +5,7 @@ import org.exadel.training.service.TrainingService;
 import org.exadel.training.utils.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +29,15 @@ public class CalendarController {
         return trainingService.getTrainingsByVisitor(userDetails.getId());
     }
 
-    @RequestMapping(value = "/q")
-    public String reg(){
-        boolean flag = trainingService.registerForTraining(1, 1);
-        if (flag){
-            return "true";
-        }
-        return "false";
+    @RequestMapping(value = "/q/{trainingId}")
+    public String reg(@PathVariable("trainingId") long trainingId){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return trainingService.registerForTraining(trainingId, userDetails.getId());
+    }
+
+    @RequestMapping(value = "/d/{trainingId}")
+    public String del(@PathVariable("trainingId") long trainingId){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return trainingService.removeVisitor(trainingId, userDetails.getId());
     }
 }

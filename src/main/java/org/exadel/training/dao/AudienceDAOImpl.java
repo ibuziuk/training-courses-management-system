@@ -15,6 +15,16 @@ public class AudienceDAOImpl implements AudienceDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Audience getAudienceByValue(String value) {
+        List<Audience> list = sessionFactory.getCurrentSession().createQuery("FROM Audience t WHERE t.value = :value").setString("value", value).list();
+        if (list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
+    }
+
     @Override
     public void addAudience(Audience audience) {
         if (audience != null) {

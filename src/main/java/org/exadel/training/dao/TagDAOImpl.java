@@ -12,6 +12,15 @@ import java.util.List;
 
 @Repository
 public class TagDAOImpl implements TagDAO {
+    @Override
+    public Tag getTagByName(String name) {
+        List<Tag> list = sessionFactory.getCurrentSession().createQuery("FROM Tag t WHERE t.name = :name").setString("name", name).list();
+        if (list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
+    }
+
     @Autowired
     private SessionFactory sessionFactory;
 

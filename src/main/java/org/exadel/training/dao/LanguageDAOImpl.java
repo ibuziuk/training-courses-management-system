@@ -24,6 +24,16 @@ public class LanguageDAOImpl implements LanguageDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public Language getLanguageByValue(String value) {
+        List<Language> list = sessionFactory.getCurrentSession().createQuery("FROM Language t WHERE t.value = :value").setString("value", value).list();
+        if (list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List<Language> getAllLanguages() {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Language.class).list());
         return new ArrayList<>(result);

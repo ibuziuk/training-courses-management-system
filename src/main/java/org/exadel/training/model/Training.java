@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -64,31 +65,31 @@ public class Training {
     private Language language;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "training_audience", joinColumns = {
-            @JoinColumn(name = "training_id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "audience_id", nullable = false)
-            })
-    private Set<Audience> audiences;
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "training_audience",
+            joinColumns = {@JoinColumn(name = "training_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "audience_id", nullable = false)})
+    private Set<Audience> audiences = new HashSet<>(0);
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "training_tag", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "tag_id", nullable = false)
             })
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>(0);
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "training_user", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)
             })
-    private Set<User> visitors;
+    private Set<User> visitors = new HashSet<>(0);
 
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<RegularLesson> lessons;
+    private Set<RegularLesson> lessons = new HashSet<>(0);
 
     public long getTrainingId() {
         return trainingId;

@@ -10,4 +10,6 @@ public interface AudienceDAO {
     List<Audience> getAllAudience();
 
     void updateAudience(Audience audience);
+
+    Audience getAudienceByValue(String value);
 }

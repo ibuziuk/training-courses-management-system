@@ -21,6 +21,12 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     @Transactional
+    public Language getLanguageByValue(String value) {
+        return languageDAO.getLanguageByValue(value);
+    }
+
+    @Override
+    @Transactional
     public List<Language> getAllLanguages() {
         return languageDAO.getAllLanguages();
     }

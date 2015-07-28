@@ -9,5 +9,7 @@ public interface AudienceService {
 
     List<Audience> getAllAudience();
 
+    Audience getAudienceByValue(String value);
+
     void updateAudience(Audience audience);
 }

@@ -19,6 +19,13 @@ public class AudienceServiceImpl implements AudienceService {
         audienceDAO.addAudience(audience);
     }
 
+
+    @Transactional
+    @Override
+    public Audience getAudienceByValue(String value) {
+        return audienceDAO.getAudienceByValue(value);
+    }
+
     @Override
     @Transactional
     public List<Audience> getAllAudience() {

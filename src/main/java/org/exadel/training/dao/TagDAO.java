@@ -9,5 +9,7 @@ public interface TagDAO {
 
     Tag getTagById(int id);
 
+    Tag getTagByName(String name);
+
     List<Tag> getAllTags();
 }

@@ -2,8 +2,13 @@ package org.exadel.training.dao;
 
 import org.exadel.training.model.TrainingRating;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class TrainingRatingDAOImpl implements TrainingRatingDAO {
@@ -17,12 +22,24 @@ public class TrainingRatingDAOImpl implements TrainingRatingDAO {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public TrainingRating getAverageRatingByTrainingID(long trainingID) {
-        //TODO
-//        return sessionFactory.getCurrentSession()
-//                .createQuery("FROM TrainingRating t WHERE t.trainingID = :trainingID");
-        return null;
+    public double getAverageRatingByTrainingID(long trainingId) {
+        List list = sessionFactory.getCurrentSession().createCriteria(TrainingRating.class)
+                .add(Restrictions.eq("training.trainingId", trainingId))
+                .setProjection(Projections.avg("starCount"))
+                .list();
+        if (list.contains(null)){
+            return -1.;
+        }
+        return (double) list.get(0);
+    }
+
+    @Override
+    public boolean containsUserByTraining(long trainingId, long userId){
+        List list = sessionFactory.getCurrentSession().createCriteria(TrainingRating.class)
+                .add(Restrictions.eq("training.trainingId", trainingId))
+                .add(Restrictions.eq("user.userId", userId))
+                .list();
+        return (list.size() != 0);
     }
 }

@@ -25,4 +25,10 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
     public List<TrainingFeedback> getAllFeedbacks() {
         return trainingFeedbackDAO.getAllFeedbacks();
     }
+
+    @Override
+    @Transactional
+    public boolean containsUserByTraining(long trainingId, long userId){
+        return trainingFeedbackDAO.containsUserByTraining(trainingId, userId);
+    }
 }

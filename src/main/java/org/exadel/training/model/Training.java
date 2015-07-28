@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -70,14 +69,15 @@ public class Training {
             @JoinColumn(name = "training_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "audience_id", nullable = false)
             })
-    private Set<Audience> audiences = new HashSet<>(0);
+    private Set<Audience> audiences;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "training_tag", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "tag_id", nullable = false)
             })
-    private Set<Tag> tags = new HashSet<>(0);
+    private Set<Tag> tags;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -85,10 +85,10 @@ public class Training {
             @JoinColumn(name = "training_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)
             })
-    private Set<User> visitors = new HashSet<>(0);
+    private Set<User> visitors;
 
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<RegularLesson> lessons = new HashSet<>(0);
+    private Set<RegularLesson> lessons;
 
     public long getTrainingId() {
         return trainingId;

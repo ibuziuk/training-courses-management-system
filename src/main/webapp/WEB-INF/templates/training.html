@@ -1,300 +1,325 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="trainingApp">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif" th:href="@{/resources/vendors/pics/favicon.gif}" />
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns="http://www.w3.org/1999/xhtml" ng-app="trainingApp">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif"
+	      th:href="@{/resources/vendors/pics/favicon.gif}"/>
 
-		<title>Training</title>
-		
-		<!-- Bootstrap Core CSS -->
-		<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}" rel="stylesheet" />
+	<title>Training</title>
 
-		<!-- Custom CSS -->
-		<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet" />
+	<!-- Bootstrap Core CSS -->
+	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
+	      rel="stylesheet"/>
 
-		<!-- Custom Fonts -->
-		<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+	<!-- Custom CSS -->
+	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
-		<!-- Angular -->
-		<script src="../../resources/vendors/js/angular.js" th:href="@{/resources/vendors/js/angular.js}"></script>
-        <script src="../../resources/js/training-app/app.js" th:href="@{/resources/vendors/js/angular.js}"></script>
-		<script src="../../resources/js/global-ctrls/collapse-ctrl.js" th:href="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
-        <script src="../../resources/js/training-app/page-ctrl.js" th:href="@{/resources/js/global-ctrls/training-ctrl.js}"></script>
-		<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js" th:href="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
-	</head>
+	<!-- Custom Fonts -->
+	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
+	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
-	<body>
-		<div id="wrapper">
-            <!-- Navigation -->
-			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id = "top-menu" ng-controller="collapseCtrl">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
+	<!-- Angular -->
+	<script src="../../resources/vendors/js/angular.js" th:href="@{/resources/vendors/js/angular.js}"></script>
+	<script src="../../resources/js/training-app/app.js" th:href="@{/resources/vendors/js/angular.js}"></script>
+	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
+	        th:href="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+	<script src="../../resources/js/training-app/page-ctrl.js"
+	        th:href="@{/resources/js/global-ctrls/training-ctrl.js}"></script>
+	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
+	        th:href="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+</head>
 
-					<a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
-						<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png" th:src="@{/resources/vendors/pics/exadel-logo.png}" />
+<body>
+<div id="wrapper">
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-menu" ng-controller="collapseCtrl">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" id="menu-button" ng-click="isCollapsed = !isCollapsed">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+
+			<a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png"
+				     th:src="@{/resources/vendors/pics/exadel-logo.png}"/>
+			</a>
+		</div>
+
+		<!-- Top Menu Items -->
+		<ul class="nav navbar-right top-nav">
+			<li class="active">
+				<a href="welcome.html" th:href="@{/welcome}">
+					<i class="fa fa-fw fa-user"></i>
+					<span sec:authentication="name"></span>
+				</a>
+			</li>
+
+			<li class="active">
+				<a href="#" th:href="@{/logout}" id="logout">
+					<i class="fa fa-fw fa-power-off"></i>
+					Log out
+				</a>
+			</li>
+
+			<ul class="nav navbar-right top-nav language-panel">
+				<li><a class="lang" href="training.html">En</a></li>
+				<li><a class="lang" href="training.html">Ru</a></li>
+			</ul>
+		</ul>
+
+		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+		<div class="collapse navbar-collapse" collapse="isCollapsed">
+			<ul class="nav navbar-nav side-nav" id="left-menu">
+				<li id="alltrainings">
+					<a href="all-trainings.html" th:href="@{/training/all}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						All trainings
 					</a>
-				</div>
-
-				<!-- Top Menu Items -->
-				<ul class="nav navbar-right top-nav">
-					<li class="active">
-						<a href = "welcome.html" th:href="@{/welcome}">
-							<i class = "fa fa-fw fa-user"></i>
-							<span sec:authentication="name"></span>
-						</a>
-					</li>
-
-					<li class="active">
-						<a href="#" th:href="@{/logout}" id="logout">
-							<i class="fa fa-fw fa-power-off"></i>
-							Log out
-						</a>
-					</li>
-
-					<ul class="nav navbar-right top-nav language-panel">
-						<li><a class="lang" href = "training.html">En</a></li>
-						<li><a class="lang" href = "training.html">Ru</a></li>
-					</ul>
-				</ul>
-
-				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-				<div class="collapse navbar-collapse" collapse="isCollapsed">
-					<ul class="nav navbar-nav side-nav" id = "left-menu">
-						<li id = "alltrainings">
-							<a href="all-trainings.html" th:href="@{/training/all}">
-								<i class="fa fa-fw fa-circle-o"></i>
-								All trainings
+				</li>
+				<li id="mytrainings">
+					<a href="" ng-click="isCollapsed2=!isCollapsed2">
+						<i class="fa fa-fw fa-circle-o"></i>
+						My trainings
+						<i class="fa fa-fw fa-caret-down"></i>
+					</a>
+					<ul collapse="isCollapsed2">
+						<li>
+							<a href="my-trainings.html">
+								<i class="fa fa-fw fa-angle-right"></i>
+								As a trainer
 							</a>
 						</li>
-						<li id = "mytrainings">
-							<a href="" ng-click="isCollapsed2=!isCollapsed2">
-								<i class="fa fa-fw fa-circle-o"></i>
-								My trainings
-								<i class="fa fa-fw fa-caret-down"></i>
+						<li>
+							<a href="../my-trainings/my-trainings.html">
+								<i class="fa fa-fw fa-angle-right"></i>
+								As a guest
 							</a>
-							<ul collapse="isCollapsed2">
-								<li>
-									<a href="my-trainings.html">
-										<i class="fa fa-fw fa-angle-right"></i>
-										As a trainer
-									</a>
-								</li>
-								<li>
-									<a href="../my-trainings/my-trainings.html">
-										<i class="fa fa-fw fa-angle-right"></i>
-										As a guest
-									</a>
-								</li>
-							</ul>
-						</li>
-						<li id = "newtraining">
-							<a href="new-training.html" th:href="@{/training/new}">
-								<i class="fa fa-fw fa-circle-o"></i>
-								Create new training
-							</a>
-						</li>
-						<li sec:authorize="hasRole('ROLE_ADMIN')" id = "newtrainer">
-							<a href="new-trainer.html">
-								<i class="fa fa-fw fa-circle-o"></i>
-								Add new external trainer
-							</a>
-						</li>
-						<li sec:authorize="hasRole('ROLE_ADMIN')" id = "users">
-							<a href="users.html">
-								<i class="fa fa-fw fa-circle-o"></i>
-								Users
-							</a>
-						</li>
-						<li id = "copyright">
-							<footer>
-								<span>©Exadel, Inc. All Rights Reserved.</span>
-							</footer>
 						</li>
 					</ul>
+				</li>
+				<li id="newtraining">
+					<a href="new-training.html" th:href="@{/training/new}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						Create new training
+					</a>
+				</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
+					<a href="new-trainer.html">
+						<i class="fa fa-fw fa-circle-o"></i>
+						Add new external trainer
+					</a>
+				</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">
+					<a href="users.html">
+						<i class="fa fa-fw fa-circle-o"></i>
+						Users
+					</a>
+				</li>
+				<li id="copyright">
+					<footer>
+						<span>©Exadel, Inc. All Rights Reserved.</span>
+					</footer>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<!-- /Navigation -->
+
+	<div id="page-wrapper">
+		<div class="container-fluid" ng-controller="pageCtrl">
+
+			<!-- Page Heading -->
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h1 class="page-header">Training page</h1>
+
+					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
+					<a href=""><i class="fa fa-fw fa-pencil"></i></a>
+					<button id="registerBtn" class="btn btn-success" type="button">Register</button>
+					<button id="attendenceBtn" class="btn btn-primary" type="button">Attendence book</button>
 				</div>
-			</nav>
-			<!-- /Navigation -->
+			</div>
+			<!-- /Page Heading -->
 
-			<div id="page-wrapper">
-				<div class="container-fluid" ng-controller="pageCtrl">
+			<div class="row" style="padding-left:19px">
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4 style="color:{{aproveColor}}">{{aproveText}}</h4>
+					<h4 style="color:{{registerColor}}">{{registerText}}</h4>
+					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
+					<span class="label"
+					      ng-class="{'label-warning': genPercent<30, 'label-info': genPercent>=30 && genPercent<70, 'label-success': genPercent>=70}">{{genPercent}}%</span>
 
-					<!-- Page Heading -->
+					<h3>Description</h3>
+
+					<div class="well" style="font-size:16px">
+						<p>{{training.description}}</p>
+					</div>
+				</div>
+			</div>
+
+			<hr>
+			<accordion close-others="oneAtATime">
+				<accordion-group is-open="status.open">
+					<accordion-heading>
+						<div style="font-size:1.17em;">Leave an anonymous opininon
+							<i class="pull-right glyphicon"
+							   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+						</div>
+					</accordion-heading>
+
+					<rating ng-model="rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
+					<span class="label"
+					      ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}">{{percent}}%</span>
+
 					<div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <h1 class="page-header">Training page</h1>
-                            <h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
-                            <a href=""><i class = "fa fa-fw fa-pencil"></i></a>
-                            <button id="registerBtn" class="btn btn-success" type="button">Register</button>
-                            <button id="attendenceBtn" class="btn btn-primary" type="button">Attendence book</button>
-                        </div>
-                    </div>	
-                    <!-- /Page Heading -->
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<br/>
+							<label>Your impression about the training: </label>
+							<br/>
 
-                    <div class="row" style="padding-left:19px">
-                    	<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <h4 style="color:{{aproveColor}}">{{aproveText}}</h4>
-                            <h4 style="color:{{registerColor}}">{{registerText}}</h4>
-                    		<rating ng-model="training.genRate" max="max" readonly="true"></rating>
-                            <span class="label" ng-class="{'label-warning': genPercent<30, 'label-info': genPercent>=30 && genPercent<70, 'label-success': genPercent>=70}">{{genPercent}}%</span>
-                    		<h3>Description</h3>
-                    		<div class="well" style="font-size:16px">
-			                    <p>{{training.description}}</p>
-			                </div>
-                        </div>
-                    </div>
-                            
-                    <hr>
-                    <accordion close-others="oneAtATime">
-                        <accordion-group is-open="status.open">
-                            <accordion-heading>
-                                <div style="font-size:1.17em;">Leave an anonymous opininon
-                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                                </div>    
-                            </accordion-heading>
-                            
-                            <rating  ng-model="rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
-                            <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}">{{percent}}%</span>
-                                    
-                            <div class = "row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <br/>
-                                    <label>Your impression about the training: </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingImpression}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a></li>
-                                            <li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a></li>
-                                            <li><a href="" ng-click="chooseImpression(2)">Disappointed, that took part </a></li>
-                                        </ul>
-</div>
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingImpression}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a></li>
+									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a>
+									</li>
+									<li><a href="" ng-click="chooseImpression(2)">Disappointed, that took part </a></li>
+								</ul>
+							</div>
 
-                                    <br/><br/>
-                                    <label>Was everything clear? </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingIntelligibility}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseIntelligibility(0)">Everything was clear </a></li>
-                                            <li><a href="" ng-click="chooseIntelligibility(1)">Nothing was clear </a></li>
-                                            <li><a href="" ng-click="chooseIntelligibility(2)">Something wasn't clear </a></li>
-                                        </ul>
-                                    </div>
+							<br/><br/>
+							<label>Was everything clear? </label>
+							<br/>
 
-                                    <br/><br/>
-                                    <label>Was the training interesting? </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingInterest}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at all </a></li>
-                                            <li><a href="" ng-click="chooseInterest(1)">Was boring in some moments </a></li>
-                                            <li><a href="" ng-click="chooseInterest(2)">Was very interesting </a></li>
-                                        </ul>
-                                    </div>
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingIntelligibility}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseIntelligibility(0)">Everything was clear </a></li>
+									<li><a href="" ng-click="chooseIntelligibility(1)">Nothing was clear </a></li>
+									<li><a href="" ng-click="chooseIntelligibility(2)">Something wasn't clear </a></li>
+								</ul>
+							</div>
 
-                                    <br/><br/>
-                                    <label>Did you learn anything new? </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingUpdate}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseUpdate(0)">Learnt nothing </a></li>
-                                            <li><a href="" ng-click="chooseUpdate(1)">Learnt something </a></li>
-                                            <li><a href="" ng-click="chooseUpdate(2)">Everything was new </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <br/>
-                                    <label>Estimate the effectiveness of the training </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingEffectiveness}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseEffectiveness(1)">1 </a></li>
-                                            <li><a href="" ng-click="chooseEffectiveness(2)">2 </a></li>
-                                            <li><a href="" ng-click="chooseEffectiveness(3)">3 </a></li>
-                                            <li><a href="" ng-click="chooseEffectiveness(4)">4 </a></li>
-                                            <li><a href="" ng-click="chooseEffectiveness(5)">5 </a></li>
-                                        </ul>
-                                    </div>
+							<br/><br/>
+							<label>Was the training interesting? </label>
+							<br/>
 
-                                    <br/><br/>
-                                    <label>Will you recommend this training? </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingRecommendation}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseRecommendation(0)">Yes </a></li>
-                                            <li><a href="" ng-click="chooseRecommendation(1)">No </a></li>
-                                        </ul>
-                                    </div>
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingInterest}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at all </a></li>
+									<li><a href="" ng-click="chooseInterest(1)">Was boring in some moments </a></li>
+									<li><a href="" ng-click="chooseInterest(2)">Was very interesting </a></li>
+								</ul>
+							</div>
 
-                                    <br/><br/>
-                                    <label>Do you want to listen to this trainer again? </label>
-                                    <br/>
-                                    <div class="btn-group" dropdown dropdown-append-to-body>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-                                        {{trainingTrainer}}<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="" ng-click="chooseTrainer(0)">Yes </a></li>
-                                            <li><a href="" ng-click="chooseTrainer(1)">No </a></li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <br/><br/>
-                                    <label>Leave your comment about the training </label>
-                                    <br/>
-                                    <textarea style="width:80%" ng-model="comment"></textarea>
-                                </div>
-                            </div>
-                                    
-                            <br/><br/>
-                            <button class="btn btn-success" type="button" style="width: 100px">
-                                Send
-                            </button>
-                        </accordion-group>
-                    </accordion>
-                            
-                    <hr>
-                    <div class = "row">
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <h3>Feedbacks</h3>
-                            <div ng-repeat="feedback in training.feedbacks">
-                                <div class="well">
-                                    <b style="font-size:16px">{{feedback.user}}</b>
-                                    <br/>
-                                    <rating ng-model="feedback.rate" max="max" readonly="true"></rating>
-                                    <span class="label" ng-class="{'label-warning': feedback.percent<30, 'label-info': feedback.percent>=30 && feedback.percent<70, 'label-success': feedback.percent>=70}">{{feedback.percent}}%</span>
-                                    <p style="font-size:16px">{{feedback.text}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-			     </div>
-			     <!-- /#page-wrapper -->
-		      </div>
-		<!-- /#wrapper -->
-	</body>
+							<br/><br/>
+							<label>Did you learn anything new? </label>
+							<br/>
+
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingUpdate}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseUpdate(0)">Learnt nothing </a></li>
+									<li><a href="" ng-click="chooseUpdate(1)">Learnt something </a></li>
+									<li><a href="" ng-click="chooseUpdate(2)">Everything was new </a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<br/>
+							<label>Estimate the effectiveness of the training </label>
+							<br/>
+
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingEffectiveness}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseEffectiveness(1)">1 </a></li>
+									<li><a href="" ng-click="chooseEffectiveness(2)">2 </a></li>
+									<li><a href="" ng-click="chooseEffectiveness(3)">3 </a></li>
+									<li><a href="" ng-click="chooseEffectiveness(4)">4 </a></li>
+									<li><a href="" ng-click="chooseEffectiveness(5)">5 </a></li>
+								</ul>
+							</div>
+
+							<br/><br/>
+							<label>Will you recommend this training? </label>
+							<br/>
+
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingRecommendation}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseRecommendation(0)">Yes </a></li>
+									<li><a href="" ng-click="chooseRecommendation(1)">No </a></li>
+								</ul>
+							</div>
+
+							<br/><br/>
+							<label>Do you want to listen to this trainer again? </label>
+							<br/>
+
+							<div class="btn-group" dropdown dropdown-append-to-body>
+								<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+									{{trainingTrainer}}<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="" ng-click="chooseTrainer(0)">Yes </a></li>
+									<li><a href="" ng-click="chooseTrainer(1)">No </a></li>
+								</ul>
+							</div>
+
+							<br/><br/>
+							<label>Leave your comment about the training </label>
+							<br/>
+							<textarea style="width:80%" ng-model="comment"></textarea>
+						</div>
+					</div>
+
+					<br/><br/>
+					<button class="btn btn-success" type="button" style="width: 100px">
+						Send
+					</button>
+				</accordion-group>
+			</accordion>
+
+			<hr>
+			<div class="row">
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h3>Feedbacks</h3>
+
+					<div ng-repeat="feedback in training.feedbacks">
+						<div class="well">
+							<b style="font-size:16px">{{feedback.user}}</b>
+							<br/>
+							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
+							<span class="label"
+							      ng-class="{'label-warning': feedback.percent<30, 'label-info': feedback.percent>=30 && feedback.percent<70, 'label-success': feedback.percent>=70}">{{feedback.percent}}%</span>
+
+							<p style="font-size:16px">{{feedback.text}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+</body>
 </html>

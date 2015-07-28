@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-      xmlns="http://www.w3.org/1999/xhtml" ng-app="myTrainingsApp">
+      xmlns="http://www.w3.org/1999/xhtml" ng-app="myTrainingsApp"
+      data-context-root="${contextRoot}/">
 <head>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -100,7 +101,7 @@
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class="collapse navbar-collapse" collapse="isCollapsed">
+		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
@@ -229,7 +230,7 @@
 								on-event-click="vm.eventClicked(calendarEvent)"
 								on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
 								edit-event-html=""
-								delete-event-html=""
+								delete-event-html="'&lt;i class=\'glyphicon glyphicon-remove\'&gt;&lt;/i&gt;'"
 								on-edit-event-click="vm.eventEdited(calendarEvent)"
 								on-delete-event-click="vm.eventDeleted(calendarEvent)"
 								auto-open="true"
@@ -269,7 +270,7 @@
 
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped table-hover" ng-table="">
-							<tr ng-repeat="training in trainings">
+							<tr ng-repeat="training in trainings" class="{{training.type}}">
 								<td data-title="'Title'">{{training.title}}</td>
 								<td data-title="'Date'">{{training.date}}</td>
 								<td data-title="'Location'">{{training.location}}</td>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-      xmlns="http://www.w3.org/1999/xhtml" ng-app="allTrainingsApp">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" ng-app="allTrainingsApp">
 <head>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -41,9 +41,10 @@
 	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
 	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
 	<script src="../../resources/js/all-trainings-app/tabs-ctrl.js"
-	        th:src="@{/resources/js/all-trainings-app/tabs-ctrl.js}"></script>
+	        th:src="@{/resources/js/all-trainings-app/future-tab-ctrl.js}"></script>
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
 	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+
 </head>
 
 <body>
@@ -96,43 +97,28 @@
 					</a>
 				</li>
 				<li id="mytrainings">
-					<a href="#" ng-click="isCollapsed2=!isCollapsed2">
-						<i class="fa fa-fw fa-circle"></i>
+					<a href="#" th:href="@{/training/my}">
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
 						<i class="fa fa-fw fa-caret-down"></i>
 					</a>
-					<ul collapse="isCollapsed2">
-						<li ng-click="">
-							<a href="my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
-							</a>
-						</li>
-						<li ng-click="">
-							<a href="my-trainings.html" th:href="@{/training/my}">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
-							</a>
-						</li>
-					</ul>
 				</li>
-
 
 				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
 					<a href="new-trainer.html" th:href="@{/trainer/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">
 					<a href="users.html" th:href="@{/user/all}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.users}">Users</span>
 					</a>
 				</li>
@@ -396,7 +382,8 @@
 											<th th:text="#{label.time}">Time</th>
 											<th th:text="#{label.location}">Location</th>
 											<th th:text="#{label.trainerName}">Trainer name</th>
-											<th><span th:text="#{label.places}">Places</span> <span th:text="#{label.occupied}">free</span>/<span
+											<th><span th:text="#{label.places}">Places</span> <span
+													th:text="#{label.occupied}">free</span>/<span
 													th:text="#{label.all}">all</span></th>
 											<th th:text="#{label.tags}">Tags</th>
 										</tr>

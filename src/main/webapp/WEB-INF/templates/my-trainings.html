@@ -104,7 +104,7 @@
 			<ul class="nav navbar-nav side-nav" id="left-menu">
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
 					</a>
 				</li>
@@ -116,19 +116,19 @@
 				</li>
 				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
 					<a href="new-trainer.html" th:href="@{/trainer/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">
 					<a href="users.html" th:href="@{/user/all}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.users}">Users</span>
 					</a>
 				</li>

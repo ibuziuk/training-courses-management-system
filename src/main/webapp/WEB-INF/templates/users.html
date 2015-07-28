@@ -85,40 +85,26 @@
 			<ul class="nav navbar-nav side-nav" id="left-menu">
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
 					</a>
 				</li>
 				<li id="mytrainings">
-					<a href="#" ng-click="isCollapsed2=!isCollapsed2">
-						<i class="fa fa-fw fa-circle"></i>
+					<a href="#" th:href="@{/training/my}">
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
 						<i class="fa fa-fw fa-caret-down"></i>
 					</a>
-					<ul collapse="isCollapsed2">
-						<li>
-							<a href="../my-trainings/my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asATrainer}">As a trainer</span>
-							</a>
-						</li>
-						<li>
-							<a href="my-trainings-as-guest.html" th:href="@{/training/my}">
-								<i class="fa fa-fw fa-angle-right"></i>
-								<span th:text="#{label.myTrainings.asAGuest}">As a guest</span>
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
 					<a href="new-trainer.html" th:href="@{/trainer/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
 				</li>

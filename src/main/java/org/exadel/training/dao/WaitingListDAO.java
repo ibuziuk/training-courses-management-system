@@ -8,4 +8,6 @@ public interface WaitingListDAO {
     List<Long> getAllVisitors();
 
     String removeVisitor(long trainingID, long userID);
+
+    boolean checkingExist(long trainingId, long userId);
 }

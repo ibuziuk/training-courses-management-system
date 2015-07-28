@@ -108,4 +108,12 @@ public class TrainingServiceImpl implements TrainingService {
         }
         return waitingListDAO.removeVisitor(trainingId, userId);
     }
+
+    @Override
+    @Transactional
+    public boolean containsVisitor(long trainingId, long userId){
+        Training training = trainingDAO.getTrainingById(trainingId);
+        User user = userDAO.getUserById(userId);
+        return training.getVisitors().contains(user);
+    }
 }

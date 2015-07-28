@@ -53,7 +53,7 @@ public class WaitingListDAOImpl implements WaitingListDAO {
         return "Record does not exist.";
     }
 
-    private boolean checkingExist(long trainingId, long userId){
+    public boolean checkingExist(long trainingId, long userId){
         List list = sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
                 .add(Restrictions.eq("user.userId", userId))
                 .add(Restrictions.eq("training.trainingId", trainingId))

@@ -4,9 +4,11 @@ package org.exadel.training.service;
 import java.util.List;
 
 public interface WaitingListService {
-    void addVisitor(long userID, long trainingID);
+    String addVisitor(long userID, long trainingID);
 
     List<Long> getAllVisitors();
 
-    void removeVisitor(long userID, long trainingID);
+    String removeVisitor(long userID, long trainingID);
+
+    boolean checkingExist(long trainingId, long userId);
 }

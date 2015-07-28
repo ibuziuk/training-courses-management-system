@@ -29,4 +29,6 @@ public interface TrainingService {
     String registerForTraining(long trainingId, long userId);
 
     String removeVisitor(long trainingId, long userId);
+
+    boolean containsVisitor(long trainingId, long userId);
 }

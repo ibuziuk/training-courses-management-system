@@ -21,7 +21,9 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getAllUsers() {
-        return sessionFactory.getCurrentSession().createCriteria(User.class).addOrder(Order.asc("firstName")).addOrder(Order.asc("lastName")).list();
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
+        criteria.addOrder(Order.asc("firstName")).addOrder(Order.asc("lastName"));
+        return new ArrayList<>(new LinkedHashSet(criteria.list()));
     }
 
     @SuppressWarnings("unchecked")

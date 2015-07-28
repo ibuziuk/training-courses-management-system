@@ -3,6 +3,7 @@ package org.exadel.training.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "waiting_list")
@@ -12,40 +13,41 @@ public class WaitingList {
     @Column(name = "waiting_list_id")
     private long id;
 
-    @NotEmpty
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
 
-    @NotEmpty
-    private long trainerId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(length = 20)
-    private String date;
+    private Timestamp date;
 
     public long getId() {
         return id;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
-    }
-
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -87,6 +87,10 @@ public class Training {
             })
     private Set<User> visitors = new HashSet<>(0);
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<WaitingList> waiting;
+
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<RegularLesson> lessons = new HashSet<>(0);
 
@@ -278,5 +282,12 @@ public class Training {
 
     public void setTrainingFeedbacks(Set<TrainingFeedback> trainingFeedbacks) {
         this.trainingFeedbacks = trainingFeedbacks;
+    }
+    public Set<WaitingList> getWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(Set<WaitingList> waiting) {
+        this.waiting = waiting;
     }
 }

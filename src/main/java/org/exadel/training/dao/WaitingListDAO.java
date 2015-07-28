@@ -3,9 +3,9 @@ package org.exadel.training.dao;
 import java.util.List;
 
 public interface WaitingListDAO {
-    void addVisitor(long userID, long trainingID);
+    String addVisitor(long trainingID, long userID);
 
     List<Long> getAllVisitors();
 
-    void removeVisitor(long userID, long trainingID);
+    String removeVisitor(long trainingID, long userID);
 }

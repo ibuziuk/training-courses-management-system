@@ -18,4 +18,6 @@ public interface UserDAO {
     void updateUser(User user);
 
     void removeUser(User user);
+
+    List<User> getUsersByRole(String role);
 }

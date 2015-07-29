@@ -33,6 +33,7 @@ public class TrainingRestController {
 
     @Autowired
     private AudienceService audienceService;
+
     @Autowired
     private RegularLessonService regularLessonService;
 
@@ -45,6 +46,10 @@ public class TrainingRestController {
     @Autowired
     private WaitingListService waitingListService;
 
+    @Autowired
+    private NotificationService notificationService;
+
+
     @RequestMapping(value = "/rest/training", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String createTraining(HttpEntity<String> httpEntity) {
@@ -52,144 +57,149 @@ public class TrainingRestController {
         JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
 
         Training training = new Training();
-        if (json.get("title") != null)
+        if (json.get("title") != null) {
             training.setTitle(json.get("title").getAsString());
-
+        }
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User trainer = userService.getUserById(userDetails.getId());
         training.setTrainer(trainer);
 
-        if (json.get("visitors") != null)
+        if (json.get("visitors") != null) {
             training.setMaxVisitorsCount(json.get("visitors").getAsInt());
-
-        if (json.get("duration") != null)
+        }
+        if (json.get("duration") != null) {
             training.setDuration(json.get("duration").getAsInt());
-
-        if (json.get("description") != null)
+        }
+        if (json.get("description") != null) {
             training.setDescription(json.get("description").getAsString());
-
-        if (json.get("regular") != null)
+        }
+        if (json.get("regular") != null) {
             training.setRegular(json.get("regular").getAsBoolean());
-
-        if (json.get("type") != null)
+        }
+        if (json.get("type") != null) {
             training.setExternalType(json.get("type").getAsBoolean());
-
-        if (json.get("approved") != null)
+        }
+        if (json.get("approved") != null) {
             training.setApproved(json.get("approved").getAsBoolean());
-        else
+        } else {
             training.setApproved(false);
-
+        }
         Language language = null;
         String languageValue = json.get("language").getAsString();
-        if (languageValue != null)
+        if (languageValue != null) {
             language = languageService.getLanguageByValue(languageValue);
+        }
         training.setLanguage(language);
 
         Set<Audience> audiences = training.getAudiences();
-        Audience audience = null;
+        Audience audience;
         JsonArray jsonArray = json.get("audience").getAsJsonArray();
         for (JsonElement audienceValue : jsonArray) {
             audience = audienceService.getAudienceByValue(audienceValue.getAsString());
-            if (audience != null)
+            if (audience != null) {
                 audiences.add(audience);
+            }
         }
         training.setAudiences(audiences);
 
         Set<Tag> tags = training.getTags();
-        Tag tag = null;
+        Tag tag;
         jsonArray = json.get("tags").getAsJsonArray();
         for (JsonElement tagValue : jsonArray) {
             tag = tagService.getTagByName(tagValue.getAsString());
-            if (tag != null)
+            if (tag != null) {
                 tags.add(tag);
+            }
         }
 
-
         if (training.isRegular()) {
-
-            if (json.get("days")!=null)
+            if (json.get("days") != null) {
                 training.setDays(json.get("days").getAsString());
-
+            }
             String startDateString = null;
-            if (json.get("date")!= null)
+            if (json.get("date") != null) {
                 startDateString = json.get("date").getAsString();
-
+            }
             try {
                 int minimumDayNumber = 7;
-                StringTokenizer stringTokenizer = new StringTokenizer(training.getDays()," ");
-                List<Integer> days = new ArrayList<Integer>();
-                while(stringTokenizer.hasMoreElements()){
+                StringTokenizer stringTokenizer = new StringTokenizer(training.getDays(), " ");
+                List<Integer> days = new ArrayList<>();
+                while (stringTokenizer.hasMoreElements()) {
                     days.add(Integer.parseInt(((String) stringTokenizer.nextElement())));
-                    if (minimumDayNumber>days.get(days.size()-1))
-                        minimumDayNumber = days.get(days.size()-1);
+                    if (minimumDayNumber > days.get(days.size() - 1))
+                        minimumDayNumber = days.get(days.size() - 1);
                 }
 
                 Calendar startCalendar = GregorianCalendar.getInstance();
                 Calendar iterationCalendar = GregorianCalendar.getInstance();
                 Calendar endCalendar = GregorianCalendar.getInstance();
 
-                SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yyyy");
-                SimpleDateFormat hourDateFormater = new SimpleDateFormat("HH:mm");
-                SimpleDateFormat fullDateFormater = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+                SimpleDateFormat hourDateFormatter = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat fullDateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                SimpleDateFormat debugDateFormatter = new SimpleDateFormat("dd.MMMMM.yyyy HH:mm");
 
-                startCalendar.setTime(dateFormater.parse(startDateString));
-
+                startCalendar.setTime(dateFormatter.parse(startDateString));
                 training.setStart(new java.sql.Date(startCalendar.getTime().getTime()));
-
                 endCalendar.set(startCalendar.get(Calendar.YEAR) + 1, startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DATE));
-
                 training.setEnd(new java.sql.Date(endCalendar.getTime().getTime()));
 
                 trainingService.addTraining(training);
 
                 for (int i = 0; i < days.size(); i++) {
-                    iterationCalendar.set(startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DATE) + days.get(i) - minimumDayNumber);
-
+                    if (days.get(i) < (startCalendar.get(Calendar.DAY_OF_WEEK) + 5) % 7) {
+                        iterationCalendar.set(startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DATE) + days.get(i) - (startCalendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 + 7);
+                    } else {
+                        iterationCalendar.set(startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DATE) + days.get(i) - (startCalendar.get(Calendar.DAY_OF_WEEK) + 5) % 7);
+                    }
                     String time = null;
-                    if (json.get("times") != null)
+                    if (json.get("times") != null) {
                         time = json.get("times").getAsJsonArray().get(i).getAsString();
-
-                    int location = 0;
+                    }
+                    int location = -1;
                     if (json.get("rooms") != null)
-                        location = json.get("rooms").getAsJsonArray().get(i).getAsInt();
-
+                        if (json.get("rooms").getAsJsonArray().size() != 0) {
+                            location = json.get("rooms").getAsJsonArray().get(i).getAsInt();
+                        }
                     while (iterationCalendar.getTimeInMillis() <= endCalendar.getTimeInMillis()) {
                         RegularLesson regularLesson = new RegularLesson();
 
-                        regularLesson.setLocation(location);
-
-                        Date fullDate = fullDateFormater.parse(dateFormater.format(iterationCalendar.getTime()) + " " + time);
+                        if (location != -1) {
+                            regularLesson.setLocation(location);
+                        }
+                        Date fullDate = fullDateFormatter.parse(dateFormatter.format(iterationCalendar.getTime()) + " " + time);
                         regularLesson.setDate(new java.sql.Timestamp(fullDate.getTime()));
 
-                        Date parsedTime = hourDateFormater.parse(time);
+                        Date parsedTime = hourDateFormatter.parse(time);
                         Calendar calendarTime = GregorianCalendar.getInstance();
                         calendarTime.setTime(parsedTime);
                         calendarTime.set(calendarTime.get(Calendar.YEAR), calendarTime.get(Calendar.MONTH), calendarTime.get(Calendar.DATE), calendarTime.get(Calendar.HOUR_OF_DAY), calendarTime.get(Calendar.MINUTE) + training.getDuration());
 
-                        regularLesson.setTime(hourDateFormater.format(parsedTime) + " - " + hourDateFormater.format(calendarTime.getTime()));
+                        regularLesson.setTime(hourDateFormatter.format(parsedTime) + " - " + hourDateFormatter.format(calendarTime.getTime()));
                         regularLesson.setTraining(training);
                         regularLessonService.addRegularLesson(regularLesson);
 
                         iterationCalendar.set(iterationCalendar.get(Calendar.YEAR), iterationCalendar.get(Calendar.MONTH), iterationCalendar.get(Calendar.DATE) + 7);
                     }
                 }
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.toString());
             }
 
         } else {
-            if (json.get("rooms") != null)
-                training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsInt());
-
+            if (json.get("rooms") != null) {
+                if (json.get("rooms").getAsJsonArray().size() != 0) {
+                    training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsInt());
+                }
+            }
             String dateString = null;
-            if (json.get("date") != null)
+            if (json.get("date") != null) {
                 dateString = json.get("date").getAsString();
-
+            }
             String time = null;
-            if (json.get("times")!=null)
+            if (json.get("times") != null) {
                 time = json.get("times").getAsJsonArray().get(0).getAsString();
-
+            }
             dateString += " " + time;
 
             try {
@@ -206,13 +216,13 @@ public class TrainingRestController {
                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) + training.getDuration());
                 time += " - " + hourDateFormater.format(calendar.getTime());
                 training.setTime(time);
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.toString());
             }
             trainingService.addTraining(training);
         }
-        return "{\"id\":\""+training.getTrainingId()+"\"}";
+        notificationService.createNewTrainingEmailNotificationForAdmins(training);
+        return "{\"id\":\"" + training.getTrainingId() + "\"}";
     }
 
     @RequestMapping(value = "/rest/training/{trainingId}", method = RequestMethod.GET)

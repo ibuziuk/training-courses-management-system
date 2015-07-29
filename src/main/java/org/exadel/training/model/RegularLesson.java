@@ -13,7 +13,7 @@ public class RegularLesson {
 
     private Timestamp date;
 
-    private int location;
+    private Integer location;
 
     @Column(length = 20)
     private String time;

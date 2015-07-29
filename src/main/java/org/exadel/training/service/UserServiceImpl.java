@@ -48,4 +48,10 @@ public class UserServiceImpl implements UserService {
     public void removeUser(User user) {
         userDAO.removeUser(user);
     }
+
+    @Override
+    @Transactional
+    public List<User> getUsersByRole(String role) {
+        return userDAO.getUsersByRole(role);
+    }
 }

@@ -72,4 +72,11 @@ public class UserDAOImpl implements UserDAO {
             sessionFactory.getCurrentSession().delete(user);
         }
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> getUsersByRole(String role) {
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("SELECT DISTINCT user FROM User user JOIN user.roles role WHERE role.role = :role").setParameter("role", role).list());
+        return new ArrayList<>(result);
+    }
 }

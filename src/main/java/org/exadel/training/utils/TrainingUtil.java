@@ -50,8 +50,8 @@ public final class TrainingUtil {
 
     private static String getMinutes(int minutes) {
         if (minutes < 10) {
-            StringBuilder sb = new StringBuilder(0);
-            return sb.append(minutes).toString();
+            StringBuilder sb = new StringBuilder();
+            return sb.append(0).append(minutes).toString();
         }
         return String.valueOf(minutes);
     }

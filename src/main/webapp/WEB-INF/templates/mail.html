@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml" lang="en"
       style="font-size: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0);">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta charset="utf-8"/>
@@ -20,7 +21,7 @@
 	   align="center">Dear <span th:text="${mailReceiver}">sir,</span></p>
 
 	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;">
-		You <span th:text="${typeTraining}"></span>
+		<span th:text="${typeTraining}"></span>
 		<b><span th:text="${nameTraining}"></span></b> at <b><span th:text="${date}"></span></b></p>
 
 	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> Sincerely,

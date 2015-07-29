@@ -32,14 +32,14 @@ public class Training {
     private Timestamp date;
 
     @Column(name = "max_visitors_count")
-    private int maxVisitorsCount;
+    private Integer maxVisitorsCount;
 
     @Column(length = 20)
     private String time;
 
-    private int location;
+    private Integer location;
 
-    private int duration;
+    private Integer duration;
 
     @Column(length = 1000)
     private String description;
@@ -53,13 +53,13 @@ public class Training {
     @Column(length = 20)
     private String days;
 
-    private boolean regular;
+    private Boolean regular;
 
     @Column(name = "external_type")
-    private boolean externalType;
+    private Boolean externalType;
 
     @Column(name = "is_approved")
-    private boolean isApproved;
+    private Boolean isApproved;
 
     @ManyToOne
     @JoinColumn(name = "language_id")

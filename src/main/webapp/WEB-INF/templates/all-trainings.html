@@ -142,9 +142,8 @@
 					<li class="active"><a href="#fut" data-toggle="tab" th:text="#{label.futureTrainings}">Future
 						trainings</a></li>
 					<li><a href="#rec" data-toggle="tab" th:text="#{label.recommendations}">Recommendations</a></li>
-					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#hist" data-toggle="tab"
-					                                             th:text="#{label.historyOfTrainings}">History of
-						trainings</a></li>
+					<li><a href="#hist" data-toggle="tab" th:text="#{label.historyOfTrainings}">History of trainings</a>
+					</li>
 				</ul>
 				<!-- Tab content -->
 				<div class="tab-content panel panel-default panel-body">
@@ -333,7 +332,7 @@
 					<!-- /Recommendations -->
 
 					<!-- History -->
-					<div sec:authorize="hasRole('ROLE_ADMIN')" class="tab-pane fade" id="hist">
+					<div class="tab-pane fade" id="hist">
 						<!-- Search row -->
 						<div class="row search-row">
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">

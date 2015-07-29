@@ -298,7 +298,8 @@
 
 							<div>
 								<label>Training duration *</label>
-								<timepicker ng-model="duration" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+								<timepicker ng-model="duration" hour-step="hstep" minute-step="mstep"
+								            show-meridian="ismeridian"></timepicker>
 							</div>
 						</div>
 						<div id="step5" ng-show="(currentPage == 5)">
@@ -374,7 +375,7 @@
 										</a>
 									</div>
 
-									<div style="text-align: center">
+									<div sec:authorize="hasRole('ROLE_ADMIN')" style="text-align: center">
 										<a href="#">
 											<button type="button" class="btn btn-danger" id="disaproveBtn">Disaprove
 											</button>

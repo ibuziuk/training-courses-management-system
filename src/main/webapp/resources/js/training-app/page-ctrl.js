@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('trainingApp').controller('pageCtrl', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
 	var intelligibilities = ['Everything was clear ', 'Nothing was clear ', 'Something wasn\'t clear '];
 	var interests = ['Wasn\'t interesting at all ', 'Was boring in some moments ', 'Was very interesting '];

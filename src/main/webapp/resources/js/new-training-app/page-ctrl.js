@@ -297,7 +297,7 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                         if ($scope.datepickers[i].room !== undefined && $scope.datepickers[i].room.length !== 0) {
                             training.rooms.push($scope.datepickers[i].room);
                         }
-                        var date = $scope.datepickers[i].dt.getDate()+'.'+$scope.datepickers[i].dt.getMonth()+'.'+$scope.datepickers[i].dt.getFullYear();
+                        var date = $scope.datepickers[i].dt.getDate()+'.'+($scope.datepickers[i].dt.getMonth()+1)+'.'+$scope.datepickers[i].dt.getFullYear();
                         training.date = date;
                         training.times.push($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
                     }
@@ -310,11 +310,11 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                 });
             };
         }).catch(function(data){
-
+            ngNotify.set(data);
         }).finally(function(){
         });
     }).catch(function(data){
-
+        ngNotify.set(data);
     }).finally(function(){
     });
 

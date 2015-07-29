@@ -30,7 +30,7 @@ public class RestTrainingController {
     @Autowired
     private WaitingListService waitingListService;
 
-    @RequestMapping(value = "/info/{trainingId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{trainingId}", method = RequestMethod.GET)
     public Map<String, Object> getTraining(@PathVariable("trainingId") long trainingId){
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String, Object> map = new HashMap<>();

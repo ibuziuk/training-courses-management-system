@@ -4,6 +4,7 @@ import org.exadel.training.model.Training;
 import org.exadel.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,5 +32,10 @@ public class TrainingController {
     @RequestMapping(value = "/my", method = RequestMethod.GET)
     public String myTraining() {
         return "my-trainings";
+    }
+
+    @RequestMapping(value = "/{trainingId}")
+    public String profile(@PathVariable("trainingId") long trainingId) {
+        return "training";
     }
 }

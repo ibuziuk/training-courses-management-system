@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q', 'ngNotify', function ($scope, $http, $q, ngNotify) {
+angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q', '$window', 'ngNotify', function ($scope, $http, $q, $window, ngNotify) {
     ngNotify.config({
         theme: 'pastel',
         position: 'bottom',
@@ -12,14 +12,14 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
     /* Checkboxes Page 1 */
 
-    $http.get('/rest/tag').then(function(obj){
-        $scope.checkboxTags = obj.data;
+    $http.get('/rest/tag').then(function(objTag){
+        $scope.checkboxTags = objTag.data;
         for (var k in $scope.checkboxTags){
             $scope.checkboxTags[k].name = '#' + $scope.checkboxTags[k].name;
         }
 
-        $http.get('/rest/audience').then(function(obj){
-            $scope.checkboxAudiences = obj.data;
+        $http.get('/rest/audience').then(function(objAud){
+            $scope.checkboxAudiences = objAud.data;
             $scope.selectAll = false;
             $scope.dateWeekly = '';
 
@@ -94,7 +94,7 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
                 for (var i = 0; i < $scope.qDates; i++) {
                     $scope.datepickers[i] = {
-                        'dt': null,
+                        'dt': new Date(),
                         'time': new Date(),
                         'toShowWeekDay': 'Select day of week ',
                         'room': ''
@@ -113,6 +113,7 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                 for (var i = 0; i < $scope.qDates; i++) {
                     $scope.datepickers[i].dt = new Date();
                 }
+                $scope.dateWeekly = new Date();
             };
 
             $scope.toggleMin = function() {
@@ -144,6 +145,15 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
             $scope.mstep = 10;
 
             $scope.ismeridian = false;
+
+            $scope.updateTime = function() {
+                var d = new Date();
+                d.setHours(0);
+                d.setMinutes(0);
+                $scope.duration = d;
+            };
+
+            $scope.updateTime();
 
             var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
 
@@ -254,9 +264,9 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     }
 
                     /* Training duration */
-                    training.duration = $scope.duration;
-
-                    if (training.duration === undefined || training.duration.length === 0){
+                    if ($scope.duration.getHours() != 0 || $scope.duration.getMinutes() != 0)
+                        training.duration = $scope.duration.getHours() * 60 + $scope.duration.getMinutes();
+                    else {
                         ngNotify.set('You should enter duration!');
                         return;
                     }
@@ -281,19 +291,11 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                             if ($scope.datepickers[j].room !== undefined && $scope.datepickers[j].room.length !== 0) {
                                 training.rooms.push($scope.datepickers[j].room);
                             }
-                            else {
-                                ngNotify.set('You should enter all rooms!');
-                                return;
-                            }
                         }
                     }
                     else if ($scope.toShowRepet === 'Continuous ' || $scope.toShowRepet === 'One-off '){
                         if ($scope.datepickers[i].room !== undefined && $scope.datepickers[i].room.length !== 0) {
                             training.rooms.push($scope.datepickers[i].room);
-                        }
-                        else {
-                            ngNotify.set('You should enter all rooms!');
-                            return;
                         }
                         var date = $scope.datepickers[i].dt.getDate()+'.'+$scope.datepickers[i].dt.getMonth()+'.'+$scope.datepickers[i].dt.getFullYear();
                         training.date = date;
@@ -302,8 +304,9 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     trainingsRequests[i] = $http.post('/rest/training', training);
                 }
                 $q.all(trainingsRequests).then(function(results) {
-                    /* console.log(results[0].data); */
-                    /* TODO training.html construction using results */
+                    console.log(results[0].data.id);
+                    $window.location.href = window.location.origin + '/training/' + results[0].data.id;
+
                 });
             };
         }).catch(function(data){

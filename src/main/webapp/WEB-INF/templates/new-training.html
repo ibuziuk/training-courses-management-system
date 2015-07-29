@@ -164,7 +164,7 @@
 								<label>Tags *</label>
 
 								<div>
-									<input type="text" class="form-control" ng-model="filt1.tag"
+									<input type="text" class="form-control" ng-model="filt1.name"
 									       placeholder="Type here"/>
 								</div>
 								<ul id="tags">
@@ -192,7 +192,7 @@
                                     </span>
 								</div>
 								<div>
-									<input class="form-control" ng-model="filt2.audience" placeholder="Type here"/>
+									<input class="form-control" ng-model="filt2.value" placeholder="Type here"/>
 								</div>
 								<ul id="audience">
 									<checkboxAudience ng-repeat="checkboxAudience in checkboxAudiences | filter:filt2">
@@ -297,9 +297,8 @@
 							<br/><br/>
 
 							<div>
-								<label>Training duration(in hours - max: 10)*</label>
-								<input type="number" max="10" class="form-control" placeholder="Type here"
-								       ng-model="duration"/>
+								<label>Training duration *</label>
+								<timepicker ng-model="duration" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
 							</div>
 						</div>
 						<div id="step5" ng-show="(currentPage == 5)">

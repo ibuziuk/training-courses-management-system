@@ -30,6 +30,9 @@
 	        th:href="@{/resources/js/global-ctrls/training-ctrl.js}"></script>
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
 	        th:href="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+	<script src="../../resources/vendors/js/angular-file-upload.min.js"
+	        th:href="@{/resources/vendors/js/angular-file-upload.min.js}"></script>
+
 </head>
 
 <body>
@@ -131,7 +134,6 @@
 
 	<div id="page-wrapper">
 		<div class="container-fluid" ng-controller="pageCtrl">
-
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -139,16 +141,31 @@
 
 					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
 					<a href=""><i class="fa fa-fw fa-pencil"></i></a>
-					<button id="registerBtn" class="btn btn-success" type="button">Register</button>
-					<button id="attendenceBtn" class="btn btn-primary" type="button">Attendence book</button>
+					<button id="registerBtn" class="btn btn-success" type="button">
+						<i class="fa fa-fw fa-plus"></i> Register
+					</button>
+					<button id="unregisterBtn" class="btn btn-danger" type="button">
+						<i class="fa fa-fw fa-times"></i> Unregister
+					</button>
+					<button id="attendenceBtn" class="btn btn-primary" type="button">
+						<i class="fa fa-fw fa-book"></i> Attendence book
+					</button>
+					<button id="addUserBtn" class="btn btn-primary" type="button">
+						<i class="fa fa-fw fa-user-plus"></i> Add an external user
+					</button>
 				</div>
 			</div>
 			<!-- /Page Heading -->
 
 			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-					<h4 style="color:{{aproveColor}}">{{aproveText}}</h4>
-					<h4 style="color:{{registerColor}}">{{registerText}}</h4>
+					<h4>
+						<label>
+							Trainer: <a href = "#"><i class="fa fa-fw fa-user"></i>{{training.trainerName}}</a>
+						</label>
+					</h4>
+					<h4 ng-style="{color:approveColor}">{{approveText}}</h4>
+					<h4 ng-style="{color:registerColor}">{{registerText}}</h4>
 					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 					<span class="label"
 					      ng-class="{'label-warning': genPercent<30, 'label-info': genPercent>=30 && genPercent<70, 'label-success': genPercent>=70}">{{genPercent}}%</span>
@@ -160,9 +177,9 @@
 					</div>
 				</div>
 			</div>
-
+			<!-- TODO: file upload -->
 			<hr>
-			<accordion close-others="oneAtATime">
+			<accordion close-others="oneAtATime" style="padding-left:19px">
 				<accordion-group is-open="status.open">
 					<accordion-heading>
 						<div style="font-size:1.17em;">Leave an anonymous opininon
@@ -187,8 +204,7 @@
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a></li>
-									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a>
-									</li>
+									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a></li>
 									<li><a href="" ng-click="chooseImpression(2)">Disappointed, that took part </a></li>
 								</ul>
 							</div>
@@ -300,19 +316,26 @@
 			</accordion>
 
 			<hr>
-			<div class="row">
+			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 					<h3>Feedbacks</h3>
 
-					<div ng-repeat="feedback in training.feedbacks">
+					<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+					<div ng-repeat="feedback in feedbacks">
 						<div class="well">
 							<b style="font-size:16px">{{feedback.user}}</b>
 							<br/>
 							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
 							<span class="label"
 							      ng-class="{'label-warning': feedback.percent<30, 'label-info': feedback.percent>=30 && feedback.percent<70, 'label-success': feedback.percent>=70}">{{feedback.percent}}%</span>
-
-							<p style="font-size:16px">{{feedback.text}}</p>
+							<p class = "field"><label>Impression:&nbsp</label>{{feedback.impression}}</p>
+							<p class = "field"><label>Intelligibility:&nbsp</label>{{feedback.intelligibility}}</p>
+							<p class = "field"><label>Interest:&nbsp</label>{{feedback.interest}}</p>
+							<p class = "field"><label>New knowledge:&nbsp</label>{{feedback.update}}</p>
+							<p class = "field"><label>Effectiveness:&nbsp</label>{{feedback.effectiveness}}</p>
+							<p class = "field"><label>Will recommend:&nbsp</label>{{feedback.recommendation}}</p>
+							<p class = "field"><label>Want to listen again:&nbsp</label>{{feedback.trainer}}</p>
+							<p class = "field"><label>Comment&nbsp</label>{{feedback.text}}</p>
 						</div>
 					</div>
 				</div>

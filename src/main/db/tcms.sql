@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.7-rc, for Win64 (x86_64)
 --
 -- Host: localhost    Database: training_courses_management_system
 -- ------------------------------------------------------
--- Server version	5.6.24-log
+-- Server version	5.7.7-rc-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ CREATE TABLE `audience` (
   `audience_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`audience_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,35 +35,8 @@ CREATE TABLE `audience` (
 
 LOCK TABLES `audience` WRITE;
 /*!40000 ALTER TABLE `audience` DISABLE KEYS */;
+INSERT INTO `audience` VALUES (1,'Java developers'),(2,'PHP developers'),(3,'JavaScript developers'),(4,'C++ developers'),(5,'Scala developers'),(6,'Go developers'),(7,'Testers');
 /*!40000 ALTER TABLE `audience` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `current_list`
---
-
-DROP TABLE IF EXISTS `current_list`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `current_list` (
-  `current_list_id` int(11) NOT NULL AUTO_INCREMENT,
-  `training_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`current_list_id`),
-  KEY `FK_j24w23stdw8bn2g7p3spkpvfw` (`training_id`),
-  KEY `FK_f96s2ibugylnooylyima3at5g` (`user_id`),
-  CONSTRAINT `FK_f96s2ibugylnooylyima3at5g` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `FK_j24w23stdw8bn2g7p3spkpvfw` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `current_list`
---
-
-LOCK TABLES `current_list` WRITE;
-/*!40000 ALTER TABLE `current_list` DISABLE KEYS */;
-/*!40000 ALTER TABLE `current_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -155,7 +128,7 @@ CREATE TABLE `tag` (
   `color` varchar(255) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,6 +137,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+INSERT INTO `tag` VALUES (1,'red','Java'),(2,'yellow','PHP'),(3,'brown','JavaScript'),(4,'green','C++'),(5,'pink','Scala'),(6,'blue','Go'),(7,'purple','English');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +170,7 @@ CREATE TABLE `training` (
   KEY `FK_qpxtqvn6p3ey7stx3v45m5ujv` (`trainer_id`),
   CONSTRAINT `FK_kpu07jorm6b09r79qs6mbbudd` FOREIGN KEY (`language_id`) REFERENCES `language` (`language_id`),
   CONSTRAINT `FK_qpxtqvn6p3ey7stx3v45m5ujv` FOREIGN KEY (`trainer_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +179,7 @@ CREATE TABLE `training` (
 
 LOCK TABLES `training` WRITE;
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
-INSERT INTO `training` VALUES (1,'2015-10-10 23:00:00',NULL,'vsdvnjkkbj',1,NULL,'\0','',255,8,'\0',NULL,'23:00','dsfnjbdgsh',1,1),(2,'2015-02-10 23:00:00',NULL,'df',2,NULL,'\0','',222,9,'\0',NULL,'da','adfsafsa',1,2);
+INSERT INTO `training` VALUES (1,'2015-10-10 10:00:00',NULL,'Java developing for junior',2,NULL,'\0','',223,8,'\0',NULL,'10:00-12:00','Java developing',1,1),(2,'2015-02-10 23:00:00',NULL,'df',2,NULL,'\0','',222,9,'\0',NULL,'da','adfsafsa',1,2),(3,'2015-07-28 14:00:00',NULL,'jkl kilk',3,NULL,'\0','\0',123,1,'\0',NULL,NULL,'nji',1,4),(4,'2015-07-28 12:00:00',NULL,'jkl kilk',2,NULL,'\0','',123,1,'\0',NULL,NULL,'nji',1,9),(5,'2015-07-28 07:00:00',NULL,'ghj hgbjnmk',1,NULL,'\0','',22,2,'\0',NULL,NULL,'fghj',1,4);
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +206,74 @@ CREATE TABLE `training_audience` (
 
 LOCK TABLES `training_audience` WRITE;
 /*!40000 ALTER TABLE `training_audience` DISABLE KEYS */;
+INSERT INTO `training_audience` VALUES (3,2),(4,2),(5,2);
 /*!40000 ALTER TABLE `training_audience` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `training_feedback`
+--
+
+DROP TABLE IF EXISTS `training_feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `training_feedback` (
+  `training_feedback_id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `effectiveness` int(11) DEFAULT NULL,
+  `impression` int(11) DEFAULT NULL,
+  `intelligibility` int(11) DEFAULT NULL,
+  `interest` int(11) DEFAULT NULL,
+  `recommending` bit(1) DEFAULT NULL,
+  `text` varchar(4500) DEFAULT NULL,
+  `trainer_desire` bit(1) DEFAULT NULL,
+  `learn_smth_new` int(11) DEFAULT NULL,
+  `training_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`training_feedback_id`),
+  KEY `FK_mlwjwvf8ak8o7phe8y8axfrtx` (`training_id`),
+  KEY `FK_2tigk6qho8qc7ex525k8i6bhg` (`user_id`),
+  CONSTRAINT `FK_2tigk6qho8qc7ex525k8i6bhg` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_mlwjwvf8ak8o7phe8y8axfrtx` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `training_feedback`
+--
+
+LOCK TABLES `training_feedback` WRITE;
+/*!40000 ALTER TABLE `training_feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `training_feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `training_rating`
+--
+
+DROP TABLE IF EXISTS `training_rating`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `training_rating` (
+  `training_rating_id` int(11) NOT NULL AUTO_INCREMENT,
+  `star_count` int(11) DEFAULT NULL,
+  `training_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`training_rating_id`),
+  KEY `FK_ifmnueta8qsaps608t3m8ilt2` (`training_id`),
+  KEY `FK_gbby2cuxsjq86awtln7q8sstm` (`user_id`),
+  CONSTRAINT `FK_gbby2cuxsjq86awtln7q8sstm` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_ifmnueta8qsaps608t3m8ilt2` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `training_rating`
+--
+
+LOCK TABLES `training_rating` WRITE;
+/*!40000 ALTER TABLE `training_rating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `training_rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -258,6 +299,7 @@ CREATE TABLE `training_tag` (
 
 LOCK TABLES `training_tag` WRITE;
 /*!40000 ALTER TABLE `training_tag` DISABLE KEYS */;
+INSERT INTO `training_tag` VALUES (3,2),(4,2),(5,2);
 /*!40000 ALTER TABLE `training_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +326,7 @@ CREATE TABLE `training_user` (
 
 LOCK TABLES `training_user` WRITE;
 /*!40000 ALTER TABLE `training_user` DISABLE KEYS */;
-INSERT INTO `training_user` VALUES (2,1),(1,2),(1,3);
+INSERT INTO `training_user` VALUES (2,1),(1,2),(1,3),(1,4),(4,4);
 /*!40000 ALTER TABLE `training_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,6 +386,35 @@ LOCK TABLES `user_role` WRITE;
 INSERT INTO `user_role` VALUES (1,1),(2,1),(4,1),(5,1),(6,1),(8,1),(3,2),(7,2),(9,2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `waiting_list`
+--
+
+DROP TABLE IF EXISTS `waiting_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `waiting_list` (
+  `waiting_list_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `training_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`waiting_list_id`),
+  KEY `FK_m7ajdtxrffqehvwgg1xg29tdr` (`training_id`),
+  KEY `FK_hxcnjomo5e02plcgeihmyi24n` (`user_id`),
+  CONSTRAINT `FK_hxcnjomo5e02plcgeihmyi24n` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_m7ajdtxrffqehvwgg1xg29tdr` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `waiting_list`
+--
+
+LOCK TABLES `waiting_list` WRITE;
+/*!40000 ALTER TABLE `waiting_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `waiting_list` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -354,4 +425,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-28 15:17:11
+-- Dump completed on 2015-07-29 14:35:10

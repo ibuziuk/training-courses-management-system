@@ -3,9 +3,13 @@ textarea {
 	resize: none;
 }
 
-#editBtn, #attendenceBtn {
+#editBtn, #attendenceBtn, #addUserBtn {
 	margin-bottom: 7px;
 	margin-left: 2%;
+}
+
+.field {
+	font-size: 16px;
 }
 
 #opinionBtn {

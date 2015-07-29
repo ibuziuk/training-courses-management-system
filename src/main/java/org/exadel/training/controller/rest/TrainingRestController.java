@@ -221,7 +221,7 @@ public class TrainingRestController {
             }
             trainingService.addTraining(training);
         }
-        notificationService.createNewTrainingEmailNotificationForAdmins(training);
+        /*notificationService.createNewTrainingEmailNotificationForAdmins(training);*/
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
     }
 

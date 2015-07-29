@@ -23,7 +23,36 @@ public final class TrainingUtil {
         return sb.toString();
     }
 
+    public static String DateAndTimeToString(Timestamp date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(date.getTime()));
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        StringBuilder sb = new StringBuilder();
+        sb.append(hour)
+          .append(':')
+          .append(getMinutes(minutes))
+          .append("  ")
+          .append(day)
+          .append(' ')
+          .append(getMonthName(month))
+          .append(' ')
+          .append(year);
+        return sb.toString();
+    }
+
     private static String getMonthName(int num) {
         return months[num];
+    }
+
+    private static String getMinutes(int minutes) {
+        if (minutes < 10) {
+            StringBuilder sb = new StringBuilder(0);
+            return sb.append(minutes).toString();
+        }
+        return String.valueOf(minutes);
     }
 }

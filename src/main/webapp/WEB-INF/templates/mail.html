@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml" lang="en"
       style="font-size: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0);">
 <head>
@@ -17,10 +17,11 @@
 		</div>
 	</div>
 	<p style="color: #1A394C; font-size: 25px; margin-bottom: 10px; font-family: inherit; font-weight: 500; display: block; box-sizing: border-box;"
-	   align="center">Dear <span sec:authentication="principal.firstName">sir,</span></p>
+	   align="center">Dear <span th:text="${mailReceiver}">sir,</span></p>
 
-	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> you have
-		received a training <a href="http://google.com"><span> Name of training</span></a> to approve.</p>
+	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;">
+		You <span th:text="${typeTraining}"></span>
+		<b><span th:text="${nameTraining}"></span></b> at <b><span th:text="${date}"></span></b></p>
 
 	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> Sincerely,
 		Exadel Training System.</p>

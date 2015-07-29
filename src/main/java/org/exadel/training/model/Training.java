@@ -1,7 +1,6 @@
 package org.exadel.training.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.exadel.training.utils.TrainingUtil;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +9,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.exadel.training.utils.TrainingUtil.DateAndTimeToString;
+import static org.exadel.training.utils.TrainingUtil.DateToString;
 
 @Entity
 @Table(name = "training")
@@ -225,8 +227,11 @@ public class Training {
     }
 
     public String getDateOnString() {
-        TrainingUtil trainingUtil = new TrainingUtil();
-        return trainingUtil.DateToString(this.date);
+        return DateToString(this.date);
+    }
+
+    public String getDateAndTimeOnString() {
+        return DateAndTimeToString(this.date);
     }
 
     public boolean isExternalType() {
@@ -284,6 +289,7 @@ public class Training {
     public void setTrainingFeedbacks(Set<TrainingFeedback> trainingFeedbacks) {
         this.trainingFeedbacks = trainingFeedbacks;
     }
+
     public Set<WaitingList> getWaiting() {
         return waiting;
     }

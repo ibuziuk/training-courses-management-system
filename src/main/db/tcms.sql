@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.7-rc, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: training_courses_management_system
 -- ------------------------------------------------------
--- Server version	5.7.7-rc-log
+-- Server version	5.6.24-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -36,6 +36,34 @@ CREATE TABLE `audience` (
 LOCK TABLES `audience` WRITE;
 /*!40000 ALTER TABLE `audience` DISABLE KEYS */;
 /*!40000 ALTER TABLE `audience` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `current_list`
+--
+
+DROP TABLE IF EXISTS `current_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `current_list` (
+  `current_list_id` int(11) NOT NULL AUTO_INCREMENT,
+  `training_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`current_list_id`),
+  KEY `FK_j24w23stdw8bn2g7p3spkpvfw` (`training_id`),
+  KEY `FK_f96s2ibugylnooylyima3at5g` (`user_id`),
+  CONSTRAINT `FK_f96s2ibugylnooylyima3at5g` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_j24w23stdw8bn2g7p3spkpvfw` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `current_list`
+--
+
+LOCK TABLES `current_list` WRITE;
+/*!40000 ALTER TABLE `current_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `current_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -326,4 +354,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-28 11:50:24
+-- Dump completed on 2015-07-28 15:17:11

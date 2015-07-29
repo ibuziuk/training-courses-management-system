@@ -5,5 +5,7 @@ import org.exadel.training.model.TrainingRating;
 public interface TrainingRatingDAO {
     void addTrainingRating(TrainingRating trainingRating);
 
-    TrainingRating getAverageRatingByTrainingID(long trainingID);
+    double getAverageRatingByTrainingID(long trainingID);
+
+    boolean containsUserByTraining(long trainingId, long userId);
 }

@@ -9,4 +9,6 @@ public interface TrainingFeedbackService {
     void addFeedback(TrainingFeedback feedback);
 
     List<TrainingFeedback> getAllFeedbacks();
+
+    boolean containsUserByTraining(long trainingId, long userId);
 }

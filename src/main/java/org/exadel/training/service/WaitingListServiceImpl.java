@@ -14,8 +14,8 @@ public class WaitingListServiceImpl implements WaitingListService {
 
     @Override
     @Transactional
-    public void addVisitor(long userID, long trainingID) {
-        waitingListDAO.addVisitor(userID, trainingID);
+    public String addVisitor(long userID, long trainingID) {
+        return waitingListDAO.addVisitor(userID, trainingID);
     }
 
     @Override
@@ -26,7 +26,13 @@ public class WaitingListServiceImpl implements WaitingListService {
 
     @Override
     @Transactional
-    public void removeVisitor(long userID, long trainingID) {
-        waitingListDAO.removeVisitor(userID, trainingID);
+    public String removeVisitor(long userID, long trainingID) {
+        return waitingListDAO.removeVisitor(userID, trainingID);
+    }
+
+    @Override
+    @Transactional
+    public boolean checkingExist(long trainingId, long userId){
+        return waitingListDAO.checkingExist(trainingId, userId);
     }
 }

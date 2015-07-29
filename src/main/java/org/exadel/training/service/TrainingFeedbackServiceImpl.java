@@ -16,6 +16,7 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
     @Override
     @Transactional
     public void addFeedback(TrainingFeedback feedback) {
+
         trainingFeedbackDAO.addFeedback(feedback);
     }
 
@@ -23,5 +24,11 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
     @Transactional
     public List<TrainingFeedback> getAllFeedbacks() {
         return trainingFeedbackDAO.getAllFeedbacks();
+    }
+
+    @Override
+    @Transactional
+    public boolean containsUserByTraining(long trainingId, long userId){
+        return trainingFeedbackDAO.containsUserByTraining(trainingId, userId);
     }
 }

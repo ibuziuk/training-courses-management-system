@@ -13,48 +13,37 @@ public class TrainingFeedback {
     @Column(name = "training_feedback_id")
     private int id;
 
-    @NotEmpty
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @NotEmpty
-    private long trainerId;
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
 
     @Column(length = 4500)
     private String text;
 
     private Timestamp date;
 
-    private int understandably;
+    private Integer impression;
 
-    private int interestingly;
+    private Integer intelligibility;
 
-    private int learnSomethingNew;
+    private Integer interest;
 
-    private int effectiveness;
+    @Column(name = "learn_smth_new")
+    private Integer update;
 
-    private boolean coachDesire;
+    private Integer effectiveness;
 
-    @Column(length = 45)
-    private String recommending;
+    @Column(name = "trainer_desire")
+    private Boolean trainerRecommending;
+
+    private Boolean recommending;
 
     public int getId() {
         return id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
     }
 
     public String getText() {
@@ -73,28 +62,28 @@ public class TrainingFeedback {
         this.date = date;
     }
 
-    public int getUnderstandably() {
-        return understandably;
+    public int getIntelligibility() {
+        return intelligibility;
     }
 
-    public void setUnderstandably(int understandably) {
-        this.understandably = understandably;
+    public void setIntelligibility(int intelligibility) {
+        this.intelligibility = intelligibility;
     }
 
-    public int getInterestingly() {
-        return interestingly;
+    public int getInterest() {
+        return interest;
     }
 
-    public void setInterestingly(int interestingly) {
-        this.interestingly = interestingly;
+    public void setInterest(int interest) {
+        this.interest = interest;
     }
 
-    public int getLearnSomethingNew() {
-        return learnSomethingNew;
+    public int getUpdate() {
+        return update;
     }
 
-    public void setLearnSomethingNew(int learnSomethingNew) {
-        this.learnSomethingNew = learnSomethingNew;
+    public void setUpdate(int update) {
+        this.update = update;
     }
 
     public int getEffectiveness() {
@@ -105,19 +94,43 @@ public class TrainingFeedback {
         this.effectiveness = effectiveness;
     }
 
-    public boolean isCoachDesire() {
-        return coachDesire;
+    public boolean isTrainerRecommending() {
+        return trainerRecommending;
     }
 
-    public void setCoachDesire(boolean coachDesire) {
-        this.coachDesire = coachDesire;
+    public void setTrainerRecommending(boolean trainerRecommending) {
+        this.trainerRecommending = trainerRecommending;
     }
 
-    public String getRecommending() {
+    public boolean getRecommending() {
         return recommending;
     }
 
-    public void setRecommending(String recommending) {
+    public void setRecommending(boolean recommending) {
         this.recommending = recommending;
+    }
+
+    public int getImpression() {
+        return impression;
+    }
+
+    public void setImpression(int impression) {
+        this.impression = impression;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

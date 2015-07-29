@@ -28,4 +28,10 @@ public interface TrainingService {
     List<Training> getTrainingsByTrainer(long id);
 
     List<Training> getTrainingsByVisitor(long id);
+
+    String registerForTraining(long trainingId, long userId);
+
+    String removeVisitor(long trainingId, long userId);
+
+    boolean containsVisitor(long trainingId, long userId);
 }

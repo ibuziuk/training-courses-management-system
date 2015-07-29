@@ -12,17 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/rest/calendar")
 public class CalendarController {
     @Autowired
     TrainingService trainingService;
 
-    @RequestMapping(value = "/rest/calendar/trainer", method = RequestMethod.GET)
+    @RequestMapping(value = "/trainer", method = RequestMethod.GET)
     public List<Training> getByTrainer() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return trainingService.getTrainingsByTrainer(userDetails.getId());
     }
 
-    @RequestMapping(value = "/rest/calendar/visitor", method = RequestMethod.GET)
+    @RequestMapping(value = "/visitor", method = RequestMethod.GET)
     public List<Training> getByVisitor() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return trainingService.getTrainingsByVisitor(userDetails.getId());

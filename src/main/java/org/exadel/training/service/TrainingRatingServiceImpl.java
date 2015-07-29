@@ -20,7 +20,13 @@ public class TrainingRatingServiceImpl implements TrainingRatingService {
 
     @Override
     @Transactional
-    public TrainingRating getAverageRatingByTrainingID(long trainingID) {
+    public double getAverageRatingByTrainingID(long trainingID) {
         return trainingRatingDAO.getAverageRatingByTrainingID(trainingID);
+    }
+
+    @Override
+    @Transactional
+    public boolean containsUserByTraining(long trainingId, long userId){
+        return trainingRatingDAO.containsUserByTraining(trainingId, userId);
     }
 }

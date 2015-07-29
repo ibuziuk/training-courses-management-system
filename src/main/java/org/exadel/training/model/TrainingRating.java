@@ -12,32 +12,19 @@ public class TrainingRating {
     @Column(name = "training_rating_id")
     private int id;
 
-    @NotEmpty
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @NotEmpty
-    private long trainerId;
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
 
+    @Column(name = "star_count")
     private int starCount;
 
     public int getId() {
         return id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
     }
 
     public int getStarCount() {
@@ -46,5 +33,21 @@ public class TrainingRating {
 
     public void setStarCount(int starCount) {
         this.starCount = starCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }

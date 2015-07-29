@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/rest/training")
-public class RestTrainingController {
+public class TrainingRestController {
     @Autowired
     private TrainingService trainingService;
 

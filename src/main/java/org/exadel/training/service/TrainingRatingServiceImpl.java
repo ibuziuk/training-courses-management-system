@@ -26,7 +26,7 @@ public class TrainingRatingServiceImpl implements TrainingRatingService {
 
     @Override
     @Transactional
-    public boolean containsUserByTraining(long trainingId, long userId){
+    public boolean containsUserByTraining(long trainingId, long userId) {
         return trainingRatingDAO.containsUserByTraining(trainingId, userId);
     }
 }

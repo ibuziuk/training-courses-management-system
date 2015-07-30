@@ -72,7 +72,7 @@ public class UserDAOImpl implements UserDAO {
             sessionFactory.getCurrentSession().delete(user);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsersByRole(String role) {

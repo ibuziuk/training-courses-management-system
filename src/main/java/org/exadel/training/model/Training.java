@@ -61,9 +61,9 @@ public class Training {
     @Column(name = "is_approved")
     private Boolean isApproved;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "language_id")
-    @JsonIgnore
     private Language language;
 
     @JsonIgnore
@@ -91,6 +91,14 @@ public class Training {
     private Set<User> visitors = new HashSet<>(0);
 
     @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "ex_training_user", joinColumns = {
+            @JoinColumn(name = "training_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)
+            })
+    private Set<User> exVisitors = new HashSet<>(0);
+
+    @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 
@@ -99,7 +107,7 @@ public class Training {
 
     @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<TrainingFeedback> trainingFeedbacks;
+    private Set<TrainingFeedback> trainingFeedbacks = new HashSet<>(0);
 
     @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
@@ -133,7 +141,7 @@ public class Training {
         this.time = time;
     }
 
-    public int getMaxVisitorsCount() {
+    public Integer getMaxVisitorsCount() {
         return maxVisitorsCount;
     }
 
@@ -141,7 +149,7 @@ public class Training {
         this.maxVisitorsCount = MAX_count;
     }
 
-    public int getLocation() {
+    public Integer getLocation() {
         return location;
     }
 
@@ -149,7 +157,7 @@ public class Training {
         this.location = place;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
@@ -189,11 +197,11 @@ public class Training {
         this.days = days;
     }
 
-    public boolean isRegular() {
+    public Boolean isRegular() {
         return regular;
     }
 
-    public void setRegular(boolean regular) {
+    public void setRegular(Boolean regular) {
         this.regular = regular;
     }
 
@@ -218,11 +226,11 @@ public class Training {
         return (int) (trainingId ^ (trainingId >>> 32));
     }
 
-    public boolean isApproved() {
+    public Boolean isApproved() {
         return isApproved;
     }
 
-    public void setApproved(boolean isApproved) {
+    public void setApproved(Boolean isApproved) {
         this.isApproved = isApproved;
     }
 
@@ -234,11 +242,11 @@ public class Training {
         return DateAndTimeToString(this.date);
     }
 
-    public boolean isExternalType() {
+    public Boolean isExternalType() {
         return externalType;
     }
 
-    public void setExternalType(boolean external) {
+    public void setExternalType(Boolean external) {
         this.externalType = external;
     }
 
@@ -296,5 +304,13 @@ public class Training {
 
     public void setWaiting(Set<WaitingList> waiting) {
         this.waiting = waiting;
+    }
+
+    public Set<User> getExVisitors() {
+        return exVisitors;
+    }
+
+    public void setExVisitors(Set<User> ex_visitors) {
+        this.exVisitors = ex_visitors;
     }
 }

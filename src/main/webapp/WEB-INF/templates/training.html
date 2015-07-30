@@ -76,7 +76,7 @@
 			<li class="active">
 				<a href="welcome.html" th:href="@{/welcome}">
 					<i class="fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span sec:authentication="principal.firstName"></span>
 				</a>
 			</li>
 
@@ -88,47 +88,47 @@
 			</li>
 
 			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href="training.html">En</a></li>
-				<li><a class="lang" href="training.html">Ru</a></li>
+				<li><a class="lang" href="?language=en">En</a></li>
+				<li><a class="lang" href="?language=ru">Ru</a></li>
 			</ul>
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class="collapse navbar-collapse" collapse="isCollapsed">
+		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
-						All trainings
+						<span th:text="#{label.allTrainings}">All trainings</span>
 					</a>
 				</li>
 				<li id="mytrainings">
-					<a href="">
+					<a href="my-trainings.html" th:href="@{/training/my}">
 						<i class="fa fa-fw fa-circle-o"></i>
-						My trainings
+						<span th:text="#{label.myTrainings}">My trainings</span>
 					</a>
 				</li>
 				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
-						Create new training
+						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
-					<a href="new-trainer.html">
+					<a href="new-trainer.html" th:href="@{/trainer/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
-						Add new external trainer
+						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">
-					<a href="users.html">
+					<a href="users.html" th:href="@{/user/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
-						Users
+						<span th:text="#{label.users}">Users</span>
 					</a>
 				</li>
 				<li id="copyright">
 					<footer>
-						<span>©Exadel, Inc. All Rights Reserved.</span>
+						<span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
 					</footer>
 				</li>
 			</ul>
@@ -175,7 +175,8 @@
 					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
 					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
-					<h4 ng-show="!regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}</h4>
+					<h4 ng-show="!regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
+					</h4>
 					<h4 ng-show="regular"><label>Date of start:&nbsp;</label>{{training.start}}</h4>
 
 					<h3>Description</h3>
@@ -214,7 +215,8 @@
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a></li>
-									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a></li>
+									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a>
+									</li>
 									<li><a href="" ng-click="chooseImpression(2)">Disappointed, that took part </a></li>
 								</ul>
 							</div>

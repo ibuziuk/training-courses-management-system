@@ -21,22 +21,22 @@ public class EmployeeFeedback {
 
     private Timestamp date;
 
-    private boolean present;
+    private Boolean present;
 
-    private int attitudeToLearning;
+    private Integer attitudeToLearning;
 
-    private boolean askQuestions;
+    private Boolean askQuestions;
 
-    private int communication;
+    private Integer communication;
 
-    private boolean interest;
+    private Boolean interest;
 
-    private boolean focusedOnResults;
+    private Boolean focusedOnResults;
 
     @Column(length = 4500)
     private String text;
 
-    private int level;
+    private Integer level;
 
     @Column(length = 45)
     private String mark;
@@ -69,51 +69,51 @@ public class EmployeeFeedback {
         this.date = date;
     }
 
-    public boolean isPresent() {
+    public Boolean isPresent() {
         return present;
     }
 
-    public void setPresent(boolean present) {
+    public void setPresent(Boolean present) {
         this.present = present;
     }
 
-    public int getAttitudeToLearning() {
+    public Integer getAttitudeToLearning() {
         return attitudeToLearning;
     }
 
-    public void setAttitudeToLearning(int attitudeToLearning) {
+    public void setAttitudeToLearning(Integer attitudeToLearning) {
         this.attitudeToLearning = attitudeToLearning;
     }
 
-    public boolean isAskQuestions() {
+    public Boolean isAskQuestions() {
         return askQuestions;
     }
 
-    public void setAskQuestions(boolean askQuestions) {
+    public void setAskQuestions(Boolean askQuestions) {
         this.askQuestions = askQuestions;
     }
 
-    public int getCommunication() {
+    public Integer getCommunication() {
         return communication;
     }
 
-    public void setCommunication(int communication) {
+    public void setCommunication(Integer communication) {
         this.communication = communication;
     }
 
-    public boolean isInterest() {
+    public Boolean isInterest() {
         return interest;
     }
 
-    public void setInterest(boolean interest) {
+    public void setInterest(Boolean interest) {
         this.interest = interest;
     }
 
-    public boolean isFocusedOnResults() {
+    public Boolean isFocusedOnResults() {
         return focusedOnResults;
     }
 
-    public void setFocusedOnResults(boolean focusedOnResults) {
+    public void setFocusedOnResults(Boolean focusedOnResults) {
         this.focusedOnResults = focusedOnResults;
     }
 
@@ -125,11 +125,11 @@ public class EmployeeFeedback {
         this.text = text;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

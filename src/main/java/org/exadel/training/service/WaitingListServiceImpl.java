@@ -32,7 +32,7 @@ public class WaitingListServiceImpl implements WaitingListService {
 
     @Override
     @Transactional
-    public boolean checkingExist(long trainingId, long userId){
+    public boolean checkingExist(long trainingId, long userId) {
         return waitingListDAO.checkingExist(trainingId, userId);
     }
 }

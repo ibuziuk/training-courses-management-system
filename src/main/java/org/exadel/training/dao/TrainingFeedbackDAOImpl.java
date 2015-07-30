@@ -27,7 +27,7 @@ public class TrainingFeedbackDAOImpl implements TrainingFeedbackDAO {
     }
 
     @Override
-    public boolean containsUserByTraining(long trainingId, long userId){
+    public boolean containsUserByTraining(long trainingId, long userId) {
         List list = sessionFactory.getCurrentSession().createCriteria(TrainingFeedback.class)
                 .add(Restrictions.eq("training.trainingId", trainingId))
                 .add(Restrictions.eq("user.userId", userId))

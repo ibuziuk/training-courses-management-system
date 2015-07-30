@@ -9,7 +9,7 @@ public class RegularLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "lesson_id")
-    private int lessonId;
+    private long lessonId;
 
     private Timestamp date;
 
@@ -22,7 +22,7 @@ public class RegularLesson {
     @JoinColumn(name = "training_id")
     private Training training;
 
-    public int getLessonId() {
+    public long getLessonId() {
         return lessonId;
     }
 
@@ -42,11 +42,11 @@ public class RegularLesson {
         this.time = time;
     }
 
-    public int getLocation() {
+    public Integer getLocation() {
         return location;
     }
 
-    public void setLocation(int location) {
+    public void setLocation(Integer location) {
         this.location = location;
     }
 

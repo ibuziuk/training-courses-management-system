@@ -28,7 +28,7 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
 
     @Override
     @Transactional
-    public boolean containsUserByTraining(long trainingId, long userId){
+    public boolean containsUserByTraining(long trainingId, long userId) {
         return trainingFeedbackDAO.containsUserByTraining(trainingId, userId);
     }
 }

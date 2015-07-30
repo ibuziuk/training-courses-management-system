@@ -1,6 +1,6 @@
 package org.exadel.training.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -17,6 +17,7 @@ public class TrainingFeedback {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;
@@ -62,47 +63,47 @@ public class TrainingFeedback {
         this.date = date;
     }
 
-    public int getIntelligibility() {
+    public Integer getIntelligibility() {
         return intelligibility;
     }
 
-    public void setIntelligibility(int intelligibility) {
+    public void setIntelligibility(Integer intelligibility) {
         this.intelligibility = intelligibility;
     }
 
-    public int getInterest() {
+    public Integer getInterest() {
         return interest;
     }
 
-    public void setInterest(int interest) {
+    public void setInterest(Integer interest) {
         this.interest = interest;
     }
 
-    public int getUpdate() {
+    public Integer getUpdate() {
         return update;
     }
 
-    public void setUpdate(int update) {
+    public void setUpdate(Integer update) {
         this.update = update;
     }
 
-    public int getEffectiveness() {
+    public Integer getEffectiveness() {
         return effectiveness;
     }
 
-    public void setEffectiveness(int effectiveness) {
+    public void setEffectiveness(Integer effectiveness) {
         this.effectiveness = effectiveness;
     }
 
-    public boolean isTrainerRecommending() {
+    public Boolean isTrainerRecommending() {
         return trainerRecommending;
     }
 
-    public void setTrainerRecommending(boolean trainerRecommending) {
+    public void setTrainerRecommending(Boolean trainerRecommending) {
         this.trainerRecommending = trainerRecommending;
     }
 
-    public boolean getRecommending() {
+    public Boolean getRecommending() {
         return recommending;
     }
 
@@ -110,11 +111,11 @@ public class TrainingFeedback {
         this.recommending = recommending;
     }
 
-    public int getImpression() {
+    public Integer getImpression() {
         return impression;
     }
 
-    public void setImpression(int impression) {
+    public void setImpression(Integer impression) {
         this.impression = impression;
     }
 

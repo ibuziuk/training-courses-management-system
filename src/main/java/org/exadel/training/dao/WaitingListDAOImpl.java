@@ -23,7 +23,7 @@ public class WaitingListDAOImpl implements WaitingListDAO {
 
     @Override
     public String addVisitor(long trainingID, long userID) {
-        if (!checkingExist(trainingID, userID)){
+        if (!checkingExist(trainingID, userID)) {
             WaitingList waitingList = new WaitingList();
             waitingList.setTraining(trainingDAO.getTrainingById(trainingID));
             waitingList.setUser(userDAO.getUserById(userID));
@@ -46,14 +46,14 @@ public class WaitingListDAOImpl implements WaitingListDAO {
                 .add(Restrictions.eq("training.trainingId", trainingID))
                 .add(Restrictions.eq("user.userId", userID))
                 .list();
-        if(list.size() != 0){
+        if (list.size() != 0) {
             sessionFactory.getCurrentSession().delete(list.get(0));
             return "Remove from waiting-list.";
         }
         return "Record does not exist.";
     }
 
-    public boolean checkingExist(long trainingId, long userId){
+    public boolean checkingExist(long trainingId, long userId) {
         List list = sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
                 .add(Restrictions.eq("user.userId", userId))
                 .add(Restrictions.eq("training.trainingId", trainingId))

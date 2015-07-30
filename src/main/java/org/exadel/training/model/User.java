@@ -54,6 +54,10 @@ public class User {
     private Set<Training> trainings;
 
     @JsonIgnore
+    @ManyToMany(mappedBy = "exVisitors")
+    private Set<Training> exTrainings;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<TrainingFeedback> trainingFeedbacks;
 
@@ -159,5 +163,13 @@ public class User {
 
     public void setWaiting(Set<WaitingList> waiting) {
         this.waiting = waiting;
+    }
+
+    public Set<Training> getExTrainings() {
+        return exTrainings;
+    }
+
+    public void setExTrainings(Set<Training> ex_trainings) {
+        this.exTrainings = ex_trainings;
     }
 }

@@ -21,7 +21,7 @@ public class Absence {
     @Column(length = 4500)
     private String reasonText;
 
-    private boolean isReasonable;
+    private Boolean isReasonable;
 
     public int getId() {
         return id;
@@ -51,11 +51,11 @@ public class Absence {
         this.reasonText = reasonText;
     }
 
-    public boolean isReasonable() {
+    public Boolean isReasonable() {
         return isReasonable;
     }
 
-    public void setIsReasonable(boolean isReasonable) {
+    public void setIsReasonable(Boolean isReasonable) {
         this.isReasonable = isReasonable;
     }
 }

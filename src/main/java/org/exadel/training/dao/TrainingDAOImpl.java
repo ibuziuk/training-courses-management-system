@@ -87,6 +87,7 @@ public class TrainingDAOImpl implements TrainingDAO {
     public List<Training> getTrainingsByVisitor(long id) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
         criteria.createAlias("visitors", "visitorsAlias").add(Restrictions.eq("visitorsAlias.userId", id));
-        return criteria.list();
+        Collection result = new LinkedHashSet(criteria.list());
+        return new ArrayList<>(result);
     }
 }

@@ -258,7 +258,8 @@ public class TrainingRestController {
     public Map<String, Object> getTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String, Object> map = new HashMap<>();
-        map.put("training", trainingService.getTrainingById(trainingId));
+        Training training = trainingService.getTrainingById(trainingId);
+        map.put("training", training);
         map.put("rating", trainingRatingService.getAverageRatingByTrainingID(trainingId));
         if (trainingService.containsVisitor(trainingId, userDetails.getId())) {
             map.put("register", 0);
@@ -267,6 +268,7 @@ public class TrainingRestController {
         } else {
             map.put("register", 2);
         }
+        map.put("feedbacks", training.getTrainingFeedbacks());
         map.put("vote", trainingRatingService.containsUserByTraining(trainingId, userDetails.getId())
                 || trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
         return map;

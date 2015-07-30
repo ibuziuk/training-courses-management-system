@@ -12,6 +12,9 @@ import java.util.List;
 
 @Repository
 public class TagDAOImpl implements TagDAO {
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public Tag getTagByName(String name) {
         List<Tag> list = sessionFactory.getCurrentSession().createQuery("FROM Tag t WHERE t.name = :name").setString("name", name).list();
@@ -20,9 +23,6 @@ public class TagDAOImpl implements TagDAO {
         }
         return list.get(0);
     }
-
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Override
     public void addTag(Tag tag) {

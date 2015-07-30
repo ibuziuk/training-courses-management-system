@@ -36,35 +36,35 @@ public class FeedbackController {
         TrainingFeedback trainingFeedback = new TrainingFeedback();
         if (map.containsKey("impression")) {
             flag = true;
-            trainingFeedback.setImpression(Integer.parseInt((String) map.get("impression")));
+            trainingFeedback.setImpression(Integer.parseInt( map.get("impression").toString()));
         }
         if (map.containsKey("intelligibility")) {
             flag = true;
-            trainingFeedback.setIntelligibility(Integer.parseInt((String) map.get("intelligibility")));
+            trainingFeedback.setIntelligibility(Integer.parseInt(map.get("intelligibility").toString()));
         }
         if (map.containsKey("interest")) {
             flag = true;
-            trainingFeedback.setInterest(Integer.parseInt((String) map.get("interest")));
+            trainingFeedback.setInterest(Integer.parseInt(map.get("interest").toString()));
         }
         if (map.containsKey("update")) {
             flag = true;
-            trainingFeedback.setUpdate(Integer.parseInt((String) map.get("update")));
+            trainingFeedback.setUpdate(Integer.parseInt(map.get("update").toString()));
         }
         if (map.containsKey("effectiveness")) {
             flag = true;
-            trainingFeedback.setEffectiveness(Integer.parseInt((String) map.get("effectiveness")));
+            trainingFeedback.setEffectiveness(Integer.parseInt(map.get("effectiveness").toString()));
         }
         if (map.containsKey("recommending")) {
             flag = true;
-            trainingFeedback.setRecommending(Boolean.parseBoolean((String) map.get("recommending")));
+            trainingFeedback.setRecommending(Boolean.parseBoolean(map.get("recommending").toString()));
         }
         if (map.containsKey("trainerRecommending")) {
             flag = true;
-            trainingFeedback.setTrainerRecommending(Boolean.parseBoolean((String) map.get("trainerRecommending")));
+            trainingFeedback.setTrainerRecommending(Boolean.parseBoolean(map.get("trainerRecommending").toString()));
         }
         if (map.containsKey("text")) {
             flag = true;
-            trainingFeedback.setText((String) map.get("text"));
+            trainingFeedback.setText(map.get("text").toString());
         }
         if (flag) {
             trainingFeedback.setIsDeleted(false);
@@ -77,7 +77,7 @@ public class FeedbackController {
 
         if (map.containsKey("rate")) {
             TrainingRating trainingRating = new TrainingRating();
-            trainingRating.setStarCount(Integer.parseInt((String) map.get("rate")));
+            trainingRating.setStarCount(Integer.parseInt(map.get("rate").toString()));
             trainingRating.setUser(userService.getUserById(userDetails.getId()));
             trainingRating.setTraining(trainingService.getTrainingById(trainingId));
             trainingRatingService.addTrainingRating(trainingRating);

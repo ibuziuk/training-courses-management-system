@@ -156,6 +156,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		$scope.itemsPerPage = 2;
 
 		for (var k = 0; k < $scope.training.feedbacks.length; k++) {
+			$scope.training.feedbacks[k].rate = obj.data.ratings[k].starCount;
 			$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
 			$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
 			$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
@@ -166,7 +167,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		}
 
 		$scope.sendFeedback = function(){
-			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedback).then(function(obj){
+			$scope.myFeedbackToSend.rate = $scope.myFeedback.rate;
+			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedbackToSend).then(function(obj){
 				$scope.training.feedbacks.push($scope.myFeedbackToSend);
 			});
 		}

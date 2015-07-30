@@ -61,20 +61,17 @@ public class Training {
     @Column(name = "is_approved")
     private Boolean isApproved;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "language_id")
     private Language language;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "training_audience",
             joinColumns = {@JoinColumn(name = "training_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "audience_id", nullable = false)})
     private Set<Audience> audiences = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "training_tag", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
@@ -82,7 +79,6 @@ public class Training {
             })
     private Set<Tag> tags = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "training_user", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
@@ -90,7 +86,6 @@ public class Training {
             })
     private Set<User> visitors = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "ex_training_user", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
@@ -98,7 +93,6 @@ public class Training {
             })
     private Set<User> exVisitors = new HashSet<>(0);
 
-    @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 

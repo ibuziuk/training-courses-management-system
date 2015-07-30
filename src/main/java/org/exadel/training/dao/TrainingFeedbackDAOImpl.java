@@ -1,7 +1,6 @@
 package org.exadel.training.dao;
 
 import org.exadel.training.model.TrainingFeedback;
-import org.exadel.training.model.TrainingRating;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;

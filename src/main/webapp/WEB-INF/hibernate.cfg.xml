@@ -12,7 +12,6 @@
         <mapping class="org.exadel.training.model.Tag"/>
         <mapping class="org.exadel.training.model.Training"/>
         <mapping class="org.exadel.training.model.TrainingFeedback"/>
-        <mapping class="org.exadel.training.model.TrainingRating"/>
         <mapping class="org.exadel.training.model.User"/>
         <mapping class="org.exadel.training.model.WaitingList"/>
     </session-factory>

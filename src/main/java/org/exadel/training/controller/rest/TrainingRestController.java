@@ -41,9 +41,6 @@ public class TrainingRestController {
     private TrainingFeedbackService trainingFeedbackService;
 
     @Autowired
-    private TrainingRatingService trainingRatingService;
-
-    @Autowired
     private WaitingListService waitingListService;
 
     @Autowired
@@ -268,8 +265,7 @@ public class TrainingRestController {
             map.put("register", 2);
         }
         map.put("feedbacks", training.getTrainingFeedbacks());
-        map.put("vote", trainingRatingService.containsUserByTraining(trainingId, userDetails.getId())
-                || trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
+        map.put("vote", trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
         return map;
     }
 

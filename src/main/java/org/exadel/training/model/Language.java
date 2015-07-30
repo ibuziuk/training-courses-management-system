@@ -1,5 +1,6 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Language {
     @NotEmpty
     private String value;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "language")
     private Set<Training> trainings;
 

@@ -131,6 +131,7 @@ public class User {
         this.leads = leads;
     }
 
+    @JsonIgnore
     public String getRoleForView() {
         return buildRoleForView(roles);
     }

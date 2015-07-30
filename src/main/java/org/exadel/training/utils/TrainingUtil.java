@@ -9,6 +9,9 @@ public final class TrainingUtil {
             "August", "September", "October", "November", "December"};
 
     public static String DateToString(Timestamp date) {
+        if(date == null){
+            return "";
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(date.getTime()));
         int year = calendar.get(Calendar.YEAR);

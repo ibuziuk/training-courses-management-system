@@ -219,11 +219,10 @@ public class TrainingRestController {
                     training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsInt());
                 }
             }
-        }
-        String dateString = null;
-        if (json.get("date") != null) {
-            dateString = json.get("date").getAsString();
-
+            String dateString = null;
+            if (json.get("date") != null) {
+                dateString = json.get("date").getAsString();
+            }
             String time = null;
             if (json.get("times") != null) {
                 time = json.get("times").getAsJsonArray().get(0).getAsString();

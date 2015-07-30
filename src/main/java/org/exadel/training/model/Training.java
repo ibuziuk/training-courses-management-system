@@ -238,6 +238,7 @@ public class Training {
         return DateToString(this.date);
     }
 
+    @JsonIgnore
     public String getDateAndTimeOnString() {
         return DateAndTimeToString(this.date);
     }

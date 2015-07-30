@@ -16,12 +16,10 @@ public class User {
     @Column(name = "user_id")
     private long userId;
 
-    //@JsonIgnore
     @NotEmpty
     @Column(name = "first_name", nullable = false, length = 25)
     private String firstName;
-
-    //@JsonIgnore
+    
     @NotEmpty
     @Column(name = "last_name", nullable = false, length = 25)
     private String lastName;
@@ -60,10 +58,6 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<TrainingFeedback> trainingFeedbacks;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<TrainingRating> trainingRatings;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -147,14 +141,6 @@ public class User {
 
     public void setTrainingFeedbacks(Set<TrainingFeedback> trainingFeedbacks) {
         this.trainingFeedbacks = trainingFeedbacks;
-    }
-
-    public Set<TrainingRating> getTrainingRatings() {
-        return trainingRatings;
-    }
-
-    public void setTrainingRatings(Set<TrainingRating> trainingRatings) {
-        this.trainingRatings = trainingRatings;
     }
 
     public Set<WaitingList> getWaiting() {

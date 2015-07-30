@@ -259,7 +259,7 @@ public class TrainingRestController {
         Map<String, Object> map = new HashMap<>();
         Training training = trainingService.getTrainingById(trainingId);
         map.put("training", training);
-        map.put("rating", trainingRatingService.getAverageRatingByTrainingID(trainingId));
+        map.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         if (trainingService.containsVisitor(trainingId, userDetails.getId())) {
             map.put("register", 0);
         } else if (waitingListService.checkingExist(trainingId, userDetails.getId())) {
@@ -268,7 +268,6 @@ public class TrainingRestController {
             map.put("register", 2);
         }
         map.put("feedbacks", training.getTrainingFeedbacks());
-        map.put("ratings", training.getTrainingRatings());
         map.put("vote", trainingRatingService.containsUserByTraining(trainingId, userDetails.getId())
                 || trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
         return map;

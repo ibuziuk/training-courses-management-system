@@ -1,9 +1,7 @@
 package org.exadel.training.controller.rest;
 
 import org.exadel.training.model.TrainingFeedback;
-import org.exadel.training.model.TrainingRating;
 import org.exadel.training.service.TrainingFeedbackService;
-import org.exadel.training.service.TrainingRatingService;
 import org.exadel.training.service.TrainingService;
 import org.exadel.training.service.UserService;
 import org.exadel.training.utils.CustomUserDetails;
@@ -19,9 +17,6 @@ import java.util.Map;
 public class FeedbackController {
     @Autowired
     private TrainingFeedbackService trainingFeedbackService;
-
-    @Autowired
-    private TrainingRatingService trainingRatingService;
 
     @Autowired
     private TrainingService trainingService;
@@ -66,6 +61,10 @@ public class FeedbackController {
             flag = true;
             trainingFeedback.setText(map.get("text").toString());
         }
+        if (map.containsKey("rate")) {
+            flag = true;
+            trainingFeedback.setStarCount(Integer.parseInt(map.get("rate").toString()));
+        }
         if (flag) {
             trainingFeedback.setIsDeleted(false);
             trainingFeedback.setIsApproved(false);
@@ -74,14 +73,6 @@ public class FeedbackController {
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
-
-        if (map.containsKey("rate")) {
-            TrainingRating trainingRating = new TrainingRating();
-            trainingRating.setStarCount(Integer.parseInt(map.get("rate").toString()));
-            trainingRating.setUser(userService.getUserById(userDetails.getId()));
-            trainingRating.setTraining(trainingService.getTrainingById(trainingId));
-            trainingRatingService.addTrainingRating(trainingRating);
-        }
-        return "OK!";
+        return "Good boy!";
     }
 }

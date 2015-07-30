@@ -49,6 +49,9 @@ public class TrainingFeedback {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
+    @Column(name = "star_count")
+    private Integer starCount;
+
     public int getId() {
         return id;
     }
@@ -155,5 +158,13 @@ public class TrainingFeedback {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getStarCount() {
+        return starCount;
+    }
+
+    public void setStarCount(Integer starCount) {
+        this.starCount = starCount;
     }
 }

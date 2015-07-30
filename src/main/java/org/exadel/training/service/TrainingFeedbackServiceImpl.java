@@ -22,13 +22,13 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
 
     @Override
     @Transactional
-    public List<TrainingFeedback> getAllFeedbacks() {
-        return trainingFeedbackDAO.getAllFeedbacks();
+    public boolean containsUserByTraining(long trainingId, long userId) {
+        return trainingFeedbackDAO.containsUserByTraining(trainingId, userId);
     }
 
     @Override
     @Transactional
-    public boolean containsUserByTraining(long trainingId, long userId) {
-        return trainingFeedbackDAO.containsUserByTraining(trainingId, userId);
+    public double getAverageRatingByTrainingID(long trainingId) {
+        return trainingFeedbackDAO.getAverageRatingByTrainingID(trainingId);
     }
 }

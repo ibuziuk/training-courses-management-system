@@ -109,10 +109,6 @@ public class Training {
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingFeedback> trainingFeedbacks = new HashSet<>(0);
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<TrainingRating> trainingRatings;
-
     public long getTrainingId() {
         return trainingId;
     }
@@ -313,13 +309,5 @@ public class Training {
 
     public void setExVisitors(Set<User> ex_visitors) {
         this.exVisitors = ex_visitors;
-    }
-
-    public Set<TrainingRating> getTrainingRatings() {
-        return trainingRatings;
-    }
-
-    public void setTrainingRatings(Set<TrainingRating> trainingRatings) {
-        this.trainingRatings = trainingRatings;
     }
 }

@@ -16,12 +16,12 @@ public class User {
     @Column(name = "user_id")
     private long userId;
 
-    @JsonIgnore
+    //@JsonIgnore
     @NotEmpty
     @Column(name = "first_name", nullable = false, length = 25)
     private String firstName;
 
-    @JsonIgnore
+    //@JsonIgnore
     @NotEmpty
     @Column(name = "last_name", nullable = false, length = 25)
     private String lastName;

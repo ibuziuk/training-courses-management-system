@@ -52,15 +52,15 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		}
 		else {
 			$scope.training.start = obj.data.training.start;
-			$scope.training.days = '0 1';//obj.data.training.days.split(" ");
-			$scope.training.times = '15.30-16.30 10.00-11.00'; //obj.data.training.time.split(" ");
+			$scope.training.days = obj.data.training.days.substring(0, obj.data.training.days.length - 1).split(" ");
+			$scope.training.times = obj.data.training.time.substring(0, obj.data.training.days.length - 1).split(" ");
 			for (var k = 0; k < $scope.days.length; k++){
 				$scope.training.days[k] = days[$scope.training.days[k]];
 				$scope.training.days[k] += ' ' + $scope.training.times[k];
 			}
 		}
 
-		//$scope.training.trainerName = obj.data.training.trainer.firstName + ' ' + obj.data.training.lastName;
+		$scope.training.trainerName = obj.data.training.trainer.firstName + ' ' + obj.data.training.trainer.lastName;
 
 		function trainingApproveLettering() {
 			if ($scope.training.isApproved) {

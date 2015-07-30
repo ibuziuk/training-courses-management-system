@@ -208,7 +208,7 @@
 						</div>
 					</accordion-heading>
 
-					<rating ng-model="rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
+					<rating ng-model="myFeedback.rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
 					<span class="label"
 					      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
 

@@ -94,46 +94,54 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 
 		/* Feedback */
 		$scope.myFeedback = {};
+		$scope.myFeedbackToSend = {};
 		/* Impression */
 		$scope.myFeedback.impression = "Leave your impression ";
 		$scope.chooseImpression = function (rep) {
 			$scope.myFeedback.impression = impressions[rep];
+			$scope.myFeedbackToSend.impression = rep;
 		};
 
 		/* Intelligibility */
 		$scope.myFeedback.intelligibility = "Choose the intelligibility ";
 		$scope.chooseIntelligibility = function (rep) {
 			$scope.myFeedback.intelligibility = intelligibilities[rep];
+			$scope.myFeedbackToSend.intelligibility = rep;
 		};
 
 		/* Interest */
 		$scope.myFeedback.interest = "Choose the level of interest ";
 		$scope.chooseInterest = function (rep) {
 			$scope.myFeedback.interest = interests[rep];
+			$scope.myFeedbackToSend.interest = rep;
 		};
 
 		/* New knowledge */
 		$scope.myFeedback.update = "Choose the amount of new information ";
 		$scope.chooseUpdate = function (rep) {
 			$scope.myFeedback.update = updates[rep];
+			$scope.myFeedbackToSend.update = rep;
 		};
 
 		/* Effectiveness */
 		$scope.myFeedback.effectiveness = "Was the training effective? ";
 		$scope.chooseEffectiveness = function (rep) {
 			$scope.myFeedback.effectiveness = rep + ' ';
+			$scope.myFeedbackToSend.effectiveness = rep;
 		};
 
 		/* Recommendation */
 		$scope.myFeedback.recommending = "Choose an option ";
 		$scope.chooseRecommendation = function (rep) {
 			$scope.myFeedback.recommending = answers[rep];
+			$scope.myFeedbackToSend.recommending = (rep == 0);
 		};
 
 		/* Trainer */
 		$scope.myFeedback.trainerRecommending = "Choose an option ";
 		$scope.chooseTrainer = function (rep) {
 			$scope.myFeedback.trainerRecommending = answers[rep];
+			$scope.myFeedbackToSend.trainerRecommending = (rep == 0);
 		};
 
 		$scope.training.feedbacks = obj.data.feedbacks;
@@ -159,7 +167,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 
 		$scope.sendFeedback = function(){
 			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedback).then(function(obj){
-				$scope.training.feedbacks.push($scope.myFeedback);
+				$scope.training.feedbacks.push($scope.myFeedbackToSend);
 			});
 		}
 	}).catch(function(data){

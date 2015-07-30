@@ -251,15 +251,11 @@ public class TrainingRestController {
             trainingService.addTraining(training);
         }
 
-        final Training training1 = training; //costul
-        new Thread(new Runnable() {
+        final Training finalTraining = training;
+        new Thread(() ->
+                notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
 
-            @Override
-            public void run() {
-                notificationService.newTrainingEmailNotificationForAdmins(training1);
-            }
-
-        }).start();
+        ).start();
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 
     }

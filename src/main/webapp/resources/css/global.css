@@ -426,3 +426,15 @@ div.color-info > p > span.event {
 .label-grey {
 	background-color: #777;
 }
+
+.label-pink {
+	background-color: #d44fd9;
+}
+
+.label-brown {
+	background-color: #673737;
+}
+
+.label-purple {
+	background-color: #713ec3;
+}

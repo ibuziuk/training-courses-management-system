@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('calendar').factory('calendarService', ['contextRoot', '$http', 'moment', function (contextRoot, $http, moment) {
+angular.module('calendar').factory('calendarService', ['$http', 'moment', function ($http, moment) {
 	var service = {},
 			event = function (title, type, startsAt, endsAt, deletable) {
 				return {
@@ -75,7 +75,7 @@ angular.module('calendar').factory('calendarService', ['contextRoot', '$http', '
 	};
 
 	service.endsAt = function (startsAt, duration) {
-		return startsAt + duration * 3600000;
+		return startsAt + duration * 60000;
 	};
 
 	return service;

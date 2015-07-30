@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('calendar', []).controller('calendarController', ['$scope', '$http', '$location', '$q', 'calendarService', 'contextRoot', 'moment', function ($scope, $http, $location, $q, calendarService, contextRoot, moment) {
+angular.module('calendar', []).controller('calendarController', ['$scope', '$http', '$location', '$q', 'calendarService', 'moment', function ($scope, $http, $location, $q, calendarService, moment) {
 	var vm = this,
 			now = moment(),
 			trainerPromise = $http.get('/rest/calendar/trainer'),

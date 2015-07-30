@@ -62,9 +62,9 @@ public class FeedbackController {
             flag = true;
             trainingFeedback.setTrainerRecommending(Boolean.parseBoolean((String) map.get("trainer")));
         }
-        if (map.get("comment") != null) {
+        if (map.get("text") != null) {
             flag = true;
-            trainingFeedback.setText((String) map.get("comment"));
+            trainingFeedback.setText((String) map.get("text"));
         }
         if (flag) {
             trainingFeedback.setIsDeleted(false);

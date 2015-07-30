@@ -9,6 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.PriorityQueue;
 
@@ -37,26 +40,30 @@ public class ScheduleNotificationService {
 //        notificationPerHour.addAll(trainingService.getFutureTrainings());
     }
 
-    public void addTrainingToSchedule(Training training) {
+    public synchronized void addTrainingToSchedule(Training training) {
+        System.out.println("add " + Thread.currentThread().getId());
         notificationPerDay.add(training);
         notificationPerHour.add(training);
     }
 
     @Async
-    public void scheduleTask() {
-        long date = new Date().getTime();
+    public synchronized void scheduleTask() throws ParseException {
+        System.out.println("schedule " + Thread.currentThread().getId());
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Minsk"));
+        long date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()).getTime();
+
         Timestamp currentTimePlusDay = new Timestamp(date + 86400000);
         Timestamp currentTimePlusHour = new Timestamp(date + 3600000);
         while (!notificationPerDay.isEmpty() && (notificationPerDay.peek().getDate().getTime() < currentTimePlusDay.getTime())) {
             Training training = notificationPerDay.poll();
-            if (training.getDate().getTime() > date && training.getVisitors() != null) {
-                sendNotificationByEmail(training);
+            if (training.getDate().getTime() > date) {
+//                sendNotificationByEmail(training);
             }
         }
         while (!notificationPerHour.isEmpty() && (notificationPerHour.peek().getDate().getTime() < currentTimePlusHour.getTime())) {
             Training training = notificationPerHour.poll();
-            if (training.getDate().getTime() > date && training.getVisitors() != null) {
-                sendNotificationByEmail(training);
+            if (training.getDate().getTime() > date) {
+//                sendNotificationByEmail(training);
             }
         }
     }

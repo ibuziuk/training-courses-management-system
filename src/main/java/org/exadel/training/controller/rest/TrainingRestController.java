@@ -49,6 +49,9 @@ public class TrainingRestController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private ScheduleNotificationService scheduleNotificationService;
+
     @RequestMapping(value = "/rest/training", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String createTraining(HttpEntity<String> httpEntity) {
@@ -249,6 +252,7 @@ public class TrainingRestController {
                 System.out.println(e.toString());
             }
             trainingService.addTraining(training);
+            scheduleNotificationService.addTrainingToSchedule(training);
         }
 
         final Training finalTraining = training;

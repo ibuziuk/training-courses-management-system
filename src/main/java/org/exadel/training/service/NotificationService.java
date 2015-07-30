@@ -46,9 +46,11 @@ public class NotificationService {
 
         Set<User> currentList = training.getVisitors();
         context.setVariable("typeTraining", "Do not forget to visit training");
-        for (User user : currentList) {
-            context.setVariable("mailReceiver", user.getFirstName());
-            emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
+        if(!currentList.isEmpty()) {
+            for (User user : currentList) {
+                context.setVariable("mailReceiver", user.getFirstName());
+                emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
+            }
         }
     }
 }

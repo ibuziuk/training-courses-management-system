@@ -249,7 +249,7 @@ public class TrainingRestController {
             }
             trainingService.addTraining(training);
         }
-        notificationService.newTrainingEmailNotificationForAdmins(training); //commented beacuse is not necessary now
+//        notificationService.newTrainingEmailNotificationForAdmins(training); //commented beacuse is not necessary now
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 
     }

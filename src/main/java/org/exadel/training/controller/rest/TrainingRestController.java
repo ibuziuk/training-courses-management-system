@@ -223,33 +223,34 @@ public class TrainingRestController {
             String dateString = null;
             if (json.get("date") != null) {
                 dateString = json.get("date").getAsString();
-
-                String time = null;
-                if (json.get("times") != null) {
-                    time = json.get("times").getAsJsonArray().get(0).getAsString();
-                }
-                dateString += " " + time;
-
-                try {
-                    SimpleDateFormat fullDateFormater = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-                    SimpleDateFormat hourDateFormater = new SimpleDateFormat("HH:mm");
-
-                    Date parsedDate = fullDateFormater.parse(dateString);
-                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-                    training.setDate(timestamp);
-
-                    parsedDate = hourDateFormater.parse(time);
-                    Calendar calendar = GregorianCalendar.getInstance();
-                    calendar.setTime(parsedDate);
-                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) + training.getDuration());
-                    time = hourDateFormater.format(parsedDate) + " - " + hourDateFormater.format(calendar.getTime());
-                    training.setTime(time);
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
-                trainingService.addTraining(training);
             }
+
+            String time = null;
+            if (json.get("times") != null) {
+                time = json.get("times").getAsJsonArray().get(0).getAsString();
+            }
+            dateString += " " + time;
+
+            try {
+                SimpleDateFormat fullDateFormater = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                SimpleDateFormat hourDateFormater = new SimpleDateFormat("HH:mm");
+
+                Date parsedDate = fullDateFormater.parse(dateString);
+                Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                training.setDate(timestamp);
+
+                parsedDate = hourDateFormater.parse(time);
+                Calendar calendar = GregorianCalendar.getInstance();
+                calendar.setTime(parsedDate);
+                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) + training.getDuration());
+                time = hourDateFormater.format(parsedDate) + " - " + hourDateFormater.format(calendar.getTime());
+                training.setTime(time);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+            trainingService.addTraining(training);
         }
+
 //        notificationService.newTrainingEmailNotificationForAdmins(training); //commented beacuse is not necessary now
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 

@@ -54,7 +54,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 			$scope.training.start = obj.data.training.start;
 			$scope.training.days = obj.data.training.days.substring(0, obj.data.training.days.length - 1).split(" ");
 			$scope.training.times = obj.data.training.time.substring(0, obj.data.training.days.length - 1).split(" ");
-			for (var k = 0; k < $scope.days.length; k++){
+			for (var k = 0; k < $scope.training.days.length; k++){
 				$scope.training.days[k] = days[$scope.training.days[k]];
 				$scope.training.days[k] += ' ' + $scope.training.times[k];
 			}

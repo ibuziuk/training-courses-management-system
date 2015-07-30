@@ -278,8 +278,8 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     training.times = [];
 
                     if ($scope.toShowRepet === 'Weekly '){
-                        training.date = $scope.dateStartWeekly.getDate() + '.' + $scope.dateStartWeekly.getMonth() + '.' + $scope.dateStartWeekly.getFullYear();
-                        training.end = $scope.dateEndWeekly.getDate() + '.' + $scope.dateEndWeekly.getMonth() + '.' + $scope.dateEndWeekly.getFullYear();
+                        training.date = $scope.dateStartWeekly.getDate() + '.' + ($scope.dateStartWeekly.getMonth()+1) + '.' + $scope.dateStartWeekly.getFullYear();
+                        training.end = $scope.dateEndWeekly.getDate() + '.' + ($scope.dateEndWeekly.getMonth()+1) + '.' + $scope.dateEndWeekly.getFullYear();
                         for (var j = 0; j < $scope.datepickers.length; j++){
                             if ($scope.datepickers[j].toShowWeekDay !== 'Select day of week ') {
                                 training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';

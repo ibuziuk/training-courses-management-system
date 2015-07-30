@@ -175,9 +175,20 @@
 					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
 					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
-					<h4 ng-show="!regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
+					<h4 ng-show="!training.regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
 					</h4>
-					<h4 ng-show="regular"><label>Date of start:&nbsp;</label>{{training.start}}</h4>
+					<div ng-show="training.regular">
+						<h4>
+							<label>Date of start:&nbsp;</label>{{training.start}}
+						</h4>
+						<div ng-repeat="day in training.days">
+							<h4>
+								<label>Day #{{$index+1}}: </label>
+								{{day}}
+							</h4>
+
+						</div>
+					</div>
 
 					<h3>Description</h3>
 

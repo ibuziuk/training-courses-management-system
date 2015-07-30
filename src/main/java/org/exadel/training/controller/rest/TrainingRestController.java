@@ -49,7 +49,6 @@ public class TrainingRestController {
     @Autowired
     private NotificationService notificationService;
 
-
     @RequestMapping(value = "/rest/training", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String createTraining(HttpEntity<String> httpEntity) {
@@ -60,6 +59,7 @@ public class TrainingRestController {
         if (json.get("title") != null) {
             training.setTitle(json.get("title").getAsString());
         }
+
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User trainer = userService.getUserById(userDetails.getId());
         training.setTrainer(trainer);
@@ -120,29 +120,55 @@ public class TrainingRestController {
             if (json.get("date") != null) {
                 startDateString = json.get("date").getAsString();
             }
+            String endDateString = null;
+            if (json.get("end") != null) {
+                endDateString = json.get("end").getAsString();
+            }
             try {
                 int minimumDayNumber = 7;
                 StringTokenizer stringTokenizer = new StringTokenizer(training.getDays(), " ");
-                List<Integer> days = new ArrayList<>();
+                List<Integer> days = new ArrayList<Integer>();
                 while (stringTokenizer.hasMoreElements()) {
                     days.add(Integer.parseInt(((String) stringTokenizer.nextElement())));
-                    if (minimumDayNumber > days.get(days.size() - 1))
+                    if (minimumDayNumber > days.get(days.size() - 1)) {
                         minimumDayNumber = days.get(days.size() - 1);
+                    }
                 }
 
                 Calendar startCalendar = GregorianCalendar.getInstance();
                 Calendar iterationCalendar = GregorianCalendar.getInstance();
                 Calendar endCalendar = GregorianCalendar.getInstance();
+                Calendar durationTime = GregorianCalendar.getInstance();
 
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-                SimpleDateFormat hourDateFormatter = new SimpleDateFormat("HH:mm");
-                SimpleDateFormat fullDateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-                SimpleDateFormat debugDateFormatter = new SimpleDateFormat("dd.MMMMM.yyyy HH:mm");
+                SimpleDateFormat dateFormater = new SimpleDateFormat("dd.MM.yyyy");
+                SimpleDateFormat hourDateFormater = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat fullDateFormater = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-                startCalendar.setTime(dateFormatter.parse(startDateString));
+                startCalendar.setTime(dateFormater.parse(startDateString));
+
                 training.setStart(new java.sql.Date(startCalendar.getTime().getTime()));
-                endCalendar.set(startCalendar.get(Calendar.YEAR) + 1, startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DATE));
+
+                if (endDateString == null) {
+                    endCalendar.set(startCalendar.get(Calendar.YEAR) + 1, startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DATE));
+                } else {
+                    endCalendar.setTime(dateFormater.parse(endDateString));
+                }
                 training.setEnd(new java.sql.Date(endCalendar.getTime().getTime()));
+
+                String timeForTrainingTable = null;
+                String timeWithDuration = null;
+                String parsedTimeForTrainingTable = null;
+                if (json.get("times") != null) {
+                    timeForTrainingTable = "";
+                    for (int i = 0; i < days.size(); i++) {
+                        parsedTimeForTrainingTable = json.get("times").getAsJsonArray().get(i).getAsString();
+                        durationTime.setTime(hourDateFormater.parse(parsedTimeForTrainingTable));
+                        durationTime.set(Calendar.MINUTE, durationTime.get(Calendar.MINUTE) + training.getDuration());
+                        timeWithDuration = hourDateFormater.format(durationTime.getTime());
+                        timeForTrainingTable += parsedTimeForTrainingTable + "-" + timeWithDuration + " ";
+                    }
+                }
+                training.setTime(timeForTrainingTable);
 
                 trainingService.addTraining(training);
 
@@ -157,25 +183,26 @@ public class TrainingRestController {
                         time = json.get("times").getAsJsonArray().get(i).getAsString();
                     }
                     int location = -1;
-                    if (json.get("rooms") != null)
+                    if (json.get("rooms") != null) {
                         if (json.get("rooms").getAsJsonArray().size() != 0) {
                             location = json.get("rooms").getAsJsonArray().get(i).getAsInt();
                         }
+                    }
                     while (iterationCalendar.getTimeInMillis() <= endCalendar.getTimeInMillis()) {
                         RegularLesson regularLesson = new RegularLesson();
 
                         if (location != -1) {
                             regularLesson.setLocation(location);
                         }
-                        Date fullDate = fullDateFormatter.parse(dateFormatter.format(iterationCalendar.getTime()) + " " + time);
+                        Date fullDate = fullDateFormater.parse(dateFormater.format(iterationCalendar.getTime()) + " " + time);
                         regularLesson.setDate(new java.sql.Timestamp(fullDate.getTime()));
 
-                        Date parsedTime = hourDateFormatter.parse(time);
+                        Date parsedTime = hourDateFormater.parse(time);
                         Calendar calendarTime = GregorianCalendar.getInstance();
                         calendarTime.setTime(parsedTime);
                         calendarTime.set(calendarTime.get(Calendar.YEAR), calendarTime.get(Calendar.MONTH), calendarTime.get(Calendar.DATE), calendarTime.get(Calendar.HOUR_OF_DAY), calendarTime.get(Calendar.MINUTE) + training.getDuration());
 
-                        regularLesson.setTime(hourDateFormatter.format(parsedTime) + " - " + hourDateFormatter.format(calendarTime.getTime()));
+                        regularLesson.setTime(hourDateFormater.format(parsedTime) + " - " + hourDateFormater.format(calendarTime.getTime()));
                         regularLesson.setTraining(training);
                         regularLessonService.addRegularLesson(regularLesson);
 
@@ -192,10 +219,11 @@ public class TrainingRestController {
                     training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsInt());
                 }
             }
-            String dateString = null;
-            if (json.get("date") != null) {
-                dateString = json.get("date").getAsString();
-            }
+        }
+        String dateString = null;
+        if (json.get("date") != null) {
+            dateString = json.get("date").getAsString();
+
             String time = null;
             if (json.get("times") != null) {
                 time = json.get("times").getAsJsonArray().get(0).getAsString();
@@ -214,15 +242,16 @@ public class TrainingRestController {
                 Calendar calendar = GregorianCalendar.getInstance();
                 calendar.setTime(parsedDate);
                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) + training.getDuration());
-                time += " - " + hourDateFormater.format(calendar.getTime());
+                time = hourDateFormater.format(parsedDate) + " - " + hourDateFormater.format(calendar.getTime());
                 training.setTime(time);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
             trainingService.addTraining(training);
         }
-        /*notificationService.createNewTrainingEmailNotificationForAdmins(training);*/
+        notificationService.newTrainingEmailNotificationForAdmins(training); //commented beacuse is not necessary now
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
+
     }
 
     @RequestMapping(value = "/rest/training/{trainingId}", method = RequestMethod.GET)

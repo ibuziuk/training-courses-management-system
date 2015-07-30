@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -17,13 +19,18 @@ public class NotificationService {
     @Autowired
     private UserService userService;
 
-    public void createNewTrainingEmailNotificationForAdmins(Training training) {
+    public void newTrainingEmailNotificationForAdmins(Training training) {
         Context context = new Context();
         List<User> users = userService.getUsersByRole("admin");
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         for (User user : users) {
             context.setVariable("mailReceiver", user.getFirstName());
-            context.setVariable("typeTraining", "New training created: ");
+            context.setVariable("startText", "New training created: \"");
             context.setVariable("nameTraining", training.getTitle());
+            context.setVariable("middleText", "\" on ");
+            context.setVariable("date", dateFormat.format(date) + ".");
+            context.setVariable("endText", "Please approve or disapprove training as soon as possible.");
             emailNotifierService.sendEmailNotification(user.getEmail(), "New training", context);
         }
     }

@@ -34,7 +34,7 @@ public class Training {
     @Column(name = "max_visitors_count")
     private Integer maxVisitorsCount;
 
-    @Column(length = 20)
+    @Column(length = 255)
     private String time;
 
     private Integer location;

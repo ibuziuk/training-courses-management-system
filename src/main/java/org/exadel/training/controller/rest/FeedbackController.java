@@ -29,53 +29,55 @@ public class FeedbackController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/rest/feedback/{trainingId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
     public String addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
         TrainingFeedback trainingFeedback = new TrainingFeedback();
-        if (map.get("impression") != null) {
+        if (map.containsKey("impression")) {
             flag = true;
-            trainingFeedback.setImpression(Integer.parseInt((String) map.get("impression")));
+            trainingFeedback.setImpression(Integer.parseInt( map.get("impression").toString()));
         }
-        if (map.get("intelligibility") != null) {
+        if (map.containsKey("intelligibility")) {
             flag = true;
-            trainingFeedback.setIntelligibility(Integer.parseInt((String) map.get("intelligibility")));
+            trainingFeedback.setIntelligibility(Integer.parseInt(map.get("intelligibility").toString()));
         }
-        if (map.get("interest") != null) {
+        if (map.containsKey("interest")) {
             flag = true;
-            trainingFeedback.setInterest(Integer.parseInt((String) map.get("interest")));
+            trainingFeedback.setInterest(Integer.parseInt(map.get("interest").toString()));
         }
-        if (map.get("update") != null) {
+        if (map.containsKey("update")) {
             flag = true;
-            trainingFeedback.setUpdate(Integer.parseInt((String) map.get("update")));
+            trainingFeedback.setUpdate(Integer.parseInt(map.get("update").toString()));
         }
-        if (map.get("effectiveness") != null) {
+        if (map.containsKey("effectiveness")) {
             flag = true;
-            trainingFeedback.setEffectiveness(Integer.parseInt((String) map.get("effectiveness")));
+            trainingFeedback.setEffectiveness(Integer.parseInt(map.get("effectiveness").toString()));
         }
-        if (map.get("recommendation") != null) {
+        if (map.containsKey("recommending")) {
             flag = true;
-            trainingFeedback.setRecommending(Boolean.parseBoolean((String) map.get("recommendation")));
+            trainingFeedback.setRecommending(Boolean.parseBoolean(map.get("recommending").toString()));
         }
-        if (map.get("trainer") != null) {
+        if (map.containsKey("trainerRecommending")) {
             flag = true;
-            trainingFeedback.setTrainerRecommending(Boolean.parseBoolean((String) map.get("trainer")));
+            trainingFeedback.setTrainerRecommending(Boolean.parseBoolean(map.get("trainerRecommending").toString()));
         }
-        if (map.get("comment") != null) {
+        if (map.containsKey("text")) {
             flag = true;
-            trainingFeedback.setText((String) map.get("comment"));
+            trainingFeedback.setText(map.get("text").toString());
         }
         if (flag) {
+            trainingFeedback.setIsDeleted(false);
+            trainingFeedback.setIsApproved(false);
             trainingFeedback.setDate(new Timestamp(new Date().getTime()));
             trainingFeedback.setUser(userService.getUserById(userDetails.getId()));
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
 
-        if (map.get("rait") != null) {
+        if (map.containsKey("rate")) {
             TrainingRating trainingRating = new TrainingRating();
-            trainingRating.setStarCount(Integer.parseInt((String) map.get("rait")));
+            trainingRating.setStarCount(Integer.parseInt(map.get("rate").toString()));
             trainingRating.setUser(userService.getUserById(userDetails.getId()));
             trainingRating.setTraining(trainingService.getTrainingById(trainingId));
             trainingRatingService.addTrainingRating(trainingRating);

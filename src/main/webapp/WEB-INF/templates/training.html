@@ -180,9 +180,20 @@
 					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
 					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
-					<h4 ng-show="!regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
+					<h4 ng-show="!training.regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
 					</h4>
-					<h4 ng-show="regular"><label>Date of start:&nbsp;</label>{{training.start}}</h4>
+					<div ng-show="training.regular">
+						<h4>
+							<label>Date of start:&nbsp;</label>{{training.start}}
+						</h4>
+						<div ng-repeat="day in training.days">
+							<h4>
+								<label>Day #{{$index+1}}: </label>
+								{{day}}
+							</h4>
+
+						</div>
+					</div>
 
 					<h3>Description</h3>
 
@@ -202,7 +213,7 @@
 						</div>
 					</accordion-heading>
 
-					<rating ng-model="rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
+					<rating ng-model="myFeedback.rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
 					<span class="label"
 					      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
 
@@ -216,7 +227,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingImpression}}<span class="caret"></span>
+									{{myFeedback.impression}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a></li>
@@ -234,7 +245,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingIntelligibility}}<span class="caret"></span>
+									{{myFeedback.intelligibility}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseIntelligibility(0)">Everything was clear </a></li>
@@ -251,7 +262,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingInterest}}<span class="caret"></span>
+									{{myFeedback.interest}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at all </a></li>
@@ -268,7 +279,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingUpdate}}<span class="caret"></span>
+									{{myFeedback.update}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseUpdate(0)">Learnt nothing </a></li>
@@ -287,7 +298,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingEffectiveness}}<span class="caret"></span>
+									{{myFeedback.effectiveness}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseEffectiveness(1)">1 </a></li>
@@ -306,7 +317,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingRecommendation}}<span class="caret"></span>
+									{{myFeedback.recommending}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseRecommendation(0)">Yes </a></li>
@@ -322,7 +333,7 @@
 							     dropdown-append-to-body="dropdown-append-to-body">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 								        dropdown-toggle="dropdown-toggle">
-									{{trainingTrainer}}<span class="caret"></span>
+									{{myFeedback.trainerRecommending}}<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseTrainer(0)">Yes </a></li>
@@ -333,12 +344,12 @@
 							<br/><br/>
 							<label>Leave your comment about the training </label>
 							<br/>
-							<textarea style="width:80%" ng-model="comment"></textarea>
+							<textarea style="width:80%" ng-model="myFeedback.text"></textarea>
 						</div>
 					</div>
 
 					<br/><br/>
-					<button class="btn btn-success" type="button" style="width: 100px">
+					<button class="btn btn-success" type="button" style="width: 100px" ng-click="sendFeedback()">
 						Send
 					</button>
 				</accordion-group>
@@ -400,7 +411,8 @@
 					<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 					<div ng-repeat="feedback in feedbacks">
 						<div class="well">
-							<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px">{{feedback.user}}</b>
+							<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px">{{feedback.user.firstName}} {{feedback.user.lastName}}</b>
+							<p class="field"><label>Date:&nbsp;</label>{{feedback.date}}</p>
 							<br/>
 							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
 							<span class="label"
@@ -416,11 +428,11 @@
 
 							<p class="field"><label>Effectiveness:&nbsp;</label>{{feedback.effectiveness}}</p>
 
-							<p class="field"><label>Will recommend:&nbsp;</label>{{feedback.recommendation}}</p>
+							<p class="field"><label>Will recommend:&nbsp;</label>{{feedback.recommending}}</p>
 
-							<p class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainer}}</p>
+							<p class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainerRecommending}}</p>
 
-							<p class="field"><label>Comment&nbsp;</label>{{feedback.text}}</p>
+							<p class="field"><label>Comment:&nbsp;</label>{{feedback.text}}</p>
 
 						</div>
 					</div>

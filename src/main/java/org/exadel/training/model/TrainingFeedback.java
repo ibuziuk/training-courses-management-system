@@ -43,6 +43,12 @@ public class TrainingFeedback {
 
     private Boolean recommending;
 
+    @Column(name = "is_approved", nullable = false)
+    private Boolean isApproved;
+
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     public int getId() {
         return id;
     }
@@ -133,5 +139,21 @@ public class TrainingFeedback {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean getIsApproved() {
+        return isApproved;
+    }
+
+    public void setIsApproved(Boolean isApproved) {
+        this.isApproved = isApproved;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

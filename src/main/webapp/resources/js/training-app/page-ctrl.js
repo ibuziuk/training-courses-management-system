@@ -31,12 +31,12 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		console.log(obj.data);
 
 		if (obj.data.rating != -1) {
-			$scope.toShowNoRatings = true;
+			$scope.toShowNoRatings = false;
 			$scope.genPercent = 100 * (obj.data.rating / $scope.max);
 		}
 		else {
 			$scope.genPercent = 0;
-			$scope.toShowNoRatings = false;
+			$scope.toShowNoRatings = true;
 		}
 
 		$scope.training = {};
@@ -52,15 +52,16 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		}
 		else {
 			$scope.training.start = obj.data.training.start;
-			$scope.training.days = '0 1';//obj.data.training.days.split(" ");
-			$scope.training.times = '15.30-16.30 10.00-11.00'; //obj.data.training.time.split(" ");
-			for (var k = 0; k < $scope.days.length; k++){
+			$scope.training.days = obj.data.training.days.substring(0, obj.data.training.days.length - 1).split(" ");
+			$scope.training.times = obj.data.training.time.substring(0, obj.data.training.time.length - 1).split(" ");
+			console.log($scope.training.times);
+			for (var k = 0; k < $scope.training.days.length; k++){
 				$scope.training.days[k] = days[$scope.training.days[k]];
 				$scope.training.days[k] += ' ' + $scope.training.times[k];
 			}
 		}
 
-		//$scope.training.trainerName = obj.data.training.trainer.firstName + ' ' + obj.data.training.lastName;
+		$scope.training.trainerName = obj.data.training.trainer.firstName + ' ' + obj.data.training.trainer.lastName;
 
 		function trainingApproveLettering() {
 			if ($scope.training.isApproved) {
@@ -92,55 +93,89 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		trainingRegisterLettering();
 
 		/* Feedback */
-
+		$scope.myFeedback = {};
+		$scope.myFeedbackToSend = {};
 		/* Impression */
-		$scope.trainingImpression = "Leave your impression ";
+		$scope.myFeedback.impression = "Leave your impression ";
 		$scope.chooseImpression = function (rep) {
-			$scope.trainingImpression = impressions[rep];
+			$scope.myFeedback.impression = impressions[rep];
+			$scope.myFeedbackToSend.impression = rep;
 		};
 
 		/* Intelligibility */
-		$scope.trainingIntelligibility = "Choose the intelligibility ";
+		$scope.myFeedback.intelligibility = "Choose the intelligibility ";
 		$scope.chooseIntelligibility = function (rep) {
-			$scope.trainingIntelligibility = intelligibilities[rep];
+			$scope.myFeedback.intelligibility = intelligibilities[rep];
+			$scope.myFeedbackToSend.intelligibility = rep;
 		};
 
 		/* Interest */
-		$scope.trainingInterest = "Choose the level of interest ";
+		$scope.myFeedback.interest = "Choose the level of interest ";
 		$scope.chooseInterest = function (rep) {
-			$scope.trainingInterest = interests[rep];
+			$scope.myFeedback.interest = interests[rep];
+			$scope.myFeedbackToSend.interest = rep;
 		};
 
 		/* New knowledge */
-		$scope.trainingUpdate = "Choose the amount of new information ";
+		$scope.myFeedback.update = "Choose the amount of new information ";
 		$scope.chooseUpdate = function (rep) {
-			$scope.trainingUpdate = updates[rep];
+			$scope.myFeedback.update = updates[rep];
+			$scope.myFeedbackToSend.update = rep;
 		};
 
 		/* Effectiveness */
-		$scope.trainingEffectiveness = "Was the training effective? ";
+		$scope.myFeedback.effectiveness = "Was the training effective? ";
 		$scope.chooseEffectiveness = function (rep) {
-			$scope.trainingEffectiveness = rep + ' ';
+			$scope.myFeedback.effectiveness = rep + ' ';
+			$scope.myFeedbackToSend.effectiveness = rep;
 		};
 
 		/* Recommendation */
-		$scope.trainingRecommendation = "Choose an option ";
+		$scope.myFeedback.recommending = "Choose an option ";
 		$scope.chooseRecommendation = function (rep) {
-			$scope.trainingRecommendation = answers[rep];
+			$scope.myFeedback.recommending = answers[rep];
+			$scope.myFeedbackToSend.recommending = (rep == 0);
 		};
 
 		/* Trainer */
-		$scope.trainingTrainer = "Choose an option ";
+		$scope.myFeedback.trainerRecommending = "Choose an option ";
 		$scope.chooseTrainer = function (rep) {
-			$scope.trainingTrainer = answers[rep];
+			$scope.myFeedback.trainerRecommending = answers[rep];
+			$scope.myFeedbackToSend.trainerRecommending = (rep == 0);
 		};
 
-		//$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);
+		$scope.training.feedbacks = obj.data.feedbacks;
+		$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);
+
+		$scope.pageChanged = function(){
+			$scope.feedbacks = $scope.training.feedbacks.slice(($scope.currentPage - 1) * 5, ($scope.currentPage - 1) * 5 + 5);
+		};
+
+		$scope.totalItems = $scope.training.feedbacks.length;
+		$scope.currentPage = 1;
+		$scope.itemsPerPage = 2;
+
+		for (var k = 0; k < $scope.training.feedbacks.length; k++) {
+			$scope.training.feedbacks[k].rate = obj.data.ratings[k].starCount;
+			$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
+			$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
+			$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
+			$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest];
+			$scope.training.feedbacks[k].update = updates[$scope.training.feedbacks[k].update];
+			$scope.training.feedbacks[k].recommendation = ($scope.training.feedbacks[k].recommendation) ? 'Yes' : 'No';
+			$scope.training.feedbacks[k].trainer = ($scope.training.feedbacks[k].trainer) ? 'Yes' : 'No';
+		}
+
+		$scope.sendFeedback = function(){
+			$scope.myFeedbackToSend.rate = $scope.myFeedback.rate;
+			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedbackToSend).then(function(obj){
+				$scope.training.feedbacks.push($scope.myFeedbackToSend);
+			});
+		}
 	}).catch(function(data){
 		console.log(data);
 	});
 
-	//$scope.training = {title: "Angular.js", isApproved: true, genRate: 9, register: 1, trainerName: 'Alex Kirilchik'};
 	//$scope.training.feedbacks = [
 	//			{user: 'Yanuha', text: 'Amazing training!', rate: 10, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
 	//			{user: 'Slavka', text: 'Bad training!', rate: 2, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
@@ -160,22 +195,4 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 	//			{user: 'Slavka', text: 'Bad training!', rate: 10, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false}
 	//		];
 	//
-
-	//$scope.pageChanged = function(){
-	//	$scope.feedbacks = $scope.training.feedbacks.slice(($scope.currentPage - 1) * 5, ($scope.currentPage - 1) * 5 + 5);
-	//};
-	//
-	//$scope.totalItems = $scope.training.feedbacks.length;
-	//$scope.currentPage = 1;
-	//$scope.itemsPerPage = 2;
-	//
-	//for (var k = 0; k < $scope.training.feedbacks.length; k++) {
-	//	$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
-	//	$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
-	//	$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
-	//	$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest];
-	//	$scope.training.feedbacks[k].update = updates[$scope.training.feedbacks[k].update];
-	//	$scope.training.feedbacks[k].recommendation = ($scope.training.feedbacks[k].recommendation) ? 'Yes' : 'No';
-	//	$scope.training.feedbacks[k].trainer = ($scope.training.feedbacks[k].trainer) ? 'Yes' : 'No';
-	//}
 }]);

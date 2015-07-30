@@ -1,5 +1,7 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -18,6 +20,7 @@ public class RegularLesson {
     @Column(length = 20)
     private String time;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;

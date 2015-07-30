@@ -251,7 +251,14 @@ public class TrainingRestController {
             trainingService.addTraining(training);
         }
 
-//        notificationService.newTrainingEmailNotificationForAdmins(training); //commented beacuse is not necessary now
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                notificationService.newTrainingEmailNotificationForAdmins(training);
+            }
+
+        }).start();
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 
     }

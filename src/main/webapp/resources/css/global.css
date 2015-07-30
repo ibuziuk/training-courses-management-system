@@ -21,7 +21,7 @@ body {
 	margin-top: 100px;
 	background-color: white;
 	height: 100%;
-	font-family: "open sans";
+	font-family: 'open sans', 'sans-serif';
 	font-size: 15px;
 }
 
@@ -391,4 +391,38 @@ ul.alert-dropdown {
 
 .glyphicon-remove {
 	color: #ffffff;
+}
+
+.color-info {
+	list-style-type: none;
+}
+
+div.color-info > p > span.event {
+	height: 14px;
+	width: 14px;
+	margin: 4px 3px 2px 1px;
+}
+
+.label-red {
+	background-color: #d9534f;
+}
+
+.label-blue {
+	background-color: #337ab7;
+}
+
+.label-green {
+	background-color: #5cb85c;
+}
+
+.label-black {
+	background-color: black;
+}
+
+.label-yellow {
+	background-color: #f0ad4e;
+}
+
+.label-grey {
+	background-color: #777;
 }

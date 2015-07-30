@@ -1,6 +1,6 @@
 'use strict';
 
-calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function (contextRoot, $http, moment) {
+angular.module('calendar').factory('calendarService', ['contextRoot', '$http', 'moment', function (contextRoot, $http, moment) {
 	var service = {},
 			event = function (title, type, startsAt, endsAt, deletable) {
 				return {
@@ -35,9 +35,11 @@ calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function 
 					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 				}
 			} else {
-				type = 'inverse';
-				deletable = true;
-				eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+				if (service.isFuture(today, data[i].date)) {
+					type = 'inverse';
+					deletable = true;
+					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+				}
 			}
 		}
 		return eventsTrainer;
@@ -56,9 +58,11 @@ calendar.factory('calendarService', ['contextRoot', '$http', 'moment', function 
 					deletable = true;
 					eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
 				} else {
-					type = 'warning';
-					deletable = false;
-					eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					if (service.isFuture(today, data[i].date)) {
+						type = 'warning';
+						deletable = false;
+						eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+					}
 				}
 			}
 		}

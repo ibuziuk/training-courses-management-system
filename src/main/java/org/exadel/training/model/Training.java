@@ -74,7 +74,6 @@ public class Training {
             inverseJoinColumns = {@JoinColumn(name = "audience_id", nullable = false)})
     private Set<Audience> audiences = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "training_tag", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
@@ -82,7 +81,6 @@ public class Training {
             })
     private Set<Tag> tags = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "training_user", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},

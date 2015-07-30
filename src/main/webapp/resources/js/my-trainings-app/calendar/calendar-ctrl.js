@@ -1,16 +1,14 @@
 'use strict';
 
-var calendar = angular.module('calendar', []);
-
-calendar.controller('calendarController', ['$scope', '$http', '$location', '$q', 'calendarService', 'contextRoot', 'moment', function ($scope, $http, $location, $q, calendarService, contextRoot, moment) {
+angular.module('calendar', []).controller('calendarController', ['$scope', '$http', '$location', '$q', 'calendarService', 'contextRoot', 'moment', function ($scope, $http, $location, $q, calendarService, contextRoot, moment) {
 	var vm = this,
 			now = moment(),
-			trainerGet = $http.get('/rest/calendar/trainer'),
-			visitorGet = $http.get('/rest/calendar/visitor'),
+			trainerPromise = $http.get('/rest/calendar/trainer'),
+			visitorPromise = $http.get('/rest/calendar/visitor'),
 			events = [];
 	moment.locale('en');
 
-	$q.all([trainerGet, visitorGet]).then(function (results) {
+	$q.all([trainerPromise, visitorPromise]).then(function (results) {
 		events = events.concat(calendarService.trainerParsing(results[0].data));
 		events = events.concat(calendarService.visitorParsing(results[1].data));
 

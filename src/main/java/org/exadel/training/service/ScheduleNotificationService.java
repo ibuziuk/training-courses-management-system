@@ -3,6 +3,8 @@ package org.exadel.training.service;
 
 import org.exadel.training.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -12,6 +14,7 @@ import java.util.Date;
 import java.util.PriorityQueue;
 
 @EnableScheduling
+@EnableAsync
 public class ScheduleNotificationService {
     private PriorityQueue<Training> notificationPerDay;
     private PriorityQueue<Training> notificationPerHour;
@@ -35,13 +38,14 @@ public class ScheduleNotificationService {
 //        notificationPerHour.addAll(trainingService.getFutureTrainings());
     }
 
-    public synchronized void addTrainingToSchedule(Training training) {
+    public void addTrainingToSchedule(Training training) {
         notificationPerDay.add(training);
         notificationPerHour.add(training);
     }
 
-    @Scheduled(fixedDelay = 10000)
-    public synchronized void scheduleTask() {
+    @Async
+    @Scheduled(cron = "*/60 * * * * *")
+    public void scheduleTask() {
         long date = new Date().getTime();
         Timestamp currentTimePlusDay = new Timestamp(date + 86400000);
         Timestamp currentTimePlusHour = new Timestamp(date + 3600000);

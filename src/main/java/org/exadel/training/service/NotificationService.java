@@ -24,7 +24,7 @@ public class NotificationService {
             context.setVariable("mailReceiver", user.getFirstName());
             context.setVariable("typeTraining", "New training created: ");
             context.setVariable("nameTraining", training.getTitle());
-            emailNotifierService.sendEmailNotification(new String[]{user.getEmail()}, "New training", context);
+            emailNotifierService.sendEmailNotification(user.getEmail(), "New training", context);
         }
     }
 
@@ -35,12 +35,13 @@ public class NotificationService {
         context.setVariable("date", training.getDateAndTimeOnString());
         context.setVariable("nameTraining", training.getTitle());
         context.setVariable("typeTraining", "You are trainer on");
-        emailNotifierService.sendEmailNotification(new String[]{trainer.getEmail()}, "Notification about the training", context);
+        emailNotifierService.sendEmailNotification(trainer.getEmail(), "Notification about the training", context);
 
         Set<User> currentList = training.getVisitors();
         context.setVariable("typeTraining", "Do not forget to visit training");
         for (User user : currentList) {
-            emailNotifierService.sendEmailNotification(new String[]{user.getEmail()}, "Notification about the training", context);
+            context.setVariable("mailReceiver", user.getFirstName());
+            emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
         }
     }
 }

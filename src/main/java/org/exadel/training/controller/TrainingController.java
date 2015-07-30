@@ -3,6 +3,7 @@ package org.exadel.training.controller;
 import org.exadel.training.model.Training;
 import org.exadel.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,11 @@ public class TrainingController {
         return "my-trainings";
     }
 
-    @RequestMapping(value = "/{trainingId}")
+    @RequestMapping(value = "/{trainingId:[\\d]+}")
     public String profile(@PathVariable("trainingId") long trainingId) {
-        return "training";
+        if (trainingService.getTrainingById(trainingId) != null) {
+            return "training";
+        }
+        throw new ResourceNotFoundException();
     }
 }

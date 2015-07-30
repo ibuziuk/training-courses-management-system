@@ -29,7 +29,7 @@ public class FeedbackController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/feedback/{trainingId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/feedback/{trainingId}", method = RequestMethod.POST)
     public String addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable ("trainingId") long trainingId){
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;

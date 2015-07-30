@@ -19,13 +19,13 @@
     <tx:annotation-driven/>
 
     <task:annotation-driven executor="executor" scheduler="scheduler"/>
-    <task:executor id="executor" pool-size="1"/>
-    <task:scheduler id="scheduler" pool-size="1"/>
+    <task:executor id="executor" pool-size="5"/>
+    <task:scheduler id="scheduler" pool-size="15"/>
 
     <bean id="scheduledTasks" class="org.exadel.training.service.ScheduleNotificationService"/>
 
     <task:scheduled-tasks>
-        <task:scheduled ref="scheduledTasks" method="scheduleTask" cron="* */1 * * * *"/>
+        <task:scheduled ref="scheduledTasks" method="scheduleTask" cron="*/60 * * * * *"/>
     </task:scheduled-tasks>
 
 </beans>

@@ -27,7 +27,7 @@ public class EmailNotifierService {
     @Autowired
     private ServletContext servletContext;
 
-    public void sendEmailNotification(final String to[], final String subject, final Context context) {
+    public void sendEmailNotification(final String to, final String subject, final Context context) {
         File file = new File(servletContext.getRealPath("") + "/resources/vendors/pics/exadel-logo.png");
         byte[] bytes = null;
         try {

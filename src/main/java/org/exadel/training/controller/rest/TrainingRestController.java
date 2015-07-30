@@ -268,6 +268,7 @@ public class TrainingRestController {
             map.put("register", 2);
         }
         map.put("feedbacks", training.getTrainingFeedbacks());
+        map.put("ratings", training.getTrainingRatings());
         map.put("vote", trainingRatingService.containsUserByTraining(trainingId, userDetails.getId())
                 || trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
         return map;

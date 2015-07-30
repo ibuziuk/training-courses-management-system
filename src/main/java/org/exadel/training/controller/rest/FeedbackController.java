@@ -29,7 +29,7 @@ public class FeedbackController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/rest/feedback/{trainingId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
     public String addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
@@ -62,9 +62,9 @@ public class FeedbackController {
             flag = true;
             trainingFeedback.setTrainerRecommending(Boolean.parseBoolean((String) map.get("trainer")));
         }
-        if (map.get("comment") != null) {
+        if (map.get("text") != null) {
             flag = true;
-            trainingFeedback.setText((String) map.get("comment"));
+            trainingFeedback.setText((String) map.get("text"));
         }
         if (flag) {
             trainingFeedback.setIsDeleted(false);
@@ -75,9 +75,9 @@ public class FeedbackController {
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
 
-        if (map.get("rait") != null) {
+        if (map.get("rate") != null) {
             TrainingRating trainingRating = new TrainingRating();
-            trainingRating.setStarCount(Integer.parseInt((String) map.get("rait")));
+            trainingRating.setStarCount(Integer.parseInt((String) map.get("rate")));
             trainingRating.setUser(userService.getUserById(userDetails.getId()));
             trainingRating.setTraining(trainingService.getTrainingById(trainingId));
             trainingRatingService.addTrainingRating(trainingRating);

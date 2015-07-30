@@ -314,4 +314,12 @@ public class Training {
     public void setExVisitors(Set<User> ex_visitors) {
         this.exVisitors = ex_visitors;
     }
+
+    public Set<TrainingRating> getTrainingRatings() {
+        return trainingRatings;
+    }
+
+    public void setTrainingRatings(Set<TrainingRating> trainingRatings) {
+        this.trainingRatings = trainingRatings;
+    }
 }

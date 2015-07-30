@@ -40,6 +40,11 @@
 		}
 	</style>
 
+	<!-- jQuery -->
+	<script src="../../resources/vendors/js/jquery.js" th:src="@{/resources/vendors/js/jquery.js}"></script>
+
+	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
+
 	<!-- Angular -->
 	<script src="../../resources/vendors/js/angular.js" th:href="@{/resources/vendors/js/angular.js}"></script>
 	<script src="../../resources/js/training-app/app.js" th:href="@{/resources/vendors/js/angular.js}"></script>
@@ -395,7 +400,7 @@
 					<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 					<div ng-repeat="feedback in feedbacks">
 						<div class="well">
-							<b style="font-size:16px">{{feedback.user}}</b>
+							<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px">{{feedback.user}}</b>
 							<br/>
 							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
 							<span class="label"

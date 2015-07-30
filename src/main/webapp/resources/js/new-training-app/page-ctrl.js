@@ -21,7 +21,6 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
         $http.get('/rest/audience').then(function(objAud){
             $scope.checkboxAudiences = objAud.data;
             $scope.selectAll = false;
-            $scope.dateWeekly = '';
 
             $scope.toggleSeleted = function(){
                 $scope.selectAll = !$scope.selectAll;
@@ -113,7 +112,8 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                 for (var i = 0; i < $scope.qDates; i++) {
                     $scope.datepickers[i].dt = new Date();
                 }
-                $scope.dateWeekly = new Date();
+                $scope.dateStartWeekly = new Date();
+                $scope.dateEndWeekly = new Date();
             };
 
             $scope.toggleMin = function() {
@@ -278,7 +278,8 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     training.times = [];
 
                     if ($scope.toShowRepet === 'Weekly '){
-                        training.date = $scope.dateWeekly.getDate() + '.' + $scope.dateWeekly.getMonth() + '.' + $scope.dateWeekly.getFullYear();
+                        training.date = $scope.dateStartWeekly.getDate() + '.' + $scope.dateStartWeekly.getMonth() + '.' + $scope.dateStartWeekly.getFullYear();
+                        training.end = $scope.dateEndWeekly.getDate() + '.' + $scope.dateEndWeekly.getMonth() + '.' + $scope.dateEndWeekly.getFullYear();
                         for (var j = 0; j < $scope.datepickers.length; j++){
                             if ($scope.datepickers[j].toShowWeekDay !== 'Select day of week ') {
                                 training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';

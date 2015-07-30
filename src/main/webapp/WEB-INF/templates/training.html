@@ -103,25 +103,10 @@
 					</a>
 				</li>
 				<li id="mytrainings">
-					<a href="" ng-click="isCollapsed2=!isCollapsed2">
+					<a href="">
 						<i class="fa fa-fw fa-circle-o"></i>
 						My trainings
-						<i class="fa fa-fw fa-caret-down"></i>
 					</a>
-					<ul collapse="isCollapsed2">
-						<li>
-							<a href="my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								As a trainer
-							</a>
-						</li>
-						<li>
-							<a href="../my-trainings/my-trainings.html">
-								<i class="fa fa-fw fa-angle-right"></i>
-								As a guest
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
@@ -188,6 +173,10 @@
 					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 					<span class="label"
 					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
+					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
+
+					<h4 ng-show="!regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}</h4>
+					<h4 ng-show="regular"><label>Date of start:&nbsp;</label>{{training.start}}</h4>
 
 					<h3>Description</h3>
 
@@ -225,8 +214,7 @@
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a></li>
-									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a>
-									</li>
+									<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took part </a></li>
 									<li><a href="" ng-click="chooseImpression(2)">Disappointed, that took part </a></li>
 								</ul>
 							</div>

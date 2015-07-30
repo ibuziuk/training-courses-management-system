@@ -307,7 +307,12 @@
 								<div style="display:inline-block; min-height:290px;">
 									<div ng-show="toShowRepet == 'Weekly '">
 										<label>Choose day of start *</label>
-										<datepicker ng-model="dateWeekly" min-date="minDate" show-weeks="true"
+										<datepicker ng-model="dateStartWeekly" min-date="minDate" show-weeks="true"
+										            class="well well-sm" custom-class="getDayClass(date, mode)"
+										            starting-day="1"></datepicker>
+										<br/>
+										<label>Choose day of end *</label>
+										<datepicker ng-model="dateEndWeekly" min-date="minDate" show-weeks="true"
 										            class="well well-sm" custom-class="getDayClass(date, mode)"
 										            starting-day="1"></datepicker>
 									</div>
@@ -367,7 +372,7 @@
 									<br/>
 
 									<div style="text-align: center">
-										<a href="#">
+										<a href="">
 											<button class="btn btn-primary" type="button" id="subBtn"
 											        ng-click="trainingCreation()">
 												Submit
@@ -376,11 +381,11 @@
 									</div>
 
 									<div sec:authorize="hasRole('ROLE_ADMIN')" style="text-align: center">
-										<a href="#">
+										<a href="">
 											<button type="button" class="btn btn-danger" id="disaproveBtn">Disaprove
 											</button>
 										</a>
-										<a href="#">
+										<a href="">
 											<button type="button" class="btn btn-success" id="aproveBtn">Aprove</button>
 										</a>
 									</div>

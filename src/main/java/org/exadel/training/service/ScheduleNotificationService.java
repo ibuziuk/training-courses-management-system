@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
@@ -44,7 +43,6 @@ public class ScheduleNotificationService {
     }
 
     @Async
-    @Scheduled(cron = "*/60 * * * * *")
     public void scheduleTask() {
         long date = new Date().getTime();
         Timestamp currentTimePlusDay = new Timestamp(date + 86400000);

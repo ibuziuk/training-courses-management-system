@@ -67,6 +67,8 @@ public class FeedbackController {
             trainingFeedback.setText((String) map.get("comment"));
         }
         if (flag) {
+            trainingFeedback.setIsDeleted(false);
+            trainingFeedback.setIsApproved(false);
             trainingFeedback.setDate(new Timestamp(new Date().getTime()));
             trainingFeedback.setUser(userService.getUserById(userDetails.getId()));
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));

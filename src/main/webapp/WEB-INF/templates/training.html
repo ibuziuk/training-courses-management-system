@@ -156,10 +156,10 @@
 					<button id="unregisterBtn" class="btn btn-danger" type="button">
 						<i class="fa fa-fw fa-times"></i> Unregister
 					</button>
-					<button id="attendenceBtn" class="btn btn-primary" type="button">
+					<button sec:authorize="hasRole('ROLE_ADMIN')" id="attendenceBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-book"></i> Attendence book
 					</button>
-					<button id="addUserBtn" class="btn btn-primary" type="button">
+					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
 					</button>
 				</div>

@@ -14,6 +14,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
+    public Role getRole(String name) {
+        return roleDAO.getRoleByName(name);
+    }
+
+    @Override
+    @Transactional
     public void addRole(Role role) {
         roleDAO.addRole(role);
     }

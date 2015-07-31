@@ -70,7 +70,6 @@ public class ScheduleNotificationService {
 
     @Async
     public synchronized void scheduleTask() {
-        System.out.println("schedule " + Thread.currentThread().getId());
         LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Minsk"));
         long date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()).getTime();
 

@@ -66,11 +66,6 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Comparator<Training> getComparatorByData() {
-        return (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate());
-    }
-
-    @Override
     @Transactional
     public Training getTrainingById(long id) {
         return trainingDAO.getTrainingById(id);

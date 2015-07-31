@@ -209,6 +209,8 @@ public class TrainingRestController {
                         regularLesson.setTraining(training);
                         regularLessonService.addRegularLesson(regularLesson);
 
+                        scheduleNotificationService.addRegularLessonToSchedule(regularLesson);
+
                         iterationCalendar.set(iterationCalendar.get(Calendar.YEAR), iterationCalendar.get(Calendar.MONTH), iterationCalendar.get(Calendar.DATE) + 7);
                     }
                 }
@@ -252,6 +254,7 @@ public class TrainingRestController {
                 System.out.println(e.toString());
             }
             trainingService.addTraining(training);
+
             scheduleNotificationService.addTrainingToSchedule(training);
         }
 

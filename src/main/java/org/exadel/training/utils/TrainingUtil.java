@@ -1,7 +1,11 @@
 package org.exadel.training.utils;
 
+import org.exadel.training.model.RegularLesson;
+import org.exadel.training.model.Training;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 
 public final class TrainingUtil {
@@ -57,5 +61,13 @@ public final class TrainingUtil {
             return sb.append(0).append(minutes).toString();
         }
         return String.valueOf(minutes);
+    }
+
+    public static Comparator<Training> getTrainigComparatorByData() {
+        return (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate());
+    }
+
+    public static Comparator<RegularLesson> getRegularLessonComparatorByData() {
+        return (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate());
     }
 }

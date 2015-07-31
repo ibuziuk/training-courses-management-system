@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class RegularLessonServiceImpl implements RegularLessonService {
@@ -22,6 +23,12 @@ public class RegularLessonServiceImpl implements RegularLessonService {
     @Transactional
     public void updateRegularLesson(RegularLesson regularLesson) {
         regularLessonDAO.updateRegularLesson(regularLesson);
+    }
+
+    @Override
+    @Transactional
+    public List<RegularLesson> getFutureRegularLessons() {
+        return regularLessonDAO.getFutureRegularLessons();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.exadel.training.service;
 
+import org.exadel.training.model.RegularLesson;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +39,38 @@ public class NotificationService {
     public void trainingSchedulingNotifications(Training training) {
         User trainer = training.getTrainer();
         Context context = new Context();
+        context.setVariable("startText", "You trainer on: \"");
         context.setVariable("mailReceiver", trainer.getFirstName());
+        context.setVariable("middleText", "\" on ");
         context.setVariable("date", training.getDateAndTimeOnString());
         context.setVariable("nameTraining", training.getTitle());
-        context.setVariable("typeTraining", "You are trainer on");
         emailNotifierService.sendEmailNotification(trainer.getEmail(), "Notification about the training", context);
 
         Set<User> currentList = training.getVisitors();
-        context.setVariable("typeTraining", "Do not forget to visit training");
-        if(!currentList.isEmpty()) {
+        context.setVariable("startText", "Do not forget to visit training");
+        if (!currentList.isEmpty()) {
             for (User user : currentList) {
-                context.setVariable("mailReceiver", user.getFirstName());
+                context.setVariable("mailReceiver", trainer.getFirstName());
+                emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
+            }
+        }
+    }
+
+    public void regularLessonSchedulingNotifications(RegularLesson regularLesson) {
+        User trainer = regularLesson.getTraining().getTrainer();
+        Context context = new Context();
+        context.setVariable("startText", "You trainer on: \"");
+        context.setVariable("mailReceiver", trainer.getFirstName());
+        context.setVariable("middleText", "\" on ");
+        context.setVariable("date", regularLesson.getDateAndTimeOnString());
+        context.setVariable("nameTraining", regularLesson.getTraining().getTitle());
+        emailNotifierService.sendEmailNotification(trainer.getEmail(), "Notification about the training", context);
+
+        Set<User> currentList = regularLesson.getTraining().getVisitors();
+        context.setVariable("startText", "Do not forget to visit training");
+        if (!currentList.isEmpty()) {
+            for (User user : currentList) {
+                context.setVariable("mailReceiver", trainer.getFirstName());
                 emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
             }
         }

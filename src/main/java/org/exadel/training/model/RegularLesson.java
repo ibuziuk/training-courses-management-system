@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static org.exadel.training.utils.TrainingUtil.DateAndTimeToString;
+
 @Entity
 @Table(name = "regular_lesson")
 public class RegularLesson {
@@ -59,6 +61,11 @@ public class RegularLesson {
 
     public void setTraining(Training training) {
         this.training = training;
+    }
+
+    @JsonIgnore
+    public String getDateAndTimeOnString() {
+        return DateAndTimeToString(this.date);
     }
 }
 

@@ -1,6 +1,7 @@
 package org.exadel.training.service;
 
 
+import org.exadel.training.model.RegularLesson;
 import org.exadel.training.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -9,61 +10,98 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.PriorityQueue;
 
+import static org.exadel.training.utils.TrainingUtil.getRegularLessonComparatorByData;
+import static org.exadel.training.utils.TrainingUtil.getTrainigComparatorByData;
+
 @EnableScheduling
 @EnableAsync
 public class ScheduleNotificationService {
-    private PriorityQueue<Training> notificationPerDay;
-    private PriorityQueue<Training> notificationPerHour;
+    private PriorityQueue<Training> notificationTrainingPerDay;
+    private PriorityQueue<Training> notificationTrainingPerHour;
+
+    private PriorityQueue<RegularLesson> notificationRegularLessonPerDay;
+    private PriorityQueue<RegularLesson> notificationRegularLessonPerHour;
 
     @Autowired
     private TrainingService trainingService;
 
     @Autowired
+    private RegularLessonService regularLessonService;
+
+    @Autowired
     private NotificationService notificationService;
 
-    private void sendNotificationByEmail(Training training) {
+    private void sendNotificationTrainingByEmail(Training training) {
         notificationService.trainingSchedulingNotifications(training);
+    }
+
+    private void sendNotificationRegularLessonByEmail(RegularLesson regularLesson) {
+        notificationService.regularLessonSchedulingNotifications(regularLesson);
     }
 
     @SuppressWarnings("unchecked")
     @PostConstruct
     public void post() {
-        notificationPerDay = new PriorityQueue(trainingService.getComparatorByData());
-//        notificationPerDay.addAll(trainingService.getFutureTrainings());
-        notificationPerHour = new PriorityQueue(trainingService.getComparatorByData());
-//        notificationPerHour.addAll(trainingService.getFutureTrainings());
+        notificationTrainingPerDay = new PriorityQueue(getTrainigComparatorByData());
+        notificationTrainingPerDay.addAll(trainingService.getFutureTrainings());
+        notificationTrainingPerHour = new PriorityQueue(getTrainigComparatorByData());
+        notificationTrainingPerHour.addAll(trainingService.getFutureTrainings());
+
+        notificationRegularLessonPerDay = new PriorityQueue(getRegularLessonComparatorByData());
+        notificationRegularLessonPerDay.addAll(regularLessonService.getFutureRegularLessons());
+        notificationRegularLessonPerHour = new PriorityQueue(getRegularLessonComparatorByData());
+        notificationRegularLessonPerHour.addAll(regularLessonService.getFutureRegularLessons());
     }
 
     public synchronized void addTrainingToSchedule(Training training) {
-        System.out.println("add " + Thread.currentThread().getId());
-        notificationPerDay.add(training);
-        notificationPerHour.add(training);
+        notificationTrainingPerDay.add(training);
+        notificationTrainingPerHour.add(training);
+    }
+
+    public synchronized void addRegularLessonToSchedule(RegularLesson regularLesson) {
+        notificationRegularLessonPerDay.add(regularLesson);
+        notificationRegularLessonPerHour.add(regularLesson);
     }
 
     @Async
-    public synchronized void scheduleTask() throws ParseException {
+    public synchronized void scheduleTask() {
         System.out.println("schedule " + Thread.currentThread().getId());
         LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Minsk"));
         long date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()).getTime();
 
         Timestamp currentTimePlusDay = new Timestamp(date + 86400000);
         Timestamp currentTimePlusHour = new Timestamp(date + 3600000);
-        while (!notificationPerDay.isEmpty() && (notificationPerDay.peek().getDate().getTime() < currentTimePlusDay.getTime())) {
-            Training training = notificationPerDay.poll();
+
+        while (!notificationTrainingPerDay.isEmpty() && (notificationTrainingPerDay.peek().getDate().getTime() < currentTimePlusDay.getTime())) {
+            Training training = notificationTrainingPerDay.poll();
             if (training.getDate().getTime() > date) {
-//                sendNotificationByEmail(training);
+                sendNotificationTrainingByEmail(training);
             }
         }
-        while (!notificationPerHour.isEmpty() && (notificationPerHour.peek().getDate().getTime() < currentTimePlusHour.getTime())) {
-            Training training = notificationPerHour.poll();
+
+        while (!notificationTrainingPerHour.isEmpty() && (notificationTrainingPerHour.peek().getDate().getTime() < currentTimePlusHour.getTime())) {
+            Training training = notificationTrainingPerHour.poll();
             if (training.getDate().getTime() > date) {
-//                sendNotificationByEmail(training);
+                sendNotificationTrainingByEmail(training);
+            }
+        }
+
+        while (!notificationRegularLessonPerDay.isEmpty() && (notificationRegularLessonPerDay.peek().getDate().getTime() < currentTimePlusDay.getTime())) {
+            RegularLesson regularLesson = notificationRegularLessonPerDay.poll();
+            if (regularLesson.getDate().getTime() > date) {
+                sendNotificationRegularLessonByEmail(regularLesson);
+            }
+        }
+
+        while (!notificationRegularLessonPerHour.isEmpty() && (notificationRegularLessonPerHour.peek().getDate().getTime() < currentTimePlusHour.getTime())) {
+            RegularLesson regularLesson = notificationRegularLessonPerHour.poll();
+            if (regularLesson.getDate().getTime() > date) {
+                sendNotificationRegularLessonByEmail(regularLesson);
             }
         }
     }

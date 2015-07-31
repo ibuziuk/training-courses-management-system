@@ -3,7 +3,6 @@ package org.exadel.training.service;
 
 import org.exadel.training.model.Training;
 
-import java.util.Comparator;
 import java.util.List;
 
 public interface TrainingService {
@@ -20,8 +19,6 @@ public interface TrainingService {
     void updateTraining(Training training);
 
     void removeTrainingById(long id);
-
-    Comparator<Training> getComparatorByData();
 
     Training getTrainingById(long id);
 

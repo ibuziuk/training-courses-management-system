@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(value = "/rest/calendar")
 public class CalendarController {
     @Autowired
-    TrainingService trainingService;
+    private TrainingService trainingService;
 
     @RequestMapping(value = "/trainer", method = RequestMethod.GET)
     public List<Training> getByTrainer() {

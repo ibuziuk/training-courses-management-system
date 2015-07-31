@@ -24,7 +24,6 @@ public class User {
     @Column(name = "last_name", nullable = false, length = 25)
     private String lastName;
 
-    @JsonIgnore
     @Column(unique = true, nullable = false)
     private String login;
 
@@ -32,7 +31,6 @@ public class User {
     @Column(length = 60, nullable = false)
     private String password;
 
-    @JsonIgnore
     @Column(name = "e_mail", unique = true)
     private String email;
 

@@ -170,7 +170,7 @@
 						<div align="center" id="step1" ng-show="(currentPage == 1)">
 							<label>Tags *</label>
 							<br/>
-							<select style="width: 400px;" ui-select2="select2Options" ng-model="selectedTags" multiple="multiple" data-placeholder='Choose something'>
+							<select style="width: 400px;" ui-select2="select2Options" ng-model="selectedTags" multiple="multiple" data-placeholder='Choose at list one tag'>
 								<option ng-repeat="tag in checkboxTags" value="{{tag.id}}">{{tag.name}}</option>
 							</select>
 
@@ -178,7 +178,7 @@
 
 							<label>Audience for your training *</label>
 							<br/>
-							<select style="width: 400px;" ui-select2="select2Options" ng-model="selectedAudiences" multiple="multiple" data-placeholder='Choose something'>
+							<select style="width: 400px;" ui-select2="select2Options" ng-model="selectedAudiences" multiple="multiple" data-placeholder='Choose the audience'>
 								<option ng-repeat="audience in checkboxAudiences" value="{{audience.id}}">{{audience.value}}</option>
 							</select>
 
@@ -270,7 +270,7 @@
 								<label>
 									Name of training *
 								</label>
-								<input style="width: 400px;" class="form-control" placeholder="Assembler for beginners" required="required"
+								<input style="width: 400px;" class="form-control" placeholder="Type here" required="required"
 								       ng-model="trainingName"/>
 							</div>
 

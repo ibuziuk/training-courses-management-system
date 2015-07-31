@@ -158,24 +158,16 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     var training = {};
 
                     /* Tags */
-                    training.tags = [];
-                    for (var j in $scope.checkboxTags){
-                        if ($scope.checkboxTags[j].checked){
-                            training.tags.push($scope.checkboxTags[j].name.substring(1));
-                        }
-                    }
+                    training.tags = $scope.selectedTags;
+
                     if (training.tags.length === 0){
                         ngNotify.set('You should choose at list one tag!');
                         return;
                     }
 
                     /* Audience */
-                    training.audience = [];
-                    for (var j in $scope.checkboxAudiences){
-                        if ($scope.checkboxAudiences[j].checked){
-                            training.audience.push($scope.checkboxAudiences[j].value);
-                        }
-                    }
+                    training.audience = $scope.selectedAudiences;
+
                     if (training.audience.length === 0){
                         ngNotify.set('You should choose an audience for your training!');
                         return;

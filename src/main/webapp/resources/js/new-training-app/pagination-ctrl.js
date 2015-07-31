@@ -5,10 +5,10 @@ angular.module('newTrainingApp').controller('paginationCtrl', function ($scope) 
   $scope.currentPage = 1;
   $scope.itemsPerPage = 1;
     
-  $scope.dynamic = 20;    
+  $scope.dynamic = 1;
     
   $scope.showDynamic = function(page){
-      $scope.dynamic = page * 20;
+      $scope.dynamic = page;
   };    
 
   $scope.setPage = function (pageNo) {

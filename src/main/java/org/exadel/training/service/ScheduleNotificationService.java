@@ -79,28 +79,28 @@ public class ScheduleNotificationService {
         while (!notificationTrainingPerDay.isEmpty() && (notificationTrainingPerDay.peek().getDate().getTime() < currentTimePlusDay.getTime())) {
             Training training = notificationTrainingPerDay.poll();
             if (training.getDate().getTime() > date) {
-                sendNotificationTrainingByEmail(training);
+//                sendNotificationTrainingByEmail(training);
             }
         }
 
         while (!notificationTrainingPerHour.isEmpty() && (notificationTrainingPerHour.peek().getDate().getTime() < currentTimePlusHour.getTime())) {
             Training training = notificationTrainingPerHour.poll();
             if (training.getDate().getTime() > date) {
-                sendNotificationTrainingByEmail(training);
+//                sendNotificationTrainingByEmail(training);
             }
         }
 
         while (!notificationRegularLessonPerDay.isEmpty() && (notificationRegularLessonPerDay.peek().getDate().getTime() < currentTimePlusDay.getTime())) {
             RegularLesson regularLesson = notificationRegularLessonPerDay.poll();
             if (regularLesson.getDate().getTime() > date) {
-                sendNotificationRegularLessonByEmail(regularLesson);
+//                sendNotificationRegularLessonByEmail(regularLesson);
             }
         }
 
         while (!notificationRegularLessonPerHour.isEmpty() && (notificationRegularLessonPerHour.peek().getDate().getTime() < currentTimePlusHour.getTime())) {
             RegularLesson regularLesson = notificationRegularLessonPerHour.poll();
             if (regularLesson.getDate().getTime() > date) {
-                sendNotificationRegularLessonByEmail(regularLesson);
+//                sendNotificationRegularLessonByEmail(regularLesson);
             }
         }
     }

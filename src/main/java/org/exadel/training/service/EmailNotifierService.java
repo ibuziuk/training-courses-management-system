@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
@@ -37,16 +36,14 @@ public class EmailNotifierService {
         final byte[] imageBytes = bytes;
         context.setVariable("imageResourceName", IMAGE_RESOURCE_NAME);
         final String htmlContent = templateEngine.process("mail", context);
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                message.setTo(to);
-                message.setFrom(MAIL_FROM);
-                message.setSubject(subject);
-                message.setText(htmlContent, true);
-                final InputStreamSource imageSource = new ByteArrayResource(imageBytes);
-                message.addInline(IMAGE_RESOURCE_NAME, imageSource, "image/png");
-            }
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            message.setTo(to);
+            message.setFrom(MAIL_FROM);
+            message.setSubject(subject);
+            message.setText(htmlContent, true);
+            final InputStreamSource imageSource = new ByteArrayResource(imageBytes);
+            message.addInline(IMAGE_RESOURCE_NAME, imageSource, "image/png");
         };
         mailSender.send(preparator);
     }

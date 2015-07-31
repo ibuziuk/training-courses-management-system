@@ -67,12 +67,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public Comparator<Training> getComparatorByData() {
-        return new Comparator<Training>() {
-            @Override
-            public int compare(Training obj1, Training obj2) {
-                return obj1.getDate().compareTo(obj2.getDate());
-            }
-        };
+        return (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate());
     }
 
     @Override

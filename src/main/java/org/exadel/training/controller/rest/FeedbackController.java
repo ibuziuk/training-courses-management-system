@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class FeedbackController {
@@ -25,7 +27,7 @@ public class FeedbackController {
     private UserService userService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
-    public String addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
+    public Set<TrainingFeedback> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
         TrainingFeedback trainingFeedback = new TrainingFeedback();
@@ -73,6 +75,6 @@ public class FeedbackController {
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
-        return "Good boy!";
+        return trainingService.getTrainingById(trainingId).getTrainingFeedbacks();
     }
 }

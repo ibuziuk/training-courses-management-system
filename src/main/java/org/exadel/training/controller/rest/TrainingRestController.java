@@ -255,17 +255,21 @@ public class TrainingRestController {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String, Object> map = new HashMap<>();
         Training training = trainingService.getTrainingById(trainingId);
+        User user = userService.getUserById(userDetails.getId());
         map.put("training", training);
         map.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         if (trainingService.containsVisitor(trainingId, userDetails.getId())) {
             map.put("register", 0);
         } else if (waitingListService.checkingExist(trainingId, userDetails.getId())) {
             map.put("register", 1);
-        } else {
+        } else if (training.getTrainer().equals(user)){
             map.put("register", 2);
+        } else {
+            map.put("register", 3);
         }
         map.put("feedbacks", training.getTrainingFeedbacks());
         map.put("vote", trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
+        map.put("isAdmin", !user.getRoleForView().equals("User"));
         return map;
     }
 

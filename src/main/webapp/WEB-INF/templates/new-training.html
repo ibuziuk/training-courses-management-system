@@ -300,6 +300,7 @@
 											            class="well well-sm" custom-class="getDayClass(date, mode)"
 											            starting-day="1"></datepicker>
 										</div>
+										<hr/>
 									</div>
 									<div ng-repeat="datepicker in datepickers">
 										<div class="row">
@@ -340,12 +341,10 @@
 																</li>
 															</ul>
 														</div>
-													</div>
-
+												</div>
 												<br/>
 												<div align="center">
 													<label>Choose time for training #{{$index+1}}*</label>
-
 													<br/>
 													<timepicker align="center" ng-model="datepicker.time" hour-step="hstep" minute-step="mstep"
 													            show-meridian="ismeridian">
@@ -354,24 +353,22 @@
 
 												<div sec:authorize="hasRole('ROLE_ADMIN')">
 													<div align="center">
-														<label>Training place *</label>
+														<label>Training place #{{$index+1}} *</label>
 													</div>
 													<input type="text" class="form-control" placeholder="Type here"
 													       ng-model="datepicker.room"/>
 												</div>
-
+												<hr/>
 												<br/>
 											</div>
 										</div>
 									</div>
-
 									<br/>
-
 									<div style="text-align: center">
 										<a href="">
-											<button class="btn btn-primary" type="button" id="subBtn"
+											<button class="btn btn-primary btn-center" type="button" id="subBtn"
 											        ng-click="trainingCreation()">
-												Submit
+													Submit
 											</button>
 										</a>
 									</div>

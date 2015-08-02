@@ -277,9 +277,9 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     trainingsRequests[i] = $http.post('/rest/training', training);
                 }
                 $q.all(trainingsRequests).then(function(results) {
-                    console.log(results[0].data.id);
                     $window.location.href = window.location.origin + '/training/' + results[0].data.id;
-
+                }, function(data){
+                    ngNotify.set(data);
                 });
             };
         }).catch(function(data){

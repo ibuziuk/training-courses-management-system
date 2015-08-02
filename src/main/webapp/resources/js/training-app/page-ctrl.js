@@ -9,6 +9,9 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 	var answers = ['Yes ', 'No '];
 	var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
 
+	$scope.registerText = '';
+	$scope.approveText = '';
+
 	/* File Upload */
 	$scope.uploader = new FileUploader();
 
@@ -30,16 +33,22 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		/* Training info */
 		console.log(obj.data);
 
+		$scope.vote = obj.data.vote;
+		$scope.isAdmin = obj.data.isAdmin;
+
+		$scope.training = {};
+
 		if (obj.data.rating != -1) {
+			$scope.training.genRate = obj.data.rating;
 			$scope.toShowNoRatings = false;
 			$scope.genPercent = 100 * (obj.data.rating / $scope.max);
 		}
 		else {
+			$scope.training.genRate = 0;
 			$scope.genPercent = 0;
 			$scope.toShowNoRatings = true;
 		}
 
-		$scope.training = {};
 		$scope.training.description = obj.data.training.description;
 		$scope.training.title = obj.data.training.title;
 		$scope.training.isAproved = obj.data.training.approved;
@@ -156,7 +165,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		$scope.itemsPerPage = 2;
 
 		for (var k = 0; k < $scope.training.feedbacks.length; k++) {
-			$scope.training.feedbacks[k].rate = obj.data.ratings[k].starCount;
+			$scope.training.feedbacks[k].rate = obj.data.feedbacks[k].starCount;
 			$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
 			$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
 			$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];

@@ -26,15 +26,6 @@
 			border: dotted 3px lightgray;
 		}
 
-		.nv-file-over {
-			border: dotted 3px red;
-		}
-
-		/* Default class applied to drop zones on over */
-		.another-file-over-class {
-			border: dotted 3px green;
-		}
-
 		html, body {
 			height: 100%;
 		}
@@ -145,10 +136,10 @@
 
 					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
 					<a href=""><i class="fa fa-fw fa-pencil"></i></a>
-					<button id="registerBtn" class="btn btn-success" type="button">
+					<button ng-show="(training.register == 3)" id="registerBtn" class="btn btn-success" type="button">
 						<i class="fa fa-fw fa-plus"></i> Register
 					</button>
-					<button id="unregisterBtn" class="btn btn-danger" type="button">
+					<button ng-show="(training.register == 0) || (training.register == 1)" id="unregisterBtn" class="btn btn-danger" type="button">
 						<i class="fa fa-fw fa-times"></i> Unregister
 					</button>
 					<button id="attendenceBtn" class="btn btn-primary" type="button">
@@ -163,12 +154,15 @@
 
 			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<div ng-repeat="tag in training.tags">
+						<span class="label label-info tags"></span>
+					</div>
 					<h4>
 						<label>
 							Trainer: <a href="#"><i class="fa fa-fw fa-user"></i>{{training.trainerName}}</a>
 						</label>
 					</h4>
-					<h4 ng-style="{color:approveColor}">{{approveText}}</h4>
+					<h4 ng-show="training.register==2" ng-style="{color:approveColor}">{{approveText}}</h4>
 					<h4 ng-style="{color:registerColor}">{{registerText}}</h4>
 					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 					<span class="label"
@@ -199,7 +193,7 @@
 			</div>
 			<!-- TODO: file upload -->
 			<hr/>
-			<accordion close-others="oneAtATime" style="padding-left:19px">
+			<accordion ng-show="!vote" close-others="oneAtATime" style="padding-left:19px">
 				<accordion-group is-open="status.open">
 					<accordion-heading>
 						<div style="font-size:1.17em;">Leave an anonymous opininon
@@ -350,13 +344,13 @@
 				</accordion-group>
 			</accordion>
 
-			<div nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+			<div ng-show="training.register == 2 || isAdmin" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
 				<div class="well my-drop-zone" nv-file-over="" uploader="uploader">
 					Base drop zone
 				</div>
 			</div>
 
-			<table class="table">
+			<table ng-show="training.register == 2 || isAdmin" class="table">
 				<thead>
 				<tr>
 					<th width="50%">Name</th>

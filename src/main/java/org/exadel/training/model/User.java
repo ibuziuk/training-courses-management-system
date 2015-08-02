@@ -159,4 +159,24 @@ public class User {
     public void setExTrainings(Set<Training> ex_trainings) {
         this.exTrainings = ex_trainings;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (userId != user.userId) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!login.equals(user.login)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (userId ^ (userId >>> 32));
+    }
 }

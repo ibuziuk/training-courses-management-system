@@ -261,8 +261,8 @@ public class TrainingRestController {
         final Training finalTraining = training;
         new Thread(() ->
                 notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
-
         ).start();
+
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 
     }

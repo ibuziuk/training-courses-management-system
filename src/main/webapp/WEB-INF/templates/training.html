@@ -154,8 +154,19 @@
 
 			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-					<div ng-repeat="tag in training.tags">
-						<span class="label label-info tags"></span>
+
+					<div>
+						<label style="font-size: 16px">Tags: </label>
+						<span ng-repeat="tag in training.tags" ng-style="{'background-color': tag.color}" class="label label-info tags">
+							#{{tag.name}}
+						</span>
+					</div>
+
+					<div>
+						<label style="font-size: 16px">Audience: </label>
+						<span ng-repeat="aud in training.audiences" ng-style="{'background-color': colors[($index%6)]}" class="label label-info tags">
+							{{aud.value}}
+						</span>
 					</div>
 					<h4>
 						<label>
@@ -202,7 +213,7 @@
 						</div>
 					</accordion-heading>
 
-					<rating ng-model="myFeedback.rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
+					<rating ng-model="rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
 					<span class="label"
 					      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
 
@@ -402,11 +413,10 @@
 						<div class="well">
 							<b style="font-size:16px">{{feedback.user.firstName}} {{feedback.user.lastName}}</b>
 							<p class="field"><label>Date:&nbsp;</label>{{feedback.date}}</p>
-							<br/>
 							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
 							<span class="label"
 							      ng-class="{&#39;label-warning&#39;: feedback.percent&lt;30, &#39;label-info&#39;: feedback.percent&gt;&#61;30 &amp;&amp; feedback.percent&lt;70, &#39;label-success&#39;: feedback.percent&gt;&#61;70}">{{feedback.percent}}%</span>
-
+							<br/>
 							<p class="field"><label>Impression:&nbsp;</label>{{feedback.impression}}</p>
 
 							<p class="field"><label>Intelligibility:&nbsp;</label>{{feedback.intelligibility}}</p>

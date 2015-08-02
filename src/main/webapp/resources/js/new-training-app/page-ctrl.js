@@ -160,6 +160,10 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     /* Tags */
                     training.tags = $scope.selectedTags;
 
+                    for (var k = 0; k < training.tags.length; k++){
+                        training.tags[k] = training.tags[k].substring(1);
+                    }
+
                     if (training.tags.length === 0){
                         ngNotify.set('You should choose at list one tag!');
                         return;

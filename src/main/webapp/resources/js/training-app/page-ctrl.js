@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUploader', function ($scope, $http, FileUploader) {
+	window.scope = $scope;
+
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
 	var intelligibilities = ['Everything was clear ', 'Nothing was clear ', 'Something wasn\'t clear '];
@@ -8,6 +10,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 	var updates = ['Learnt nothing ', 'Learnt something ', 'Everything was new '];
 	var answers = ['Yes ', 'No '];
 	var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
+	$scope.colors = ['red', 'blue', 'brown', 'green', 'orange', 'black', 'gray'];
 
 	$scope.registerText = '';
 	$scope.approveText = '';
@@ -49,6 +52,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 			$scope.toShowNoRatings = true;
 		}
 
+		$scope.training.tags = obj.data.training.tags;
+		$scope.training.audiences = obj.data.training.audiences;
 		$scope.training.description = obj.data.training.description;
 		$scope.training.title = obj.data.training.title;
 		$scope.training.isAproved = obj.data.training.approved;
@@ -104,6 +109,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		/* Feedback */
 		$scope.myFeedback = {};
 		$scope.myFeedbackToSend = {};
+
 		/* Impression */
 		$scope.myFeedback.impression = "Leave your impression ";
 		$scope.chooseImpression = function (rep) {
@@ -165,6 +171,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		$scope.itemsPerPage = 2;
 
 		for (var k = 0; k < $scope.training.feedbacks.length; k++) {
+			$scope.training.feedbacks[k].date = (new Date(obj.data.feedbacks[k].date)).toLocaleString();
 			$scope.training.feedbacks[k].rate = obj.data.feedbacks[k].starCount;
 			$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
 			$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
@@ -176,32 +183,16 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		}
 
 		$scope.sendFeedback = function(){
-			$scope.myFeedbackToSend.rate = $scope.myFeedback.rate;
+			$scope.myFeedbackToSend.text = $scope.myFeedback.text;
+			$scope.myFeedbackToSend.rate = $scope.rate;
 			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedbackToSend).then(function(obj){
-				$scope.training.feedbacks.push($scope.myFeedbackToSend);
+				$scope.vote = true;
+				console.log($scope.vote);
+			}, function(err){
+				console.log(err);
 			});
 		}
 	}).catch(function(data){
 		console.log(data);
 	});
-
-	//$scope.training.feedbacks = [
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 10, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 2, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 7, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 8, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 9, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 10, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 1, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 2, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 3, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 4, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 5, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 6, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 7, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 8, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false},
-	//			{user: 'Yanuha', text: 'Amazing training!', rate: 9, impression: 0, intelligibility: 0, interest: 2, update: 2, effectiveness: 5, recommendation: true, trainer: true},
-	//			{user: 'Slavka', text: 'Bad training!', rate: 10, impression: 2, intelligibility: 1, interest: 0, update: 0, effectiveness: 1, recommendation: false, trainer: false}
-	//		];
-	//
 }]);

@@ -279,7 +279,7 @@ public class TrainingRestController {
             map.put("register", 0);
         } else if (waitingListService.checkingExist(trainingId, userDetails.getId())) {
             map.put("register", 1);
-        } else if (training.getTrainer().equals(user)){
+        } else if (training.getTrainer().equals(user)) {
             map.put("register", 2);
         } else {
             map.put("register", 3);
@@ -287,7 +287,7 @@ public class TrainingRestController {
         map.put("feedbacks", training.getTrainingFeedbacks());
         map.put("vote", trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
         map.put("isAdmin", !user.getRoleForView().equals("User"));
-        if (training.getContinuous()){
+        if (training.getContinuous()) {
             map.put("parts", trainingService.getContinuousTrainings(trainingId));
         }
         return map;

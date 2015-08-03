@@ -159,7 +159,7 @@
 					</button>
 					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
 					        type="button">
-						<i class="fa fa-fw fa-book"></i> Attendance book
+						<i class="fa fa-fw fa-book"></i> Attendence book
 					</button>
 					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
@@ -224,7 +224,6 @@
 								<label>Day #{{$index+1}}: </label>
 								{{day}}
 							</h4>
-
 						</div>
 					</div>
 
@@ -267,8 +266,8 @@
 			</div>
 			<!-- TODO: file upload -->
 			<hr/>
-			<accordion ng-show="&#33;vote &#38;&#38; training.register &#33;= 2" close-others="oneAtATime"
-			           style="padding-left:19px">
+
+			<accordion ng-show="&#33;vote &#38;&#38; openFeed" close-others="oneAtATime" style="padding-left:19px">
 				<accordion-group is-open="status.open">
 					<accordion-heading>
 						<div style="font-size:1.17em;">Leave an anonymous opinion
@@ -420,11 +419,10 @@
 				</accordion-group>
 			</accordion>
 
+
 			<div ng-show="training.register == 2 || isAdmin" nv-file-drop="" uploader="uploader"
 			     filters="queueLimit, customFilter">
-				<div class="well my-drop-zone" nv-file-over="" uploader="uploader">
-					Base drop zone
-				</div>
+				<input type="file" nv-file-select="" uploader="uploader"/>
 			</div>
 
 			<table ng-show="training.register == 2 || isAdmin" class="table">

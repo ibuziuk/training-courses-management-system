@@ -50,6 +50,17 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.training = {};
 
+		$scope.openFeedback = function () {
+			var date = new Date();
+			if (!obj.data.training.regular) {
+				return $scope.training.register != 2 && (date > obj.data.training.date);
+			}
+			else
+				return $scope.training.register != 2 && (date > obj.data.training.start);
+		};
+
+		$scope.openFeed = $scope.openFeedback();
+
 		var getRating = function (rating) {
 			if (rating != -1) {
 				$scope.training.genRate = rating;
@@ -198,7 +209,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 			$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);
 			$scope.totalItems = $scope.training.feedbacks.length;
-		};
+		}
 
 		getFeedbacks(obj.data.feedbacks);
 
@@ -212,7 +223,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			}, function (err) {
 				ngNotify.set(err.statusText);
 			});
-		};
+		}
 
 		$scope.trainingReg = function (flag) {
 			if (flag) {
@@ -233,5 +244,4 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	}).catch(function (data) {
 		ngNotify.set(data);
 	});
-
 }]);

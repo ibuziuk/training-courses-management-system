@@ -205,6 +205,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         return new ArrayList<>(result);
     }
 
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Training> getContinuousTrainings(long id) {

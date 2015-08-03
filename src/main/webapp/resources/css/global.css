@@ -94,6 +94,46 @@ body {
 	background-color: #713ec3;
 }
 
+.label-red {
+	background-color: #d9534f;
+}
+
+.label-blue {
+	background-color: #337ab7;
+}
+
+.label-aqua {
+	background-color: #53c7be;
+}
+
+.label-green {
+	background-color: #5cb85c;
+}
+
+.label-black {
+	background-color: black;
+}
+
+.label-yellow {
+	background-color: #f0ad4e;
+}
+
+.label-grey {
+	background-color: #777;
+}
+
+.label-pink {
+	background-color: #d44fd9;
+}
+
+.label-brown {
+	background-color: #673737;
+}
+
+.label-purple {
+	background-color: #713ec3;
+}
+
 html {
     height: 100%;
     background-color: white;

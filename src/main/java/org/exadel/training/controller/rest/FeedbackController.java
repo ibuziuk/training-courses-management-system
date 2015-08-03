@@ -74,7 +74,6 @@ public class FeedbackController {
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
-
         Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());

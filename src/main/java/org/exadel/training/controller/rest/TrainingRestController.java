@@ -273,14 +273,14 @@ public class TrainingRestController {
         return map;
     }
 
-    @RequestMapping(value = "/rest/training/register/{trainingId}")
+    @RequestMapping(value = "/rest/register/training/{trainingId}")
     public String registerForTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return trainingService.registerForTraining(trainingId, userDetails.getId());
     }
 
-    @RequestMapping(value = "/rest/training/remove/{trainingId}")
-    public String removeFromTraining(@PathVariable("trainingId") long trainingId) {
+    @RequestMapping(value = "/rest/unregister/training/{trainingId}")
+    public String unregisterFromTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return trainingService.removeVisitor(trainingId, userDetails.getId());
     }

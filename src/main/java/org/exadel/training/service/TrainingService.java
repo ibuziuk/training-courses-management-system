@@ -13,6 +13,8 @@ public interface TrainingService {
 
     List<Training> getComeTrainings(String come, boolean admin);
 
+    List<Training> getFutureTrainingsForScheduling();
+
     List<Training> getTrainingsByName(String name);
 
     void updateTraining(Training training);

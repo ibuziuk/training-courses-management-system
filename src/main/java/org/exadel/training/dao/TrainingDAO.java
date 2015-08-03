@@ -12,6 +12,8 @@ public interface TrainingDAO {
 
     List<Training> getComeTrainings(String come, boolean admin);
 
+    List<Training> getFutureTrainingsForScheduling();
+
     List<Training> getTrainingsByName(String name);
 
     void updateTraining(Training training);

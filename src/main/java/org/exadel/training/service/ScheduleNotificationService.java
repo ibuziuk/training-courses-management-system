@@ -49,7 +49,7 @@ public class ScheduleNotificationService {
     @PostConstruct
     public void post() {
         notificationTrainingPerDay = new PriorityQueue(getTrainingComparatorByData());
-        List<Training> futureTrainings = trainingService.getComeTrainings("future", true);
+        List<Training> futureTrainings = trainingService.getFutureTrainingsForScheduling();
         notificationTrainingPerDay.addAll(futureTrainings);
         notificationTrainingPerHour = new PriorityQueue(getTrainingComparatorByData());
         notificationTrainingPerHour.addAll(futureTrainings);

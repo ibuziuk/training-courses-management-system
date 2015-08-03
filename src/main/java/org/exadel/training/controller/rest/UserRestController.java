@@ -25,13 +25,13 @@ public class UserRestController {
         return map;
     }
 
-    /*@RequestMapping(value = "/search/{filter}/{value}", method = RequestMethod.GET)
-    public List<User> searchUsers(@PathVariable("filter") String filter, @PathVariable("value") String value) {
-        return null;
+    @RequestMapping(value = "/search", method = RequestMethod.GET,
+            params = {"searchType", "value"})
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> findUsers(@RequestParam String searchType, @RequestParam String value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("users", null);
+        map.put("size", userService.getAllUsers().size());
+        return map;
     }
-
-    @RequestMapping(value = "/sort", method = RequestMethod.GET)
-    public List<User> getSortedUsers() {
-        return null;
-    }*/
 }

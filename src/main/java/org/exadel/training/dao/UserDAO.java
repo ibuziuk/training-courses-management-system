@@ -9,6 +9,7 @@ public interface UserDAO {
 
     List<User> getAllUsers(int pageNumber, int pageSize, String sortType, String order);
 
+
     List<User> getUsersByName(String firstName, String lastName);
 
     User getUserById(long id);

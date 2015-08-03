@@ -274,14 +274,18 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/rest/register/training/{trainingId}")
-    public String registerForTraining(@PathVariable("trainingId") long trainingId) {
+    public Map<String, Object> registerForTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return trainingService.registerForTraining(trainingId, userDetails.getId());
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("result", trainingService.registerForTraining(trainingId, userDetails.getId()));
+        return map;
     }
 
     @RequestMapping(value = "/rest/unregister/training/{trainingId}")
-    public String unregisterFromTraining(@PathVariable("trainingId") long trainingId) {
+    public Map<String, Object> unregisterFromTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return trainingService.removeVisitor(trainingId, userDetails.getId());
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("result", trainingService.removeVisitor(trainingId, userDetails.getId()));
+        return map;
     }
 }

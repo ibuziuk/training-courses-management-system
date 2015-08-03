@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Comparator;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -37,14 +37,8 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public List<Training> getFutureTrainings() {
-        return trainingDAO.getFutureTrainings();
-    }
-
-    @Override
-    @Transactional
-    public List<Training> getPastTrainings() {
-        return trainingDAO.getPastTrainings();
+    public List<Training> getComeTrainings(String come, boolean admin) {
+        return trainingDAO.getComeTrainings(come, admin);
     }
 
     @Override
@@ -85,6 +79,12 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
+    public List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
+        return trainingDAO.getSomeTrainingOrderBy(come, pageNum, pageSize, sorting, order, admin);
+    }
+
+    @Override
+    @Transactional
     public String registerForTraining(long trainingId, long userId) {
         Training training = trainingDAO.getTrainingById(trainingId);
         User user = userDAO.getUserById(userId);
@@ -117,5 +117,35 @@ public class TrainingServiceImpl implements TrainingService {
         Training training = trainingDAO.getTrainingById(trainingId);
         User user = userDAO.getUserById(userId);
         return training.getVisitors().contains(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> searchTrainingByTitle(String value) {
+        return trainingDAO.searchTrainingsByTitle(value);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> searchTrainingsByDate(Timestamp date) {
+        return trainingDAO.searchTrainingsByDate(date);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> searchTrainingsByTime(String time) {
+        return trainingDAO.searchTrainingsByTime(time);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> searchTrainingsByLocation(int location) {
+        return trainingDAO.searchTrainingsByLocation(location);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> searchTrainingsByTrainerName(String firstName, String lastName) {
+        return trainingDAO.searchTrainingsByTrainerName(firstName, lastName);
     }
 }

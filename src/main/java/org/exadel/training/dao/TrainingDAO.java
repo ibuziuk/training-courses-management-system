@@ -2,6 +2,7 @@ package org.exadel.training.dao;
 
 import org.exadel.training.model.Training;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface TrainingDAO {
@@ -9,9 +10,7 @@ public interface TrainingDAO {
 
     List<Training> getAllTrainings();
 
-    List<Training> getFutureTrainings();
-
-    List<Training> getPastTrainings();
+    List<Training> getComeTrainings(String come, boolean admin);
 
     List<Training> getTrainingsByName(String name);
 
@@ -24,4 +23,16 @@ public interface TrainingDAO {
     List<Training> getTrainingsByTrainer(long id);
 
     List<Training> getTrainingsByVisitor(long id);
+
+    List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin);
+
+    List<Training> searchTrainingsByTitle(String value);
+
+    List<Training> searchTrainingsByDate(Timestamp date);
+
+    List<Training> searchTrainingsByTime(String time);
+
+    List<Training> searchTrainingsByLocation(int location);
+
+    List<Training> searchTrainingsByTrainerName(String firstName, String lastName);
 }

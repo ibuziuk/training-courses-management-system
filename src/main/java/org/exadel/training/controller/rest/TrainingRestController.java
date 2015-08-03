@@ -300,15 +300,47 @@ public class TrainingRestController {
         return trainingService.removeVisitor(trainingId, userDetails.getId());
     }
 
-    @RequestMapping(value = "/rest/training/future", method = RequestMethod.GET)
+    @RequestMapping(value = "/rest/training/{come}", method = RequestMethod.GET,
+            params = {"pageNum", "pageSize", "sorting", "order"})
     @ResponseStatus(HttpStatus.OK)
-    public List<Training> getFutureTrainings() {
-        return trainingService.getFutureTrainings();
+    public Map<String, Object> getFutureTrainings(
+            @PathVariable("come") String come,
+            @RequestParam(value = "pageNum") int pageNum,
+            @RequestParam(value = "pageSize") int pageSize,
+            @RequestParam(value = "sorting") String sorting,
+            @RequestParam(value = "order") String order) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserById(userDetails.getId());
+        boolean flag = !user.getRoleForView().equals("User");
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("list", trainingService.getSomeTrainingOrderBy(come, pageNum, pageSize, sorting, order, flag));
+        map.put("size", trainingService.getComeTrainings(come, flag).size());
+        return map;
     }
 
-    @RequestMapping(value = "/rest/training/past", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/rest/training/search", method = RequestMethod.GET,
+            params = {"type", "value"})
     @ResponseStatus(HttpStatus.OK)
-    public List<Training> getPastTrainings() {
-        return trainingService.getPastTrainings();
+    public List<Training> searching(
+            @RequestParam("value") String value,
+            @RequestParam("type") String type) {
+        switch (type) {
+            case "title":
+                return trainingService.searchTrainingByTitle(value);
+            case "date":
+//                return trainingService.searchTrainingsByDate(new Timestamp(Long.parseLong(value)));
+//                do not work now
+                return null;
+            case "time":
+                return trainingService.searchTrainingsByTime(value);
+            case "location":
+                return trainingService.searchTrainingsByLocation(Integer.parseInt(value));
+            case "trainerName":
+                String[] str = value.split(" ");
+                return trainingService.searchTrainingsByTrainerName(str[0], str[1]);
+            default:
+                return new ArrayList<>(0);
+        }
     }
 }

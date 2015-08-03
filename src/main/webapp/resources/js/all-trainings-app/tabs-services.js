@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('tabsServices', [])
-		.factory('tableService', [function () {
+		.factory('tableService', ['$http', function ($http) {
 			var service = {},
-					event = function (title, date, time, location, trainerName, placesOccupied, placesAll, tags) {
+					event = function (title, date, time, regular, location, trainerName, placesOccupied, placesAll, tags, approved) {
 						return {
 							title: title,
 							date: date,
 							time: time,
+							regular: regular,
 							location: location,
 							trainerName: trainerName,
 							places: placesOccupied + '/' + placesAll,
-							tags: tags
+							tags: tags,
+							approved: approved
 						};
 					},
 					tag = function (title, color) {
@@ -24,17 +26,59 @@ angular.module('tabsServices', [])
 			service.parsing = function (data) {
 				var events = [],
 						tags = [],
+						size = data.size,
 						i,
 						j;
-				for (i = 0; i < data.length; i++) {
-					for (j = 0; j < data[i].tags.length; j++) {
-						tags.push(tag(data[i].tags[j].name, data[i].tags[j].color));
+				for (i = 0; i < data.list.length; i++) {
+					for (j = 0; j < data.list[i].tags.length; j++) {
+						tags.push(tag(data.list[i].tags[j].name, data.list[i].tags[j].color));
 					}
-					events.push(event(data[i].title, data[i].dateOnString, data[i].time, data[i].location, data[i].trainer.firstName + ' ' + data[i].trainer.lastName, data[i].visitors.length, data[i].maxVisitorsCount, tags));
+					if (data.list[i].regular === true) {
+						events.push(event(data.list[i].title,
+								'(regular)',
+								data.list[i].time,
+								data.list[i].regular,
+								'(regular)',
+								data.list[i].trainer.firstName + ' ' + data.list[i].trainer.lastName,
+								data.list[i].visitors.length,
+								data.list[i].maxVisitorsCount,
+								tags,
+								data.list[i].approved));
+					} else {
+						events.push(event(data.list[i].title,
+								data.list[i].dateOnString,
+								data.list[i].time,
+								data.list[i].regular,
+								data.list[i].location,
+								data.list[i].trainer.firstName + ' ' + data.list[i].trainer.lastName,
+								data.list[i].visitors.length,
+								data.list[i].maxVisitorsCount,
+								tags,
+								data.list[i].approved));
+					}
+
 					tags = [];
 				}
 
-				return events;
+				return {
+					size: size,
+					list: events
+				};
+			};
+
+			service.createUrl = function (url, config) {
+				var ret = [];
+				ret.push('pageNum=' + config.page);
+				ret.push('pageSize=' + config.count);
+				for (var param in config.sorting) {
+					ret.push('sorting=' + param);
+					ret.push('order=' + config.sorting[param]);
+				}
+				return url + '?' + ret.join("&");
+			};
+
+			service.get = function (url, config) {
+				return $http.get(service.createUrl(url, config))
 			};
 
 			return service;

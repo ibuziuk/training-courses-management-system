@@ -34,7 +34,7 @@ public class UserDAOImpl implements UserDAO {
                 .setMaxResults(pageSize);
 
         if ("name".equals(sortType)) {
-            /*criteria.createAlias("user", "user");*/
+
             if ("asc".equals(order)) {
                 criteria.addOrder(Order.asc("firstName"))
                         .addOrder(Order.asc("lastName"));

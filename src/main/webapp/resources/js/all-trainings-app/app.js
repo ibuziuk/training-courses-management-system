@@ -1,3 +1,3 @@
 'use strict';
 
-var allTrainingsApp = angular.module('allTrainingsApp', ['ngTable', 'tabsControllers', 'tabsServices', 'ui.bootstrap']);
+var allTrainingsApp = angular.module('allTrainingsApp', ['ngTable', 'futureTab', 'historyTab', 'tabsServices', 'ui.bootstrap']);

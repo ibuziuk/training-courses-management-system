@@ -3,10 +3,13 @@ package org.exadel.training.dao;
 import org.exadel.training.model.Training;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -33,15 +36,24 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> getFutureTrainings() {
-        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("FROM Training t WHERE t.date >= current_timestamp ").list());
-        return new ArrayList<>(result);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Training> getPastTrainings() {
-        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("FROM Training t WHERE t.date <= current_timestamp ").list());
+    public List<Training> getComeTrainings(String come, boolean admin) {
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("start", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("start", date)
+            ));
+        }
+        if (!admin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
+        Collection result = new LinkedHashSet<>(criteria.list());
         return new ArrayList<>(result);
     }
 
@@ -88,6 +100,101 @@ public class TrainingDAOImpl implements TrainingDAO {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
         criteria.createAlias("visitors", "visitorsAlias").add(Restrictions.eq("visitorsAlias.userId", id));
         Collection result = new LinkedHashSet(criteria.list());
+        return new ArrayList<>(result);
+    }
+
+    // This method will be changed.
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+//                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setFirstResult((pageNum - 1) * pageSize)
+                .setProjection(Projections.distinct(Projections.property("trainingId")));
+        criteria.setMaxResults(pageSize);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("end", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("end", date)
+            ));
+        }
+        if (!sorting.equals("trainerName")) {
+            if (order.equals("asc")) {
+                criteria.addOrder(Order.asc(sorting));
+            } else {
+                criteria.addOrder(Order.desc(sorting));
+            }
+        } else {
+            criteria.createAlias("trainer", "t");
+            if (order.equals("asc")) {
+                criteria.addOrder(Order.asc("t.firstName"))
+                        .addOrder(Order.asc("t.lastName"));
+            } else {
+                criteria.addOrder(Order.desc("t.firstName"))
+                        .addOrder(Order.desc("t.lastName"));
+            }
+        }
+        if (!admin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
+        List<Long> id = criteria.list();
+        List<Training> result = new ArrayList<>(id.size());
+        for (long l : id) {
+            result.add(getTrainingById(l));
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> searchTrainingsByTitle(String value) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .add(Restrictions.like("title", "%" + value + "%"));
+        Collection result = new LinkedHashSet<>(criteria.list());
+        return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> searchTrainingsByDate(Timestamp date) {
+        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .add(Restrictions.eq("date", date))
+                .list());
+        return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> searchTrainingsByTime(String time) {
+        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .add(Restrictions.like("time", time + "%"))
+                .list());
+        return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> searchTrainingsByLocation(int location) {
+        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .add(Restrictions.eq("location", location))
+                .list());
+        return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> searchTrainingsByTrainerName(String firstName, String lastName) {
+        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .createAlias("trainer", "t")
+                .add(Restrictions.like("t.firstName", "%" + firstName + "%"))
+                .add(Restrictions.like("t.lastName", "%" + lastName + "%"))
+                .list());
         return new ArrayList<>(result);
     }
 }

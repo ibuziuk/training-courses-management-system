@@ -63,7 +63,7 @@ public final class TrainingUtil {
         return String.valueOf(minutes);
     }
 
-    public static Comparator<Training> getTrainigComparatorByData() {
+    public static Comparator<Training> getTrainingComparatorByData() {
         return (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate());
     }
 

@@ -13,10 +13,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import static org.exadel.training.utils.TrainingUtil.getRegularLessonComparatorByData;
-import static org.exadel.training.utils.TrainingUtil.getTrainigComparatorByData;
+import static org.exadel.training.utils.TrainingUtil.getTrainingComparatorByData;
 
 @EnableScheduling
 @EnableAsync
@@ -47,15 +48,17 @@ public class ScheduleNotificationService {
     @SuppressWarnings("unchecked")
     @PostConstruct
     public void post() {
-        notificationTrainingPerDay = new PriorityQueue(getTrainigComparatorByData());
-        notificationTrainingPerDay.addAll(trainingService.getFutureTrainings());
-        notificationTrainingPerHour = new PriorityQueue(getTrainigComparatorByData());
-        notificationTrainingPerHour.addAll(trainingService.getFutureTrainings());
+        notificationTrainingPerDay = new PriorityQueue(getTrainingComparatorByData());
+        List<Training> futureTrainings = trainingService.getFutureTrainings();
+        notificationTrainingPerDay.addAll(futureTrainings);
+        notificationTrainingPerHour = new PriorityQueue(getTrainingComparatorByData());
+        notificationTrainingPerHour.addAll(futureTrainings);
 
         notificationRegularLessonPerDay = new PriorityQueue(getRegularLessonComparatorByData());
-        notificationRegularLessonPerDay.addAll(regularLessonService.getFutureRegularLessons());
+        List<RegularLesson> futureRegularLessons = regularLessonService.getFutureRegularLessons();
+        notificationRegularLessonPerDay.addAll(futureRegularLessons);
         notificationRegularLessonPerHour = new PriorityQueue(getRegularLessonComparatorByData());
-        notificationRegularLessonPerHour.addAll(regularLessonService.getFutureRegularLessons());
+        notificationRegularLessonPerHour.addAll(futureRegularLessons);
     }
 
     public synchronized void addTrainingToSchedule(Training training) {

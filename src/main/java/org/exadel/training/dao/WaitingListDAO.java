@@ -1,5 +1,7 @@
 package org.exadel.training.dao;
 
+import org.exadel.training.model.User;
+
 import java.util.List;
 
 public interface WaitingListDAO {
@@ -10,4 +12,6 @@ public interface WaitingListDAO {
     String removeVisitor(long trainingID, long userID);
 
     boolean checkingExist(long trainingId, long userId);
+
+    User getNext(long trainingId);
 }

@@ -17,7 +17,7 @@ public class WaitingList {
     @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

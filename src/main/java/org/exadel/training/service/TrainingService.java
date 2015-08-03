@@ -34,4 +34,6 @@ public interface TrainingService {
     String removeVisitor(long trainingId, long userId);
 
     boolean containsVisitor(long trainingId, long userId);
+
+    List<Training> getContinuousTrainings(long id);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -101,8 +102,15 @@ public class TrainingServiceImpl implements TrainingService {
         if (training.getVisitors().contains(user)) {
             return "Already exist.";
         }
-        if (training.getVisitors().size() < training.getMaxVisitorsCount()) {
-            training.getVisitors().add(user);
+        List<Training> trainings = new ArrayList<>(1);
+        trainings.add(training);
+        if (training.getContinuous()){
+            trainings = getContinuousTrainings(trainingId);
+        }
+        if (training.getVisitors().size() < training.getMaxVisitorsCount()){
+            for (Training elem : trainings){
+                elem.getVisitors().add(user);
+            }
             return "Success";
         }
         return waitingListDAO.addVisitor(trainingId, userId);
@@ -114,12 +122,19 @@ public class TrainingServiceImpl implements TrainingService {
         Training training = trainingDAO.getTrainingById(trainingId);
         User user = userDAO.getUserById(userId);
         if (training.getVisitors().contains(user)) {
-            training.getVisitors().remove(user);
-            User next = waitingListDAO.getNext(trainingId);
-            if (next != null){
-                training.getVisitors().add(next);
+            List <Training> trainings = new ArrayList<>(1);
+            trainings.add(training);
+            if (training.getContinuous()){
+                trainings = getContinuousTrainings(trainingId);
             }
-            training.getExVisitors().add(user);
+            User next = waitingListDAO.getNext(trainingId);
+            for (Training elem : trainings){
+                elem.getVisitors().remove(user);
+                if (next != null){
+                    elem.getVisitors().add(next);
+                }
+                elem.getExVisitors().add(user);
+            }
             return "Success.";
         }
         return waitingListDAO.removeVisitor(trainingId, userId);
@@ -131,5 +146,11 @@ public class TrainingServiceImpl implements TrainingService {
         Training training = trainingDAO.getTrainingById(trainingId);
         User user = userDAO.getUserById(userId);
         return training.getVisitors().contains(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> getContinuousTrainings(long id){
+        return trainingDAO.getContinuousTrainings(id);
     }
 }

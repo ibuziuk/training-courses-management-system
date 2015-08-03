@@ -24,4 +24,6 @@ public interface TrainingDAO {
     List<Training> getTrainingsByTrainer(long id);
 
     List<Training> getTrainingsByVisitor(long id);
+
+    List<Training> getContinuousTrainings(long id);
 }

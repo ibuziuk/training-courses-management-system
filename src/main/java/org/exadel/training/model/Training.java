@@ -55,6 +55,8 @@ public class Training {
 
     private Boolean regular;
 
+    private Boolean continuous;
+
     @Column(name = "external_type")
     private Boolean externalType;
 
@@ -303,5 +305,13 @@ public class Training {
 
     public void setExVisitors(Set<User> ex_visitors) {
         this.exVisitors = ex_visitors;
+    }
+
+    public Boolean getContinuous() {
+        return continuous;
+    }
+
+    public void setContinuous(Boolean continuous) {
+        this.continuous = continuous;
     }
 }

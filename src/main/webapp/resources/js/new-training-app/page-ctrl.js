@@ -31,6 +31,7 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
             /* Dropdowns Page 2 */
 
+            var continuous;
             var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
             var types = ['Inner training ', 'Outer training '];
             var languages = ['English ', 'Russian '];
@@ -57,9 +58,11 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
             $scope.toShow = function() {
                 if ($scope.toShowRepet === 'One-off ' || $scope.toShowRepet === 'Weekly ') {
+                    continuous = false;
                     $scope.qDescr = 1;
                 }
                 else if ($scope.toShowRepet === 'Continuous ') {
+                    continuous = true;
                     $scope.qDescr = $scope.days;
                 }
 
@@ -159,6 +162,8 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
                     /* Tags */
                     training.tags = $scope.selectedTags;
+
+                    training.continuous = continuous;
 
                     for (var k = 0; k < training.tags.length; k++){
                         training.tags[k] = training.tags[k].substring(1);
@@ -287,11 +292,11 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                 });
             };
         }).catch(function(data){
-            ngNotify.set(data);
+            ngNotify.set(data.data);
         }).finally(function(){
         });
     }).catch(function(data){
-        ngNotify.set(data);
+        ngNotify.set(data.data);
     }).finally(function(){
     });
 

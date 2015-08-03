@@ -21,6 +21,10 @@
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
+	<!-- ngNotify CSS -->
+	<link href="../../resources/vendors/css/ng-notify.min.css" th:href="@{/resources/vendors/css/ng-notify.min.css}"
+	      rel="stylesheet"/>
+
 	<style>
 		.my-drop-zone {
 			border: dotted 3px lightgray;
@@ -42,6 +46,9 @@
 	        th:href="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 	<script src="../../resources/vendors/js/angular-file-upload.min.js"
 	        th:href="@{/resources/vendors/js/angular-file-upload.min.js}"></script>
+	<!-- ngNotify -->
+	<script src="../../resources/vendors/js/ng-notify.min.js"
+	        th:src="@{/resources/vendors/js/ng-notify.min.js}"></script>
 
 </head>
 
@@ -135,17 +142,17 @@
 					<h1 class="page-header">Training page</h1>
 
 					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
-					<a href=""><i class="fa fa-fw fa-pencil"></i></a>
+					<a href="" ng-show="isAdmin || training.register == 2"><i class="fa fa-fw fa-pencil"></i></a>
 					<button ng-show="(training.register == 3)" id="registerBtn" class="btn btn-success" type="button" ng-click="trainingReg(true)">
 						<i class="fa fa-fw fa-plus"></i> Register
 					</button>
 					<button ng-show="(training.register == 0) || (training.register == 1)" id="unregisterBtn" class="btn btn-danger" type="button" ng-click="trainingReg(false)">
 						<i class="fa fa-fw fa-times"></i> Unregister
 					</button>
-					<button id="attendenceBtn" class="btn btn-primary" type="button">
+					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-book"></i> Attendence book
 					</button>
-					<button id="addUserBtn" class="btn btn-primary" type="button">
+					<button ng-show="isAdmin" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
 					</button>
 				</div>
@@ -154,11 +161,11 @@
 
 			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-					<h4 ng-show="training.register==2" ng-style="{color:approveColor}">
+					<h4 ng-show="isAdmin || training.register==2" ng-style="{color:approveColor}">
 						{{approveText}}
 					</h4>
 
-					<h4 ng-style="{color:registerColor}">
+					<h4 ng-show="training.register &#33;= 2" ng-style="{color:registerColor}">
 						{{registerText}}
 					</h4>
 
@@ -245,7 +252,7 @@
 			</div>
 			<!-- TODO: file upload -->
 			<hr/>
-			<accordion ng-show="!vote" close-others="oneAtATime" style="padding-left:19px">
+			<accordion ng-show="&#33;vote &#38;&#38; training.register &#33;= 2" close-others="oneAtATime" style="padding-left:19px">
 				<accordion-group is-open="status.open">
 					<accordion-heading>
 						<div style="font-size:1.17em;">Leave an anonymous opininon
@@ -445,14 +452,14 @@
 			</table>
 
 			<hr/>
-			<div class="row" style="padding-left:19px">
+			<div ng-show="isAdmin || training.register == 2" class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 					<h3>Feedbacks</h3>
 
 					<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 					<div ng-repeat="feedback in feedbacks">
 						<div class="well">
-							<b style="font-size:16px">{{feedback.user.firstName}} {{feedback.user.lastName}}</b>
+							<b style="font-size:16px" ng-show="isAdmin">{{feedback.user.firstName}} {{feedback.user.lastName}}</b>
 							<p class="field"><label>Date:&nbsp;</label>{{feedback.date}}</p>
 							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
 							<span class="label"
@@ -473,7 +480,6 @@
 							<p class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainerRecommending}}</p>
 
 							<p class="field"><label>Comment:&nbsp;</label>{{feedback.text}}</p>
-
 						</div>
 					</div>
 				</div>

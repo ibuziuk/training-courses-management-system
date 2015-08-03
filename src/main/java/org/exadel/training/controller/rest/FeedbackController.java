@@ -10,10 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class FeedbackController {
@@ -27,7 +24,7 @@ public class FeedbackController {
     private UserService userService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
-    public Set<TrainingFeedback> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
+    public Map<String, Object> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
         TrainingFeedback trainingFeedback = new TrainingFeedback();
@@ -75,6 +72,9 @@ public class FeedbackController {
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
-        return trainingService.getTrainingById(trainingId).getTrainingFeedbacks();
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
+        resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());
+        return resultMap;
     }
 }

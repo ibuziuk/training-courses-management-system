@@ -1,5 +1,7 @@
 package org.exadel.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -11,6 +13,7 @@ public class WaitingList {
     @Column(name = "waiting_list_id")
     private long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;

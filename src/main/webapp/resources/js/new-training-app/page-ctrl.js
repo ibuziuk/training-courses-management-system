@@ -10,47 +10,28 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
         html: false
     });
 
+    $scope.select2Options = {
+        multiple: true
+    };
+
     /* Checkboxes Page 1 */
 
     $http.get('/rest/tag').then(function(objTag){
         $scope.checkboxTags = objTag.data;
         for (var k in $scope.checkboxTags){
             $scope.checkboxTags[k].name = '#' + $scope.checkboxTags[k].name;
+            $scope.checkboxTags[k].id = $scope.checkboxTags[k].name;
         }
 
         $http.get('/rest/audience').then(function(objAud){
             $scope.checkboxAudiences = objAud.data;
-            $scope.selectAll = false;
-
-            $scope.toggleSeleted = function(){
-                $scope.selectAll = !$scope.selectAll;
-                for (var i = 0; i < $scope.checkboxAudiences.length; i++) {
-                    $scope.checkboxAudiences[i].checked = $scope.selectAll;
-                }
-            };
-
-            function getIndex(aud){
-                for (var i = 0; i < $scope.checkboxAudiences.length; i++) {
-                    if ($scope.checkboxAudiences[i].value === aud.value) {
-                        return i;
-                    }
-                }
+            for (var k in $scope.checkboxAudiences){
+                $scope.checkboxAudiences[k].id = $scope.checkboxAudiences[k].value;
             }
-
-            $scope.allChecked = function(aud) {
-                var j = getIndex(aud);
-                $scope.checkboxAudiences[j].checked = !$scope.checkboxAudiences[j].checked;
-                for (var i = 0; i < $scope.checkboxAudiences.length; i++) {
-                    if (!$scope.checkboxAudiences[i].checked){
-                        $scope.selectAll = false;
-                        return;
-                    }
-                }
-                $scope.selectAll = true;
-            };
 
             /* Dropdowns Page 2 */
 
+            var continuous;
             var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
             var types = ['Inner training ', 'Outer training '];
             var languages = ['English ', 'Russian '];
@@ -77,9 +58,11 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
             $scope.toShow = function() {
                 if ($scope.toShowRepet === 'One-off ' || $scope.toShowRepet === 'Weekly ') {
+                    continuous = false;
                     $scope.qDescr = 1;
                 }
                 else if ($scope.toShowRepet === 'Continuous ') {
+                    continuous = true;
                     $scope.qDescr = $scope.days;
                 }
 
@@ -178,24 +161,22 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     var training = {};
 
                     /* Tags */
-                    training.tags = [];
-                    for (var j in $scope.checkboxTags){
-                        if ($scope.checkboxTags[j].checked){
-                            training.tags.push($scope.checkboxTags[j].name.substring(1));
-                        }
+                    training.tags = $scope.selectedTags;
+
+                    training.continuous = continuous;
+
+                    for (var k = 0; k < training.tags.length; k++){
+                        training.tags[k] = training.tags[k].substring(1);
                     }
+
                     if (training.tags.length === 0){
                         ngNotify.set('You should choose at list one tag!');
                         return;
                     }
 
                     /* Audience */
-                    training.audience = [];
-                    for (var j in $scope.checkboxAudiences){
-                        if ($scope.checkboxAudiences[j].checked){
-                            training.audience.push($scope.checkboxAudiences[j].value);
-                        }
-                    }
+                    training.audience = $scope.selectedAudiences;
+
                     if (training.audience.length === 0){
                         ngNotify.set('You should choose an audience for your training!');
                         return;
@@ -305,17 +286,17 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     trainingsRequests[i] = $http.post('/rest/training', training);
                 }
                 $q.all(trainingsRequests).then(function(results) {
-                    console.log(results[0].data.id);
                     $window.location.href = window.location.origin + '/training/' + results[0].data.id;
-
+                }, function(data){
+                    ngNotify.set(data);
                 });
             };
         }).catch(function(data){
-            ngNotify.set(data);
+            ngNotify.set(data.data);
         }).finally(function(){
         });
     }).catch(function(data){
-        ngNotify.set(data);
+        ngNotify.set(data.data);
     }).finally(function(){
     });
 

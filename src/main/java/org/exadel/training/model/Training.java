@@ -55,19 +55,19 @@ public class Training {
 
     private Boolean regular;
 
+    private Boolean continuous;
+
     @Column(name = "external_type")
     private Boolean externalType;
 
     @Column(name = "is_approved")
     private Boolean isApproved;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "language_id")
     private Language language;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "training_audience",
             joinColumns = {@JoinColumn(name = "training_id", nullable = false)},
@@ -88,7 +88,6 @@ public class Training {
             })
     private Set<User> visitors = new HashSet<>(0);
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "ex_training_user", joinColumns = {
             @JoinColumn(name = "training_id", nullable = false)},
@@ -96,7 +95,6 @@ public class Training {
             })
     private Set<User> exVisitors = new HashSet<>(0);
 
-    @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 
@@ -106,10 +104,6 @@ public class Training {
     @JsonIgnore
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingFeedback> trainingFeedbacks = new HashSet<>(0);
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
-    private Set<TrainingRating> trainingRatings;
 
     public long getTrainingId() {
         return trainingId;
@@ -313,11 +307,11 @@ public class Training {
         this.exVisitors = ex_visitors;
     }
 
-    public Set<TrainingRating> getTrainingRatings() {
-        return trainingRatings;
+    public Boolean getContinuous() {
+        return continuous;
     }
 
-    public void setTrainingRatings(Set<TrainingRating> trainingRatings) {
-        this.trainingRatings = trainingRatings;
+    public void setContinuous(Boolean continuous) {
+        this.continuous = continuous;
     }
 }

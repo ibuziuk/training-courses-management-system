@@ -1,9 +1,7 @@
 package org.exadel.training.controller.rest;
 
 import org.exadel.training.model.TrainingFeedback;
-import org.exadel.training.model.TrainingRating;
 import org.exadel.training.service.TrainingFeedbackService;
-import org.exadel.training.service.TrainingRatingService;
 import org.exadel.training.service.TrainingService;
 import org.exadel.training.service.UserService;
 import org.exadel.training.utils.CustomUserDetails;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -21,22 +20,19 @@ public class FeedbackController {
     private TrainingFeedbackService trainingFeedbackService;
 
     @Autowired
-    private TrainingRatingService trainingRatingService;
-
-    @Autowired
     private TrainingService trainingService;
 
     @Autowired
     private UserService userService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
-    public String addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
+    public Map<String, Object> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
         TrainingFeedback trainingFeedback = new TrainingFeedback();
         if (map.containsKey("impression")) {
             flag = true;
-            trainingFeedback.setImpression(Integer.parseInt( map.get("impression").toString()));
+            trainingFeedback.setImpression(Integer.parseInt(map.get("impression").toString()));
         }
         if (map.containsKey("intelligibility")) {
             flag = true;
@@ -66,6 +62,10 @@ public class FeedbackController {
             flag = true;
             trainingFeedback.setText(map.get("text").toString());
         }
+        if (map.containsKey("rate")) {
+            flag = true;
+            trainingFeedback.setStarCount(Integer.parseInt(map.get("rate").toString()));
+        }
         if (flag) {
             trainingFeedback.setIsDeleted(false);
             trainingFeedback.setIsApproved(false);
@@ -75,13 +75,9 @@ public class FeedbackController {
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
 
-        if (map.containsKey("rate")) {
-            TrainingRating trainingRating = new TrainingRating();
-            trainingRating.setStarCount(Integer.parseInt(map.get("rate").toString()));
-            trainingRating.setUser(userService.getUserById(userDetails.getId()));
-            trainingRating.setTraining(trainingService.getTrainingById(trainingId));
-            trainingRatingService.addTrainingRating(trainingRating);
-        }
-        return "OK!";
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
+        resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());
+        return resultMap;
     }
 }

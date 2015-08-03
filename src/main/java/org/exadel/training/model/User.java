@@ -59,10 +59,6 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<TrainingRating> trainingRatings;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 
     public long getUserId() {
@@ -133,6 +129,7 @@ public class User {
         this.leads = leads;
     }
 
+    @JsonIgnore
     public String getRoleForView() {
         return buildRoleForView(roles);
     }
@@ -143,14 +140,6 @@ public class User {
 
     public void setTrainingFeedbacks(Set<TrainingFeedback> trainingFeedbacks) {
         this.trainingFeedbacks = trainingFeedbacks;
-    }
-
-    public Set<TrainingRating> getTrainingRatings() {
-        return trainingRatings;
-    }
-
-    public void setTrainingRatings(Set<TrainingRating> trainingRatings) {
-        this.trainingRatings = trainingRatings;
     }
 
     public Set<WaitingList> getWaiting() {
@@ -167,5 +156,25 @@ public class User {
 
     public void setExTrainings(Set<Training> ex_trainings) {
         this.exTrainings = ex_trainings;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (userId != user.userId) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!login.equals(user.login)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (userId ^ (userId >>> 32));
     }
 }

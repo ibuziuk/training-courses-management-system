@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('newTrainingApp', ['collapseCtrl', 'ui.bootstrap', 'ngNotify']);
+angular.module('newTrainingApp', ['ui.select2', 'collapseCtrl', 'ui.bootstrap', 'ngNotify']);

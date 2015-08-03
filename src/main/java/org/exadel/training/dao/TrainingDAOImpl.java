@@ -204,4 +204,16 @@ public class TrainingDAOImpl implements TrainingDAO {
                 .list());
         return new ArrayList<>(result);
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getContinuousTrainings(long id) {
+        Training training = getTrainingById(id);
+        String title = training.getTitle();
+        String name = title.substring(0, title.lastIndexOf("#"));
+        return sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .add(Restrictions.like("title", name + "#%"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+    }
 }

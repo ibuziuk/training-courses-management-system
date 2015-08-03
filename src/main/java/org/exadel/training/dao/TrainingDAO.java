@@ -37,4 +37,6 @@ public interface TrainingDAO {
     List<Training> searchTrainingsByLocation(int location);
 
     List<Training> searchTrainingsByTrainerName(String firstName, String lastName);
+
+    List<Training> getContinuousTrainings(long id);
 }

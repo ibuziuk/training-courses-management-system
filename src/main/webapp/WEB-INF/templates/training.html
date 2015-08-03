@@ -21,18 +21,13 @@
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
+	<!-- ngNotify CSS -->
+	<link href="../../resources/vendors/css/ng-notify.min.css" th:href="@{/resources/vendors/css/ng-notify.min.css}"
+	      rel="stylesheet"/>
+
 	<style>
 		.my-drop-zone {
 			border: dotted 3px lightgray;
-		}
-
-		.nv-file-over {
-			border: dotted 3px red;
-		}
-
-		/* Default class applied to drop zones on over */
-		.another-file-over-class {
-			border: dotted 3px green;
 		}
 
 		html, body {
@@ -41,7 +36,8 @@
 	</style>
 
 	<!-- jQuery -->
-	<script src="../../resources/vendors/js/jquery-2.1.4.min.js" th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
+	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
+	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
 
 	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
 
@@ -56,6 +52,9 @@
 	        th:href="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 	<script src="../../resources/vendors/js/angular-file-upload.min.js"
 	        th:href="@{/resources/vendors/js/angular-file-upload.min.js}"></script>
+	<!-- ngNotify -->
+	<script src="../../resources/vendors/js/ng-notify.min.js"
+	        th:src="@{/resources/vendors/js/ng-notify.min.js}"></script>
 
 </head>
 
@@ -149,15 +148,18 @@
 					<h1 class="page-header">Training page</h1>
 
 					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
-					<a href=""><i class="fa fa-fw fa-pencil"></i></a>
-					<button id="registerBtn" class="btn btn-success" type="button">
+					<a href="" ng-show="isAdmin || training.register == 2"><i class="fa fa-fw fa-pencil"></i></a>
+					<button ng-show="(training.register == 3)" id="registerBtn" class="btn btn-success" type="button"
+					        ng-click="trainingReg(true)">
 						<i class="fa fa-fw fa-plus"></i> Register
 					</button>
-					<button id="unregisterBtn" class="btn btn-danger" type="button">
+					<button ng-show="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
+					        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
 						<i class="fa fa-fw fa-times"></i> Unregister
 					</button>
-					<button sec:authorize="hasRole('ROLE_ADMIN')" id="attendenceBtn" class="btn btn-primary" type="button">
-						<i class="fa fa-fw fa-book"></i> Attendence book
+					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
+					        type="button">
+						<i class="fa fa-fw fa-book"></i> Attendance book
 					</button>
 					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
@@ -168,24 +170,55 @@
 
 			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-					<h4>
-						<label>
-							Trainer: <a href="#"><i class="fa fa-fw fa-user"></i>{{training.trainerName}}</a>
-						</label>
+					<h4 ng-show="isAdmin || training.register==2" ng-style="{color:approveColor}">
+						{{approveText}}
 					</h4>
-					<h4 ng-style="{color:approveColor}">{{approveText}}</h4>
-					<h4 ng-style="{color:registerColor}">{{registerText}}</h4>
+
+					<h4 ng-show="training.register &#33;= 2" ng-style="{color:registerColor}">
+						{{registerText}}
+					</h4>
+
 					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 					<span class="label"
 					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
 					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
-					<h4 ng-show="!training.regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
+					<h4>
+						<label>Tags: </label>
+						<span ng-repeat="tag in training.tags" class="label label-{{tag.color}} tags">
+							#{{tag.name}}
+						</span>
 					</h4>
+
+					<h4>
+						<label>Audience: </label>
+						<span ng-repeat="aud in training.audiences">
+							{{aud.value}};&nbsp;
+						</span>
+					</h4>
+
+					<h4>
+						<label>Language: </label>
+						<span>
+							{{training.language}}
+						</span>
+					</h4>
+
+					<h4>
+						<label>
+							Trainer: <a href="#"><i class="fa fa-fw fa-user"></i>{{training.trainerName}}</a>
+						</label>
+					</h4>
+
+					<h4 ng-show="!training.regular">
+						<label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
+					</h4>
+
 					<div ng-show="training.regular">
 						<h4>
 							<label>Date of start:&nbsp;</label>{{training.start}}
 						</h4>
+
 						<div ng-repeat="day in training.days">
 							<h4>
 								<label>Day #{{$index+1}}: </label>
@@ -200,20 +233,52 @@
 					<div class="well" style="font-size:16px">
 						<p>{{training.description}}</p>
 					</div>
+
+					<accordion close-others="oneAtATime">
+						<accordion-group is-open="status.open">
+							<accordion-heading>
+								<div style="font-size:1.17em;">
+									<label>Visitors: </label>
+									{{training.visitors.length + training.waiting.length}}/{{training.maxVis}}
+									<i class="pull-right glyphicon"
+									   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+								</div>
+							</accordion-heading>
+							<div class="row">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label>Visitors: </label>
+
+									<div ng-repeat="visitor in training.visitors">
+										<h4>{{visitor.firstName}}&nbsp;{{visitor.lastName}}</h4>
+									</div>
+									<hr/>
+									<label>Waiting list: </label>
+
+									<div ng-repeat="person in training.waiting">
+										<h4>{{person.user.firstName}}&nbsp;{{person.user.lastName}}</h4>
+									</div>
+								</div>
+							</div>
+
+						</accordion-group>
+					</accordion>
+
 				</div>
 			</div>
 			<!-- TODO: file upload -->
 			<hr/>
-			<accordion close-others="oneAtATime" style="padding-left:19px">
+			<accordion ng-show="&#33;vote &#38;&#38; training.register &#33;= 2" close-others="oneAtATime"
+			           style="padding-left:19px">
 				<accordion-group is-open="status.open">
 					<accordion-heading>
-						<div style="font-size:1.17em;">Leave an anonymous opininon
+						<div style="font-size:1.17em;">Leave an anonymous opinion
 							<i class="pull-right glyphicon"
 							   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 						</div>
 					</accordion-heading>
 
-					<rating ng-model="myFeedback.rate" max="max" readonly="false" on-hover="hoveringOver(value)"></rating>
+					<rating ng-model="myFeedback.rate" max="max" readonly="false"
+					        on-hover="hoveringOver(value)"></rating>
 					<span class="label"
 					      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
 
@@ -355,13 +420,14 @@
 				</accordion-group>
 			</accordion>
 
-			<div nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+			<div ng-show="training.register == 2 || isAdmin" nv-file-drop="" uploader="uploader"
+			     filters="queueLimit, customFilter">
 				<div class="well my-drop-zone" nv-file-over="" uploader="uploader">
 					Base drop zone
 				</div>
 			</div>
 
-			<table class="table">
+			<table ng-show="training.register == 2 || isAdmin" class="table">
 				<thead>
 				<tr>
 					<th width="50%">Name</th>
@@ -404,19 +470,21 @@
 			</table>
 
 			<hr/>
-			<div class="row" style="padding-left:19px">
+			<div ng-show="isAdmin || training.register == 2" class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 					<h3>Feedbacks</h3>
 
 					<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 					<div ng-repeat="feedback in feedbacks">
 						<div class="well">
-							<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px">{{feedback.user.firstName}} {{feedback.user.lastName}}</b>
+							<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px" ng-show="isAdmin">{{feedback.user.firstName}}
+								{{feedback.user.lastName}}</b>
+
 							<p class="field"><label>Date:&nbsp;</label>{{feedback.date}}</p>
-							<br/>
 							<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
 							<span class="label"
 							      ng-class="{&#39;label-warning&#39;: feedback.percent&lt;30, &#39;label-info&#39;: feedback.percent&gt;&#61;30 &amp;&amp; feedback.percent&lt;70, &#39;label-success&#39;: feedback.percent&gt;&#61;70}">{{feedback.percent}}%</span>
+							<br/>
 
 							<p class="field"><label>Impression:&nbsp;</label>{{feedback.impression}}</p>
 
@@ -430,10 +498,10 @@
 
 							<p class="field"><label>Will recommend:&nbsp;</label>{{feedback.recommending}}</p>
 
-							<p class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainerRecommending}}</p>
+							<p class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainerRecommending}}
+							</p>
 
 							<p class="field"><label>Comment:&nbsp;</label>{{feedback.text}}</p>
-
 						</div>
 					</div>
 				</div>

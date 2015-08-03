@@ -41,9 +41,6 @@ public class TrainingRestController {
     private TrainingFeedbackService trainingFeedbackService;
 
     @Autowired
-    private TrainingRatingService trainingRatingService;
-
-    @Autowired
     private WaitingListService waitingListService;
 
     @Autowired
@@ -81,6 +78,9 @@ public class TrainingRestController {
         }
         if (json.get("type") != null) {
             training.setExternalType(json.get("type").getAsBoolean());
+        }
+        if (json.get("continuous") != null) {
+            training.setContinuous(json.get("continuous").getAsBoolean());
         }
         if (json.get("approved") != null) {
             training.setApproved(json.get("approved").getAsBoolean());
@@ -272,32 +272,41 @@ public class TrainingRestController {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String, Object> map = new HashMap<>();
         Training training = trainingService.getTrainingById(trainingId);
+        User user = userService.getUserById(userDetails.getId());
         map.put("training", training);
-        map.put("rating", trainingRatingService.getAverageRatingByTrainingID(trainingId));
+        map.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         if (trainingService.containsVisitor(trainingId, userDetails.getId())) {
             map.put("register", 0);
         } else if (waitingListService.checkingExist(trainingId, userDetails.getId())) {
             map.put("register", 1);
-        } else {
+        } else if (training.getTrainer().equals(user)){
             map.put("register", 2);
+        } else {
+            map.put("register", 3);
         }
         map.put("feedbacks", training.getTrainingFeedbacks());
-        map.put("ratings", training.getTrainingRatings());
-        map.put("vote", trainingRatingService.containsUserByTraining(trainingId, userDetails.getId())
-                || trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
+        map.put("vote", trainingFeedbackService.containsUserByTraining(trainingId, userDetails.getId()));
+        map.put("isAdmin", !user.getRoleForView().equals("User"));
+        if (training.getContinuous()){
+            map.put("parts", trainingService.getContinuousTrainings(trainingId));
+        }
         return map;
     }
 
-    @RequestMapping(value = "/rest/training/register/{trainingId}")
-    public String registerForTraining(@PathVariable("trainingId") long trainingId) {
+    @RequestMapping(value = "/rest/register/training/{trainingId}")
+    public Map<String, Object> registerForTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return trainingService.registerForTraining(trainingId, userDetails.getId());
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("result", trainingService.registerForTraining(trainingId, userDetails.getId()));
+        return map;
     }
 
-    @RequestMapping(value = "/rest/training/remove/{trainingId}")
-    public String removeFromTraining(@PathVariable("trainingId") long trainingId) {
+    @RequestMapping(value = "/rest/unregister/training/{trainingId}")
+    public Map<String, Object> unregisterFromTraining(@PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return trainingService.removeVisitor(trainingId, userDetails.getId());
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("result", trainingService.removeVisitor(trainingId, userDetails.getId()));
+        return map;
     }
 
     @RequestMapping(value = "/rest/training/{come}", method = RequestMethod.GET,

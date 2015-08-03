@@ -7,7 +7,7 @@ import java.util.List;
 public interface TrainingFeedbackDAO {
     void addFeedback(TrainingFeedback feedback);
 
-    List<TrainingFeedback> getAllFeedbacks();
-
     boolean containsUserByTraining(long trainingId, long userId);
+
+    double getAverageRatingByTrainingID(long trainingId);
 }

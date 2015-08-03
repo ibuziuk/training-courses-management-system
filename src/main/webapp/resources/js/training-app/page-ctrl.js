@@ -1,8 +1,6 @@
 'use strict';
 
 angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUploader', function ($scope, $http, FileUploader) {
-	window.scope = $scope;
-
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
 	var intelligibilities = ['Everything was clear ', 'Nothing was clear ', 'Something wasn\'t clear '];
@@ -11,6 +9,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 	var answers = ['Yes ', 'No '];
 	var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
 	$scope.colors = ['red', 'blue', 'brown', 'green', 'orange', 'black', 'gray'];
+
 
 	$scope.registerText = '';
 	$scope.approveText = '';
@@ -32,8 +31,11 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		$scope.percent = 100 * (value / $scope.max);
 	};
 
+	/* Getting info about the training */
 	$http.get('/rest' + window.location.pathname).then(function(obj){
+
 		/* Training info */
+
 		console.log(obj.data);
 
 		$scope.vote = obj.data.vote;
@@ -41,16 +43,20 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 
 		$scope.training = {};
 
-		if (obj.data.rating != -1) {
-			$scope.training.genRate = obj.data.rating;
-			$scope.toShowNoRatings = false;
-			$scope.genPercent = 100 * (obj.data.rating / $scope.max);
+		var getRating = function(rating){
+			if (rating != -1) {
+				$scope.training.genRate = rating;
+				$scope.toShowNoRatings = false;
+				$scope.genPercent = 100 * (rating / $scope.max);
+			}
+			else {
+				$scope.training.genRate = 0;
+				$scope.genPercent = 0;
+				$scope.toShowNoRatings = true;
+			}
 		}
-		else {
-			$scope.training.genRate = 0;
-			$scope.genPercent = 0;
-			$scope.toShowNoRatings = true;
-		}
+
+		getRating(obj.data.rating);
 
 		$scope.training.tags = obj.data.training.tags;
 		$scope.training.audiences = obj.data.training.audiences;
@@ -59,6 +65,10 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		$scope.training.isAproved = obj.data.training.approved;
 		$scope.training.register = obj.data.register;
 		$scope.training.regular = obj.data.training.regular;
+		$scope.training.visitors = obj.data.training.visitors;
+		$scope.training.waiting = obj.data.training.waiting;
+		$scope.training.maxVis = obj.data.training.maxVisitorsCount;
+		$scope.training.language = obj.data.training.language.value;
 
 		if (!$scope.training.regular) {
 			$scope.training.date = obj.data.training.dateOnString;
@@ -159,35 +169,43 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 			$scope.myFeedbackToSend.trainerRecommending = (rep == 0);
 		};
 
-		$scope.training.feedbacks = obj.data.feedbacks;
-		$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);
-
 		$scope.pageChanged = function(){
 			$scope.feedbacks = $scope.training.feedbacks.slice(($scope.currentPage - 1) * 5, ($scope.currentPage - 1) * 5 + 5);
 		};
 
-		$scope.totalItems = $scope.training.feedbacks.length;
 		$scope.currentPage = 1;
 		$scope.itemsPerPage = 2;
 
-		for (var k = 0; k < $scope.training.feedbacks.length; k++) {
-			$scope.training.feedbacks[k].date = (new Date(obj.data.feedbacks[k].date)).toLocaleString();
-			$scope.training.feedbacks[k].rate = obj.data.feedbacks[k].starCount;
-			$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
-			$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
-			$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
-			$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest];
-			$scope.training.feedbacks[k].update = updates[$scope.training.feedbacks[k].update];
-			$scope.training.feedbacks[k].recommendation = ($scope.training.feedbacks[k].recommendation) ? 'Yes' : 'No';
-			$scope.training.feedbacks[k].trainer = ($scope.training.feedbacks[k].trainer) ? 'Yes' : 'No';
+
+		var getFeedbacks = function(feedbacksList){
+			$scope.training.feedbacks = feedbacksList;
+
+			for (var k = 0; k < $scope.training.feedbacks.length; k++) {
+				$scope.training.feedbacks[k].date = (new Date(feedbacksList[k].date)).toLocaleString();
+				$scope.training.feedbacks[k].rate = feedbacksList[k].starCount;
+				$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
+				$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
+				$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
+				$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest];
+				$scope.training.feedbacks[k].update = updates[$scope.training.feedbacks[k].update];
+				$scope.training.feedbacks[k].recommending = ($scope.training.feedbacks[k].recommending) ? 'Yes' : 'No';
+				$scope.training.feedbacks[k].trainerRecommending = ($scope.training.feedbacks[k].trainerRecommending) ? 'Yes' : 'No';
+			}
+
+			$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);
+			$scope.totalItems = $scope.training.feedbacks.length;
 		}
+
+		getFeedbacks(obj.data.feedbacks);
 
 		$scope.sendFeedback = function(){
 			$scope.myFeedbackToSend.text = $scope.myFeedback.text;
 			$scope.myFeedbackToSend.rate = $scope.rate;
 			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedbackToSend).then(function(obj){
 				$scope.vote = true;
-				console.log($scope.vote);
+				getFeedbacks(obj.data);
+				/*getFeedbacks(obj.data.feedbacks);
+				getRating(obj.data.rating)*/
 			}, function(err){
 				console.log(err);
 			});

@@ -154,31 +154,45 @@
 
 			<div class="row" style="padding-left:19px">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4 ng-show="training.register==2" ng-style="{color:approveColor}">
+						{{approveText}}
+					</h4>
 
-					<div>
-						<label style="font-size: 16px">Tags: </label>
+					<h4 ng-style="{color:registerColor}">
+						{{registerText}}
+					</h4>
+
+					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
+					<span class="label"
+					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
+					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
+
+					<h4>
+						<label>Tags: </label>
 						<span ng-repeat="tag in training.tags" ng-style="{'background-color': tag.color}" class="label label-info tags">
 							#{{tag.name}}
 						</span>
-					</div>
+					</h4>
 
-					<div>
-						<label style="font-size: 16px">Audience: </label>
-						<span ng-repeat="aud in training.audiences" ng-style="{'background-color': colors[($index%6)]}" class="label label-info tags">
-							{{aud.value}}
+					<h4>
+						<label>Audience: </label>
+						<span ng-repeat="aud in training.audiences">
+							{{aud.value}};&nbsp;
 						</span>
-					</div>
+					</h4>
+
+					<h4>
+						<label>Language: </label>
+						<span>
+							{{training.language}}
+						</span>
+					</h4>
+
 					<h4>
 						<label>
 							Trainer: <a href="#"><i class="fa fa-fw fa-user"></i>{{training.trainerName}}</a>
 						</label>
 					</h4>
-					<h4 ng-show="training.register==2" ng-style="{color:approveColor}">{{approveText}}</h4>
-					<h4 ng-style="{color:registerColor}">{{registerText}}</h4>
-					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
-					<span class="label"
-					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
-					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
 					<h4 ng-show="!training.regular"><label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
 					</h4>
@@ -191,7 +205,6 @@
 								<label>Day #{{$index+1}}: </label>
 								{{day}}
 							</h4>
-
 						</div>
 					</div>
 
@@ -200,6 +213,34 @@
 					<div class="well" style="font-size:16px">
 						<p>{{training.description}}</p>
 					</div>
+
+					<accordion close-others="oneAtATime">
+						<accordion-group is-open="status.open">
+							<accordion-heading>
+								<div style="font-size:1.17em;">
+									<label>Visitors: </label>
+									{{training.visitors.length + training.waiting.length}}/{{training.maxVis}}
+									<i class="pull-right glyphicon"
+									   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+								</div>
+							</accordion-heading>
+							<div class="row">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label>Visitors: </label>
+									<h4 ng-repeat="visitor in training.visitors">
+										<h4>{{visitor}}</h4>
+									</h4>
+									<hr/>
+									<label>Waiting list: </label>
+									<h4 ng-repeat="person in training.waiting">
+										<h4>{{person}}</h4>
+									</h4>
+								</div>
+							</div>
+
+						</accordion-group>
+					</accordion>
+
 				</div>
 			</div>
 			<!-- TODO: file upload -->

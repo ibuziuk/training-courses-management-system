@@ -28,6 +28,33 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public List<User> getAllUsers(int pageNumber, int pageSize, String sortType, String order) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
+
+        if ("name".equals(sortType)) {
+            /*criteria.createAlias("user", "user");*/
+            if ("asc".equals(order)) {
+                criteria.addOrder(Order.asc("firstName"))
+                        .addOrder(Order.asc("lastName"));
+            } else {
+                criteria.addOrder(Order.desc("firstName"))
+                        .addOrder(Order.desc("lastName"));
+            }
+        } else {
+            if ("asc".equals(order)) {
+                criteria.addOrder(Order.asc(sortType));
+            } else {
+                criteria.addOrder(Order.desc(sortType));
+            }
+        }
+
+        return criteria.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public User getUserById(long id) {
         return (User) sessionFactory.getCurrentSession().get(User.class, id);
     }

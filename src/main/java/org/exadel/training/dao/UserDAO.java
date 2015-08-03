@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserDAO {
     List<User> getAllUsers();
 
+    List<User> getAllUsers(int pageNumber, int pageSize, String sortType, String order);
+
     List<User> getUsersByName(String firstName, String lastName);
 
     User getUserById(long id);

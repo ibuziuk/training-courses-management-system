@@ -21,6 +21,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public List<User> getAllUsers(int pageNumber, int pageSize, String sortType, String order) {
+        return userDAO.getAllUsers(pageNumber, pageSize, sortType, order);
+    }
+
+    @Override
+    @Transactional
     public List<User> getUsersByName(String firstName, String lastName) {
         return userDAO.getUsersByName(firstName, lastName);
     }

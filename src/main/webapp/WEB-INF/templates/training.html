@@ -136,10 +136,10 @@
 
 					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
 					<a href=""><i class="fa fa-fw fa-pencil"></i></a>
-					<button ng-show="(training.register == 3)" id="registerBtn" class="btn btn-success" type="button">
+					<button ng-show="(training.register == 3)" id="registerBtn" class="btn btn-success" type="button" ng-click="trainingReg(true)">
 						<i class="fa fa-fw fa-plus"></i> Register
 					</button>
-					<button ng-show="(training.register == 0) || (training.register == 1)" id="unregisterBtn" class="btn btn-danger" type="button">
+					<button ng-show="(training.register == 0) || (training.register == 1)" id="unregisterBtn" class="btn btn-danger" type="button" ng-click="trainingReg(false)">
 						<i class="fa fa-fw fa-times"></i> Unregister
 					</button>
 					<button id="attendenceBtn" class="btn btn-primary" type="button">
@@ -169,7 +169,7 @@
 
 					<h4>
 						<label>Tags: </label>
-						<span ng-repeat="tag in training.tags" ng-style="{'background-color': tag.color}" class="label label-info tags">
+						<span ng-repeat="tag in training.tags" class="label label-{{tag.color}} tags">
 							#{{tag.name}}
 						</span>
 					</h4>
@@ -227,14 +227,14 @@
 							<div class="row">
 								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 									<label>Visitors: </label>
-									<h4 ng-repeat="visitor in training.visitors">
-										<h4>{{visitor}}</h4>
-									</h4>
+									<div ng-repeat="visitor in training.visitors">
+										<h4>{{visitor.firstName}}&nbsp;{{visitor.lastName}}</h4>
+									</div>
 									<hr/>
 									<label>Waiting list: </label>
-									<h4 ng-repeat="person in training.waiting">
-										<h4>{{person}}</h4>
-									</h4>
+									<div ng-repeat="person in training.waiting">
+										<h4>{{person.user.firstName}}&nbsp;{{person.user.lastName}}</h4>
+									</div>
 								</div>
 							</div>
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUploader', function ($scope, $http, FileUploader) {
+angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$window', 'FileUploader', function ($scope, $http, $window, FileUploader) {
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
 	var intelligibilities = ['Everything was clear ', 'Nothing was clear ', 'Something wasn\'t clear '];
@@ -9,7 +9,6 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 	var answers = ['Yes ', 'No '];
 	var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
 	$scope.colors = ['red', 'blue', 'brown', 'green', 'orange', 'black', 'gray'];
-
 
 	$scope.registerText = '';
 	$scope.approveText = '';
@@ -176,7 +175,6 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 		$scope.currentPage = 1;
 		$scope.itemsPerPage = 2;
 
-
 		var getFeedbacks = function(feedbacksList){
 			$scope.training.feedbacks = feedbacksList;
 
@@ -184,6 +182,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 				$scope.training.feedbacks[k].date = (new Date(feedbacksList[k].date)).toLocaleString();
 				$scope.training.feedbacks[k].rate = feedbacksList[k].starCount;
 				$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
+
+				
 				$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
 				$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
 				$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest];
@@ -200,15 +200,31 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', 'FileUp
 
 		$scope.sendFeedback = function(){
 			$scope.myFeedbackToSend.text = $scope.myFeedback.text;
-			$scope.myFeedbackToSend.rate = $scope.rate;
+			$scope.myFeedbackToSend.rate = $scope.overStar;
 			$http.post('/rest/feedback' + window.location.pathname, $scope.myFeedbackToSend).then(function(obj){
 				$scope.vote = true;
-				getFeedbacks(obj.data);
-				/*getFeedbacks(obj.data.feedbacks);
-				getRating(obj.data.rating)*/
+				getFeedbacks(obj.data.feedbacks);
+				getRating(obj.data.rating)
 			}, function(err){
 				console.log(err);
 			});
+		}
+
+		$scope.trainingReg = function(flag){
+			if(flag) {
+				$http.post('/rest/register' + window.location.pathname, 'registering').then(function (obj) {
+					$window.location.reload();
+				}, function (err) {
+					console.log(err);
+				});
+			}
+			else{
+				$http.post('/rest/unregister' + window.location.pathname, 'unregistering').then(function (obj) {
+					$window.location.reload();
+				}, function (err) {
+					console.log(err);
+				});
+			}
 		}
 	}).catch(function(data){
 		console.log(data);

@@ -115,7 +115,10 @@ public class TrainingServiceImpl implements TrainingService {
         User user = userDAO.getUserById(userId);
         if (training.getVisitors().contains(user)) {
             training.getVisitors().remove(user);
-            training.getVisitors().add(waitingListDAO.getNext(trainingId));
+            User next = waitingListDAO.getNext(trainingId);
+            if (next != null){
+                training.getVisitors().add(next);
+            }
             training.getExVisitors().add(user);
             return "Success.";
         }

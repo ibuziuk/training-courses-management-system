@@ -1,15 +1,19 @@
 'use strict';
 
-angular.module('futureTab', [])
-		.controller('futureController', ['$scope', 'tableService', 'ngTableParams', function ($scope, tableService, ngTableParams) {
-			$scope.url = '/rest/training/future';
+angular.module('table', [])
+		.controller('tableController', ['$scope', '$location', 'tableService', 'ngTableParams', function ($scope, $location, tableService, ngTableParams) {
+			$scope.url = '/rest/user/all';
 			$scope.defaultConfig = {
 				page: 1,
 				count: 10,
 				sorting: {
-					date: 'asc'
+					name: 'asc'
 				}
 			};
+
+			$scope.absUrl = $location.absUrl();
+
+			console.log($scope.absUrl);
 
 			$scope.tableParams = new ngTableParams($scope.defaultConfig, {
 				counts: [10, 25, 50, 100],
@@ -22,5 +26,4 @@ angular.module('futureTab', [])
 							});
 				}
 			});
-
 		}]);

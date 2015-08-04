@@ -44,8 +44,7 @@ public class UserDAOImpl implements UserDAO {
                 criteria.addOrder(Order.desc("firstName"))
                         .addOrder(Order.desc("lastName"));
             }
-        }
-        if ("role".equals(sortType)) {
+        } else if ("role".equals(sortType)) {
             criteria.createAlias("roles", "role");
             if ("asc".equals(order)) {
                 criteria.addOrder(Order.asc("role.role"));

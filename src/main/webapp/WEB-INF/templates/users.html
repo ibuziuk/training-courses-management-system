@@ -12,6 +12,9 @@
 
 	<title th:text="#{users.page.title}">Users</title>
 
+	<!-- Ng-Table CSS -->
+	<!--<script src="../../resources/vendors/css/ng-table.css" th:src="@{/resources/vendors/css/ng-table.css}"></script>-->
+
 	<!-- Bootstrap Core CSS -->
 	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
 	      rel="stylesheet"/>
@@ -24,7 +27,8 @@
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
 	<!-- jQuery -->
-	<script src="../../resources/vendors/js/jquery-2.1.4.min.js" th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
+	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
+	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
 
 	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
 
@@ -34,7 +38,12 @@
 	<!-- Angular -->
 	<script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
 	<script src="../../resources/vendors/js/ng-table.min.js" th:src="@{/resources/vendors/js/ng-table.min.js}"></script>
+	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
+	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
 	<script src="../../resources/js/users-app/app.js" th:src="@{/resources/js/users-app/app.js}"></script>
+	<script src="../../resources/js/users-app/table-ctrl.js" th:src="@{/resources/js/users-app/table-ctrl.js}"></script>
+	<script src="../../resources/js/users-app/table-service.js"
+	        th:src="@{/resources/js/users-app/table-service.js}"></script>
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
 	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
 </head>
@@ -144,9 +153,9 @@
 					<div class="row search-row">
 						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
 							<select class="form-control">
-								<option th:text="#{label.search.byFirstName}">By first name</option>
-								<option th:text="#{label.search.byLastName}">By last name</option>
+								<option th:text="#{label.search.byName}">By name</option>
 								<option th:text="#{label.search.byLogin}">By login</option>
+								<option th:text="#{label.search.byEmail}">By email</option>
 								<option th:text="#{label.search.byRole}">By role</option>
 							</select>
 						</div>
@@ -164,26 +173,19 @@
 					<!-- /.row -->
 
 					<!-- Users -->
-					<div class="row">
+					<div class="row" ng-controller="tableController">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="table-responsive">
-								<table class="table table-bordered table-striped table-hover table-condensed">
-									<thead>
-									<tr>
-										<th th:text="#{label.firstName}">First Name</th>
-										<th th:text="#{label.lastName}">Last Name</th>
-										<th th:text="#{label.login}">Login</th>
-										<th th:text="#{label.email}">Email</th>
-										<th th:text="#{label.role}">Role</th>
-									</tr>
-									</thead>
+								<table class="table table-bordered table-striped table-hover table-condensed"
+								       ng-table="tableParams">
 									<tbody>
-									<tr th:each="user : ${userList}">
-										<td th:text="${user.firstName}"></td>
-										<td th:text="${user.lastName}"></td>
-										<td><a th:text="${user.login}" th:href="${user.userId}"></a></td>
-										<td th:text="${user.email}"></td>
-										<td th:text="${user.getRoleForView()}"></td>
+									<tr ng-repeat="user in $data">
+										<td data-title="'Name'" sortable="'name'">{{user.name}}</td>
+										<td data-title="'Login'" sortable="'login'">
+											<a target="_blank" ng-href="{{user.url}}">{{user.login}}</a>
+										</td>
+										<td data-title="'email'" sortable="'email'">{{user.email}}</td>
+										<td data-title="'Role'" sortable="'role'">{{user.role}}</td>
 									</tr>
 									</tbody>
 								</table>

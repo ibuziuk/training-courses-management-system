@@ -105,6 +105,10 @@ public class Training {
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<TrainingFeedback> trainingFeedbacks = new HashSet<>(0);
 
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL)
+    private TrainingEdit trainingEdit;
+
     public long getTrainingId() {
         return trainingId;
     }
@@ -313,5 +317,13 @@ public class Training {
 
     public void setContinuous(Boolean continuous) {
         this.continuous = continuous;
+    }
+
+    public TrainingEdit getTrainingEdit() {
+        return trainingEdit;
+    }
+
+    public void setTrainingEdit(TrainingEdit trainingEdit) {
+        this.trainingEdit = trainingEdit;
     }
 }

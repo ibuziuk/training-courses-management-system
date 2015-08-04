@@ -106,8 +106,12 @@ public class Training {
     private Set<TrainingFeedback> trainingFeedbacks = new HashSet<>(0);
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL)
-    private TrainingEdit trainingEdit;
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<TrainingEdit> trainingEdit;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "training")
+    private Set<Absence> absences;
 
     public long getTrainingId() {
         return trainingId;
@@ -319,11 +323,19 @@ public class Training {
         this.continuous = continuous;
     }
 
-    public TrainingEdit getTrainingEdit() {
+    public Set<Absence> getAbsences() {
+        return absences;
+    }
+
+    public void setAbsences(Set<Absence> absences) {
+        this.absences = absences;
+    }
+
+    public Set<TrainingEdit> getTrainingEdit() {
         return trainingEdit;
     }
 
-    public void setTrainingEdit(TrainingEdit trainingEdit) {
+    public void setTrainingEdit(Set<TrainingEdit> trainingEdit) {
         this.trainingEdit = trainingEdit;
     }
 }

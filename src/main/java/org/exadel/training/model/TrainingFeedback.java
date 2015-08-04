@@ -11,7 +11,7 @@ public class TrainingFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "training_feedback_id")
-    private int id;
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -52,7 +52,7 @@ public class TrainingFeedback {
     @Column(name = "star_count")
     private Integer starCount;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

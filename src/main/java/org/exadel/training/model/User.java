@@ -69,6 +69,22 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "trainer")
+    private Set<TrainerFeedback> trainerFeedbacks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<TrainerFeedback> feedbacksAboutTrainers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<Absence> absences;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<AbsenceLesson> lessonAbsences;
+
     public long getUserId() {
         return userId;
     }
@@ -199,5 +215,37 @@ public class User {
 
     public void setFeedbacksAboutMe(Set<EmployeeFeedback> feedbacksAboutMe) {
         this.feedbacksAboutMe = feedbacksAboutMe;
+    }
+
+    public Set<TrainerFeedback> getTrainerFeedbacks() {
+        return trainerFeedbacks;
+    }
+
+    public void setTrainerFeedbacks(Set<TrainerFeedback> trainerFeedbacks) {
+        this.trainerFeedbacks = trainerFeedbacks;
+    }
+
+    public Set<TrainerFeedback> getFeedbacksAboutTrainers() {
+        return feedbacksAboutTrainers;
+    }
+
+    public void setFeedbacksAboutTrainers(Set<TrainerFeedback> feedbacksAboutTrainers) {
+        this.feedbacksAboutTrainers = feedbacksAboutTrainers;
+    }
+
+    public Set<Absence> getAbsences() {
+        return absences;
+    }
+
+    public void setAbsences(Set<Absence> absences) {
+        this.absences = absences;
+    }
+
+    public Set<AbsenceLesson> getLessonAbsences() {
+        return lessonAbsences;
+    }
+
+    public void setLessonAbsences(Set<AbsenceLesson> lessonAbsences) {
+        this.lessonAbsences = lessonAbsences;
     }
 }

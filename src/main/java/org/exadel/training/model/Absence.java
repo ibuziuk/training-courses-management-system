@@ -1,7 +1,5 @@
 package org.exadel.training.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,35 +10,22 @@ public class Absence {
     @Column(name = "absence_id")
     private int id;
 
-    @NotEmpty
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @NotEmpty
-    private long trainerId;
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private Training training;
 
-    @Column(length = 4500)
+    @Column(name = "reason_text", length = 4500)
     private String reasonText;
 
+    @Column(name = "is_reasonable")
     private Boolean isReasonable;
 
     public int getId() {
         return id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
     }
 
     public String getReasonText() {
@@ -57,5 +42,21 @@ public class Absence {
 
     public void setIsReasonable(Boolean isReasonable) {
         this.isReasonable = isReasonable;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }

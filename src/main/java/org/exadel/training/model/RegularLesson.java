@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import static org.exadel.training.utils.TrainingUtil.DateAndTimeToString;
 
@@ -26,6 +27,10 @@ public class RegularLesson {
     @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "lesson")
+    private Set<LessonEdit> edits;
 
     public long getLessonId() {
         return lessonId;
@@ -66,6 +71,14 @@ public class RegularLesson {
     @JsonIgnore
     public String getDateAndTimeOnString() {
         return DateAndTimeToString(this.date);
+    }
+
+    public Set<LessonEdit> getEdits() {
+        return edits;
+    }
+
+    public void setEdits(Set<LessonEdit> edits) {
+        this.edits = edits;
     }
 }
 

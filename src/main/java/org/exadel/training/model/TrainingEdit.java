@@ -11,7 +11,7 @@ public class TrainingEdit {
     @Column(name = "training_edit_id")
     private long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;
 

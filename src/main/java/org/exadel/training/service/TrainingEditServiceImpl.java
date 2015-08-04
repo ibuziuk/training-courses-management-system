@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class TrainingEditServiceImpl implements TrainingEditService {
@@ -28,5 +29,11 @@ public class TrainingEditServiceImpl implements TrainingEditService {
     @Transactional
     public TrainingEdit getEditByTrainingIfExist(long trainingId) {
         return trainingEditDAO.getEditByTrainingIfExist(trainingId);
+    }
+
+    @Override
+    @Transactional
+    public List<TrainingEdit> getAllEditsByTraining(long trainingId){
+        return trainingEditDAO.getAllEditsByTraining(trainingId);
     }
 }

@@ -166,9 +166,10 @@ public class TrainingRestController {
                     for (int i = 0; i < days.size(); i++) {
                         parsedTimeForTrainingTable = json.get("times").getAsJsonArray().get(i).getAsString();
                         durationTime.setTime(hourDateFormater.parse(parsedTimeForTrainingTable));
+                        timeForTrainingTable += hourDateFormater.format(durationTime.getTime());
                         durationTime.set(Calendar.MINUTE, durationTime.get(Calendar.MINUTE) + training.getDuration());
                         timeWithDuration = hourDateFormater.format(durationTime.getTime());
-                        timeForTrainingTable += parsedTimeForTrainingTable + "-" + timeWithDuration + " ";
+                        timeForTrainingTable += "-" + timeWithDuration + " ";
                     }
                 }
                 training.setTime(timeForTrainingTable);

@@ -14,7 +14,30 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
         multiple: true
     };
 
-    /* Checkboxes Page 1 */
+    /* Dropdowns Pages 1-2 */
+
+    var continuous;
+    var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
+    var types = ['Inner training ', 'Outer training '];
+    var languages = ['English ', 'Russian '];
+
+    $scope.toShowRepet = 'Select repetition ';
+    $scope.toShowType = 'Select type ';
+    $scope.toShowLanguage = 'Select language ';
+
+    $scope.chooseRepet = function(rep){
+        $scope.toShowRepet = repetitions[rep];
+    };
+
+    $scope.chooseType = function(rep){
+        $scope.toShowType = types[rep];
+    };
+
+    $scope.chooseLanguage = function(rep){
+        $scope.toShowLanguage = languages[rep];
+    };
+
+    /* Checkboxes Page 4 */
 
     $http.get('/rest/tag').then(function(objTag){
         $scope.checkboxTags = objTag.data;
@@ -28,29 +51,6 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
             for (var k in $scope.checkboxAudiences){
                 $scope.checkboxAudiences[k].id = $scope.checkboxAudiences[k].value;
             }
-
-            /* Dropdowns Page 2 */
-
-            var continuous;
-            var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
-            var types = ['Inner training ', 'Outer training '];
-            var languages = ['English ', 'Russian '];
-
-            $scope.toShowRepet = 'Select repetition ';
-            $scope.toShowType = 'Select type ';
-            $scope.toShowLanguage = 'Select language ';
-
-            $scope.chooseRepet = function(rep){
-                $scope.toShowRepet = repetitions[rep];
-            };
-
-            $scope.chooseType = function(rep){
-                $scope.toShowType = types[rep];
-            };
-
-            $scope.chooseLanguage = function(rep){
-                $scope.toShowLanguage = languages[rep];
-            };
 
             /* Descriptions Page 3 */
 
@@ -149,21 +149,88 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
             /* Final (on submit button) */
 
-            $scope.trainingCreation = function(){
-                var trainingsRequests = [];
+            $scope.step1 = function(){
+                $scope.$parent.totalItems = 5;
 
-                if ($scope.qDescr === 0){
-                    ngNotify.set('You should fill all fields!');
+                if ($scope.trainingName === undefined || $scope.trainingName.length === 0){
+                    //ngNotify.set('You should enter the name of your training!');
+                    $scope.$parent.totalItems = 5;
                     return;
                 }
+
+                /* Type of training */
+                if ($scope.toShowType === 'Select type '){
+                    //ngNotify.set('You should choose the type of your training!');
+                    $scope.$parent.totalItems = 5;
+                    return;
+                }
+
+                /* Repetition frequency */
+                if ($scope.toShowRepet === 'Select repetition '){
+                    //ngNotify.set('You should choose the repetition of your training!');
+                    $scope.$parent.totalItems = 5;
+                    return;
+                }
+
+                /* Quantity of days */
+                if ($scope.toShowRepet === 'Weekly ' || $scope.toShowRepet === 'Continuous '){
+                    if ($scope.days === undefined || $scope.days.length === 0){
+                        //ngNotify.set('You should enter quantity of days!');
+                        $scope.$parent.totalItems = 5;
+                        return;
+                    }
+                }
+                $scope.$parent.totalItems = 15;
+            };
+
+            $scope.step2 = function(){
+                $scope.$parent.totalItems = 15;
+
+                /* Training language */
+                if ($scope.toShowLanguage === 'Select language ') {
+                    //ngNotify.set('You should choose the language of your training!');
+                    $scope.$parent.totalItems = 15;
+                    return;
+                }
+
+                for (var i = 0; i < $scope.qDescr; i++) {
+                    if ($scope.descriptions[i].text === undefined || $scope.descriptions[i].text.length === 0) {
+                        $scope.$parent.totalItems = 15;
+                        //ngNotify.set('You should enter the description of your training!');
+                        return;
+                    }
+                }
+                $scope.$parent.totalItems = 25;
+            };
+
+            $scope.step3 = function(){
+                $scope.$parent.totalItems = 25;
+                if ($scope.duration.getHours() === 0 && $scope.duration.getMinutes() === 0){
+                    //ngNotify.set('You should enter duration!');
+                    $scope.$parent.totalItems = 25;
+                    return;
+                }
+
+                if ($scope.toShowRepet === 'Weekly ') {
+                    for (var j = 0; j < $scope.datepickers.length; j++) {
+                        if ($scope.datepickers[j].toShowWeekDay === 'Select day of week ') {
+                            //ngNotify.set('You should select all week days!');
+                            $scope.$parent.totalItems = 25;
+                            return;
+                        }
+                    }
+                }
+                $scope.$parent.totalItems = 35;
+            };
+
+            $scope.trainingCreation = function(){
+                var trainingsRequests = [];
 
                 for (var i = 0; i < $scope.qDescr; i++){
                     var training = {};
 
                     /* Tags */
                     training.tags = $scope.selectedTags;
-
-                    training.continuous = continuous;
 
                     for (var k = 0; k < training.tags.length; k++){
                         training.tags[k] = training.tags[k].substring(1);
@@ -182,47 +249,14 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                         return;
                     }
 
-                    /* Type of training */
-                    if ($scope.toShowType !== 'Select type ') {
-                        training.type = !($scope.toShowType === 'Inner training ');
-                    }
-                    else {
-                        ngNotify.set('You should choose the type of your training!');
-                        return;
-                    }
+                    training.type = !($scope.toShowType === 'Inner training ');
+                    training.regular = ($scope.toShowRepet === 'Weekly ');
+                    training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
+                    training.continuous = continuous;
 
-                    /* Repetition frequency */
-                    if ($scope.toShowRepet !== 'Select repetition ') {
-                        training.regular = ($scope.toShowRepet === 'Weekly ');
-                    }
-                    else {
-                        ngNotify.set('You should choose the repetition of your training!');
-                        return;
-                    }
-
-                    if ($scope.toShowRepet === 'Weekly ' || $scope.toShowRepet === 'Continuous '){
-                        if ($scope.days === undefined || $scope.days.length === 0){
-                            ngNotify.set('You should enter quantity of days!');
-                            return;
-                        }
-                    }
-
-                    /* Training language */
-                    if ($scope.toShowLanguage !== 'Select language ') {
-                        training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
-                    }
-                    else {
-                        ngNotify.set('You should choose the language of your training!');
-                        return;
-                    }
 
                     /* Training name */
                     training.title = $scope.trainingName;
-
-                    if (training.title === undefined || training.title.length === 0){
-                        ngNotify.set('You should enter the name of your training!');
-                        return;
-                    }
 
                     if ($scope.toShowRepet === 'Continuous '){
                         training.title += (' #' + (i + 1));
@@ -230,11 +264,6 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
                     /* Training description */
                     training.description = $scope.descriptions[i].text;
-
-                    if (training.description === undefined || training.description.length === 0){
-                        ngNotify.set('You should enter the description of your training!');
-                        return;
-                    }
 
                     /* Training visitors */
                     training.visitors = $scope.guests;
@@ -245,12 +274,8 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                     }
 
                     /* Training duration */
-                    if ($scope.duration.getHours() != 0 || $scope.duration.getMinutes() != 0)
-                        training.duration = $scope.duration.getHours() * 60 + $scope.duration.getMinutes();
-                    else {
-                        ngNotify.set('You should enter duration!');
-                        return;
-                    }
+
+                    training.duration = $scope.duration.getHours() * 60 + $scope.duration.getMinutes();
 
                     /* Training dates */
                     training.days = '';
@@ -262,13 +287,7 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                         training.date = $scope.dateStartWeekly.getDate() + '.' + ($scope.dateStartWeekly.getMonth()+1) + '.' + $scope.dateStartWeekly.getFullYear();
                         training.end = $scope.dateEndWeekly.getDate() + '.' + ($scope.dateEndWeekly.getMonth()+1) + '.' + $scope.dateEndWeekly.getFullYear();
                         for (var j = 0; j < $scope.datepickers.length; j++){
-                            if ($scope.datepickers[j].toShowWeekDay !== 'Select day of week ') {
-                                training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
-                            }
-                            else {
-                                ngNotify.set('You should select all week days!');
-                                return;
-                            }
+                            training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
                             training.times.push($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
                             if ($scope.datepickers[j].room !== undefined && $scope.datepickers[j].room.length !== 0) {
                                 training.rooms.push($scope.datepickers[j].room);

@@ -3,6 +3,10 @@ textarea {
 	resize: none;
 }
 
+.select2-input.select2-default {
+    width: 100% !important;
+}
+
 #editBtn, #attendenceBtn, #addUserBtn {
 	margin-bottom: 7px;
 	margin-left: 2%;

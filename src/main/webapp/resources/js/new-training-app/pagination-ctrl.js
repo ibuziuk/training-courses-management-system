@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('newTrainingApp').controller('paginationCtrl', function ($scope) {
-  $scope.totalItems = 32;
+  window.scope = $scope;
+
+  $scope.totalItems = 5;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 1;
     

@@ -59,6 +59,14 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<EmployeeFeedback> employeeFeedbacks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
+    private Set<EmployeeFeedback> feedbacksAboutMe;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 
     public long getUserId() {
@@ -175,5 +183,21 @@ public class User {
     @Override
     public int hashCode() {
         return (int) (userId ^ (userId >>> 32));
+    }
+
+    public Set<EmployeeFeedback> getEmployeeFeedbacks() {
+        return employeeFeedbacks;
+    }
+
+    public void setEmployeeFeedbacks(Set<EmployeeFeedback> employeeFeedbacks) {
+        this.employeeFeedbacks = employeeFeedbacks;
+    }
+
+    public Set<EmployeeFeedback> getFeedbacksAboutMe() {
+        return feedbacksAboutMe;
+    }
+
+    public void setFeedbacksAboutMe(Set<EmployeeFeedback> feedbacksAboutMe) {
+        this.feedbacksAboutMe = feedbacksAboutMe;
     }
 }

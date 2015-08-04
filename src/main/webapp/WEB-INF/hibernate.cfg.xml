@@ -6,6 +6,7 @@
 <hibernate-configuration>
     <session-factory>
         <mapping class="org.exadel.training.model.Audience"/>
+        <mapping class="org.exadel.training.model.EmployeeFeedback"/>
         <mapping class="org.exadel.training.model.Language"/>
         <mapping class="org.exadel.training.model.RegularLesson"/>
         <mapping class="org.exadel.training.model.Role"/>

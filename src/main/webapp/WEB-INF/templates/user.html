@@ -62,7 +62,7 @@
 			<li class="active">
 				<a href="welcome.html" th:href="@{/welcome}">
 					<i class="fa fa-fw fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span sec:authentication="principal.firstName"></span>
 				</a>
 			</li>
 
@@ -74,8 +74,8 @@
 			</li>
 
 			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href="all-trainings.html">En</a></li>
-				<li><a class="lang" href="all-trainings.html">Ru</a></li>
+				<li><a class="lang" href="?language=en">En</a></li>
+				<li><a class="lang" href="?language=ru">Ru</a></li>
 			</ul>
 		</ul>
 

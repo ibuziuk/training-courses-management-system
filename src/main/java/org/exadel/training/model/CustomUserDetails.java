@@ -1,4 +1,4 @@
-package org.exadel.training.utils;
+package org.exadel.training.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

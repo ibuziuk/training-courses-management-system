@@ -20,4 +20,6 @@ public interface UserService {
     void removeUser(User user);
 
     List<User> getUsersByRole(String role);
+
+    List<User> searchUsers(int pageNumber, int pageSize, String searchType, String value);
 }

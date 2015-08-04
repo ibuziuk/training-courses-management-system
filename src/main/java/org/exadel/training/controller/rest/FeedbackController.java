@@ -4,7 +4,7 @@ import org.exadel.training.model.TrainingFeedback;
 import org.exadel.training.service.TrainingFeedbackService;
 import org.exadel.training.service.TrainingService;
 import org.exadel.training.service.UserService;
-import org.exadel.training.utils.CustomUserDetails;
+import org.exadel.training.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

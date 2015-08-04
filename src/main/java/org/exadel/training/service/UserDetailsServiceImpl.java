@@ -3,7 +3,7 @@ package org.exadel.training.service;
 import org.exadel.training.dao.UserDAO;
 import org.exadel.training.model.Role;
 import org.exadel.training.model.User;
-import org.exadel.training.utils.CustomUserDetails;
+import org.exadel.training.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

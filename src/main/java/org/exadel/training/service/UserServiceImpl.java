@@ -60,4 +60,21 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsersByRole(String role) {
         return userDAO.getUsersByRole(role);
     }
+
+    @Override
+    @Transactional
+    public List<User> searchUsers(int pageNumber, int pageSize, String searchType, String value) {
+        switch (searchType) {
+            case "name":
+                int splitNumber = value.lastIndexOf(' ');
+                return userDAO.searchUsersByName(pageNumber, pageSize, value.substring(0, splitNumber), value.substring(splitNumber + 1));
+            case "login":
+                return userDAO.searchUsersByLogin(pageNumber, pageSize, value);
+            case "email":
+                return userDAO.searchUsersByEmail(pageNumber, pageSize, value);
+            case "role":
+                return userDAO.searchUsersByRole(pageNumber, pageSize, value);
+        }
+        return null;
+    }
 }

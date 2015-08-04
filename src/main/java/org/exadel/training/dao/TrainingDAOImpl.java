@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TrainingDAOImpl implements TrainingDAO {
@@ -152,9 +153,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         List<Long> id = criteria.list();
         List<Training> result = new ArrayList<>(id.size());
-        for (long l : id) {
-            result.add(getTrainingById(l));
-        }
+        result.addAll(id.stream().map(this::getTrainingById).collect(Collectors.toList()));
         return result;
     }
 

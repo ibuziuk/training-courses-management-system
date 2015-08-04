@@ -4,6 +4,7 @@ import org.exadel.training.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -31,10 +33,10 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAllUsers(int pageNumber, int pageSize, String sortType, String order) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
                 .setFirstResult((pageNumber - 1) * pageSize)
+                .setProjection(Projections.distinct(Projections.property("userId")))
                 .setMaxResults(pageSize);
 
         if ("name".equals(sortType)) {
-
             if ("asc".equals(order)) {
                 criteria.addOrder(Order.asc("firstName"))
                         .addOrder(Order.asc("lastName"));
@@ -42,6 +44,16 @@ public class UserDAOImpl implements UserDAO {
                 criteria.addOrder(Order.desc("firstName"))
                         .addOrder(Order.desc("lastName"));
             }
+        }
+        if ("role".equals(sortType)) {
+            criteria.createAlias("roles", "role");
+            if ("asc".equals(order)) {
+                criteria.addOrder(Order.asc("role.role"));
+            } else {
+                criteria.addOrder(Order.desc("role.role"));
+            }
+            criteria.addOrder(Order.asc("firstName"))
+                    .addOrder(Order.asc("lastName"));
         } else {
             if ("asc".equals(order)) {
                 criteria.addOrder(Order.asc(sortType));
@@ -50,7 +62,10 @@ public class UserDAOImpl implements UserDAO {
             }
         }
 
-        return criteria.list();
+        List<Long> list = criteria.list();
+        List<User> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
+        return users;
     }
 
     @SuppressWarnings("unchecked")
@@ -105,5 +120,64 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getUsersByRole(String role) {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("SELECT DISTINCT user FROM User user JOIN user.roles role WHERE role.role = :role").setParameter("role", role).list());
         return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setProjection(Projections.distinct(Projections.property("userId")))
+                .setMaxResults(pageSize)
+                .add(Restrictions.like("firstName", "%" + firstName + "%"))
+                .add(Restrictions.like("lastName", "%" + lastName + "%"));
+        List<Long> list = criteria.list();
+        List<User> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
+        return users;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> searchUsersByLogin(int pageNumber, int pageSize, String login) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setProjection(Projections.distinct(Projections.property("userId")))
+                .setMaxResults(pageSize)
+                .add(Restrictions.like("login", "%" + login + "%"));
+        List<Long> list = criteria.list();
+        List<User> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
+        return users;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> searchUsersByEmail(int pageNumber, int pageSize, String email) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setProjection(Projections.distinct(Projections.property("userId")))
+                .setMaxResults(pageSize)
+                .add(Restrictions.like("email", "%" + email + "%"));
+        List<Long> list = criteria.list();
+        List<User> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
+        return users;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> searchUsersByRole(int pageNumber, int pageSize, String role) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setProjection(Projections.distinct(Projections.property("userId")))
+                .setMaxResults(pageSize)
+                .createAlias("roles", "role")
+                .add(Restrictions.like("role.role", "%" + role + "%"));
+        List<Long> list = criteria.list();
+        List<User> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
+        return users;
     }
 }

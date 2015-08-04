@@ -110,7 +110,7 @@
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
-					<a href="new-trainer.html" th:href="@{/trainer/new}">
+					<a href="new-trainer.html" th:href="@{/user/external/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>

@@ -34,6 +34,11 @@ public class UserController {
         return "users";
     }
 
+    @RequestMapping(value = "/external/new", method = RequestMethod.GET)
+    public String newExternal() {
+        return "new-trainer";
+    }
+
     @RequestMapping(value = "/external/new", method = RequestMethod.POST)
     public String addExternal(@ModelAttribute("user") User external, BindingResult result, Map<String, Object> map, HttpSession session) {
         if (result.hasErrors()) {

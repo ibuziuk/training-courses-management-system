@@ -27,7 +27,8 @@
 	<link href="../../resources/vendors/css/ng-table.min.css" th:href="@{/resources/vendors/css/ng-table.min.css}"/>
 
 	<!-- jQuery -->
-	<script src="../../resources/vendors/js/jquery-2.1.4.min.js" th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
+	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
+	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
 
 	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
 
@@ -113,7 +114,7 @@
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
-					<a href="new-trainer.html" th:href="@{/trainer/new}">
+					<a href="new-trainer.html" th:href="@{/user/external/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>

@@ -9,10 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -123,60 +120,75 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName) {
+    public Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
-                .setFirstResult((pageNumber - 1) * pageSize)
                 .setProjection(Projections.distinct(Projections.property("userId")))
-                .setMaxResults(pageSize)
                 .add(Restrictions.like("firstName", "%" + firstName + "%"))
                 .add(Restrictions.like("lastName", "%" + lastName + "%"));
+        int size = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
         List<Long> list = criteria.list();
         List<User> users = new ArrayList<>(list.size());
         users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
-        return users;
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("users", users);
+        result.put("size", size);
+        return result;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> searchUsersByLogin(int pageNumber, int pageSize, String login) {
+    public Map<String, Object> searchUsersByLogin(int pageNumber, int pageSize, String login) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
-                .setFirstResult((pageNumber - 1) * pageSize)
                 .setProjection(Projections.distinct(Projections.property("userId")))
-                .setMaxResults(pageSize)
                 .add(Restrictions.like("login", "%" + login + "%"));
+        int size = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
         List<Long> list = criteria.list();
         List<User> users = new ArrayList<>(list.size());
         users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
-        return users;
-
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("users", users);
+        result.put("size", size);
+        return result;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> searchUsersByEmail(int pageNumber, int pageSize, String email) {
+    public Map<String, Object> searchUsersByEmail(int pageNumber, int pageSize, String email) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
-                .setFirstResult((pageNumber - 1) * pageSize)
                 .setProjection(Projections.distinct(Projections.property("userId")))
-                .setMaxResults(pageSize)
                 .add(Restrictions.like("email", "%" + email + "%"));
+        int size = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
         List<Long> list = criteria.list();
         List<User> users = new ArrayList<>(list.size());
         users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
-        return users;
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("users", users);
+        result.put("size", size);
+        return result;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> searchUsersByRole(int pageNumber, int pageSize, String role) {
+    public Map<String, Object> searchUsersByRole(int pageNumber, int pageSize, String role) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
-                .setFirstResult((pageNumber - 1) * pageSize)
                 .setProjection(Projections.distinct(Projections.property("userId")))
-                .setMaxResults(pageSize)
                 .createAlias("roles", "role")
                 .add(Restrictions.like("role.role", "%" + role + "%"));
+        int size = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
         List<Long> list = criteria.list();
         List<User> users = new ArrayList<>(list.size());
         users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
-        return users;
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("users", users);
+        result.put("size", size);
+        return result;
     }
 }

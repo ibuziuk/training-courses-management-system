@@ -4,7 +4,7 @@ textarea {
 }
 
 .select2-input.select2-default {
-    width: 100% !important;
+	width: 100% !important;
 }
 
 #editBtn, #attendenceBtn, #addUserBtn {
@@ -541,75 +541,16 @@ div.color-info > p > span.event {
 	background-color: #713ec3;
 }
 
-th.sortable.sort-desc,
-th.sortable.sort-asc {
-	background-color: rgba(141, 192, 219, 0.25);
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+.nav-tabs > li > a {
+	background-color: #E4EDF2;
 }
 
-th.sortable .sort-indicator {
-	padding-right: 18px;
-	position: relative;
+.nav > li > a:hover,
+.nav > li > a:focus {
+	text-decoration: none;
+	background-color: #3D6178;
 }
 
-th.sortable .sort-indicator:after,
-th.sortable .sort-indicator:before {
-	content: "";
-	border-width: 0 4px 4px;
-	border-style: solid;
-	border-color: #000 transparent;
-	visibility: visible;
-	right: 5px;
-	top: 50%;
-	position: absolute;
-	opacity: .3;
-	margin-top: -4px;
-}
-
-th.sortable .sort-indicator:before {
-	margin-top: 2px;
-	border-bottom: none;
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
-	border-top: 4px solid #000;
-}
-
-th.sortable .sort-indicator:hover:after,
-th.sortable .sort-indicator:hover:before {
-	opacity: 1;
-	visibility: visible;
-}
-
-th.sortable.sort-desc .sort-indicator:after,
-th.sortable.sort-asc .sort-indicator:after {
-	margin-top: -2px;
-}
-
-th.sortable.sort-desc .sort-indicator:before,
-th.sortable.sort-asc .sort-indicator:before {
-	visibility: hidden;
-}
-
-th.sortable.sort-asc .sort-indicator:after,
-th.sortable.sort-asc .sort-indicator:hover:after {
-	visibility: visible;
-	filter: alpha(opacity=60);
-	-khtml-opacity: 0.6;
-	-moz-opacity: 0.6;
-	opacity: 0.6;
-}
-
-th.sortable.sort-desc .sort-indicator:after {
-	border-bottom: none;
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
-	border-top: 4px solid #000;
-	visibility: visible;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	filter: alpha(opacity=60);
-	-khtml-opacity: 0.6;
-	-moz-opacity: 0.6;
-	opacity: 0.6;
+.ng-table th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
+	background-color: #E4EDF2;
 }

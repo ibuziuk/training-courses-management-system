@@ -27,7 +27,8 @@
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
 	<!-- ng-table CSS -->
-	<link href="../../resources/vendors/css/ng-table.min.css" th:href="@{/resources/vendors/css/ng-table.min.css}"/>
+	<link href="../../resources/vendors/css/ng-table.min.css" th:href="@{/resources/vendors/css/ng-table.min.css}"
+	      rel="stylesheet" type="text/css"/>
 
 	<!-- jQuery -->
 	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
@@ -39,7 +40,7 @@
 	<script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
 
 	<!-- Angular -->
-	<script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+	<script src="../../resources/vendors/js/angular.min.js" th:src="@{/resources/vendors/js/angular.min.js}"></script>
 	<script src="../../resources/vendors/js/moment.js" th:src="@{/resources/vendors/js/moment.js}"></script>
 	<script src="../../resources/vendors/js/ng-table.min.js" th:src="@{/resources/vendors/js/ng-table.min.js}"></script>
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
@@ -97,7 +98,7 @@
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class="collapse navbar-collapse">
+		<div class="collapse navbar-collapse" collapse="isCollapsed">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
@@ -166,29 +167,27 @@
 					<!-- Future trainings -->
 					<div class="tab-pane fade in active" id="fut" ng-controller="futureController">
 						<!-- Search row -->
-						<div class="search-row row">
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">
-								<select class="form-control" ng-model="type">
-									<option th:text="#{label.search.byTitle}" value="title">By training title</option>
-									<option th:text="#{label.search.byDate}" value="date">By date</option>
-									<option th:text="#{label.search.byTime}" value="time">By time</option>
-									<option th:text="#{label.search.byLocation}" value="location">By location</option>
-									<option th:text="#{label.search.byTrainer}" value="trainerName">By trainer name
+						<div class="row search-row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
+							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
+								<select class="form-control" ng-model="defaultConfig.searching.type">
+									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
+									<option value="date" th:text="#{label.search.byDate}">By date</option>
+									<option value="time" th:text="#{label.search.byTime}">By time</option>
+									<option value="location" th:text="#{label.search.byLocation}">By location</option>
+									<option value="trainerName" th:text="#{label.search.byTrainer}">By trainer name
 									</option>
-									<option th:text="#{label.search.byTags}" value="tags">By tags</option>
+									<option value="tags" th:text="#{label.search.byTags}">By tags</option>
 								</select>
 							</div>
-							<div class="col-lg-9 col-md-9 col+-sm-9 col-xs-9">
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 								<div class="input-group">
-									<input type="text" class="form-control" ng-model="futureRequest"
+									<input type="text" class="form-control" ng-model="defaultConfig.searching.value"
+									       ng-model-options="{ debounce: 500 }"
 									       placeholder="Type here"
 									       th:placeholder="#{label.typeHere}"/>
-                                    	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}"
-									                ng-click="onSearchButtonClick()">
-										        Search
-									        </button>
-      									</span>
+
+									<div class="input-group-addon"><i class="fa fa-search"></i></div>
 								</div>
 							</div>
 						</div>
@@ -197,28 +196,15 @@
 						<!-- Trainings -->
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-								<!--<thead>-->
-								<!--<tr>-->
-								<!--<th th:text="#{label.title}">Title</th>-->
-								<!--<th th:text="#{label.date}">Date</th>-->
-								<!--<th th:text="#{label.time}">Time</th>-->
-								<!--<th th:text="#{label.location}">Location</th>-->
-								<!--<th th:text="#{label.trainerName}">Trainer name</th>-->
-								<!--<th><span th:text="#{label.places}">Places</span> <span-->
-								<!--th:text="#{label.occupied}">free</span>/<span-->
-								<!--th:text="#{label.all}">all</span></th>-->
-								<!--<th th:text="#{label.tags}">Tags</th>-->
-								<!--</tr>-->
-								<!--</thead>-->
-
 								<div class="table-responsive">
 									<table class="table table-bordered table-striped table-hover"
 									       ng-table="tableParams">
 										<tbody>
 										<tr ng-repeat="training in $data" ng-class="{'danger': !training.approved}"
 										    title="{{{true: 'approved', false: 'not approved'}[training.approved]}}">
-											<td data-title="'Title'" sortable="'title'">{{training.title}}</td>
+											<td data-title="'Title'" sortable="'title'">
+												<a target="_blank" ng-href="{{training.url}}">{{training.title}}</a>
+											</td>
 											<td data-title="'Date'" sortable="'date'">{{training.date}}</td>
 											<td data-title="'Time'" sortable="'time'">{{training.time}}</td>
 											<td data-title="'Location'" sortable="'location'">{{training.location}}</td>
@@ -246,28 +232,30 @@
 					<div class="tab-pane fade" id="rec">
 						<!-- Search row -->
 						<div class="row search-row">
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">
-								<select class="form-control">
-									<option th:text="#{label.search.byTitle}">By training title</option>
-									<option th:text="#{label.search.byTrainer}">By trainer name</option>
-									<option th:text="#{label.search.byTags}">By tags</option>
-									<option th:text="#{label.search.byDate}">By date</option>
-									<option>...</option>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
+							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
+								<select class="form-control" ng-model="defaultConfig.searching.type">
+									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
+									<option value="date" th:text="#{label.search.byDate}">By date</option>
+									<option value="time" th:text="#{label.search.byTime}">By time</option>
+									<option value="location" th:text="#{label.search.byLocation}">By location</option>
+									<option value="trainerName" th:text="#{label.search.byTrainer}">By trainer name
+									</option>
+									<option value="tags" th:text="#{label.search.byTags}">By tags</option>
 								</select>
 							</div>
 							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Type here"
+									<input type="text" class="form-control" ng-model="defaultConfig.searching.value"
+									       ng-model-options="{ debounce: 500 }"
+									       placeholder="Type here"
 									       th:placeholder="#{label.typeHere}"/>
-                                    	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}">
-										        Search
-									        </button>
-      									</span>
+
+									<div class="input-group-addon"><i class="fa fa-search"></i></div>
 								</div>
 							</div>
 						</div>
-						<!-- /Search row -->
+						<!-- /.row -->
 
 						<!-- Tags row -->
 						<div class="row">
@@ -293,54 +281,25 @@
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="table-responsive">
-									<table class="table table-bordered table-striped table-hover ">
-										<thead>
-										<tr>
-											<th th:text="#{label.title}">Title</th>
-											<th th:text="#{label.date}">Date</th>
-											<th th:text="#{label.time}">Time</th>
-											<th th:text="#{label.location}">Location</th>
-											<th th:text="#{label.trainerName}">Trainer name</th>
-											<th><span th:text="#{label.places}">Places</span> <span
-													th:text="#{label.occupied}">free</span>/<span
-													th:text="#{label.all}">all</span></th>
-											<th th:text="#{label.tags}">Tags</th>
+									<table class="table table-bordered table-striped table-hover"
+									       ng-table="tableParams">
+										<tr ng-repeat="training in $data" ng-class="{'danger': !training.approved}"
+										    title="{{{true: 'approved', false: 'not approved'}[training.approved]}}">
+											<td data-title="'Title'" sortable="'title'">{{training.title}}</td>
+											<td data-title="'Date'" sortable="'date'">{{training.date}}</td>
+											<td data-title="'Time'" sortable="'time'">{{training.time}}</td>
+											<td data-title="'Location'" sortable="'location'">{{training.location}}</td>
+											<td data-title="'Trainer name'" sortable="'trainerName'">
+												{{training.trainerName}}
+											</td>
+											<td data-title="'Places occupied/all'" sortable="'maxVisitorsCount'">
+												{{training.places}}
+											</td>
+											<td data-title="'Tags'">
+												<span ng-repeat="tag in training.tags"
+												      class="label tags label-{{tag.color}}">{{tag.title}}</span>
+											</td>
 										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<td>Item 1</td>
-											<td>Item 2</td>
-											<td>Item 3</td>
-											<td>Item 4</td>
-											<td>Item 5</td>
-											<td><span class="label label-info tags">#tag</span></td>
-										</tr>
-										<tr>
-											<td>Item 1</td>
-											<td>Item 2</td>
-											<td>Item 3</td>
-											<td>Item 4</td>
-											<td>Item 5</td>
-											<td><span class="label label-default tags">#tag</span></td>
-										</tr>
-										<tr>
-											<td>Item 1</td>
-											<td>Item 2</td>
-											<td>Item 3</td>
-											<td>Item 4</td>
-											<td>Item 5</td>
-											<td><span class="label label-success tags">#tag</span></td>
-										</tr>
-										<tr>
-											<td>Item 1</td>
-											<td>Item 2</td>
-											<td>Item 3</td>
-											<td>Item 4</td>
-											<td>Item 5</td>
-											<td><span class="label label-warning tags">#tag</span></td>
-										</tr>
-										</tbody>
 									</table>
 								</div>
 							</div>
@@ -352,29 +311,27 @@
 					<!-- History -->
 					<div class="tab-pane fade" id="hist" ng-controller="historyController">
 						<!-- Search row -->
-						<div class="search-row row">
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">
-								<select class="form-control" ng-model="type">
-									<option th:text="#{label.search.byTitle}" value="title">By training title</option>
-									<option th:text="#{label.search.byDate}" value="date">By date</option>
-									<option th:text="#{label.search.byTime}" value="time">By time</option>
-									<option th:text="#{label.search.byLocation}" value="location">By location</option>
-									<option th:text="#{label.search.byTrainer}" value="trainerName">By trainer name
+						<div class="row search-row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
+							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
+								<select class="form-control" ng-model="defaultConfig.searching.type">
+									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
+									<option value="date" th:text="#{label.search.byDate}">By date</option>
+									<option value="time" th:text="#{label.search.byTime}">By time</option>
+									<option value="location" th:text="#{label.search.byLocation}">By location</option>
+									<option value="trainerName" th:text="#{label.search.byTrainer}">By trainer name
 									</option>
-									<option th:text="#{label.search.byTags}" value="tags">By tags</option>
+									<option value="tags" th:text="#{label.search.byTags}">By tags</option>
 								</select>
 							</div>
-							<div class="col-lg-9 col-md-9 col+-sm-9 col-xs-9">
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 								<div class="input-group">
-									<input type="text" class="form-control" ng-model="historyRequest"
+									<input type="text" class="form-control" ng-model="defaultConfig.searching.value"
+									       ng-model-options="{ debounce: 500 }"
 									       placeholder="Type here"
 									       th:placeholder="#{label.typeHere}"/>
-                                    	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}"
-									                ng-click="onSearchButtonClick()">
-										        Search
-									        </button>
-      									</span>
+
+									<div class="input-group-addon"><i class="fa fa-search"></i></div>
 								</div>
 							</div>
 						</div>

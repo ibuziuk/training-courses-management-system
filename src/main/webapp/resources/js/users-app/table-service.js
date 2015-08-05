@@ -43,8 +43,21 @@ angular.module('table')
 				return url + '?' + ret.join("&");
 			};
 
-			service.get = function (url, config) {
+			service.createSearchUrl = function (url, config) {
+				var ret = [];
+				ret.push('pageNumber=' + config.page);
+				ret.push('pageSize=' + config.count);
+				ret.push('searchType=' + config.searching.type);
+				ret.push('value=' + config.searching.value);
+				return url + '?' + ret.join("&");
+			};
+
+			service.getAll = function (url, config) {
 				return $http.get(service.createUrl(url, config))
+			};
+
+			service.getSearch = function (url, config) {
+				return $http.get(service.createSearchUrl(url, config))
 			};
 
 			return service;

@@ -3,7 +3,7 @@
 angular.module('tabsServices', [])
 		.factory('tableService', ['$http', function ($http) {
 			var service = {},
-					event = function (title, date, time, regular, location, trainerName, placesOccupied, placesAll, tags, approved) {
+					event = function (title, date, time, regular, location, trainerName, placesOccupied, placesAll, tags, approved, trainingId) {
 						return {
 							title: title,
 							date: date,
@@ -13,7 +13,8 @@ angular.module('tabsServices', [])
 							trainerName: trainerName,
 							places: placesOccupied + '/' + placesAll,
 							tags: tags,
-							approved: approved
+							approved: approved,
+							url: 'training/' + trainingId
 						};
 					},
 					tag = function (title, color) {
@@ -43,7 +44,8 @@ angular.module('tabsServices', [])
 								data.list[i].visitors.length,
 								data.list[i].maxVisitorsCount,
 								tags,
-								data.list[i].approved));
+								data.list[i].approved,
+								data.list[i].trainingId));
 					} else {
 						events.push(event(data.list[i].title,
 								data.list[i].dateOnString,
@@ -54,7 +56,8 @@ angular.module('tabsServices', [])
 								data.list[i].visitors.length,
 								data.list[i].maxVisitorsCount,
 								tags,
-								data.list[i].approved));
+								data.list[i].approved,
+								data.list[i].trainingId));
 					}
 
 					tags = [];
@@ -77,8 +80,21 @@ angular.module('tabsServices', [])
 				return url + '?' + ret.join("&");
 			};
 
+			service.createSearchUrl = function (url, config) {
+				var ret = [];
+				ret.push('pageNumber=' + config.page);
+				ret.push('pageSize=' + config.count);
+				ret.push('searchType=' + config.searching.type);
+				ret.push('value=' + config.searching.value);
+				return url + '?' + ret.join("&");
+			};
+
 			service.get = function (url, config) {
 				return $http.get(service.createUrl(url, config))
+			};
+
+			service.getSearch = function (url, config) {
+				return $http.get(service.createSearchUrl(url, config))
 			};
 
 			return service;

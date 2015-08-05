@@ -15,12 +15,9 @@
 
 	<title th:text="#{users.page.title}">Users</title>
 
-	<!-- Ng-Table CSS -->
-	<!--<script src="../../resources/vendors/css/ng-table.css" th:src="@{/resources/vendors/css/ng-table.css}"></script>-->
-
 	<!-- Bootstrap Core CSS -->
 	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
-	      rel="stylesheet"/>
+	      rel="stylesheet" type="text/css"/>
 
 	<!-- Custom CSS -->
 	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
@@ -28,6 +25,10 @@
 	<!-- Custom Fonts -->
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+
+	<!-- Ng-Table CSS -->
+	<link href="../../resources/vendors/css/ng-table.css" th:href="@{/resources/vendors/css/ng-table.css}"
+	      rel="stylesheet"/>
 
 	<!-- jQuery -->
 	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
@@ -39,7 +40,7 @@
 	<script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
 
 	<!-- Angular -->
-	<script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
+	<script src="../../resources/vendors/js/angular.min.js" th:src="@{/resources/vendors/js/angular.min.js}"></script>
 	<script src="../../resources/vendors/js/ng-table.min.js" th:src="@{/resources/vendors/js/ng-table.min.js}"></script>
 	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
 	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
@@ -148,55 +149,52 @@
 			<!-- /Page Heading -->
 
 			<!-- Main panel -->
-			<div class="panel panel-default panel-body">
-				<!-- Container-fluid -->
-				<div class="container-fluid">
-					<!-- Search row -->
-					<div class="row search-row">
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="search-select">
-							<select class="form-control">
-								<option th:text="#{label.search.byName}">By name</option>
-								<option th:text="#{label.search.byLogin}">By login</option>
-								<option th:text="#{label.search.byEmail}">By email</option>
-								<option th:text="#{label.search.byRole}">By role</option>
-							</select>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Type here"
-								       th:placeholder="#{label.typeHere}"/>
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="button" th:text="#{label.search}">Search
-										</button>
-									</span>
-							</div>
-						</div>
+			<div class="panel panel-default panel-body" ng-controller="tableController">
+				<!-- Search row -->
+				<div class="row search-row">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
+					     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'name'">
+						<select class="form-control" ng-model="defaultConfig.searching.type">
+							<option value="name" th:text="#{label.search.byName}">By name</option>
+							<option value="login" th:text="#{label.search.byLogin}">By login</option>
+							<option value="email" th:text="#{label.search.byEmail}">By email</option>
+							<option value="role" th:text="#{label.search.byRole}">By role</option>
+						</select>
 					</div>
-					<!-- /.row -->
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+						<div class="input-group">
+							<input type="text" class="form-control" ng-model="defaultConfig.searching.value"
+							       ng-model-options="{ debounce: 500 }"
+							       placeholder="Type here"
+							       th:placeholder="#{label.typeHere}"/>
 
-					<!-- Users -->
-					<div class="row" ng-controller="tableController">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="table-responsive">
-								<table class="table table-bordered table-striped table-hover table-condensed"
-								       ng-table="tableParams">
-									<tbody>
-									<tr ng-repeat="user in $data">
-										<td data-title="'Name'" sortable="'name'">{{user.name}}</td>
-										<td data-title="'Login'" sortable="'login'">
-											<a target="_blank" ng-href="{{user.url}}">{{user.login}}</a>
-										</td>
-										<td data-title="'email'" sortable="'email'">{{user.email}}</td>
-										<td data-title="'Role'" sortable="'role'">{{user.role}}</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
+							<div class="input-group-addon"><i class="fa fa-search"></i></div>
 						</div>
 					</div>
-					<!-- /Users -->
 				</div>
-				<!-- /.container-fluid -->
+				<!-- /.row -->
+
+				<!-- Users -->
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover table-condensed"
+							       ng-table="tableParams">
+								<tbody>
+								<tr ng-repeat="user in $data">
+									<td data-title="'Name'" sortable="'name'">{{user.name}}</td>
+									<td data-title="'Login'" sortable="'login'">
+										<a target="_blank" ng-href="{{user.url}}">{{user.login}}</a>
+									</td>
+									<td data-title="'email'" sortable="'email'">{{user.email}}</td>
+									<td data-title="'Role'" sortable="'role'">{{user.role}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- /Users -->
 			</div>
 			<!-- /Main panel -->
 		</div>

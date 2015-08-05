@@ -3,6 +3,7 @@ package org.exadel.training.dao;
 import org.exadel.training.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserDAO {
     List<User> getAllUsers();
@@ -23,11 +24,11 @@ public interface UserDAO {
 
     List<User> getUsersByRole(String role);
 
-    List<User> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName);
+    Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName);
 
-    List<User> searchUsersByLogin(int pageNumber, int pageSize, String login);
+    Map<String, Object> searchUsersByLogin(int pageNumber, int pageSize, String login);
 
-    List<User> searchUsersByEmail(int pageNumber, int pageSize, String email);
+    Map<String, Object> searchUsersByEmail(int pageNumber, int pageSize, String email);
 
-    List<User> searchUsersByRole(int pageNumber, int pageSize, String role);
+    Map<String, Object> searchUsersByRole(int pageNumber, int pageSize, String role);
 }

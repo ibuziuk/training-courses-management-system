@@ -252,7 +252,7 @@
 								<div class="form-group">
 									<label>Training description #{{$index + 1}}*</label>
 
-									<p>Some sentenses about your training</p>
+									<p>Some sentences about your training</p>
 									<textarea style="width: 400px;" class="form-control" rows="5"
 									          placeholder="Key concepts"
 									          ng-model="description.text" ng-change="step2();"></textarea>
@@ -260,9 +260,7 @@
 							</div>
 						</div>
 
-						<div align="center" id="step3"
-						     ng-class="{'col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3': toShowRepet == 'Weekly '}"
-						     ng-show="(currentPage == 3)">
+						<div align="center" id="step3" ng-show="(currentPage == 3)">
 							<div>
 								<label>Training duration *</label>
 								<timepicker ng-model="duration" ng-change="step3()" hour-step="hstep"
@@ -273,19 +271,26 @@
 								<div style="display:inline-block; min-height:290px;">
 									<div ng-show="toShowRepet == 'Weekly '">
 										<div align="center" class="row">
-											<label>Choose day of start *</label>
-											<datepicker ng-model="dateStartWeekly" min-date="minDate" show-weeks="true"
-											            class="well well-sm" custom-class="getDayClass(date, mode)"
-											            starting-day="1"></datepicker>
-											<br/>
-											<label>Choose day of end *</label>
-											<datepicker ng-model="dateEndWeekly" min-date="minDate" show-weeks="true"
-											            class="well well-sm" custom-class="getDayClass(date, mode)"
-											            starting-day="1"></datepicker>
+											<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+												<label>Choose day of start *</label>
+												<datepicker ng-model="dateStartWeekly" min-date="minDate"
+												            show-weeks="true"
+												            class="well well-sm" custom-class="getDayClass(date, mode)"
+												            starting-day="1"></datepicker>
+
+											</div>
+											<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+												<label>Choose day of end *</label>
+												<datepicker ng-model="dateEndWeekly" min-date="minDate"
+												            show-weeks="true"
+												            class="well well-sm" custom-class="getDayClass(date, mode)"
+												            starting-day="1"></datepicker>
+											</div>
 										</div>
 										<hr/>
 									</div>
-									<div ng-repeat="datepicker in datepickers">
+									<div ng-class="{'col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3': toShowRepet == 'Weekly '}"
+									     ng-repeat="datepicker in datepickers">
 										<div class="row">
 											<div ng-class="{'col-lg-8 col-md-8 col-sm-8 col-xs-8': toShowRepet == 'Continuous ' || toShowRepet == 'One-off '}">
 												<div ng-show="toShowRepet == 'One-off ' || toShowRepet == 'Continuous '">
@@ -305,6 +310,7 @@
 													     ng-show="toShowRepet == 'Weekly '">
 														<label>Choose day of week for training #{{$index+1}}*</label>
 														<br/>
+
 														<button style="margin-left:45px" type="button"
 														        class="btn btn-center btn-primary dropdown-toggle"
 														        dropdown-toggle="">
@@ -370,21 +376,27 @@
 						<div align="center" id="step4" ng-show="(currentPage == 4)">
 							<label>Tags *</label>
 							<br/>
-							<select ui-select2="select2Options" ng-model="selectedTags" multiple="multiple"
-							        data-placeholder='Choose at list one tag'>
-								<option ng-repeat="tag in checkboxTags" value="{{tag.id}}">{{tag.name}}</option>
-							</select>
+
+							<div class="select2-custom">
+								<select style="width: 400px" class="select2-new-training" ui-select2="select2Options"
+								        ng-model="selectedTags" multiple="multiple" data-placeholder='Tags'>
+									<option ng-repeat="tag in checkboxTags" value="{{tag.id}}">{{tag.name}}</option>
+								</select>
+							</div>
 
 							<br/><br/>
 
 							<label>Audience for your training *</label>
 							<br/>
-							<select ui-select2="select2Options" ng-model="selectedAudiences" multiple="multiple"
-							        data-placeholder='Choose the audience'>
-								<option ng-repeat="audience in checkboxAudiences" value="{{audience.id}}">
-									{{audience.value}}
-								</option>
-							</select>
+
+							<div class="select2-custom">
+								<select style="width: 400px" class="select2-new-training" ui-select2="select2Options"
+								        ng-model="selectedAudiences" multiple="multiple" data-placeholder='Audience'>
+									<option ng-repeat="audience in checkboxAudiences" value="{{audience.id}}">
+										{{audience.value}}
+									</option>
+								</select>
+							</div>
 
 							<br/><br/>
 

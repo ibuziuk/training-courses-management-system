@@ -150,41 +150,176 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<h1 class="page-header">Training page</h1>
 
-					<h2 style="display: inline-block; padding-left: 19px">{{training.title}}</h2>
-					<a href="" ng-show="isAdmin || training.register == 2"><i class="fa fa-fw fa-pencil"></i></a>
-					<button ng-show="(training.register == 3)" id="registerBtn" class="btn btn-success" type="button"
-					        ng-click="trainingReg(true)">
-						<i class="fa fa-fw fa-plus"></i> Register
-					</button>
-					<button ng-show="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
-					        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
-						<i class="fa fa-fw fa-times"></i> Unregister
-					</button>
+
+					<!--
+
 					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
 					        type="button">
 						<i class="fa fa-fw fa-book"></i> Attendence book
 					</button>
 					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
-					</button>
+					</button>-->
 				</div>
 			</div>
 			<!-- /Page Heading -->
 
-			<div class="row" style="padding-left:19px">
+			<div class="row">
+				<div class="col-xs-4">
+					<div>
+						<img class="training-img img-rounded" src="../../resources/vendors/pics/{{imgNum}}.jpg"
+						     th:src="@{/resources/vendors/pics/{{imgNum}}.jpg}"/>
+						<h4 ng-if="isAdmin || training.register == 2" ng-style="{color:approveColor}">
+							{{approveText}}
+						</h4>
+
+						<h4 ng-if="training.register != 2" ng-style="{color:registerColor}">
+							{{registerText}}
+						</h4>
+
+						<button ng-if="(training.register == 3) &#38;&#38; isApproved" id="registerBtn"
+						        class="btn btn-success" type="button"
+						        ng-click="trainingReg(true)">
+							<i class="fa fa-fw fa-plus"></i> Register
+						</button>
+
+						<button ng-if="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
+						        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
+							<i class="fa fa-fw fa-times"></i> Unregister
+							<br/>
+						</button>
+
+						<rating ng-model="training.genRate" max="max" readonly="true"></rating>
+						<span class="label"
+						      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
+						<span ng-show="toShowNoRatings"> (No ratings are left) </span>
+					</div>
+				</div>
+				<div class="col-xs-8">
+					<label style="font-size: 20px;">{{training.title}}&nbsp;</label>
+					<button style="padding-left: 2px;" class="btn btn-primary"
+					        ng-show="isAdmin || training.register == 2">
+						<i class="fa fa-fw fa-pencil"></i> Edit
+					</button>
+					<hr/>
+
+					<div class="row col-wrap">
+						<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-trainer">
+							<a class="href-square" href="{{trainerLink}}">
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										Trainer
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<i class="fa fa-user fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										{{training.trainerName}}
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-language">
+							<a class="href-square" href="">
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										Language
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<i class="fa fa-flag-o fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										{{training.language}}
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar">
+							<a class="href-square" href="">
+								<div class="row">
+									<div ng-show="training.regular" class="col-xs-12 square-font">
+										Date of start
+									</div>
+									<div ng-show="!training.regular" class="col-xs-12 square-font">
+										Date
+									</div>
+								</div>
+								<div class="row">
+									<div ng-show="training.regular" class="col-xs-12">
+										<i class="fa fa-calendar-check-o fa-3x"></i>
+									</div>
+									<div ng-show="!training.regular" class="col-xs-12">
+										<i class="fa fa-calendar fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div ng-show="training.regular" class="col-xs-12 square-font">
+										{{training.start}}
+									</div>
+									<div ng-show="!training.regular" class="col-xs-12 square-font">
+										{{training.date}}
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div ng-show="training.regular" align="center"
+						     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar-end">
+							<a class="href-square" href="">
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										Date of end
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<i class="fa fa-calendar-times-o fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										{{training.end}}
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div ng-show="!training.regular" align="center"
+						     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar-end">
+							<a class="href-square" href="">
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										Time
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<i class="fa fa-clock-o fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										{{training.time}}
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-					<h4 ng-show="isAdmin || training.register==2" ng-style="{color:approveColor}">
-						{{approveText}}
-					</h4>
-
-					<h4 ng-show="training.register &#33;= 2" ng-style="{color:registerColor}">
-						{{registerText}}
-					</h4>
-
-					<rating ng-model="training.genRate" max="max" readonly="true"></rating>
-					<span class="label"
-					      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
-					<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
 					<h4>
 						<label>Tags: </label>
@@ -200,28 +335,7 @@
 						</span>
 					</h4>
 
-					<h4>
-						<label>Language: </label>
-						<span>
-							{{training.language}}
-						</span>
-					</h4>
-
-					<h4>
-						<label>
-							Trainer: <a href="#"><i class="fa fa-fw fa-user"></i>{{training.trainerName}}</a>
-						</label>
-					</h4>
-
-					<h4 ng-show="!training.regular">
-						<label>Date:&nbsp;</label>{{training.date}}&nbsp;<label>Time:&nbsp;</label>{{training.time}}
-					</h4>
-
 					<div ng-show="training.regular">
-						<h4>
-							<label>Date of start:&nbsp;</label>{{training.start}}
-						</h4>
-
 						<div ng-repeat="day in training.days">
 							<h4>
 								<label>Day #{{$index+1}}: </label>
@@ -270,7 +384,7 @@
 			<!-- TODO: file upload -->
 			<hr/>
 
-			<accordion ng-show="&#33;vote &#38;&#38; openFeed" close-others="oneAtATime" style="padding-left:19px">
+			<accordion ng-show="&#33;vote &#38;&#38; openFeed" close-others="oneAtATime">
 				<accordion-group is-open="status.open">
 					<accordion-heading>
 						<div style="font-size:1.17em;">Leave an anonymous opinion
@@ -471,7 +585,7 @@
 			</table>
 
 			<hr/>
-			<div ng-show="isAdmin || training.register == 2" class="row" style="padding-left:19px">
+			<div ng-show="isAdmin || training.register == 2" class="row">
 				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 					<h3>Feedbacks</h3>
 

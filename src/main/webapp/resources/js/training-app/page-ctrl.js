@@ -11,6 +11,12 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		html: false
 	});
 
+	var getRandomInt = function(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	$scope.imgNum = getRandomInt(5, 26);
+
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
 	var intelligibilities = ['Everything was clear ', 'Nothing was clear ', 'Something wasn\'t clear '];
@@ -45,6 +51,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
 
 		console.log(obj.data);
+
+		$scope.trainerLink = window.location.origin + '/user/' + obj.data.training.trainer.userId;
 		/* Training info */
 		$scope.vote = obj.data.vote;
 		$scope.isAdmin = obj.data.isAdmin;
@@ -83,7 +91,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			$scope.training.register = obj.data.register;
 			$scope.training.language = obj.data.training.language.value;
 			$scope.training.maxVis = obj.data.training.maxVisitorsCount;
-			$scope.training.isAproved = obj.data.training.approved;
+			$scope.training.isApproved = obj.data.training.approved;
 
 			if (!$scope.training.regular) {
 				$scope.training.date = obj.data.training.dateOnString;
@@ -122,8 +130,12 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 				$scope.registerText = 'You are going to visit this training';
 			}
 			else if ($scope.training.register == 1) {
-				$scope.registerColor = 'brown';
+				$scope.registerColor = '#f0ad4e';
 				$scope.registerText = 'You are in the waiting list';
+			}
+			else if ($scope.training.register == 3) {
+				$scope.registerColor = 'brown';
+				$scope.registerText = 'You are not visiting this training';
 			}
 			else {
 				$scope.registerText = '';

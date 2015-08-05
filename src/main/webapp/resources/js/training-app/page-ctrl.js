@@ -41,7 +41,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	};
 
 	/* Getting info about the training */
-	$http.get('rest/training/' + window.location.pathname.split('/')[3]).then(function (obj) {
+	var urlParts = window.location.pathname.split('/');
+	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
 
 		console.log(obj.data);
 		/* Training info */

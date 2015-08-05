@@ -9,7 +9,7 @@ angular.module('table')
 							login: login,
 							email: email,
 							role: role,
-							url: '/user/' + userId
+							url: 'user/' + userId
 						};
 					};
 

@@ -24,6 +24,8 @@ public interface UserDAO {
 
     List<User> getUsersByRole(String role);
 
+    Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String name);
+
     Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName);
 
     Map<String, Object> searchUsersByLogin(int pageNumber, int pageSize, String login);

@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,17 +69,7 @@ public class UserServiceImpl implements UserService {
             case "name":
                 int splitNumber = value.lastIndexOf(' ');
                 if (splitNumber == -1) {
-                    Map<String, Object> map = userDAO.searchUsersByName(pageNumber, pageSize, value, "");
-                    List<Object> users = new ArrayList<>();
-                    int size = (Integer) map.get("size");
-                    users.addAll((List) map.get("users"));
-                    map =userDAO.searchUsersByName(pageNumber, pageSize, "", value);
-                    size+= (Integer) map.get("size");
-                    users.addAll((List) map.get("users"));
-                    Map<String, Object> result = new HashMap<>(2);
-                    result.put("users", users);
-                    result.put("size", size);
-                    return result;
+                    return userDAO.searchUsersByName(pageNumber, pageSize, value);
                 }
                 return userDAO.searchUsersByName(pageNumber, pageSize, value.substring(0, splitNumber), value.substring(splitNumber + 1));
             case "login":

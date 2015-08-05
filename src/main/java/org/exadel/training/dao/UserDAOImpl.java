@@ -120,6 +120,26 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String name) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .setProjection(Projections.distinct(Projections.property("userId")))
+                .add(Restrictions.disjunction()
+                        .add(Restrictions.like("firstName", "%" + name + "%"))
+                        .add(Restrictions.like("lastName", "%" + name + "%")));
+        int size = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
+        List<Long> list = criteria.list();
+        List<User> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getUserById).collect(Collectors.toList()));
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("users", users);
+        result.put("size", size);
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String firstName, String lastName) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
                 .setProjection(Projections.distinct(Projections.property("userId")))

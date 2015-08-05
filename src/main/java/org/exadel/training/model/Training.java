@@ -106,7 +106,7 @@ public class Training {
     private Set<TrainingFeedback> trainingFeedbacks = new HashSet<>(0);
 
     @JsonIgnore
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TrainingEdit> trainingEdit;
 
     @JsonIgnore

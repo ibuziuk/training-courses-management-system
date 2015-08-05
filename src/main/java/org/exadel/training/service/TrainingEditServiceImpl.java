@@ -33,7 +33,7 @@ public class TrainingEditServiceImpl implements TrainingEditService {
 
     @Override
     @Transactional
-    public List<TrainingEdit> getAllEditsByTraining(long trainingId){
-        return trainingEditDAO.getAllEditsByTraining(trainingId);
+    public List<TrainingEdit> getAllEditsByTRaining(long trainingId) {
+        return trainingEditDAO.getAllEditsByTRaining(trainingId);
     }
 }

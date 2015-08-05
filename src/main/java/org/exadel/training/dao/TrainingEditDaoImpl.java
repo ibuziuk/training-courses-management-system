@@ -37,7 +37,7 @@ public class TrainingEditDaoImpl implements TrainingEditDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TrainingEdit> getAllEditsByTraining(long trainingId){
+    public List<TrainingEdit> getAllEditsByTRaining(long trainingId) {
         return sessionFactory.getCurrentSession().createCriteria(TrainingEdit.class)
                 .add(Restrictions.eq("training.trainingId", trainingId))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)

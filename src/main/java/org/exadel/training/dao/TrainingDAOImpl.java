@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -111,16 +108,14 @@ public class TrainingDAOImpl implements TrainingDAO {
         return new ArrayList<>(result);
     }
 
-    // This method will be changed.
     @SuppressWarnings("unchecked")
     @Override
     public List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
         Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
-//                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .setFirstResult((pageNum - 1) * pageSize)
-                .setProjection(Projections.distinct(Projections.property("trainingId")));
-        criteria.setMaxResults(pageSize);
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
+                .setMaxResults(pageSize);
         if (come.equals("future")) {
             criteria.add(Restrictions.or(
                     Restrictions.ge("date", date),
@@ -159,49 +154,89 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> searchTrainingsByTitle(String value) {
+    public Map<String, Object> searchTrainingsByTitle(int pageNumber, int pageSize, String value) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .add(Restrictions.like("title", "%" + value + "%"));
-        Collection result = new LinkedHashSet<>(criteria.list());
-        return new ArrayList<>(result);
+        Integer size = criteria.list().size();
+        List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize).list();
+        List<Training> result = new ArrayList<>(idList.size());
+        result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("size", size);
+        map.put("result", result);
+        return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> searchTrainingsByDate(Timestamp date) {
-        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
-                .add(Restrictions.eq("date", date))
-                .list());
-        return new ArrayList<>(result);
+    public Map<String, Object> searchTrainingsByDate(int pageNumber, int pageSize, Timestamp date) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
+                .add(Restrictions.eq("date", date));
+        Integer size = criteria.list().size();
+        List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize).list();
+        List<Training> result = new ArrayList<>(idList.size());
+        result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("size", size);
+        map.put("result", result);
+        return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> searchTrainingsByTime(String time) {
-        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
-                .add(Restrictions.like("time", time + "%"))
-                .list());
-        return new ArrayList<>(result);
+    public Map<String, Object> searchTrainingsByTime(int pageNumber, int pageSize, String time) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
+                .add(Restrictions.like("time", time + "%"));
+        Integer size = criteria.list().size();
+        List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize).list();
+        List<Training> result = new ArrayList<>(idList.size());
+        result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("size", size);
+        map.put("result", result);
+        return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> searchTrainingsByLocation(int location) {
-        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
-                .add(Restrictions.eq("location", location))
-                .list());
-        return new ArrayList<>(result);
+    public Map<String, Object> searchTrainingsByLocation(int pageNumber, int pageSize, int location) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
+                .add(Restrictions.eq("location", location));
+        Integer size = criteria.list().size();
+        List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize).list();
+        List<Training> result = new ArrayList<>(idList.size());
+        result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("size", size);
+        map.put("result", result);
+        return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> searchTrainingsByTrainerName(String firstName, String lastName) {
-        Collection result = new LinkedHashSet<>(sessionFactory.getCurrentSession().createCriteria(Training.class)
+    public Map<String, Object> searchTrainingsByTrainerName(int pageNumber, int pageSize, String firstName, String lastName) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .createAlias("trainer", "t")
                 .add(Restrictions.like("t.firstName", "%" + firstName + "%"))
-                .add(Restrictions.like("t.lastName", "%" + lastName + "%"))
-                .list());
-        return new ArrayList<>(result);
+                .add(Restrictions.like("t.lastName", "%" + lastName + "%"));
+        Integer size = criteria.list().size();
+        List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize).list();
+        List<Training> result = new ArrayList<>(idList.size());
+        result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("size", size);
+        map.put("result", result);
+        return map;
     }
 
 

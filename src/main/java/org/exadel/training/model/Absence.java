@@ -19,6 +19,7 @@ public class Absence {
     private Training training;
 
     @Column(name = "reason_text", length = 4500)
+
     private String reasonText;
 
     @Column(name = "is_reasonable")

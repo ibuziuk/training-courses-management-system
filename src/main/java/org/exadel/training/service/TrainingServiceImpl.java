@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TrainingServiceImpl implements TrainingService {
@@ -146,32 +145,27 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public List<Training> searchTrainingByTitle(String value) {
-        return trainingDAO.searchTrainingsByTitle(value);
-    }
-
-    @Override
-    @Transactional
-    public List<Training> searchTrainingsByDate(Timestamp date) {
-        return trainingDAO.searchTrainingsByDate(date);
-    }
-
-    @Override
-    @Transactional
-    public List<Training> searchTrainingsByTime(String time) {
-        return trainingDAO.searchTrainingsByTime(time);
-    }
-
-    @Override
-    @Transactional
-    public List<Training> searchTrainingsByLocation(int location) {
-        return trainingDAO.searchTrainingsByLocation(location);
-    }
-
-    @Override
-    @Transactional
-    public List<Training> searchTrainingsByTrainerName(String firstName, String lastName) {
-        return trainingDAO.searchTrainingsByTrainerName(firstName, lastName);
+    public Map<String, Object> searchTrainings(int pageNumber, int pageSize, String searchType, String value) {
+        switch (searchType) {
+            case "title":
+                return trainingDAO.searchTrainingsByTitle(pageNumber, pageSize, value);
+            case "date":
+                return trainingDAO.searchTrainingsByDate(pageNumber, pageSize, new Timestamp(Long.parseLong(value)));
+            case "time":
+                return trainingDAO.searchTrainingsByTime(pageNumber, pageSize, value);
+            case "location":
+                return trainingDAO.searchTrainingsByLocation(pageNumber, pageSize, Integer.parseInt(value));
+            case "trainerName":
+                List<String> str = Arrays.asList(value.split(" "));
+                if (str.size() > 1) {
+                    return trainingDAO.searchTrainingsByTrainerName(pageNumber, pageSize, str.get(0), str.get(1));
+                }
+                return trainingDAO.searchTrainingsByTrainerName(pageNumber, pageSize, str.get(0), "");
+            default:
+                Map<String, Object> map = new HashMap<>(1);
+                map.put("size", 0);
+                return map;
+        }
     }
 
     @Override

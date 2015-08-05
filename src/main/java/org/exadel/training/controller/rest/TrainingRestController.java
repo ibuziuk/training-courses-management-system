@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.exadel.training.model.*;
 import org.exadel.training.service.*;
-import org.exadel.training.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -330,27 +329,13 @@ public class TrainingRestController {
 
 
     @RequestMapping(value = "/rest/training/search", method = RequestMethod.GET,
-            params = {"type", "value"})
+            params = {"pageNumber", "pageSize", "searchType", "value"})
     @ResponseStatus(HttpStatus.OK)
-    public List<Training> searching(
-            @RequestParam("value") String value,
-            @RequestParam("type") String type) {
-        switch (type) {
-            case "title":
-                return trainingService.searchTrainingByTitle(value);
-            case "date":
-//                return trainingService.searchTrainingsByDate(new Timestamp(Long.parseLong(value)));
-//                do not work now
-                return null;
-            case "time":
-                return trainingService.searchTrainingsByTime(value);
-            case "location":
-                return trainingService.searchTrainingsByLocation(Integer.parseInt(value));
-            case "trainerName":
-                String[] str = value.split(" ");
-                return trainingService.searchTrainingsByTrainerName(str[0], str[1]);
-            default:
-                return new ArrayList<>(0);
-        }
+    public Map<String, Object> searching(
+            @RequestParam("pageNumber") Integer pageNumber,
+            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam("searchType") String searchType,
+            @RequestParam("value") String value) {
+        return trainingService.searchTrainings(pageNumber, pageSize, searchType, value);
     }
 }

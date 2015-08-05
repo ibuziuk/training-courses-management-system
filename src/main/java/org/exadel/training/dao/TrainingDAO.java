@@ -4,6 +4,7 @@ import org.exadel.training.model.Training;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 public interface TrainingDAO {
     void addTraining(Training training);
@@ -28,15 +29,15 @@ public interface TrainingDAO {
 
     List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin);
 
-    List<Training> searchTrainingsByTitle(String value);
+    Map<String, Object> searchTrainingsByTitle(int pageNumber, int pageSize, String value);
 
-    List<Training> searchTrainingsByDate(Timestamp date);
+    Map<String, Object> searchTrainingsByDate(int pageNumber, int pageSize, Timestamp date);
 
-    List<Training> searchTrainingsByTime(String time);
+    Map<String, Object> searchTrainingsByTime(int pageNumber, int pageSize, String time);
 
-    List<Training> searchTrainingsByLocation(int location);
+    Map<String, Object> searchTrainingsByLocation(int pageNumber, int pageSize, int location);
 
-    List<Training> searchTrainingsByTrainerName(String firstName, String lastName);
+    Map<String, Object> searchTrainingsByTrainerName(int pageNumber, int pageSize, String firstName, String lastName);
 
     List<Training> getContinuousTrainings(long id);
 }

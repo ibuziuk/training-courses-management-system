@@ -11,5 +11,5 @@ public interface TrainingEditDAO {
 
     TrainingEdit getEditByTrainingIfExist(long trainingId);
 
-    List<TrainingEdit> getAllEditsByTraining(long trainingId);
+    List<TrainingEdit> getAllEditsByTRaining(long trainingId);
 }

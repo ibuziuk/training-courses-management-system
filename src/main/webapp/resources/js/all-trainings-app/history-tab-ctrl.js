@@ -3,7 +3,7 @@
 angular.module('historyTab', [])
 		.controller('historyController', ['$scope', '$http', 'tableService', 'ngTableParams', function ($scope, $http, tableService, ngTableParams) {
 			$scope.trainings = [];
-			$scope.url = '/rest/training/past';
+			$scope.url = 'rest/training/past';
 			$scope.defaultConfig = {
 				page: 1,
 				count: 10,

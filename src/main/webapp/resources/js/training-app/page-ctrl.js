@@ -41,7 +41,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	};
 
 	/* Getting info about the training */
-	$http.get('/rest' + window.location.pathname).then(function (obj) {
+	$http.get('rest/training/' + window.location.pathname.split('/')[3]).then(function (obj) {
 
 		console.log(obj.data);
 		/* Training info */
@@ -209,32 +209,32 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 			$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);
 			$scope.totalItems = $scope.training.feedbacks.length;
-		}
+		};
 
 		getFeedbacks(obj.data.feedbacks);
 
 		$scope.sendFeedback = function () {
 			myFeedbackToSend.text = $scope.myFeedback.text;
 			myFeedbackToSend.rate = $scope.overStar;
-			$http.post('/rest/feedback' + window.location.pathname, myFeedbackToSend).then(function (obj) {
+			$http.post('rest/feedback' + window.location.pathname, myFeedbackToSend).then(function (obj) {
 				$scope.vote = true;
 				getFeedbacks(obj.data.feedbacks);
 				getRating(obj.data.rating)
 			}, function (err) {
 				ngNotify.set(err.statusText);
 			});
-		}
+		};
 
 		$scope.trainingReg = function (flag) {
 			if (flag) {
-				$http.post('/rest/register' + window.location.pathname, 'registering').then(function (obj) {
+				$http.post('rest/register' + window.location.pathname, 'registering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);
 				});
 			}
 			else {
-				$http.post('/rest/unregister' + window.location.pathname, 'unregistering').then(function (obj) {
+				$http.post('rest/unregister' + window.location.pathname, 'unregistering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);

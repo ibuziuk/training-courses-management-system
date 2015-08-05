@@ -5,6 +5,9 @@
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<base th:href="@{/}"/>
+
 	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif"
 	      th:href="@{/resources/vendors/pics/favicon.gif}"/>
 
@@ -22,7 +25,8 @@
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
 
 	<!-- jQuery -->
-	<script src="../../resources/vendors/js/jquery-2.1.4.min.js" th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
+	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
+	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
 
 	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
 
@@ -157,6 +161,7 @@
 							<div class="panel-footer">
 								<span class="pull-left" th:text="#{label.viewDetails}">View Details</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
 								<div class="clearfix"></div>
 							</div>
 						</a>

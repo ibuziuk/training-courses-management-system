@@ -5,8 +5,8 @@ angular.module('table', []).controller('tableController', ['$scope', '$http', '$
 	$scope.request = '';
 	$scope.type = '';
 
-	var trainerGet = $http.get('/rest/calendar/trainer'),
-			visitorGet = $http.get('/rest/calendar/visitor');
+	var trainerGet = $http.get('rest/calendar/trainer'),
+			visitorGet = $http.get('rest/calendar/visitor');
 
 	$q.all([trainerGet, visitorGet]).then(function (results) {
 		$scope.trainings = $scope.trainings.concat(tableService.trainerParsing(results[0].data));
@@ -34,8 +34,8 @@ angular.module('table', []).controller('tableController', ['$scope', '$http', '$
 		} else {
 			if ($scope.type) {
 				console.log($scope.type);
-				var trainerGetSearch = $http.get('/rest/calendar/trainer/search/' + $scope.type + '/' + $scope.request),
-						visitorGetSearch = $http.get('/rest/calendar/visitor/search/' + $scope.type + '/' + $scope.request);
+				var trainerGetSearch = $http.get('rest/calendar/trainer/search/' + $scope.type + '/' + $scope.request),
+						visitorGetSearch = $http.get('rest/calendar/visitor/search/' + $scope.type + '/' + $scope.request);
 
 				$q.all([trainerGetSearch, visitorGetSearch]).then(function (results) {
 					$scope.trainings = [];

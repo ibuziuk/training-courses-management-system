@@ -39,14 +39,14 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
     /* Checkboxes Page 4 */
 
-    $http.get('/rest/tag').then(function(objTag){
+    $http.get('rest/tag').then(function(objTag){
         $scope.checkboxTags = objTag.data;
         for (var k in $scope.checkboxTags){
             $scope.checkboxTags[k].name = '#' + $scope.checkboxTags[k].name;
             $scope.checkboxTags[k].id = $scope.checkboxTags[k].name;
         }
 
-        $http.get('/rest/audience').then(function(objAud){
+        $http.get('rest/audience').then(function(objAud){
             $scope.checkboxAudiences = objAud.data;
             for (var k in $scope.checkboxAudiences){
                 $scope.checkboxAudiences[k].id = $scope.checkboxAudiences[k].value;
@@ -302,10 +302,10 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
                         training.date = date;
                         training.times.push($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
                     }
-                    trainingsRequests[i] = $http.post('/rest/training', training);
+                    trainingsRequests[i] = $http.post('rest/training', training);
                 }
                 $q.all(trainingsRequests).then(function(results) {
-                    $window.location.href = window.location.origin + '/training/' + results[0].data.id;
+                    $window.location.href = 'training/' + results[0].data.id;
                 }, function(data){
                     ngNotify.set(data);
                 });

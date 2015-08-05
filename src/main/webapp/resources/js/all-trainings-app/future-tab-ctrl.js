@@ -2,7 +2,7 @@
 
 angular.module('futureTab', [])
 		.controller('futureController', ['$scope', 'tableService', 'ngTableParams', function ($scope, tableService, ngTableParams) {
-			$scope.url = '/rest/training/future';
+			$scope.url = 'rest/training/future';
 			$scope.defaultConfig = {
 				page: 1,
 				count: 10,

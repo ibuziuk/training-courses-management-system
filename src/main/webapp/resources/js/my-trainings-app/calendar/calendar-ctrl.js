@@ -3,8 +3,8 @@
 angular.module('calendar', []).controller('calendarController', ['$scope', '$http', '$location', '$q', 'calendarService', 'moment', function ($scope, $http, $location, $q, calendarService, moment) {
 	var vm = this,
 			now = moment(),
-			trainerPromise = $http.get('/rest/calendar/trainer'),
-			visitorPromise = $http.get('/rest/calendar/visitor'),
+			trainerPromise = $http.get('rest/calendar/trainer'),
+			visitorPromise = $http.get('rest/calendar/visitor'),
 			events = [];
 	moment.locale('en');
 

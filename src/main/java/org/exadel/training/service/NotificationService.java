@@ -3,6 +3,7 @@ package org.exadel.training.service;
 import org.exadel.training.model.RegularLesson;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
+import org.exadel.training.utils.RoleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -22,7 +23,7 @@ public class NotificationService {
 
     public void newTrainingEmailNotificationForAdmins(Training training) {
         Context context = new Context();
-        List<User> users = userService.getUsersByRole("admin");
+        List<User> users = userService.getUsersByRole(RoleUtil.ADMIN_SMALL);
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         for (User user : users) {

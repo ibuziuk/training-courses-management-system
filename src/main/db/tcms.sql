@@ -16,6 +16,66 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `absence`
+--
+
+DROP TABLE IF EXISTS `absence`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `absence` (
+  `absence_id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_reasonable` bit(1) DEFAULT NULL,
+  `reason_text` varchar(4500) DEFAULT NULL,
+  `trainer_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`absence_id`),
+  KEY `FK_cn2j1wjv4ugw1nf596n36or88` (`trainer_id`),
+  KEY `FK_2meku1gaugffsyq9t8okrg72a` (`user_id`),
+  CONSTRAINT `FK_2meku1gaugffsyq9t8okrg72a` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_cn2j1wjv4ugw1nf596n36or88` FOREIGN KEY (`trainer_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `absence`
+--
+
+LOCK TABLES `absence` WRITE;
+/*!40000 ALTER TABLE `absence` DISABLE KEYS */;
+/*!40000 ALTER TABLE `absence` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `absence_lesson`
+--
+
+DROP TABLE IF EXISTS `absence_lesson`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `absence_lesson` (
+  `absence_lesson_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_reasonable` bit(1) DEFAULT NULL,
+  `reason_text` varchar(4500) DEFAULT NULL,
+  `lesson_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`absence_lesson_id`),
+  KEY `FK_6i2ll1q87mo00e3ku8myu7gaa` (`lesson_id`),
+  KEY `FK_gtrx3uiyonq7f28vlr8mjwx7u` (`user_id`),
+  CONSTRAINT `FK_6i2ll1q87mo00e3ku8myu7gaa` FOREIGN KEY (`lesson_id`) REFERENCES `regular_lesson` (`lesson_id`),
+  CONSTRAINT `FK_gtrx3uiyonq7f28vlr8mjwx7u` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `absence_lesson`
+--
+
+LOCK TABLES `absence_lesson` WRITE;
+/*!40000 ALTER TABLE `absence_lesson` DISABLE KEYS */;
+/*!40000 ALTER TABLE `absence_lesson` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `audience`
 --
 
@@ -37,6 +97,44 @@ LOCK TABLES `audience` WRITE;
 /*!40000 ALTER TABLE `audience` DISABLE KEYS */;
 INSERT INTO `audience` VALUES (1,'Java developers'),(2,'PHP developers'),(3,'JavaScript developers'),(4,'C++ developers'),(5,'Scala developers'),(6,'Go developers'),(7,'Testers');
 /*!40000 ALTER TABLE `audience` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employee_feedback`
+--
+
+DROP TABLE IF EXISTS `employee_feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee_feedback` (
+  `employee_feedback_id` int(11) NOT NULL AUTO_INCREMENT,
+  `askQuestions` bit(1) DEFAULT NULL,
+  `attitudeToLearning` int(11) DEFAULT NULL,
+  `communication` int(11) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `focusedOnResults` bit(1) DEFAULT NULL,
+  `interest` bit(1) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `mark` varchar(45) DEFAULT NULL,
+  `present` bit(1) DEFAULT NULL,
+  `text` varchar(4500) DEFAULT NULL,
+  `trainer_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`employee_feedback_id`),
+  KEY `FK_jupn30lulyra25sfcs7gxdrbo` (`trainer_id`),
+  KEY `FK_481kei9j76s2j1li3nq9mr86h` (`user_id`),
+  CONSTRAINT `FK_481kei9j76s2j1li3nq9mr86h` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_jupn30lulyra25sfcs7gxdrbo` FOREIGN KEY (`trainer_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee_feedback`
+--
+
+LOCK TABLES `employee_feedback` WRITE;
+/*!40000 ALTER TABLE `employee_feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employee_feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -62,6 +160,7 @@ CREATE TABLE `ex_training_user` (
 
 LOCK TABLES `ex_training_user` WRITE;
 /*!40000 ALTER TABLE `ex_training_user` DISABLE KEYS */;
+INSERT INTO `ex_training_user` VALUES (2,4);
 /*!40000 ALTER TABLE `ex_training_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,6 +186,35 @@ LOCK TABLES `language` WRITE;
 /*!40000 ALTER TABLE `language` DISABLE KEYS */;
 INSERT INTO `language` VALUES (1,'English'),(2,'Russian');
 /*!40000 ALTER TABLE `language` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `lesson_edit`
+--
+
+DROP TABLE IF EXISTS `lesson_edit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_edit` (
+  `lesson_edit_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `is_approved` bit(1) DEFAULT NULL,
+  `location` int(11) DEFAULT NULL,
+  `time` varchar(20) DEFAULT NULL,
+  `lesson_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`lesson_edit_id`),
+  KEY `FK_ceak500enalunsh53k2pg49o2` (`lesson_id`),
+  CONSTRAINT `FK_ceak500enalunsh53k2pg49o2` FOREIGN KEY (`lesson_id`) REFERENCES `regular_lesson` (`lesson_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lesson_edit`
+--
+
+LOCK TABLES `lesson_edit` WRITE;
+/*!40000 ALTER TABLE `lesson_edit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `lesson_edit` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -139,7 +267,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'admin'),(2,'user');
+INSERT INTO `role` VALUES (1,'administrator'),(2,'user');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,6 +294,46 @@ LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
 INSERT INTO `tag` VALUES (1,'red','Java'),(2,'yellow','PHP'),(3,'brown','JavaScript'),(4,'green','C++'),(5,'pink','Scala'),(6,'blue','Go'),(7,'purple','English');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trainer_feedback`
+--
+
+DROP TABLE IF EXISTS `trainer_feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `trainer_feedback` (
+  `trainer_feedback_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `asks` bit(1) DEFAULT NULL,
+  `assimilation` bit(1) DEFAULT NULL,
+  `creativity` bit(1) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `explain_difficult_places` bit(1) DEFAULT NULL,
+  `high_erudition` bit(1) DEFAULT NULL,
+  `explain_how_to_use` bit(1) DEFAULT NULL,
+  `interest` bit(1) DEFAULT NULL,
+  `mark_main_point` bit(1) DEFAULT NULL,
+  `nice` bit(1) DEFAULT NULL,
+  `patient` bit(1) DEFAULT NULL,
+  `understandably` bit(1) DEFAULT NULL,
+  `trainer_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`trainer_feedback_id`),
+  KEY `FK_simaqg1k2pl5w9c0yw3xxpd7g` (`trainer_id`),
+  KEY `FK_fmtkjyd9ytr5ph6en60e78c2s` (`user_id`),
+  CONSTRAINT `FK_fmtkjyd9ytr5ph6en60e78c2s` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_simaqg1k2pl5w9c0yw3xxpd7g` FOREIGN KEY (`trainer_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trainer_feedback`
+--
+
+LOCK TABLES `trainer_feedback` WRITE;
+/*!40000 ALTER TABLE `trainer_feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `trainer_feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -198,7 +366,7 @@ CREATE TABLE `training` (
   KEY `FK_qpxtqvn6p3ey7stx3v45m5ujv` (`trainer_id`),
   CONSTRAINT `FK_kpu07jorm6b09r79qs6mbbudd` FOREIGN KEY (`language_id`) REFERENCES `language` (`language_id`),
   CONSTRAINT `FK_qpxtqvn6p3ey7stx3v45m5ujv` FOREIGN KEY (`trainer_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +375,7 @@ CREATE TABLE `training` (
 
 LOCK TABLES `training` WRITE;
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
-INSERT INTO `training` VALUES (1,'\0','2015-08-03 11:10:00',NULL,'Some sentenses about your training',60,NULL,'\0','',1,2,'\0',NULL,'11:10 - 12:10','Java developer',1,4),(2,'\0',NULL,'1 2 ','Some sentenses about your training',120,'2015-08-12','\0','',NULL,4,'','2015-08-05','11:10-13:10 10:10-12:10 ','PHP',2,6),(3,'','2015-08-04 11:30:00',NULL,'Some sentenses about your training',60,NULL,'\0','',2,5,'\0',NULL,'11:30 - 12:30','JS #1',1,5),(4,'','2015-08-05 10:11:00',NULL,'Some sentenses about your training',60,NULL,'\0','',2,5,'\0',NULL,'10:11 - 11:11','JS #2',1,7),(5,'\0','2015-08-04 11:30:00',NULL,'Some sentenses about your training',25,NULL,'\0','',5,5,'\0',NULL,'11:30 - 11:55','SCALA',1,6),(6,'\0','2015-08-04 12:02:00',NULL,'Some sentenses about your training',60,NULL,'\0','',6,5,'\0',NULL,'12:02 - 13:02','Go',1,6);
+INSERT INTO `training` VALUES (1,'\0','2015-08-03 11:10:00',NULL,'Some sentenses about your training',60,NULL,'\0','',1,2,'\0',NULL,'11:10 - 12:10','Java developer',1,4),(2,'\0',NULL,'1 2 ','Some sentenses about your training',120,'2015-08-12','\0','',NULL,4,'','2015-08-05','11:10-13:10 10:10-12:10 ','PHP',2,6),(3,'','2015-08-04 11:30:00',NULL,'Some sentenses about your training',60,NULL,'\0','',2,5,'\0',NULL,'11:30 - 12:30','JS #1',1,5),(4,'','2015-08-05 10:11:00',NULL,'Some sentenses about your training',60,NULL,'\0','',2,5,'\0',NULL,'10:11 - 11:11','JS #2',1,7),(5,'\0','2015-08-04 11:30:00',NULL,'Some sentenses about your training',25,NULL,'\0','',5,5,'\0',NULL,'11:30 - 11:55','SCALA',1,6),(6,'\0','2015-08-04 12:02:00',NULL,'Some sentenses about your training',60,NULL,'\0','',6,5,'\0',NULL,'12:02 - 13:02','Go',1,6),(7,'\0','2015-08-06 17:16:00',NULL,'Русский для Джавы',1380,NULL,'\0','\0',233,20115524,'\0',NULL,'17:16 - 16:16','Java',2,4),(8,'\0',NULL,'0 0 ','выпп\n\n\n\nsdg\ngd\ns\nsd\nsdg\ng\ns\nsg\nв\nп\nsg\ndsg\n\ngsd\ng\nds',120,'2015-08-05','\0','\0',NULL,798,'','2015-08-04','17:18-19:18 17:18-19:18 ','Java',1,4),(9,'\0','2015-08-20 10:59:00',NULL,'dsb sfnd',60,NULL,'\0','\0',223,223,'\0',NULL,'10:59 - 11:59','knj',1,4);
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,8 +402,40 @@ CREATE TABLE `training_audience` (
 
 LOCK TABLES `training_audience` WRITE;
 /*!40000 ALTER TABLE `training_audience` DISABLE KEYS */;
-INSERT INTO `training_audience` VALUES (1,1),(2,2),(3,3),(4,3),(5,5),(6,6);
+INSERT INTO `training_audience` VALUES (1,1),(7,1),(9,1),(2,2),(7,2),(8,2),(9,2),(3,3),(4,3),(7,3),(7,4),(5,5),(7,5),(6,6),(7,6),(7,7);
 /*!40000 ALTER TABLE `training_audience` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `training_edit`
+--
+
+DROP TABLE IF EXISTS `training_edit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `training_edit` (
+  `training_edit_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `description` varchar(1000) DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `is_approved` bit(1) DEFAULT NULL,
+  `max_visitors_count` int(11) DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `training_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`training_edit_id`),
+  KEY `FK_mlvf536njfjd4pn3ekh23ht44` (`training_id`),
+  CONSTRAINT `FK_mlvf536njfjd4pn3ekh23ht44` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `training_edit`
+--
+
+LOCK TABLES `training_edit` WRITE;
+/*!40000 ALTER TABLE `training_edit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `training_edit` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -302,7 +502,7 @@ CREATE TABLE `training_tag` (
 
 LOCK TABLES `training_tag` WRITE;
 /*!40000 ALTER TABLE `training_tag` DISABLE KEYS */;
-INSERT INTO `training_tag` VALUES (1,1),(2,2),(3,3),(4,4),(5,5),(6,6);
+INSERT INTO `training_tag` VALUES (1,1),(7,1),(9,1),(2,2),(7,2),(9,2),(3,3),(7,3),(4,4),(7,4),(5,5),(7,5),(6,6),(7,6),(7,7);
 /*!40000 ALTER TABLE `training_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,4 +628,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-04 13:02:26
+-- Dump completed on 2015-08-05 11:14:12

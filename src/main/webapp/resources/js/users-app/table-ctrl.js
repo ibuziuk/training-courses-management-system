@@ -2,7 +2,7 @@
 
 angular.module('table', [])
 		.controller('tableController', ['$scope', '$location', 'tableService', 'ngTableParams', function ($scope, $location, tableService, ngTableParams) {
-			$scope.url = '/rest/user/all';
+			$scope.url = 'rest/user/all';
 			$scope.defaultConfig = {
 				page: 1,
 				count: 10,

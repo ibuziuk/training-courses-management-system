@@ -100,9 +100,7 @@
           p:url="${jdbc.databaseurl}" p:username="${jdbc.username}" p:password="${jdbc.password}"/>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="configLocation">
-            <value>WEB-INF/hibernate.cfg.xml</value>
-        </property>
+        <property name="configLocation" value="WEB-INF/hibernate.cfg.xml"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>

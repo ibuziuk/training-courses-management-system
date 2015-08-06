@@ -56,6 +56,34 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
 			$scope.qDescr = 0;
 
+			$scope.toShow = function () {
+				if ($scope.toShowRepet === 'One-off ' || $scope.toShowRepet === 'Weekly ') {
+					continuous = false;
+					$scope.qDescr = 1;
+				}
+				else if ($scope.toShowRepet === 'Continuous ') {
+					continuous = true;
+					$scope.qDescr = $scope.days;
+				}
+
+				$scope.descriptions = [];
+				for (var i = 0; i < $scope.qDescr; i++) {
+					$scope.descriptions.push({text: ''});
+				}
+
+				$scope.datepickers = [];
+				$scope.qDates = ($scope.toShowRepet === 'Weekly ') ? $scope.days : $scope.qDescr;
+
+				for (var i = 0; i < $scope.qDates; i++) {
+					$scope.datepickers[i] = {
+						'dt': new Date(),
+						'time': new Date(),
+						'toShowWeekDay': 'Select day of week ',
+						'room': ''
+					};
+				}
+				$scope.today();
+			};
 
 			/* Date and time Page 5 */
 

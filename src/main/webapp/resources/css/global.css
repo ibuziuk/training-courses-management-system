@@ -3,20 +3,17 @@ textarea {
 	resize: none;
 }
 
-.select2-input.select2-default {
-	width: 100% !important;
-}
-
-.select2-new-training .select2-container {
-    width: 100% !important;
-}
-
 .href-square {
     color: white;
 }
 
 .href-square:hover {
     color: white;
+}
+
+.square-week-day {
+	color: #0F2736;
+	background-color: #aaaaaa;
 }
 
 .square-font {
@@ -618,46 +615,4 @@ div.color-info > p > span.event {
 
 .ng-table th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
 	background-color: #E4EDF2;
-}
-
-.select2-custom .select-box {
-    width: 100%;
-    margin-right: 0;
-}
-
-.select2-custom .select-box > a {
-    border: 1px #CCC solid;
-    border-radius: 0;
-    height: 34px;
-    line-height: 34px;
-    font-size: 14px;
-    text-align: left;
-    background: none;
-    box-shadow: none;
-}
-
-.select2-custom .select-box.select2-container-active > a {
-    border: 1px solid #5897FB;
-}
-
-.select2-custom .select-box .select2-arrow {
-    border-radius: 0;
-}
-
-.select2-custom .select-box .select2-choice .select2-arrow {
-    border-left: 1px #DDD solid;
-    background: #EEE;
-}
-
-.select2-custom .select-box .select2-choice .select2-arrow b {
-    background-position: 0 5px;
-}
-
-.select2-custom .select-box.select2-dropdown-open .select2-choice .select2-arrow b {
-    background-position: -18px 15px;
-}
-
-.select2-custom .select-box.select2-dropdown-open .select2-choice .select2-arrow {
-    border: 0;
-    background: none;
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$window', 'FileUploader', 'ngNotify', function ($scope, $http, $window, FileUploader, ngNotify) {
+angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$window', '$location', 'FileUploader', 'ngNotify', function ($scope, $http, $window, $location, FileUploader, ngNotify) {
 	/* ngNotify */
 	ngNotify.config({
 		theme: 'pastel',
@@ -29,14 +29,22 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	$scope.registerText = '';
 	$scope.approveText = '';
 
+	var pathname = window.location.pathname;
+	var Url = window.location.origin + '/rest/uploadfile/' + pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length);
+
 	/* File Upload */
-	$scope.uploader = new FileUploader();
+	var uploader = $scope.uploader = new FileUploader({
+		url: Url
+	});
+
+	uploader.withCredentials = true;
 
 	/* Accordion */
 	$scope.oneAtATime = true;
 
 	/* Rating */
 	$scope.rate = 5;
+	$scope.overStar = 5;
 	$scope.max = 10;
 	$scope.percent = 100 * ($scope.rate / $scope.max);
 	$scope.toShowNoRatings = false;
@@ -51,6 +59,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
 
 		console.log(obj.data);
+
+		$scope.continuous = obj.data.training.continuous;
 
 		$scope.trainerLink = window.location.origin + '/user/' + obj.data.training.trainer.userId;
 		/* Training info */
@@ -84,7 +94,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		};
 
 		var trainingCreation = function () {
-			$scope.training = obj.data.training;
+			$scope.training = angular.copy(obj.data.training);
 
 			getRating(obj.data.rating);
 
@@ -99,12 +109,13 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			}
 			else {
 				$scope.training.start = obj.data.training.start;
-				$scope.training.days = obj.data.training.days.substring(0, obj.data.training.days.length - 1).split(" ");
-				$scope.training.times = obj.data.training.time.substring(0, obj.data.training.time.length - 1).split(" ");
-				console.log($scope.training.times);
-				for (var k = 0; k < $scope.training.days.length; k++) {
-					$scope.training.days[k] = days[$scope.training.days[k]];
-					$scope.training.days[k] += ' ' + $scope.training.times[k];
+				$scope.training.days = [];
+				var weekDays = obj.data.training.days.substring(0, obj.data.training.days.length - 1).split(" ");
+				var times = obj.data.training.time.substring(0, obj.data.training.time.length - 1).split(" ");
+				for (var k = 0; k < weekDays.length; k++) {
+					$scope.training.days[k] = {};
+					$scope.training.days[k].day = days[weekDays[k]];
+					$scope.training.days[k].time = times[k];
 				}
 			}
 			$scope.training.trainerName = obj.data.training.trainer.firstName + ' ' + obj.data.training.trainer.lastName;
@@ -211,13 +222,25 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 				$scope.training.feedbacks[k].date = (new Date(feedbacksList[k].date)).toLocaleString();
 				$scope.training.feedbacks[k].rate = feedbacksList[k].starCount;
 				$scope.training.feedbacks[k].percent = 100 * ($scope.training.feedbacks[k].rate / $scope.max);
+				$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression] || '';
+				$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility] || '';
+				$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest] || '';
+				$scope.training.feedbacks[k].update = updates[$scope.training.feedbacks[k].update] || '';
 
-				$scope.training.feedbacks[k].impression = impressions[$scope.training.feedbacks[k].impression];
-				$scope.training.feedbacks[k].intelligibility = intelligibilities[$scope.training.feedbacks[k].intelligibility];
-				$scope.training.feedbacks[k].interest = interests[$scope.training.feedbacks[k].interest];
-				$scope.training.feedbacks[k].update = updates[$scope.training.feedbacks[k].update];
-				$scope.training.feedbacks[k].recommending = ($scope.training.feedbacks[k].recommending) ? 'Yes' : 'No';
-				$scope.training.feedbacks[k].trainerRecommending = ($scope.training.feedbacks[k].trainerRecommending) ? 'Yes' : 'No';
+				if ($scope.training.feedbacks[k].text == undefined)
+					$scope.training.feedbacks[k].text = '';
+
+				if ($scope.training.feedbacks[k].effectiveness == undefined)
+					$scope.training.feedbacks[k].effectiveness = '';
+
+				if ($scope.training.feedbacks[k].recommending != undefined)
+					$scope.training.feedbacks[k].recommending = ($scope.training.feedbacks[k].recommending) ? 'Yes' : 'No';
+				else
+					$scope.training.feedbacks[k].recommending = '';
+				if ($scope.training.feedbacks[k].trainerRecommending != undefined)
+					$scope.training.feedbacks[k].trainerRecommending = ($scope.training.feedbacks[k].trainerRecommending) ? 'Yes' : 'No';
+				else
+					$scope.training.feedbacks[k].trainerRecommending = '';
 			}
 
 			$scope.feedbacks = $scope.training.feedbacks.slice(0, 5);

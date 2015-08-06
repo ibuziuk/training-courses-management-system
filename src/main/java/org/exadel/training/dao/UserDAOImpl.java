@@ -93,7 +93,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addUser(User user) {
         if (user != null) {
-            sessionFactory.getCurrentSession().persist(user);
+            sessionFactory.getCurrentSession().save(user);
         }
     }
 

@@ -153,34 +153,37 @@
 
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 trainer-form">
-					<div align="center" class="form-group">
-						<label>
-							First Name *
-						</label>
-						<input class="form-control" placeholder="Type here" required="required"/>
-					</div>
+					<form th:action="@{/user/external/new}" method="post">
+						<div align="center" class="form-group">
+							<label>
+								First Name *
+							</label>
+							<input class="form-control" placeholder="Type here" required="required" name="firstName"
+							       type="text"/>
+						</div>
 
-					<div align="center" class="form-group">
-						<label>
-							Last Name *
-						</label>
-						<input class="form-control" placeholder="Type here" required="required"/>
-					</div>
+						<div align="center" class="form-group">
+							<label>
+								Last Name *
+							</label>
+							<input class="form-control" placeholder="Type here" required="required" name="lastName"
+							       type="text"/>
+						</div>
 
-					<div align="center" class="form-group">
-						<label>
-							E-mail *
-						</label>
-						<input class="form-control" placeholder="Type here" required="required"/>
-					</div>
+						<div align="center" class="form-group">
+							<label>
+								E-mail *
+							</label>
+							<input class="form-control" placeholder="Type here" required="required" name="email"
+							       type="email"/>
+						</div>
 
-					<div style="text-align: center">
-						<a href="">
-							<button class="btn btn-primary btn-center" type="button" id="subBtn">
+						<div style="text-align: center">
+							<button class="btn btn-primary btn-center" type="submit" id="subBtn">
 								Submit
 							</button>
-						</a>
-					</div>
+						</div>
+					</form>
 				</div>
 			</div>
 

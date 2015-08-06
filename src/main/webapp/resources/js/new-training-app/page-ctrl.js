@@ -39,29 +39,6 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
 	/* Checkboxes Page 4 */
 
-	var continuous;
-	var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
-	var types = ['Inner training ', 'Outer training '];
-	var languages = ['English ', 'Russian '];
-
-	$scope.toShowRepet = 'Select repetition ';
-	$scope.toShowType = 'Select type ';
-	$scope.toShowLanguage = 'Select language ';
-
-	$scope.chooseRepet = function (rep) {
-		$scope.toShowRepet = repetitions[rep];
-	};
-
-	$scope.chooseType = function (rep) {
-		$scope.toShowType = types[rep];
-	};
-
-	$scope.chooseLanguage = function (rep) {
-		$scope.toShowLanguage = languages[rep];
-	};
-
-	/* Checkboxes Page 4 */
-
 	$http.get('rest/tag').then(function (objTag) {
 		$scope.checkboxTags = objTag.data;
 		for (var k in $scope.checkboxTags) {
@@ -79,34 +56,6 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
 			$scope.qDescr = 0;
 
-			$scope.toShow = function () {
-				if ($scope.toShowRepet === 'One-off ' || $scope.toShowRepet === 'Weekly ') {
-					continuous = false;
-					$scope.qDescr = 1;
-				}
-				else if ($scope.toShowRepet === 'Continuous ') {
-					continuous = true;
-					$scope.qDescr = $scope.days;
-				}
-
-				$scope.descriptions = [];
-				for (var i = 0; i < $scope.qDescr; i++) {
-					$scope.descriptions.push({text: ''});
-				}
-
-				$scope.datepickers = [];
-				$scope.qDates = ($scope.toShowRepet === 'Weekly ') ? $scope.days : $scope.qDescr;
-
-				for (var i = 0; i < $scope.qDates; i++) {
-					$scope.datepickers[i] = {
-						'dt': new Date(),
-						'time': new Date(),
-						'toShowWeekDay': 'Select day of week ',
-						'room': ''
-					};
-				}
-				$scope.today();
-			};
 
 			/* Date and time Page 5 */
 

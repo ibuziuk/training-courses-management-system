@@ -175,8 +175,9 @@
 						<button ng-if="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
 						        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
 							<i class="fa fa-fw fa-times"></i> Unregister
-							<br/>
 						</button>
+
+						<br/>
 
 						<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 						<span class="label"
@@ -242,7 +243,7 @@
 				</div>
 				<div class="col-xs-8">
 					<label style="font-size: 20px;">{{training.title}}&nbsp;</label>
-					<button style="padding-left: 2px;" class="btn btn-primary"
+					<button ng-click="editTraining()" style="padding-left: 2px;" class="btn btn-primary"
 					        ng-show="isAdmin || training.register == 2">
 						<i class="fa fa-fw fa-pencil"></i> Edit
 					</button>

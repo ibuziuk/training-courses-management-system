@@ -26,6 +26,8 @@ public class TrainingEdit {
     @Column(length = 255)
     private String time;
 
+    private Integer location;
+
     private Integer duration;
 
     @Column(length = 1000)
@@ -33,6 +35,10 @@ public class TrainingEdit {
 
     @Column(name = "is_approved")
     private Boolean isApproved;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
 
     public long getId() {
         return id;
@@ -100,5 +106,21 @@ public class TrainingEdit {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public Integer getLocation() {
+        return location;
+    }
+
+    public void setLocation(Integer location) {
+        this.location = location;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 }

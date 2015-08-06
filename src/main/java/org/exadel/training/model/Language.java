@@ -21,6 +21,10 @@ public class Language {
     @OneToMany(mappedBy = "language")
     private Set<Training> trainings;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "language")
+    private Set<TrainingEdit> trainingEdits;
+
     public int getId() {
         return id;
     }
@@ -39,5 +43,13 @@ public class Language {
 
     public void setTrainings(Set<Training> trainings) {
         this.trainings = trainings;
+    }
+
+    public Set<TrainingEdit> getTrainingEdits() {
+        return trainingEdits;
+    }
+
+    public void setTrainingEdits(Set<TrainingEdit> trainingEdits) {
+        this.trainingEdits = trainingEdits;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" data-context-root="${contextRoot}/">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" ng-app="languageApp">
 <head>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -18,6 +18,11 @@
 
 	<!-- Login CSS -->
 	<link href="../../resources/css/login.css" th:href="@{/resources/css/login.css}" rel="stylesheet"/>
+
+	<!-- Angular -->
+	<script src="../../resources/vendors/js/angular.min.js" th:src="@{/resources/vendors/js/angular.min.js}"></script>
+	<script src="../../resources/js/global-ctrls/language-ctrl.js"
+	        th:src="@{/resources/js/global-ctrls/language-ctrl.js}"></script>
 </head>
 
 <body>
@@ -31,9 +36,9 @@
 				     th:src="@{/resources/vendors/pics/exadel-logo.png}"/>
 			</a>
 		</div>
-		<ul class="nav navbar-right top-nav">
-			<li><a class="lang" href="?language=en">En</a></li>
-			<li><a class="lang" href="?language=ru">Ru</a></li>
+		<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+			<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+			<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
 		</ul>
 	</nav>
 	<!-- /.navbar -->

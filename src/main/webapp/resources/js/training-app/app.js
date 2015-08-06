@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('trainingApp', ['collapseCtrl', 'ui.bootstrap', 'angularFileUpload', 'ngNotify']);
+angular.module('trainingApp', ['collapseCtrl', 'languageApp', 'ui.bootstrap', 'angularFileUpload', 'ngNotify']);

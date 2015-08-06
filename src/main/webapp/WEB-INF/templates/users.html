@@ -34,8 +34,6 @@
 	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
 	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
 
-	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
-
 	<!-- Bootstrap Core JavaScript -->
 	<script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
 
@@ -44,6 +42,8 @@
 	<script src="../../resources/vendors/js/ng-table.min.js" th:src="@{/resources/vendors/js/ng-table.min.js}"></script>
 	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
 	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+	<script src="../../resources/js/global-ctrls/language-ctrl.js"
+	        th:src="@{/resources/js/global-ctrls/language-ctrl.js}"></script>
 	<script src="../../resources/js/users-app/app.js" th:src="@{/resources/js/users-app/app.js}"></script>
 	<script src="../../resources/js/users-app/table-ctrl.js" th:src="@{/resources/js/users-app/table-ctrl.js}"></script>
 	<script src="../../resources/js/users-app/table-service.js"
@@ -80,15 +80,15 @@
 			</li>
 
 			<li class="active">
-				<a href="#" th:href="@{/logout}" id="logout">
+				<a href="" th:href="@{/logout}" id="logout">
 					<i class="fa fa-fw fa-power-off"></i>
 					<span th:text="#{label.logout}">Log out</span>
 				</a>
 			</li>
 
-			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href="?language=en">En</a></li>
-				<li><a class="lang" href="?language=ru">Ru</a></li>
+			<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+				<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+				<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
 			</ul>
 		</ul>
 
@@ -102,7 +102,7 @@
 					</a>
 				</li>
 				<li id="mytrainings">
-					<a href="#" th:href="@{/training/my}">
+					<a href="" th:href="@{/training/my}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
 					</a>

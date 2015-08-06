@@ -28,10 +28,8 @@ public class UserController {
     private RoleService roleService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String allUsers(Map<String, Object> map) {
-        map.put("user", new User());
-        map.put("userList", userService.getAllUsers());
-        return "users";
+    public String allUsers() {
+       return "users";
     }
 
     @RequestMapping(value = "/external/new", method = RequestMethod.GET)

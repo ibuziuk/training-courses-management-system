@@ -42,13 +42,13 @@
 	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
 	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
 
-	<script src="../../resources/js/script.js" th:src="@{/resources/js/script.js}"></script>
-
 	<!-- Angular -->
 	<script src="../../resources/vendors/js/angular.js" th:src="@{/resources/vendors/js/angular.js}"></script>
 	<script src="../../resources/js/training-app/app.js" th:src="@{/resources/js/training-app/app.js}"></script>
 	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
 	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+	<script src="../../resources/js/global-ctrls/language-ctrl.js"
+	        th:src="@{/resources/js/global-ctrls/language-ctrl.js}"></script>
 	<script src="../../resources/js/training-app/page-ctrl.js"
 	        th:src="@{/resources/js/training-app/page-ctrl.js}"></script>
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
@@ -88,15 +88,15 @@
 			</li>
 
 			<li class="active">
-				<a href="#" th:href="@{/logout}" id="logout">
+				<a href="" th:href="@{/logout}" id="logout">
 					<i class="fa fa-fw fa-power-off"></i>
 					Log out
 				</a>
 			</li>
 
-			<ul class="nav navbar-right top-nav language-panel">
-				<li><a class="lang" href="?language=en">En</a></li>
-				<li><a class="lang" href="?language=ru">Ru</a></li>
+			<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+				<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+				<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
 			</ul>
 		</ul>
 

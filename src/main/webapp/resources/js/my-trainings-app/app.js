@@ -1,4 +1,4 @@
 'use strict';
 
 angular
-		.module('myTrainingsApp', ['ngTable', 'collapseCtrl', 'calendar', 'table', 'ui.bootstrap', 'mwl.calendar']);
+		.module('myTrainingsApp', ['ngTable', 'collapseCtrl', 'languageApp', 'calendar', 'table', 'ui.bootstrap', 'mwl.calendar']);

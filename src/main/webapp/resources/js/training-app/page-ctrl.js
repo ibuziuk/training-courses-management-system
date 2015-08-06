@@ -11,9 +11,9 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		html: false
 	});
 
-	var getRandomInt = function (min, max) {
+	var getRandomInt = function(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
+	};
 
 	$scope.imgNum = getRandomInt(5, 26);
 
@@ -28,16 +28,56 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 	$scope.registerText = '';
 	$scope.approveText = '';
-
-	var pathname = window.location.pathname;
-	var Url = 'rest/uploadfile/' + pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length);
+	$scope.files = [];
 
 	/* File Upload */
-	var uploader = $scope.uploader = new FileUploader({
+	var Url = $location.absUrl();
+	Url += '/uploadfile';
+	var uploader=$scope.uploader = new FileUploader({
 		url: Url
 	});
 
 	uploader.withCredentials = true;
+
+	// CALLBACKS
+
+	uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+		console.info('onWhenAddingFileFailed', item, filter, options);
+	};
+	uploader.onAfterAddingFile = function(fileItem) {
+		console.info('onAfterAddingFile', fileItem);
+	};
+	uploader.onAfterAddingAll = function(addedFileItems) {
+		console.info('onAfterAddingAll', addedFileItems);
+	};
+	uploader.onBeforeUploadItem = function(item) {
+		console.info('onBeforeUploadItem', item);
+	};
+	uploader.onProgressItem = function(fileItem, progress) {
+		console.info('onProgressItem', fileItem, progress);
+	};
+	uploader.onProgressAll = function(progress) {
+		console.info('onProgressAll', progress);
+	};
+	uploader.onSuccessItem = function(fileItem, response, status, headers) {
+		console.info('onSuccessItem', fileItem, response, status, headers);
+	};
+	uploader.onErrorItem = function(fileItem, response, status, headers) {
+		console.info('onErrorItem', fileItem, response, status, headers);
+	};
+	uploader.onCancelItem = function(fileItem, response, status, headers) {
+		console.info('onCancelItem', fileItem, response, status, headers);
+	};
+	uploader.onCompleteItem = function(fileItem, response, status, headers) {
+		console.info('onCompleteItem', fileItem, response, status, headers);
+		$scope.files.push(response);
+		if(response != '') {
+			$scope.files[$scope.files.length - 1].fileLink = 'rest/downloadfile/' + $scope.files[$scope.files.length - 1].uploadId;
+		}
+	};
+	uploader.onCompleteAll = function() {
+		console.info('onCompleteAll');
+	};
 
 	/* Accordion */
 	$scope.oneAtATime = true;
@@ -57,6 +97,17 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	/* Getting info about the training */
 	var urlParts = window.location.pathname.split('/');
 	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
+
+		$http.get('rest/training/' + urlParts[urlParts.length - 1] + '/files').then(function(objFiles){
+				$scope.files = objFiles.data;
+				for (var k = 0; k < $scope.files.length; k++){
+					$scope.files[k].fileLink = 'rest/downloadfile/' + $scope.files[k].uploadId;
+				}
+				console.log(objFiles.data);
+			}, function(err){
+					ngNotify.set(err.statusText);
+				}
+		);
 
 		console.log(obj.data);
 

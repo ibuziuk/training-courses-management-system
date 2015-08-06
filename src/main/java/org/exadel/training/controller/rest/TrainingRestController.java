@@ -11,7 +11,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -47,6 +49,9 @@ public class TrainingRestController {
 
     @Autowired
     private ScheduleNotificationService scheduleNotificationService;
+
+    @Autowired
+    private UploadFileService uploadFileService;
 
     @RequestMapping(value = "/rest/training", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
@@ -330,6 +335,7 @@ public class TrainingRestController {
 
     @RequestMapping(value = "/rest/training/search", method = RequestMethod.GET,
             params = {"pageNumber", "pageSize", "searchType", "value"})
+
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> searching(
             @RequestParam("pageNumber") Integer pageNumber,
@@ -337,5 +343,41 @@ public class TrainingRestController {
             @RequestParam("searchType") String searchType,
             @RequestParam("value") String value) {
         return trainingService.searchTrainings(pageNumber, pageSize, searchType, value);
+    }
+
+    @RequestMapping(value = "/training/{trainingId}/uploadfile", method = RequestMethod.POST)
+    public UploadFile uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("trainingId") long trainingId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long uploadId = -1;
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator") ||
+                trainingService.getTrainingById(trainingId).getTrainer().getUserId() == userDetails.getId()) {
+            if (trainingService.getTrainingById(trainingId) != null) {
+                uploadId = uploadFileService.addUploadFile(trainingId, file);
+            }
+        }
+        if (uploadId != -1)
+            return uploadFileService.getUploadFile(uploadId);
+        return null;
+    }
+
+    @RequestMapping(value = "/rest/downloadfile/{fileId}", method = RequestMethod.GET)
+    public void downloadFileHandler(HttpServletResponse response, @PathVariable("fileId") long fileId) {
+        uploadFileService.getUploadFile(fileId, response);
+    }
+
+    @RequestMapping(value = "/rest/training/{trainingId}/files", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<UploadFile> getFilesNameByTraining(@PathVariable("trainingId") long trainingId) {
+        return uploadFileService.getUploadFilesByTraining(trainingId);
+    }
+
+    @RequestMapping(value = "/rest/deletefile/{fileId}", method = RequestMethod.DELETE)
+    public void deleteFileHandler(@PathVariable("fileId") long fileId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = trainingService.getTrainingById(uploadFileService.getUploadFile(fileId).getTraining().getTrainingId()).getTrainer().getUserId();
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator") || userId == userDetails.getId()) {
+            uploadFileService.removeUploadFile(uploadFileService.getUploadFile(fileId));
+
+        }
     }
 }

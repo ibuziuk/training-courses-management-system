@@ -149,17 +149,6 @@
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<h1 class="page-header">Training page</h1>
-
-
-					<!--
-
-					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
-					        type="button">
-						<i class="fa fa-fw fa-book"></i> Attendence book
-					</button>
-					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
-						<i class="fa fa-fw fa-user-plus"></i> Add an external user
-					</button>-->
 				</div>
 			</div>
 			<!-- /Page Heading -->
@@ -177,7 +166,7 @@
 							{{registerText}}
 						</h4>
 
-						<button ng-if="(training.register == 3) &#38;&#38; training.isApproved" id="registerBtn"
+						<button ng-if="(training.register == 3) &#38;&#38; isApproved" id="registerBtn"
 						        class="btn btn-success" type="button"
 						        ng-click="trainingReg(true)">
 							<i class="fa fa-fw fa-plus"></i> Register
@@ -186,9 +175,8 @@
 						<button ng-if="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
 						        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
 							<i class="fa fa-fw fa-times"></i> Unregister
+							<br/>
 						</button>
-
-						<br/>
 
 						<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 						<span class="label"
@@ -213,7 +201,9 @@
 
 						<h4>
 							<label style="font-size: 18px;">Files: </label>
-
+							<span ng-repeat="file in files">
+								<a href="{{file.fileLink}}" target="_blank">{{file.name}}</a> <br/>
+							</span>
 						</h4>
 
 						<h4 ng-show="continuous">
@@ -221,7 +211,6 @@
 
 						</h4>
 						<hr/>
-
 						<accordion close-others="oneAtATime">
 							<accordion-group is-open="status.open">
 								<accordion-heading>
@@ -256,6 +245,13 @@
 					<button style="padding-left: 2px;" class="btn btn-primary"
 					        ng-show="isAdmin || training.register == 2">
 						<i class="fa fa-fw fa-pencil"></i> Edit
+					</button>
+					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
+					        type="button">
+						<i class="fa fa-fw fa-book"></i> Attendence book
+					</button>
+					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
+						<i class="fa fa-fw fa-user-plus"></i> Add an external user
 					</button>
 					<hr/>
 

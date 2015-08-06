@@ -99,6 +99,9 @@ public class Training {
     private Set<WaitingList> waiting;
 
     @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<UploadFile> uploadFiles;
+
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
     private Set<RegularLesson> lessons = new HashSet<>(0);
 
     @JsonIgnore

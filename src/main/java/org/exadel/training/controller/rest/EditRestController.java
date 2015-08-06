@@ -21,7 +21,7 @@ public class EditRestController {
     @Autowired
     private LanguageService languageService;
 
-    @RequestMapping(value = "rest/edit/training", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/edit/training", method = RequestMethod.POST)
     public Map<String, Object> editTraining(@RequestBody Map<String, Object> requestMap) {
         long id = Long.parseLong(requestMap.get("trainingId").toString());
         Training training = trainingService.getTrainingById(id);
@@ -63,6 +63,19 @@ public class EditRestController {
         }
         Map<String, Object> map =  new HashMap<>(1);
         map.put("Result", "OK!");
+        return map;
+    }
+
+    @RequestMapping(value = "/rest/edit/training/{approve}")
+    public Map<String, Object> approveEdit(@RequestBody Map<String, Object> requestMap, @PathVariable("approve") String approve){
+        long id = Long.parseLong(requestMap.get("trainingId").toString());
+        TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
+        Map<String, Object> map = new HashMap<>();
+        if(te != null) {
+            te.setIsApproved(approve.equals("approve"));
+            trainingEditService.updateEdit(te);
+            map.put("Result", "OK!");
+        }
         return map;
     }
 }

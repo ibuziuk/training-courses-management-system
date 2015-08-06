@@ -28,16 +28,13 @@ public class TrainingEditDaoImpl implements TrainingEditDAO {
     public TrainingEdit getEditByTrainingIfExist(long trainingId) {
         return (TrainingEdit) sessionFactory.getCurrentSession().createCriteria(TrainingEdit.class)
                 .add(Restrictions.eq("training.trainingId", trainingId))
-                .add(Restrictions.or(
-                        Restrictions.eq("isApproved", false),
-                        Restrictions.isNull("isApproved")
-                ))
+                .add(Restrictions.isNull("isApproved"))
                 .uniqueResult();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TrainingEdit> getAllEditsByTRaining(long trainingId) {
+    public List<TrainingEdit> getAllEditsByTraining(long trainingId) {
         return sessionFactory.getCurrentSession().createCriteria(TrainingEdit.class)
                 .add(Restrictions.eq("training.trainingId", trainingId))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)

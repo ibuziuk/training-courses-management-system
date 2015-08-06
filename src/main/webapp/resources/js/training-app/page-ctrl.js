@@ -11,7 +11,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		html: false
 	});
 
-	var getRandomInt = function(min, max) {
+	var getRandomInt = function (min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 
@@ -30,7 +30,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	$scope.approveText = '';
 
 	var pathname = window.location.pathname;
-	var Url = window.location.origin + '/rest/uploadfile/' + pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length);
+	var Url = 'rest/uploadfile/' + pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length);
 
 	/* File Upload */
 	var uploader = $scope.uploader = new FileUploader({

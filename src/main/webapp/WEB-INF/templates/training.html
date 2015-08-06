@@ -421,7 +421,8 @@
 						<tbody>
 						<tr ng-repeat="item in uploader.queue">
 							<td><strong>{{ item.file.name }}</strong></td>
-							<td ng-show="uploader.isHTML5" nowrap="nowrap">{{ item.file.size/1024/1024|number:2 }} MB</td>
+							<td ng-show="uploader.isHTML5" nowrap="nowrap">{{ item.file.size/1024/1024|number:2 }} MB
+							</td>
 							<td ng-show="uploader.isHTML5">
 								<div class="progress" style="margin-bottom: 0;">
 									<div class="progress-bar" role="progressbar"
@@ -451,7 +452,7 @@
 					</table>
 
 					<div ng-show="&#33;vote &#38;&#38; openFeed">
-					<hr/>
+						<hr/>
 						<accordion close-others="oneAtATime">
 							<accordion-group is-open="status.open">
 								<accordion-heading>
@@ -465,7 +466,7 @@
 								<rating ng-model="rate" max="max" readonly="false"
 								        on-hover="hoveringOver(value)"></rating>
 								<span class="label"
-						      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
+								      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
 
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -482,7 +483,8 @@
 											<ul class="dropdown-menu" role="menu">
 												<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a>
 												</li>
-												<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that took
+												<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that
+													took
 													part </a>
 												</li>
 												<li><a href="" ng-click="chooseImpression(2)">Disappointed, that took
@@ -501,9 +503,11 @@
 												{{myFeedback.intelligibility}}<span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu" role="menu">
-												<li><a href="" ng-click="chooseIntelligibility(0)">Everything was clear </a>
+												<li><a href="" ng-click="chooseIntelligibility(0)">Everything was
+													clear </a>
 												</li>
-												<li><a href="" ng-click="chooseIntelligibility(1)">Nothing was clear </a>
+												<li><a href="" ng-click="chooseIntelligibility(1)">Nothing was
+													clear </a>
 												</li>
 												<li><a href="" ng-click="chooseIntelligibility(2)">Something wasn't
 													clear </a></li>
@@ -521,11 +525,14 @@
 												{{myFeedback.interest}}<span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu" role="menu">
-												<li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at all </a>
+												<li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at
+													all </a>
 												</li>
-												<li><a href="" ng-click="chooseInterest(1)">Was boring in some moments </a>
+												<li><a href="" ng-click="chooseInterest(1)">Was boring in some
+													moments </a>
 												</li>
-												<li><a href="" ng-click="chooseInterest(2)">Was very interesting </a></li>
+												<li><a href="" ng-click="chooseInterest(2)">Was very interesting </a>
+												</li>
 											</ul>
 										</div>
 

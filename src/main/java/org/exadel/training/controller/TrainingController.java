@@ -19,9 +19,14 @@ public class TrainingController {
         return "all-trainings";
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    @RequestMapping(value = {"/new"}, method = RequestMethod.GET)
     public String newTraining() {
         return "new-training";
+    }
+
+    @RequestMapping(value = "/{trainingId}/edit", method = RequestMethod.GET)
+    public String editTraining() {
+        return "edit-training";
     }
 
     @RequestMapping(value = "/my", method = RequestMethod.GET)

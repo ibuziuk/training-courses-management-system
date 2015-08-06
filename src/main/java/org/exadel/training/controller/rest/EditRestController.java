@@ -49,29 +49,29 @@ public class EditRestController {
         if (requestMap.containsKey("duration") && Integer.parseInt(requestMap.get("duration").toString()) != training.getDuration()) {
             te.setDuration(Integer.parseInt(requestMap.get("duration").toString()));
         }
-        if (requestMap.containsKey("description") && !requestMap.get("description").toString().equals(training.getDescription())){
+        if (requestMap.containsKey("description") && !requestMap.get("description").toString().equals(training.getDescription())) {
             te.setDescription(requestMap.get("description").toString());
         }
-        if (requestMap.containsKey("language") && !languageService.getLanguageByValue(requestMap.get("language").toString()).equals(training.getLanguage())){
+        if (requestMap.containsKey("language") && !languageService.getLanguageByValue(requestMap.get("language").toString()).equals(training.getLanguage())) {
             te.setLanguage(languageService.getLanguageByValue(requestMap.get("language").toString()));
         }
         te.setTraining(training);
-        if(flagNew){
+        if (flagNew) {
             trainingEditService.addEdit(te);
         } else {
             trainingEditService.updateEdit(te);
         }
-        Map<String, Object> map =  new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>(1);
         map.put("Result", "OK!");
         return map;
     }
 
     @RequestMapping(value = "/rest/edit/training/{approve}")
-    public Map<String, Object> approveEdit(@RequestBody Map<String, Object> requestMap, @PathVariable("approve") String approve){
+    public Map<String, Object> approveEdit(@RequestBody Map<String, Object> requestMap, @PathVariable("approve") String approve) {
         long id = Long.parseLong(requestMap.get("trainingId").toString());
         TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
         Map<String, Object> map = new HashMap<>();
-        if(te != null) {
+        if (te != null) {
             te.setIsApproved(approve.equals("approve"));
             trainingEditService.updateEdit(te);
             map.put("Result", "OK!");

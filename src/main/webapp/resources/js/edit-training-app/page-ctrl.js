@@ -223,11 +223,6 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						/* Training visitors */
 						training.maxVisitorsCount = $scope.guests;
 
-						if (training.visitors === undefined || training.visitors.length === 0) {
-							ngNotify.set('You should enter quantity of guests!');
-							return;
-						}
-
 						/* Training duration */
 
 						if (!$scope.step3())

@@ -29,6 +29,7 @@ public class EditRestController {
         TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
         boolean flagNew = false;
         boolean flag = false;
+        boolean regular = Boolean.parseBoolean(requestMap.get("regular").toString());
         if (te == null) {
             flagNew = true;
             te = new TrainingEdit();
@@ -37,21 +38,30 @@ public class EditRestController {
             flag = true;
             te.setTitle(requestMap.get("title").toString());
         }
-        if (requestMap.containsKey("date") && !new Timestamp(Long.parseLong(requestMap.get("date").toString())).equals(training.getDate())) {
-            flag = true;
-            te.setDate(new Timestamp(Long.parseLong(requestMap.get("date").toString())));
+        try{
+            if (!regular && requestMap.containsKey("date") && requestMap.containsKey("times")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                String dateString = requestMap.get("date").toString() + " " + requestMap.get("times");
+                Timestamp date = new Timestamp(sdf.parse(dateString).getTime());
+                if (!date.equals(training.getDate())){
+                    flag = true;
+                    te.setDate(date);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
         if (requestMap.containsKey("maxVisitorsCount") && Integer.parseInt(requestMap.get("maxVisitorsCount").toString()) != training.getMaxVisitorsCount()) {
             flag = true;
             te.setMaxVisitorsCount(Integer.parseInt(requestMap.get("maxVisitorsCount").toString()));
         }
-        if (requestMap.containsKey("time") && requestMap.get("time").toString().equals(training.getTime())) {
+        if (requestMap.containsKey("times") && !requestMap.get("times").toString().equals(training.getTime())) {
             flag = true;
-            te.setTime(requestMap.get("time").toString());
+            te.setTime(requestMap.get("times").toString());
         }
-        if (requestMap.containsKey("location") && Integer.parseInt(requestMap.get("location").toString()) != training.getLocation()) {
+        if (!regular && requestMap.containsKey("rooms") && !requestMap.get("rooms").toString().equals(training.getLocation())) {
             flag = true;
-            te.setLocation(Integer.parseInt(requestMap.get("location").toString()));
+            te.setLocation(requestMap.get("rooms").toString());
         }
         if (requestMap.containsKey("duration") && Integer.parseInt(requestMap.get("duration").toString()) != training.getDuration()) {
             flag = true;
@@ -61,16 +71,16 @@ public class EditRestController {
             flag = true;
             te.setDescription(requestMap.get("description").toString());
         }
-        if (requestMap.containsKey("language") && !languageService.getLanguageByValue(requestMap.get("language").toString()).equals(training.getLanguage())) {
+        if (requestMap.containsKey("language") && !requestMap.get("language").toString().equals(training.getLanguage().getValue())) {
             flag = true;
             te.setLanguage(languageService.getLanguageByValue(requestMap.get("language").toString()));
         }
-        if (requestMap.containsKey("days") && !requestMap.get("days").toString().equals(training.getDays())){
+        if (regular && requestMap.containsKey("days") && !requestMap.get("days").toString().equals(training.getDays())){
             flag = true;
             te.setDays(requestMap.get("days").toString());
         }
         try{
-            if (requestMap.containsKey("start")) {
+            if (regular && requestMap.containsKey("start")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                 Date start = new java.sql.Date(sdf.parse(requestMap.get("start").toString()).getTime());
                 if (!start.equals(training.getStart())) {
@@ -79,7 +89,7 @@ public class EditRestController {
                 }
 
             }
-            if (requestMap.containsKey("end")) {
+            if (regular && requestMap.containsKey("end")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                 Date end = new java.sql.Date(sdf.parse(requestMap.get("end").toString()).getTime());
                 if (!end.equals(training.getEnd())) {
@@ -108,7 +118,21 @@ public class EditRestController {
         TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
         Map<String, Object> map = new HashMap<>();
         if (te != null) {
-            te.setIsApproved(approve.equals("approve"));
+            if (approve.equals("approve")){
+                te.setIsApproved(true);
+                Training training = trainingService.getTrainingById(id);
+                if(te.getDate() != null){
+                    training.setDate(te.getDate());
+                }
+                if(te.getDays() != null){
+                    training.setDays(te.getDays());
+                }
+//                if(te.getDescription() != null){
+//                    training.s
+//                }
+            } else {
+                te.setIsApproved(false);
+            }
             trainingEditService.updateEdit(te);
             map.put("Result", "OK!");
         }

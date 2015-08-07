@@ -29,7 +29,7 @@ public class TrainingEdit {
     @Column(length = 255)
     private String time;
 
-    private Integer location;
+    private String location;
 
     private Integer duration;
 
@@ -120,11 +120,11 @@ public class TrainingEdit {
         this.date = date;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

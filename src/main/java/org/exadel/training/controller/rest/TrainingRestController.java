@@ -226,7 +226,7 @@ public class TrainingRestController {
         } else {
             if (json.get("rooms") != null) {
                 if (json.get("rooms").getAsJsonArray().size() != 0) {
-                    training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsInt());
+                    training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsString());
                 }
             }
 

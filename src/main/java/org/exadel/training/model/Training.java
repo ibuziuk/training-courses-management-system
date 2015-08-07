@@ -37,7 +37,7 @@ public class Training {
     @Column(length = 255)
     private String time;
 
-    private Integer location;
+    private String location;
 
     private Integer duration;
 
@@ -152,12 +152,12 @@ public class Training {
         this.maxVisitorsCount = MAX_count;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(int place) {
-        this.location = place;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Integer getDuration() {

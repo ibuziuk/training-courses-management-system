@@ -21,6 +21,11 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 	var languages = ['English ', 'Russian '];
 
 
+	function div(val, by){
+		return (val - val % by) / by;
+	}
+
+
 	$scope.chooseRepet = function (rep) {
 		$scope.toShowRepet = repetitions[rep];
 	};
@@ -58,7 +63,7 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 				else {
 					$scope.toShowRepet = (obj.data.training.regular) ? repetitions[1] : repetitions[0];
 					if (obj.data.training.regular) {
-						$scope.days = obj.data.training.lessons.length;
+						$scope.days = obj.data.training.days.split(" ").length - 1;
 					}
 				}
 
@@ -68,50 +73,69 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 				/* Language */
 				$scope.toShowLanguage = obj.data.training.language.value + ' ';
 
+				var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
+
+				$scope.chooseWeekDay = function (rep, index) {
+					$scope.datepickers[index].whatChosen = rep;
+					$scope.datepickers[index].toShowWeekDay = days[rep];
+				};
+
 				$scope.toShow = function () {
 					$scope.descriptions = [];
-
-					if (!continuous){
-						$scope.descriptions.push({text: obj.data.training.description});
-					}
-					else {
-						var ind1 = $scope.trainingName.substring($scope.trainingName.lastIndexOf('#') + 1, $scope.trainingName.length);
-						$scope.descriptions[ind1] = {text: obj.data.training.description};
-						for (var l in obj.data.parts){
-							var indl = obj.data.parts[l].title.substring(obj.data.parts[l].title.lastIndexOf('#') + 1, obj.data.parts[l].title.length);
-							$scope.descriptions[indl] = {text: obj.data.parts[l].description};
-						}
-					}
-
-
 					$scope.datepickers = [];
 					$scope.qDates = ($scope.toShowRepet === 'Weekly ') ? $scope.days : $scope.qDescr;
 
-					for (var i = 0; i < $scope.qDates; i++) {
-						$scope.datepickers[i] = {
-							'dt': new Date(),
-							'time': new Date(),
-							'toShowWeekDay': 'Select day of week ',
-							'room': ''
-						};
+					if (!continuous){
+						$scope.descriptions.push({text: obj.data.training.description});
+						if (obj.data.training.regular){
+							$scope.dateStartWeekly = new Date(obj.data.training.start);
+							$scope.dateEndWeekly = new Date(obj.data.training.end);
+							var times = obj.data.training.time.split(' ');
+							var hours = [];
+							var minutes = [];
+							var rooms = [];
+							var weekDays = obj.data.training.days.split(' ');
+							for (var l = 0; l < $scope.qDates; l++){
+								times[l] = times[l].split('-')[0];
+								hours[l] = times[l].split(':')[0];
+								minutes[l] = times[l].split(':')[1];
+								rooms[l] = obj.data.training.lessons[l].location || '';
+							}
+
+							for (var k = 0; k < $scope.qDates; k++){
+								$scope.datepickers[k] = {
+									'time': new Date(1, 2, 3, hours[k], minutes[k]),
+									'room': rooms[k],
+									'toShowWeekDay': days[weekDays[k]]
+								};
+							}
+						}
+						else {
+							$scope.descriptions[0] = {text: obj.data.training.description};
+							$scope.datepickers[0] = {
+								'dt': new Date(obj.data.training.date),
+								'time': new Date(obj.data.training.date),
+								'room': obj.data.training.location || ''
+							};
+						}
 					}
-					$scope.today();
-				};
-
-				$scope.datepickers = [];
-
-				/* Date */
-
-				$scope.today = function () {
-					for (var i = 0; i < $scope.qDates; i++) {
-						$scope.datepickers[i].dt = new Date();
+					else {
+						for (var l in obj.data.parts){
+							var indl = obj.data.parts[l].title.substring(obj.data.parts[l].title.lastIndexOf('#') + 1, obj.data.parts[l].title.length);
+							$scope.descriptions[indl - 1] = {text: obj.data.parts[l].description};
+							$scope.datepickers[indl - 1] = {
+								'dt': new Date(obj.data.parts[l].date),
+								'time': new Date(obj.data.parts[l].date),
+								'room': obj.data.parts[l].location || ''
+							};
+						}
 					}
-					$scope.dateStartWeekly = new Date();
-					$scope.dateEndWeekly = new Date();
+
+					$scope.duration = new Date(1, 2, 3, div(obj.data.training.duration, 60), obj.data.training.duration % 60);
 				};
 
 				$scope.toggleMin = function () {
-					$scope.minDate = $scope.minDate ? null : new Date();
+					$scope.minDate = new Date();
 				};
 				$scope.toggleMin();
 
@@ -140,23 +164,32 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 
 				$scope.ismeridian = false;
 
-				$scope.updateTime = function () {
-					var d = new Date();
-					d.setHours(0);
-					d.setMinutes(0);
-					$scope.duration = d;
-				};
-
-				$scope.updateTime();
-
-				var days = ['Monday ', 'Tuesday ', 'Wednesday ', 'Thursday ', 'Friday ', 'Saturday ', 'Sunday '];
-
-				$scope.chooseWeekDay = function (rep, index) {
-					$scope.datepickers[index].whatChosen = rep;
-					$scope.datepickers[index].toShowWeekDay = days[rep];
-				};
-
 				$scope.toShow();
+
+				$http.get('rest/tag').then(function (objTag) {
+					$scope.checkboxTags = objTag.data;
+					for (var k in $scope.checkboxTags) {
+						$scope.checkboxTags[k].name = '#' + $scope.checkboxTags[k].name;
+						$scope.checkboxTags[k].id = $scope.checkboxTags[k].name;
+					}
+
+					$http.get('rest/audience').then(function (objAud) {
+						$scope.checkboxAudiences = objAud.data;
+						for (var k in $scope.checkboxAudiences) {
+							$scope.checkboxAudiences[k].id = $scope.checkboxAudiences[k].value;
+						}
+
+						for (var k = 0; k < obj.data.training.tags.length; k++){
+							$scope.selectedTags[k] = '#' + obj.data.training.tags[k].name;
+						}
+
+						for (var l = 0; l < obj.data.training.audiences.length; l++){
+							$scope.selectedAudiences[l] = obj.data.training.audiences[l].value;
+						}
+
+						$scope.guests = obj.data.training.maxVisitorsCount;
+					});
+				});
 
 				$scope.step1 = function () {
 					$scope.$parent.totalItems = 5;
@@ -225,7 +258,8 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 				};
 
 			}).catch(function (err) {
-				ngNotify.set(err.data);
+				console.log(err);
+				ngNotify.set(err.statusText);
 			}).finally(function () {
 			});
 }]);

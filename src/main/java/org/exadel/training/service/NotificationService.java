@@ -81,8 +81,8 @@ public class NotificationService {
         Context context = new Context();
         context.setVariable("mailReceiver", external.getFirstName());
         context.setVariable("startText", "Your credentials for visiting Exadel Training System:");
-        context.setVariable("login", "login: " + external.getLogin());
-        context.setVariable("password", "password: " + password);
+        context.setVariable("nameTraining", "\nlogin: " + external.getLogin());
+        context.setVariable("date", "\npassword: " + password);
         emailNotifierService.sendEmailNotification(external.getEmail(), "Your account has been created", context);
 
         List<User> users = userService.getUsersByRole(RoleUtil.ADMIN_SMALL);

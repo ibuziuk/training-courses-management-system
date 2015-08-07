@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('editTrainingApp').controller('paginationCtrl', function ($scope) {
+angular.module('approveTrainingApp').controller('paginationCtrl', function ($scope) {
   $scope.totalItems = 35;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 1;

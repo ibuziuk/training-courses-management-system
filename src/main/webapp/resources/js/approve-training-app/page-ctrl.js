@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q', '$window', 'ngNotify', function ($scope, $http, $q, $window, ngNotify) {
+angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q', '$window', 'ngNotify', function ($scope, $http, $q, $window, ngNotify) {
 	ngNotify.config({
 		theme: 'pastel',
 		position: 'bottom',
@@ -19,7 +19,6 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 	var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
 	var types = ['Inner training ', 'Outer training '];
 	var languages = ['English ', 'Russian '];
-
 
 	function div(val, by){
 		return (val - val % by) / by;

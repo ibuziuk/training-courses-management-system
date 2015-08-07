@@ -211,6 +211,8 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						/* Training name */
 						training.title = $scope.trainingName;
 
+						training.regular = ($scope.toShowRepet === 'Weekly ');
+
 						if ($scope.toShowRepet === 'Continuous ') {
 							training.title += (' #' + (i + 1));
 						}
@@ -219,7 +221,7 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						training.description = $scope.descriptions[i].text;
 
 						/* Training visitors */
-						training.visitors = $scope.guests;
+						training.maxVisitorsCount = $scope.guests;
 
 						if (training.visitors === undefined || training.visitors.length === 0) {
 							ngNotify.set('You should enter quantity of guests!');
@@ -235,28 +237,28 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 
 						/* Training dates */
 						training.days = '';
-						training.rooms = [];
+						training.rooms = '';
 						training.date = '';
-						training.times = [];
+						training.times = '';
 
 						if ($scope.toShowRepet === 'Weekly ') {
-							training.date = $scope.dateStartWeekly.getDate() + '.' + ($scope.dateStartWeekly.getMonth() + 1) + '.' + $scope.dateStartWeekly.getFullYear();
+							training.start = $scope.dateStartWeekly.getDate() + '.' + ($scope.dateStartWeekly.getMonth() + 1) + '.' + $scope.dateStartWeekly.getFullYear();
 							training.end = $scope.dateEndWeekly.getDate() + '.' + ($scope.dateEndWeekly.getMonth() + 1) + '.' + $scope.dateEndWeekly.getFullYear();
 							for (var j = 0; j < $scope.datepickers.length; j++) {
 								training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
-								training.times.push($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
+								training.times += ($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
 								if ($scope.datepickers[j].room !== undefined && $scope.datepickers[j].room.length !== 0) {
-									training.rooms.push($scope.datepickers[j].room);
+									training.rooms += ($scope.datepickers[j].room);
 								}
 							}
 						}
 						else if ($scope.toShowRepet === 'Continuous ' || $scope.toShowRepet === 'One-off ') {
 							if ($scope.datepickers[i].room !== undefined && $scope.datepickers[i].room.length !== 0) {
-								training.rooms.push($scope.datepickers[i].room);
+								training.rooms += ($scope.datepickers[i].room);
 							}
 							var date = $scope.datepickers[i].dt.getDate() + '.' + ($scope.datepickers[i].dt.getMonth() + 1) + '.' + $scope.datepickers[i].dt.getFullYear();
 							training.date = date;
-							training.times.push($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
+							training.times += ($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
 						}
 						trainingsRequests[i] = $http.post('rest' + window.location.pathname, training);
 					}

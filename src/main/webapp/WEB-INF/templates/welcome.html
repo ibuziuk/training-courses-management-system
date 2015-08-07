@@ -86,7 +86,7 @@
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse" collapse="isCollapsed">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
-				<li id="alltrainings">
+				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
@@ -140,7 +140,7 @@
 			</div>
 			<!-- /.row -->
 
-			<div class="row" ng-controller="squareCtrl">
+			<div sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" class="row" ng-controller="squareCtrl">
 				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
 					<!-- 1 -->
 					<div class="panel panel-red">

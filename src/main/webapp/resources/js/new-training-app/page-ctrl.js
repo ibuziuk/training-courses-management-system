@@ -332,16 +332,16 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 				}
 				$q.all(trainingsRequests).then(function (results) {
 					$window.location.href = 'training/' + results[0].data.id;
-				}, function (data) {
-					ngNotify.set(data);
+				}, function (err) {
+					ngNotify.set(err.statusText);
 				});
 			};
-		}).catch(function (data) {
-			ngNotify.set(data.data);
+		}).catch(function (err) {
+			ngNotify.set(err.statusText);
 		}).finally(function () {
 		});
-	}).catch(function (data) {
-		ngNotify.set(data.data);
+	}).catch(function (err) {
+		ngNotify.set(err.statusText);
 	}).finally(function () {
 	});
 }]);

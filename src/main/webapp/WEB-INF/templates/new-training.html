@@ -104,7 +104,7 @@
 		<div class="collapse navbar-collapse" collapse="isCollapsed">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
 
-				<li id="alltrainings">
+				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>

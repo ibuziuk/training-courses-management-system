@@ -12,9 +12,16 @@
         <security:logout delete-cookies="JSESSIONID"/>
         <security:intercept-url pattern="/resources/**" access="permitAll"/>
         <security:intercept-url pattern="/login*" access="permitAll"/>
+        <security:intercept-url pattern="/training/all" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/rest/training/all*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/rest/training/search*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/rest/register/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/rest/unregister/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/trainer/new" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/user/**" access="hasRole('ROLE_ADMIN')"/>
-        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/rest/user/all*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/rest/user/search*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_EXTERNAL', 'ROLE_USER', 'ROLE_ADMIN')"/>
         <security:remember-me token-validity-seconds="604800" remember-me-parameter="remember-me" user-service-ref="myUserDetailsService"/>
         <security:csrf disabled="true"/>
     </security:http>

@@ -11,11 +11,18 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		html: false
 	});
 
-	var getRandomInt = function(min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
+	var getRandomPic = function(min, max) {
+		var r =  Math.floor(Math.random() * (max - min + 1)) + min;
+		if (r == 2 || r == 17 || r == 19){
+			r += '.png';
+		}
+		else{
+			r += '.jpg';
+		}
+		return r;
 	};
 
-	$scope.imgNum = getRandomInt(5, 26);
+	$scope.img = getRandomPic(1, 24);
 
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
@@ -121,7 +128,10 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.continuous = obj.data.training.continuous;
 
-		$scope.trainerLink = window.location.origin + '/user/' + obj.data.training.trainer.userId;
+		if ($scope.continuous)
+			$scope.parts = obj.data.parts;
+
+		$scope.trainerLink = 'user/' + obj.data.training.trainer.userId;
 		/* Training info */
 		$scope.vote = obj.data.vote;
 		$scope.isAdmin = obj.data.isAdmin;
@@ -320,7 +330,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		$scope.sendFeedback = function () {
 			myFeedbackToSend.text = $scope.myFeedback.text;
 			myFeedbackToSend.rate = $scope.overStar;
-			$http.post('rest/feedback' + window.location.pathname, myFeedbackToSend).then(function (obj) {
+			$http.post('rest/feedback/training' + obj.data.training.trainingId, myFeedbackToSend).then(function (obj) {
 				$scope.vote = true;
 				getFeedbacks(obj.data.feedbacks);
 				getRating(obj.data.rating)
@@ -331,14 +341,14 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.trainingReg = function (flag) {
 			if (flag) {
-				$http.post('rest/register' + window.location.pathname, 'registering').then(function (obj) {
+				$http.post('rest/register/training' + obj.data.training.trainingId, 'registering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);
 				});
 			}
 			else {
-				$http.post('rest/unregister' + window.location.pathname, 'unregistering').then(function (obj) {
+				$http.post('rest/unregister/training' + obj.data.training.trainingId, 'unregistering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);

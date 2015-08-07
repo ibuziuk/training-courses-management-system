@@ -18,6 +18,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.exadel.training.utils.RoleUtil.ROLE_ADMIN;
+
 @RestController
 public class TrainingRestController {
     @Autowired
@@ -375,7 +377,7 @@ public class TrainingRestController {
     public void deleteFileHandler(@PathVariable("fileId") long fileId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long userId = trainingService.getTrainingById(uploadFileService.getUploadFile(fileId).getTraining().getTrainingId()).getTrainer().getUserId();
-        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator") || userId == userDetails.getId()) {
+        if (userDetails.hasRole(ROLE_ADMIN) || userId == userDetails.getId()) {
             uploadFileService.removeUploadFile(uploadFileService.getUploadFile(fileId));
 
         }

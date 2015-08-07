@@ -76,4 +76,13 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return isEnabled;
     }
+
+    public boolean hasRole(String role) {
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

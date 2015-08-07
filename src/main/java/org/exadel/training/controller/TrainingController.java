@@ -41,4 +41,12 @@ public class TrainingController {
         }
         throw new ResourceNotFoundException();
     }
+
+    @RequestMapping(value = "approve/{trainingId:[\\d]+}")
+    public String approvePage(@PathVariable("trainingId") long trainingId) {
+        if (trainingService.getTrainingById(trainingId) != null) {
+            return "approve-training";
+        }
+        throw new ResourceNotFoundException();
+    }
 }

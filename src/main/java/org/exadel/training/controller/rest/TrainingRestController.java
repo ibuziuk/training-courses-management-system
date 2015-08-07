@@ -88,8 +88,6 @@ public class TrainingRestController {
         }
         if (json.get("approved") != null) {
             training.setApproved(json.get("approved").getAsBoolean());
-        } else {
-            training.setApproved(false);
         }
         Language language = null;
         String languageValue = json.get("language").getAsString();

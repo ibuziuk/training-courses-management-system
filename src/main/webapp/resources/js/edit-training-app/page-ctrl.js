@@ -33,6 +33,7 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 			function(obj){
 				console.log(obj.data);
 				$scope.qDescr = 1;
+				$scope.guests = '';
 
 				var continuous = obj.data.training.continuous;
 
@@ -241,19 +242,19 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 							training.end = $scope.dateEndWeekly.getDate() + '.' + ($scope.dateEndWeekly.getMonth() + 1) + '.' + $scope.dateEndWeekly.getFullYear();
 							for (var j = 0; j < $scope.datepickers.length; j++) {
 								training.days += days.indexOf($scope.datepickers[j].toShowWeekDay) + ' ';
-								training.times += ($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes());
+								training.times += ($scope.datepickers[j].time.getHours() + ':' + $scope.datepickers[j].time.getMinutes()) + ' ';
 								if ($scope.datepickers[j].room !== undefined && $scope.datepickers[j].room.length !== 0) {
-									training.rooms += ($scope.datepickers[j].room);
+									training.rooms += ($scope.datepickers[j].room) + ' ';
 								}
 							}
 						}
 						else if ($scope.toShowRepet === 'Continuous ' || $scope.toShowRepet === 'One-off ') {
 							if ($scope.datepickers[i].room !== undefined && $scope.datepickers[i].room.length !== 0) {
-								training.rooms += ($scope.datepickers[i].room);
+								training.rooms += ($scope.datepickers[i].room) + ' ';
 							}
 							var date = $scope.datepickers[i].dt.getDate() + '.' + ($scope.datepickers[i].dt.getMonth() + 1) + '.' + $scope.datepickers[i].dt.getFullYear();
 							training.date = date;
-							training.times += ($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes());
+							training.times += ($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes()) + ' ';
 						}
 						trainingsRequests[i] = $http.post('rest' + window.location.pathname, training);
 					}

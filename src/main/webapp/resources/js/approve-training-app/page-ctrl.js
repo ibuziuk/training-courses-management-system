@@ -38,15 +38,19 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 
 	var pathname = window.location.pathname;
 
-	$http.get('rest/training/' + window.location.pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length)).then(
+	$http.get('rest/training/approve/' + window.location.pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length)).then(
 			function(obj){
-				console.log(obj.data);
-				$scope.qDescr = 1;
+				console.log(obj.data.old);
+				console.log(obj.data.edit);
 
-				var continuous = obj.data.training.continuous;
+				$scope.qDescr = 1;
+				var continuous = obj.data.old.training.continuous;
 
 				/* Title */
-				$scope.trainingName = obj.data.training.title;
+				$scope.trainingName = obj.data.old.training.title;
+				if (obj.data.edit.training.title){
+					$scope.trainingName += '/';
+				}
 
 				if (continuous){
 					$scope.trainingName = $scope.trainingName.substring(0, $scope.trainingName.lastIndexOf('#'));

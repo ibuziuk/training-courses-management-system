@@ -63,6 +63,9 @@ public class Training {
     @Column(name = "is_approved")
     private Boolean isApproved;
 
+    @Column(name = "is_editing")
+    private Boolean isEditing;
+
     @ManyToOne
     @JoinColumn(name = "language_id")
     private Language language;
@@ -340,5 +343,13 @@ public class Training {
 
     public void setTrainingEdit(Set<TrainingEdit> trainingEdit) {
         this.trainingEdit = trainingEdit;
+    }
+
+    public Boolean getIsEditing() {
+        return isEditing;
+    }
+
+    public void setIsEditing(Boolean isEditing) {
+        this.isEditing = isEditing;
     }
 }

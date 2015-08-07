@@ -38,17 +38,17 @@ public class EditRestController {
             flag = true;
             te.setTitle(requestMap.get("title").toString());
         }
-        try{
+        try {
             if (!regular && requestMap.containsKey("date") && requestMap.containsKey("times")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
                 String dateString = requestMap.get("date").toString() + " " + requestMap.get("times");
                 Timestamp date = new Timestamp(sdf.parse(dateString).getTime());
-                if (!date.equals(training.getDate())){
+                if (!date.equals(training.getDate())) {
                     flag = true;
                     te.setDate(date);
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (requestMap.containsKey("maxVisitorsCount") && Integer.parseInt(requestMap.get("maxVisitorsCount").toString()) != training.getMaxVisitorsCount()) {
@@ -75,11 +75,11 @@ public class EditRestController {
             flag = true;
             te.setLanguage(languageService.getLanguageByValue(requestMap.get("language").toString()));
         }
-        if (regular && requestMap.containsKey("days") && !requestMap.get("days").toString().equals(training.getDays())){
+        if (regular && requestMap.containsKey("days") && !requestMap.get("days").toString().equals(training.getDays())) {
             flag = true;
             te.setDays(requestMap.get("days").toString());
         }
-        try{
+        try {
             if (regular && requestMap.containsKey("start")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                 Date start = new java.sql.Date(sdf.parse(requestMap.get("start").toString()).getTime());
@@ -101,7 +101,7 @@ public class EditRestController {
             e.printStackTrace();
         }
         te.setTraining(training);
-        if (flag){
+        if (flag) {
             if (flagNew) {
                 trainingEditService.addEdit(te);
             } else {
@@ -118,29 +118,53 @@ public class EditRestController {
         TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
         Map<String, Object> map = new HashMap<>();
         if (te != null) {
-            if (approve.equals("approve")){
+            if (approve.equals("approve")) {
                 te.setIsApproved(true);
                 Training training = trainingService.getTrainingById(id);
-                if(te.getDate() != null){
+                if (te.getDate() != null) {
                     training.setDate(te.getDate());
                 }
-                if(te.getDays() != null){
+                if (te.getDays() != null) {
                     training.setDays(te.getDays());
                 }
-//                if(te.getDescription() != null){
-//                    training.s
-//                }
+                if (te.getDescription() != null) {
+                    training.setDescription(te.getDescription());
+                }
+                if (te.getDuration() != null) {
+                    training.setDuration(te.getDuration());
+                }
+                if (te.getEnd() != null) {
+                    training.setEnd(te.getEnd());
+                }
+                if (te.getLocation() != null) {
+                    training.setLocation(te.getLocation());
+                }
+                if (te.getMaxVisitorsCount() != null) {
+                    training.setMaxVisitorsCount(te.getMaxVisitorsCount());
+                }
+                if (te.getStart() != null) {
+                    training.setStart(te.getStart());
+                }
+                if (te.getTime() != null) {
+                    training.setTime(te.getTime());
+                }
+                if (te.getTitle() != null) {
+                    training.setTitle(te.getTitle());
+                }
+                if (te.getLanguage() != null) {
+                    training.setLanguage(te.getLanguage());
+                }
             } else {
                 te.setIsApproved(false);
             }
             trainingEditService.updateEdit(te);
-            map.put("Result", "OK!");
+            map.put("id", id);
         }
         return map;
     }
 
     @RequestMapping(value = "/rest/training/approve/{trainingId}")
-    public Map<String, Object> editionTraining(@PathVariable ("trainingId") long id) {
+    public Map<String, Object> editionTraining(@PathVariable("trainingId") long id) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("old", trainingService.getTrainingById(id));
         map.put("edit", trainingEditService.getEditByTrainingIfExist(id));

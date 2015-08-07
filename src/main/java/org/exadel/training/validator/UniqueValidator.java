@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueValidator implements ConstraintValidator<Unique, User> {
+public class UniqueValidator implements ConstraintValidator<Unique, String> {
     @Autowired
     private UserService userService;
 
@@ -16,7 +16,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, User> {
     }
 
     @Override
-    public boolean isValid(User user, ConstraintValidatorContext constraintValidatorContext) {
-        return userService.getUserByEmail(user.getEmail()) == null;
+    public boolean isValid(String string, ConstraintValidatorContext constraintValidatorContext) {
+        return userService.getUserByEmail(string) == null;
     }
 }

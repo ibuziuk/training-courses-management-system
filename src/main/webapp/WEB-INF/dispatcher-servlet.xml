@@ -11,21 +11,7 @@
 
     <context:annotation-config/>
 
-    <!-- support JSR303 annotation if JSR 303 validation present on classpath -->
     <mvc:annotation-driven/>
-
-    <!-- <bean id="validator"
-           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-         <property name="messageInterpolator">
-             <bean class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator">
-                 <constructor-arg index="0">
-                     <bean class="org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator">
-                         <constructor-arg index="0" ref="messageSource"/>
-                     </bean>
-                 </constructor-arg>
-             </bean>
-         </property>
-     </bean>-->
 
     <mvc:resources mapping="/resources/vendors/**" location="/resources/vendors/"/>
     <mvc:resources mapping="/resources/js/**" location="/resources/js/"/>

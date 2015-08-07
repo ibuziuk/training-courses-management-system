@@ -153,33 +153,46 @@
 
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 trainer-form">
-					<form th:action="@{/user/external/new}" method="post">
+					<form th:action="@{/user/external/new}" th:object="${user}" method="post">
 						<div align="center" class="form-group">
 							<label th:text="#{label.newTrainer.firstName} + ' *'">
 								First Name *
 							</label>
-							<input class="form-control" th:placeholder="#{label.typeHere}" placeholder="Type here" required="required" name="firstName"
-							       type="text"/>
+
+							<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" id="alertLog"
+							   class="alert alert-danger" role="alert">
+							</p>
+							<input class="form-control" th:placeholder="#{label.typeHere}" placeholder="Type here"
+							       required="required" name="firstName" th:field="*{firstName}" type="text"/>
 						</div>
 
 						<div align="center" class="form-group">
 							<label th:text="#{label.newTrainer.lastName} + ' *'">
 								Last Name *
 							</label>
-							<input class="form-control" th:placeholder="#{label.typeHere}" placeholder="Type here" required="required" name="lastName"
-							       type="text"/>
+
+							<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" id="alertLog"
+							   class="alert alert-danger" role="alert">
+							</p>
+							<input class="form-control" th:placeholder="#{label.typeHere}" placeholder="Type here"
+							       required="required" name="lastName" th:field="*{lastName}" type="text"/>
 						</div>
 
 						<div align="center" class="form-group">
 							<label th:text="#{label.email} + ' *'">
 								E-mail *
 							</label>
-							<input class="form-control" th:placeholder="#{label.typeHere}" placeholder="Type here" required="required" name="email"
-							       type="email"/>
+
+							<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="alertLog"
+							   class="alert alert-danger" role="alert">
+							</p>
+							<input class="form-control" th:placeholder="#{label.typeHere}" placeholder="Type here"
+							       required="required" name="email" th:field="*{email}" type="email"/>
 						</div>
 
 						<div style="text-align: center">
-							<button class="btn btn-primary btn-center" type="submit" id="subBtn" th:text="#{label.submit}">
+							<button class="btn btn-primary btn-center" type="submit" id="subBtn"
+							        th:text="#{label.submit}">
 								Submit
 							</button>
 						</div>

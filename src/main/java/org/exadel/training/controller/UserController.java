@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -43,12 +44,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/external/new", method = RequestMethod.GET)
-    public String newExternal() {
+    public String newExternal(Map<String, Object> map) {
+        map.put("user", new User());
         return "new-trainer";
     }
 
     @RequestMapping(value = "/external/new", method = RequestMethod.POST)
-    public String addExternal(@ModelAttribute("user") User external, BindingResult result, Map<String, Object> map) {
+    public String addExternal(@Valid @ModelAttribute("user") User external, BindingResult result) {
+        if (result.hasErrors()) {
+            return "new-trainer";
+        }
+
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.getRole("external"));
         external.setRoles(roles);
@@ -102,5 +108,4 @@ public class UserController {
         }
         return GeneratorFactory.generateRandomLogin(6);
     }
-
 }

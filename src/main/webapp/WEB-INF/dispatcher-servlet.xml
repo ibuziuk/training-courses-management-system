@@ -7,10 +7,25 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <mvc:annotation-driven/>
     <context:component-scan base-package="org.exadel.training"/>
 
     <context:annotation-config/>
+
+    <!-- support JSR303 annotation if JSR 303 validation present on classpath -->
+    <mvc:annotation-driven/>
+
+    <!-- <bean id="validator"
+           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+         <property name="messageInterpolator">
+             <bean class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator">
+                 <constructor-arg index="0">
+                     <bean class="org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator">
+                         <constructor-arg index="0" ref="messageSource"/>
+                     </bean>
+                 </constructor-arg>
+             </bean>
+         </property>
+     </bean>-->
 
     <mvc:resources mapping="/resources/vendors/**" location="/resources/vendors/"/>
     <mvc:resources mapping="/resources/js/**" location="/resources/js/"/>

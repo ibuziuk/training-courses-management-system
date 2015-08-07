@@ -120,6 +120,16 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public User getUserByEmail(String email) {
+        List<User> list = sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("email", email)).list();
+        if (list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public Map<String, Object> searchUsersByName(int pageNumber, int pageSize, String name) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
                 .setProjection(Projections.distinct(Projections.property("userId")))

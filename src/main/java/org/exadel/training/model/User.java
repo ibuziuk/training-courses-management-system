@@ -1,9 +1,13 @@
 package org.exadel.training.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.exadel.training.validator.Unique;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 import static org.exadel.training.utils.RoleUtil.buildRoleForView;
@@ -16,11 +20,15 @@ public class User {
     @Column(name = "user_id")
     private long userId;
 
-    @NotEmpty
+    @NotEmpty()
+    @Size(max = 25)
+    @Pattern(regexp = "[a-z-A-Z]*")
     @Column(name = "first_name", nullable = false, length = 25)
     private String firstName;
 
     @NotEmpty
+    @Size(max = 25)
+    @Pattern(regexp = "[a-z-A-Z]*")
     @Column(name = "last_name", nullable = false, length = 25)
     private String lastName;
 
@@ -31,6 +39,8 @@ public class User {
     @Column(length = 60, nullable = false)
     private String password;
 
+    @NotEmpty
+    @Email
     @Column(name = "e_mail", unique = true)
     private String email;
 

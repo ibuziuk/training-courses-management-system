@@ -13,7 +13,6 @@
         <security:intercept-url pattern="/resources/**" access="permitAll"/>
         <security:intercept-url pattern="/login*" access="permitAll"/>
         <security:intercept-url pattern="/training/all" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
-        <security:intercept-url pattern="/rest/training/all*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/rest/training/search*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/rest/register/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/rest/unregister/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>

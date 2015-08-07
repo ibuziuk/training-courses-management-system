@@ -99,7 +99,7 @@ public class EditRestController {
             }
         }
         Map<String, Object> map = new HashMap<>(1);
-        map.put("Result", "OK!");
+        map.put("id", id);
         return map;
     }
 

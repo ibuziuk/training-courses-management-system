@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.26, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.25, for Win64 (x86_64)
 --
 -- Host: localhost    Database: training_courses_management_system
 -- ------------------------------------------------------
--- Server version	5.6.26-log
+-- Server version	5.6.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -160,7 +160,7 @@ CREATE TABLE `ex_training_user` (
 
 LOCK TABLES `ex_training_user` WRITE;
 /*!40000 ALTER TABLE `ex_training_user` DISABLE KEYS */;
-INSERT INTO `ex_training_user` VALUES (2,4);
+INSERT INTO `ex_training_user` VALUES (1,5),(5,6);
 /*!40000 ALTER TABLE `ex_training_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +242,7 @@ CREATE TABLE `regular_lesson` (
 
 LOCK TABLES `regular_lesson` WRITE;
 /*!40000 ALTER TABLE `regular_lesson` DISABLE KEYS */;
-INSERT INTO `regular_lesson` VALUES (1,'2015-08-11 11:10:00',2,'11:10 - 13:10',2),(2,'2015-08-05 10:10:00',3,'10:10 - 12:10',2);
+INSERT INTO `regular_lesson` VALUES (1,'2015-08-07 19:00:00',432,'19:00 - 19:30',4),(2,'2015-08-14 19:00:00',432,'19:00 - 19:30',4);
 /*!40000 ALTER TABLE `regular_lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,7 +366,7 @@ CREATE TABLE `training` (
   KEY `FK_qpxtqvn6p3ey7stx3v45m5ujv` (`trainer_id`),
   CONSTRAINT `FK_kpu07jorm6b09r79qs6mbbudd` FOREIGN KEY (`language_id`) REFERENCES `language` (`language_id`),
   CONSTRAINT `FK_qpxtqvn6p3ey7stx3v45m5ujv` FOREIGN KEY (`trainer_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,7 +375,7 @@ CREATE TABLE `training` (
 
 LOCK TABLES `training` WRITE;
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
-INSERT INTO `training` VALUES (1,'\0','2015-08-03 11:10:00',NULL,'Some sentenses about your training',60,NULL,'\0','',1,2,'\0',NULL,'11:10 - 12:10','Java developer',1,4),(2,'\0',NULL,'1 2 ','Some sentenses about your training',120,'2015-08-12','\0','',NULL,4,'','2015-08-05','11:10-13:10 10:10-12:10 ','PHP',2,6),(3,'','2015-08-04 11:30:00',NULL,'Some sentenses about your training',60,NULL,'\0','',2,5,'\0',NULL,'11:30 - 12:30','JS #1',1,5),(4,'','2015-08-05 10:11:00',NULL,'Some sentenses about your training',60,NULL,'\0','',2,5,'\0',NULL,'10:11 - 11:11','JS #2',1,7),(5,'\0','2015-08-04 11:30:00',NULL,'Some sentenses about your training',25,NULL,'\0','',5,5,'\0',NULL,'11:30 - 11:55','SCALA',1,6),(6,'\0','2015-08-04 12:02:00',NULL,'Some sentenses about your training',60,NULL,'\0','',6,5,'\0',NULL,'12:02 - 13:02','Go',1,6),(7,'\0','2015-08-06 17:16:00',NULL,'Русский для Джавы',1380,NULL,'\0','\0',233,20115524,'\0',NULL,'17:16 - 16:16','Java',2,4),(8,'\0',NULL,'0 0 ','выпп\n\n\n\nsdg\ngd\ns\nsd\nsdg\ng\ns\nsg\nв\nп\nsg\ndsg\n\ngsd\ng\nds',120,'2015-08-05','\0','\0',NULL,798,'','2015-08-04','17:18-19:18 17:18-19:18 ','Java',1,4),(9,'\0','2015-08-20 10:59:00',NULL,'dsb sfnd',60,NULL,'\0','\0',223,223,'\0',NULL,'10:59 - 11:59','knj',1,4);
+INSERT INTO `training` VALUES (1,'\0','2015-08-07 19:00:00',NULL,'Some sentences about your training',60,NULL,'\0','',123,2,'\0',NULL,'19:00 - 20:00','Java',1,6),(2,'','2015-08-07 19:20:00',NULL,'Some sentences about your training',60,NULL,'\0','',432,4,'\0',NULL,'19:20 - 20:20','PHP #1',2,5),(3,'','2015-08-08 18:20:00',NULL,'Some sentences about your training',60,NULL,'\0','',213,5,'\0',NULL,'18:20 - 19:20','PHP #2',2,5),(4,'\0',NULL,'4 ','Some sentences about your training',30,'2015-08-21','','',NULL,4,'','2015-08-07','19:00-19:30 ','JavaScript',1,4),(5,'\0','2015-08-07 15:00:00',NULL,'Some sentences about your training',60,NULL,'\0','',378,5,'\0',NULL,'15:00 - 16:00','C++',1,7),(6,'\0','2015-08-08 16:00:00',NULL,'Some sentences about your training',60,NULL,'\0','\0',123,2,'\0',NULL,'16:00 - 17:00','Scala',1,8),(7,'\0','2015-08-07 10:00:00',NULL,'Some sentences about your training',60,NULL,'\0','',345,4,'\0',NULL,'10:00 - 11:00','Go',1,9);
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -402,7 +402,7 @@ CREATE TABLE `training_audience` (
 
 LOCK TABLES `training_audience` WRITE;
 /*!40000 ALTER TABLE `training_audience` DISABLE KEYS */;
-INSERT INTO `training_audience` VALUES (1,1),(7,1),(9,1),(2,2),(7,2),(8,2),(9,2),(3,3),(4,3),(7,3),(7,4),(5,5),(7,5),(6,6),(7,6),(7,7);
+INSERT INTO `training_audience` VALUES (1,1),(2,2),(3,2),(4,3),(5,4),(6,5),(7,6);
 /*!40000 ALTER TABLE `training_audience` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +446,7 @@ DROP TABLE IF EXISTS `training_feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `training_feedback` (
-  `training_feedback_id` int(11) NOT NULL AUTO_INCREMENT,
+  `training_feedback_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT NULL,
   `effectiveness` int(11) DEFAULT NULL,
   `impression` int(11) DEFAULT NULL,
@@ -475,7 +475,7 @@ CREATE TABLE `training_feedback` (
 
 LOCK TABLES `training_feedback` WRITE;
 /*!40000 ALTER TABLE `training_feedback` DISABLE KEYS */;
-INSERT INTO `training_feedback` VALUES (1,'2015-08-04 05:43:44',1,0,0,0,'\0','\0','',9,NULL,'',0,1,6);
+INSERT INTO `training_feedback` VALUES (1,'2015-08-07 10:03:00',5,0,0,2,'\0','\0','',10,NULL,'',2,7,6);
 /*!40000 ALTER TABLE `training_feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -502,7 +502,7 @@ CREATE TABLE `training_tag` (
 
 LOCK TABLES `training_tag` WRITE;
 /*!40000 ALTER TABLE `training_tag` DISABLE KEYS */;
-INSERT INTO `training_tag` VALUES (1,1),(7,1),(9,1),(2,2),(7,2),(9,2),(3,3),(7,3),(4,4),(7,4),(5,5),(7,5),(6,6),(7,6),(7,7);
+INSERT INTO `training_tag` VALUES (1,1),(2,2),(3,2),(4,3),(5,4),(6,5),(7,6);
 /*!40000 ALTER TABLE `training_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -529,8 +529,34 @@ CREATE TABLE `training_user` (
 
 LOCK TABLES `training_user` WRITE;
 /*!40000 ALTER TABLE `training_user` DISABLE KEYS */;
-INSERT INTO `training_user` VALUES (2,4),(1,5),(2,5),(1,6),(3,6),(4,6),(3,8),(3,9);
+INSERT INTO `training_user` VALUES (1,4),(2,4),(3,4),(5,4),(7,4),(4,5),(2,6),(3,6),(4,6),(5,6),(7,6),(1,7),(2,7),(3,7),(4,7),(2,8),(3,8),(5,8),(7,8),(5,9);
 /*!40000 ALTER TABLE `training_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `upload_file`
+--
+
+DROP TABLE IF EXISTS `upload_file`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `upload_file` (
+  `upload_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `training_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`upload_id`),
+  KEY `FK_hadtko3whdrli9q6sf1xjgw9x` (`training_id`),
+  CONSTRAINT `FK_hadtko3whdrli9q6sf1xjgw9x` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `upload_file`
+--
+
+LOCK TABLES `upload_file` WRITE;
+/*!40000 ALTER TABLE `upload_file` DISABLE KEYS */;
+/*!40000 ALTER TABLE `upload_file` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -607,7 +633,7 @@ CREATE TABLE `waiting_list` (
   KEY `FK_hxcnjomo5e02plcgeihmyi24n` (`user_id`),
   CONSTRAINT `FK_hxcnjomo5e02plcgeihmyi24n` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_m7ajdtxrffqehvwgg1xg29tdr` FOREIGN KEY (`training_id`) REFERENCES `training` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -616,6 +642,7 @@ CREATE TABLE `waiting_list` (
 
 LOCK TABLES `waiting_list` WRITE;
 /*!40000 ALTER TABLE `waiting_list` DISABLE KEYS */;
+INSERT INTO `waiting_list` VALUES (3,'2015-08-07 10:14:29',1,5),(4,'2015-08-07 10:15:53',4,8);
 /*!40000 ALTER TABLE `waiting_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -628,4 +655,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-05 11:14:12
+-- Dump completed on 2015-08-07 16:38:07

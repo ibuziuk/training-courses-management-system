@@ -166,7 +166,7 @@
 							{{registerText}}
 						</h4>
 
-						<button ng-if="(training.register == 3) &#38;&#38; isApproved" id="registerBtn"
+						<button ng-if="(training.register == 3) &#38;&#38; training.isApproved" id="registerBtn"
 						        class="btn btn-success" type="button"
 						        ng-click="trainingReg(true)">
 							<i class="fa fa-fw fa-plus"></i> Register

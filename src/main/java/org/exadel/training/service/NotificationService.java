@@ -51,7 +51,7 @@ public class NotificationService {
         context.setVariable("startText", "Do not forget to visit training");
         if (!currentList.isEmpty()) {
             for (User user : currentList) {
-                context.setVariable("mailReceiver", trainer.getFirstName());
+                context.setVariable("mailReceiver", user.getFirstName());
                 emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
             }
         }
@@ -71,7 +71,7 @@ public class NotificationService {
         context.setVariable("startText", "Do not forget to visit training");
         if (!currentList.isEmpty()) {
             for (User user : currentList) {
-                context.setVariable("mailReceiver", trainer.getFirstName());
+                context.setVariable("mailReceiver", user.getFirstName());
                 emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
             }
         }

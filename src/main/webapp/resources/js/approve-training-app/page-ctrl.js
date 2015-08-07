@@ -17,11 +17,21 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 	/* Dropdowns Pages 1-2 */
 
 	var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
+	var types = ['Inner training ', 'Outer training '];
 	var languages = ['English ', 'Russian '];
+
 
 	function div(val, by){
 		return (val - val % by) / by;
 	}
+
+	$scope.chooseRepet = function (rep) {
+		$scope.toShowRepet = repetitions[rep];
+	};
+
+	$scope.chooseType = function (rep) {
+		$scope.toShowType = types[rep];
+	};
 
 	$scope.chooseLanguage = function (rep) {
 		$scope.toShowLanguage = languages[rep];
@@ -50,11 +60,14 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 					$scope.qDescr = obj.data.parts.length;
 				}
 				else {
+					$scope.toShowRepet = (obj.data.training.regular) ? repetitions[1] : repetitions[0];
 					if (obj.data.training.regular) {
-						$scope.toShowRepet = (obj.data.training.regular) ? repetitions[1] : repetitions[0];
 						$scope.days = obj.data.training.days.split(" ").length - 1;
 					}
 				}
+
+				/* Type */
+				$scope.toShowType = (obj.data.training.externalType) ? types[1] : types[0];
 
 				/* Language */
 				$scope.toShowLanguage = obj.data.training.language.value + ' ';
@@ -152,7 +165,30 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 
 				$scope.toShow();
 
-				$scope.guests = obj.data.training.maxVisitorsCount;
+				$http.get('rest/tag').then(function (objTag) {
+					$scope.checkboxTags = objTag.data;
+					for (var k in $scope.checkboxTags) {
+						$scope.checkboxTags[k].name = '#' + $scope.checkboxTags[k].name;
+						$scope.checkboxTags[k].id = $scope.checkboxTags[k].name;
+					}
+
+					$http.get('rest/audience').then(function (objAud) {
+						$scope.checkboxAudiences = objAud.data;
+						for (var k in $scope.checkboxAudiences) {
+							$scope.checkboxAudiences[k].id = $scope.checkboxAudiences[k].value;
+						}
+
+						for (var k = 0; k < obj.data.training.tags.length; k++){
+							$scope.selectedTags[k] = '#' + obj.data.training.tags[k].name;
+						}
+
+						for (var l = 0; l < obj.data.training.audiences.length; l++){
+							$scope.selectedAudiences[l] = obj.data.training.audiences[l].value;
+						}
+
+						$scope.guests = obj.data.training.maxVisitorsCount;
+					});
+				});
 
 				$scope.step1 = function () {
 					$scope.$parent.totalItems = 5;
@@ -162,11 +198,25 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						return;
 					}
 
-					if ($scope.guests === undefined || $scope.guests.length === 0) {
+					/* Type of training */
+					if ($scope.toShowType === 'Select type ') {
 						$scope.$parent.totalItems = 5;
 						return;
 					}
 
+					/* Repetition frequency */
+					if ($scope.toShowRepet === 'Select repetition ') {
+						$scope.$parent.totalItems = 5;
+						return;
+					}
+
+					/* Quantity of days */
+					if ($scope.toShowRepet === 'Weekly ' || $scope.toShowRepet === 'Continuous ') {
+						if ($scope.days === undefined || $scope.days.length === 0) {
+							$scope.$parent.totalItems = 5;
+							return;
+						}
+					}
 					$scope.$parent.totalItems = 15;
 				};
 
@@ -189,20 +239,21 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 				};
 
 				$scope.step3 = function () {
+					$scope.$parent.totalItems = 25;
 					if ($scope.duration.getHours() === 0 && $scope.duration.getMinutes() === 0) {
-						ngNotify.set('Enter time ');
-						return false;
+						$scope.$parent.totalItems = 25;
+						return;
 					}
 
-					if (obj.data.training.regular === 'Weekly ') {
+					if ($scope.toShowRepet === 'Weekly ') {
 						for (var j = 0; j < $scope.datepickers.length; j++) {
 							if ($scope.datepickers[j].toShowWeekDay === 'Select day of week ') {
-								ngNotify.set('Enter day of week ');
-								return false;
+								$scope.$parent.totalItems = 25;
+								return;
 							}
 						}
 					}
-					return true;
+					$scope.$parent.totalItems = 35;
 				};
 
 				$scope.trainingCreation = function () {
@@ -211,7 +262,31 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 					for (var i = 0; i < $scope.qDescr; i++) {
 						var training = {};
 
+						/* Tags */
+						training.tags = angular.copy($scope.selectedTags);
+
+						for (var k = 0; k < training.tags.length; k++) {
+							training.tags[k] = training.tags[k].substring(1);
+						}
+
+						if (training.tags.length === 0) {
+							ngNotify.set('You should choose at list one tag!');
+							return;
+						}
+
+						/* Audience */
+						training.audience = $scope.selectedAudiences;
+
+						if (training.audience.length === 0) {
+							ngNotify.set('You should choose an audience for your training!');
+							return;
+						}
+
+						training.type = !($scope.toShowType === 'Inner training ');
+						training.regular = ($scope.toShowRepet === 'Weekly ');
 						training.language = $scope.toShowLanguage.substring(0, $scope.toShowLanguage.length - 1);
+						training.continuous = continuous;
+
 
 						/* Training name */
 						training.title = $scope.trainingName;
@@ -232,9 +307,6 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						}
 
 						/* Training duration */
-
-						if (!$scope.step3())
-							return;
 
 						training.duration = $scope.duration.getHours() * 60 + $scope.duration.getMinutes();
 

@@ -161,7 +161,7 @@
 				<!-- /.row -->
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<progressbar animate="false" value="dynamic" type="success"><b>Step #{{currentPage}}</b>
+						<progressbar animate="false" value="dynamic * 25" type="success"><b>Step #{{dynamic}}</b>
 						</progressbar>
 						<pager total-items="totalItems" ng-model="currentPage"
 						       ng-click="showDynamic(currentPage)"></pager>
@@ -181,12 +181,53 @@
 								       ng-model="trainingName" ng-change="step1()"/>
 							</div>
 
+							<div>
+								<label>Type of your training *</label>
+								<br/>
+
+								<div class="btn-group" dropdown="" dropdown-append-to-body="">
+									<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="">
+										{{toShowType}}<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="" ng-click="chooseType(0); step1();">Inner training </a></li>
+										<li><a href="" ng-click="chooseType(1); step1();">Outer training </a></li>
+									</ul>
+								</div>
+							</div>
+
 							<br/>
 
 							<div>
-								<label>Maximum number of guests*</label>
-								<input style="width: 400px;" type="number" class="form-control" min="1"
-								       placeholder="Type here" ng-model="guests"/>
+								<label>Repetition frequency of your training *</label>
+								<br/>
+
+								<div class="btn-group" dropdown="" dropdown-append-to-body="">
+									<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="">
+										{{toShowRepet}}<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="" ng-click="chooseRepet(0); toShow(); step1();">One-off </a></li>
+										<li><a href="" ng-click="chooseRepet(1); toShow(); step1();">Weekly </a></li>
+										<li><a href="" ng-click="chooseRepet(2); toShow(); step1();">Continuous </a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div ng-show="toShowRepet == 'Weekly '">
+								<br/>
+								<label>Quantity of days per week *</label>
+								<br/>
+								<input type="number" min="1" max="7" placeholder="Type here" ng-model="days"
+								       ng-change="toShow(); step1();"/>
+							</div>
+							<div ng-show="toShowRepet == 'Continuous '">
+								<br/>
+								<label>Quantity of days *</label>
+								<br/>
+								<input type="number" min="1" max="10" placeholder="Type here" ng-model="days"
+								       ng-change="toShow(); step1();"/>
 							</div>
 						</div>
 
@@ -222,7 +263,7 @@
 						<div align="center" id="step3" ng-show="(currentPage == 3)">
 							<div>
 								<label>Training duration *</label>
-								<timepicker ng-model="duration" hour-step="hstep"
+								<timepicker ng-model="duration" ng-change="step3()" hour-step="hstep"
 								            minute-step="mstep"
 								            show-meridian="ismeridian"></timepicker>
 							</div>
@@ -277,25 +318,25 @@
 														</button>
 														<ul class="dropdown-menu" role="menu">
 															<li><a href=""
-															       ng-click="chooseWeekDay(0, $index);">Monday </a>
+															       ng-click="chooseWeekDay(0, $index); step3();">Monday </a>
 															</li>
 															<li><a href=""
-															       ng-click="chooseWeekDay(1, $index);">Tuesday </a>
+															       ng-click="chooseWeekDay(1, $index); step3();">Tuesday </a>
 															</li>
 															<li><a href=""
-															       ng-click="chooseWeekDay(2, $index);">Wednesday </a>
+															       ng-click="chooseWeekDay(2, $index); step3();">Wednesday </a>
 															</li>
 															<li><a href=""
-															       ng-click="chooseWeekDay(3, $index);">Thursday </a>
+															       ng-click="chooseWeekDay(3, $index); step3();">Thursday </a>
 															</li>
 															<li><a href=""
-															       ng-click="chooseWeekDay(4, $index);">Friday </a>
+															       ng-click="chooseWeekDay(4, $index); step3();">Friday </a>
 															</li>
 															<li><a href=""
-															       ng-click="chooseWeekDay(5, $index);">Saturday </a>
+															       ng-click="chooseWeekDay(5, $index); step3();">Saturday </a>
 															</li>
 															<li><a href=""
-															       ng-click="chooseWeekDay(6, $index);">Sunday </a>
+															       ng-click="chooseWeekDay(6, $index); step3();">Sunday </a>
 															</li>
 														</ul>
 													</div>
@@ -325,6 +366,40 @@
 									</div>
 								</div>
 							</div>
+						</div>
+
+						<div align="center" id="step4" ng-show="(currentPage == 4)">
+							<label>Tags *</label>
+							<br/>
+
+							<div class="select2-custom">
+								<select style="width: 400px" class="select2-new-training" ui-select2="select2Options"
+								        ng-model="selectedTags" multiple="multiple" data-placeholder='Tags'>
+									<option ng-repeat="tag in checkboxTags" value="{{tag.id}}">{{tag.name}}</option>
+								</select>
+							</div>
+
+							<br/><br/>
+
+							<label>Audience for your training *</label>
+							<br/>
+
+							<div class="select2-custom">
+								<select style="width: 400px" class="select2-new-training" ui-select2="select2Options"
+								        ng-model="selectedAudiences" multiple="multiple" data-placeholder='Audience'>
+									<option ng-repeat="audience in checkboxAudiences" value="{{audience.id}}">{{audience.value}}
+									</option>
+								</select>
+							</div>
+
+							<br/><br/>
+
+							<div>
+								<label>Maximum number of guests*</label>
+								<input style="width: 400px;" type="number" class="form-control" min="1"
+								       placeholder="Type here" ng-model="guests"/>
+							</div>
+							<br/>
 
 							<div style="text-align: center">
 								<a href="">

@@ -138,4 +138,12 @@ public class EditRestController {
         }
         return map;
     }
+
+    @RequestMapping(value = "/rest/training/approve/{trainingId}")
+    public Map<String, Object> editionTraining(@PathVariable ("trainingId") long id) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("old", trainingService.getTrainingById(id));
+        map.put("edit", trainingEditService.getEditByTrainingIfExist(id));
+        return map;
+    }
 }

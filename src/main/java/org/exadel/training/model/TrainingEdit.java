@@ -1,6 +1,9 @@
 package org.exadel.training.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -39,6 +42,15 @@ public class TrainingEdit {
     @ManyToOne
     @JoinColumn(name = "language_id")
     private Language language;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date start;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date end;
+
+    @Column(length = 20)
+    private String days;
 
     public long getId() {
         return id;
@@ -122,5 +134,29 @@ public class TrainingEdit {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
     }
 }

@@ -8,7 +8,9 @@ import org.exadel.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +37,7 @@ public class EditRestController {
             flag = true;
             te.setTitle(requestMap.get("title").toString());
         }
-        if (requestMap.containsKey("date") && new Timestamp(Long.parseLong(requestMap.get("date").toString())) != training.getDate()) {
+        if (requestMap.containsKey("date") && !new Timestamp(Long.parseLong(requestMap.get("date").toString())).equals(training.getDate())) {
             flag = true;
             te.setDate(new Timestamp(Long.parseLong(requestMap.get("date").toString())));
         }
@@ -62,6 +64,31 @@ public class EditRestController {
         if (requestMap.containsKey("language") && !languageService.getLanguageByValue(requestMap.get("language").toString()).equals(training.getLanguage())) {
             flag = true;
             te.setLanguage(languageService.getLanguageByValue(requestMap.get("language").toString()));
+        }
+        if (requestMap.containsKey("days") && !requestMap.get("days").toString().equals(training.getDays())){
+            flag = true;
+            te.setDays(requestMap.get("days").toString());
+        }
+        try{
+            if (requestMap.containsKey("start")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                Date start = new java.sql.Date(sdf.parse(requestMap.get("start").toString()).getTime());
+                if (!start.equals(training.getStart())) {
+                    flag = true;
+                    te.setStart(start);
+                }
+
+            }
+            if (requestMap.containsKey("end")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                Date end = new java.sql.Date(sdf.parse(requestMap.get("end").toString()).getTime());
+                if (!end.equals(training.getEnd())) {
+                    flag = true;
+                    te.setEnd(end);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         te.setTraining(training);
         if (flag){

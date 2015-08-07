@@ -2,6 +2,7 @@ package org.exadel.training.controller;
 
 import org.exadel.training.model.Role;
 import org.exadel.training.model.User;
+import org.exadel.training.service.NotificationService;
 import org.exadel.training.service.RoleService;
 import org.exadel.training.service.UserService;
 import org.exadel.training.utils.GeneratorFactory;
@@ -31,6 +32,9 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allUsers() {
         return "users";
@@ -49,32 +53,19 @@ public class UserController {
 
         String lastName = external.getLastName().toLowerCase();
         String firstName = external.getFirstName().toLowerCase();
-        String login = GeneratorFactory.generateFirstLogin(firstName, lastName);
-        login = getLogin(lastName, firstName, external.getEmail(), login);
-        external.setLogin(login);
+        external.setLogin(generateLogin(lastName, firstName, external.getEmail()));
 
         String password = GeneratorFactory.generatePassword(8);
         external.setPassword(bCryptPasswordEncoder.encode(password));
 
         userService.addUser(external);
 
-        return "redirect:/user/" + external.getUserId();
-    }
+        final User finalExternal = external;
+        new Thread(() ->
+                notificationService.newExternalCreationNotification(finalExternal, password)
+        ).start();
 
-    private String getLogin(String lastName, String firstName, String email, String login) {
-        if (userService.getUserByLogin(login) != null) {
-            login = GeneratorFactory.generateSecondLogin(firstName, lastName);
-            if (userService.getUserByLogin(login) != null) {
-                login = GeneratorFactory.generateLoginFromEmail(email);
-                if (userService.getUserByLogin(login) != null) {
-                    login = lastName;
-                    if (userService.getUserByLogin(login) != null) {
-                        login = firstName;
-                    }
-                }
-            }
-        }
-        return login;
+        return "redirect:/user/" + external.getUserId();
     }
 
     @RequestMapping(value = "/{userId:[\\d]+}")
@@ -84,4 +75,25 @@ public class UserController {
         }
         throw new ResourceNotFoundException();
     }
+
+    private String generateLogin(String lastName, String firstName, String email) {
+        String login = GeneratorFactory.generateFirstLogin(firstName, lastName);
+        if (userService.getUserByLogin(login) == null) {
+            return login;
+        }
+        login = GeneratorFactory.generateSecondLogin(firstName, lastName);
+        if (userService.getUserByLogin(login) == null) {
+            return login;
+        }
+        login = GeneratorFactory.generateLoginFromEmail(email);
+        if (userService.getUserByLogin(login) != null) {
+            return login;
+        }
+        login = lastName;
+        if (userService.getUserByLogin(login) != null) {
+            return login;
+        }
+        return GeneratorFactory.generateRandomLogin(6);
+    }
+
 }

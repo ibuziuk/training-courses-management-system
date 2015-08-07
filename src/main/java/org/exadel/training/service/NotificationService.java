@@ -40,8 +40,8 @@ public class NotificationService {
     public void trainingSchedulingNotifications(Training training) {
         User trainer = training.getTrainer();
         Context context = new Context();
-        context.setVariable("startText", "You trainer on: \"");
         context.setVariable("mailReceiver", trainer.getFirstName());
+        context.setVariable("startText", "You trainer on: \"");
         context.setVariable("middleText", "\" on ");
         context.setVariable("date", training.getDateAndTimeOnString());
         context.setVariable("nameTraining", training.getTitle());
@@ -60,8 +60,8 @@ public class NotificationService {
     public void regularLessonSchedulingNotifications(RegularLesson regularLesson) {
         User trainer = regularLesson.getTraining().getTrainer();
         Context context = new Context();
-        context.setVariable("startText", "You trainer on: \"");
         context.setVariable("mailReceiver", trainer.getFirstName());
+        context.setVariable("startText", "You trainer on: \"");
         context.setVariable("middleText", "\" on ");
         context.setVariable("date", regularLesson.getDateAndTimeOnString());
         context.setVariable("nameTraining", regularLesson.getTraining().getTitle());
@@ -74,6 +74,22 @@ public class NotificationService {
                 context.setVariable("mailReceiver", trainer.getFirstName());
                 emailNotifierService.sendEmailNotification(user.getEmail(), "Notification about the training", context);
             }
+        }
+    }
+
+    public void newExternalCreationNotification(User external, String password) {
+        Context context = new Context();
+        context.setVariable("mailReceiver", external.getFirstName());
+        context.setVariable("startText", "Your credentials for visiting Exadel Training System:");
+        context.setVariable("login", "login: " + external.getLogin());
+        context.setVariable("password", "password: " + password);
+        emailNotifierService.sendEmailNotification(external.getEmail(), "Your account has been created", context);
+
+        List<User> users = userService.getUsersByRole(RoleUtil.ADMIN_SMALL);
+        context.setVariable("startText", "Credentials of new coach: ");
+        for (User user : users) {
+            context.setVariable("mailReceiver", user.getFirstName());
+            emailNotifierService.sendEmailNotification(user.getEmail(), "New user account has been created", context);
         }
     }
 }

@@ -5,6 +5,8 @@ import java.util.Random;
 public final class GeneratorFactory {
     private static char[] symbols;
 
+    private static char[] symbolsAndDigits;
+
     private static final char EMAIL_DOG = '@';
 
     static {
@@ -12,10 +14,11 @@ public final class GeneratorFactory {
         for (char ch = 'a'; ch <= 'z'; ch++) {
             sb.append(ch);
         }
+        symbols = sb.toString().toCharArray();
         for (int i = 0; i < 10; i++) {
             sb.append(i);
         }
-        symbols = sb.toString().toCharArray();
+        symbolsAndDigits = sb.toString().toCharArray();
     }
 
     public static String generateFirstLogin(String firstName, String lastName) {
@@ -34,11 +37,20 @@ public final class GeneratorFactory {
         return email.substring(0, email.indexOf(EMAIL_DOG));
     }
 
-    public static String generatePassword(int length) {
+    public static String generateRandomLogin(int length) {
         StringBuilder sb = new StringBuilder();
         Random random = new Random(System.currentTimeMillis());
         for (int i = 0; i < length; i++) {
             sb.append(symbols[random.nextInt(symbols.length)]);
+        }
+        return sb.toString();
+    }
+
+    public static String generatePassword(int length) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < length; i++) {
+            sb.append(symbolsAndDigits[random.nextInt(symbolsAndDigits.length)]);
         }
         return sb.toString();
     }

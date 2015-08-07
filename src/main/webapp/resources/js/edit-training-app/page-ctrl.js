@@ -50,8 +50,8 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 					$scope.qDescr = obj.data.parts.length;
 				}
 				else {
+					$scope.toShowRepet = (obj.data.training.regular) ? repetitions[1] : repetitions[0];
 					if (obj.data.training.regular) {
-						$scope.toShowRepet = (obj.data.training.regular) ? repetitions[1] : repetitions[0];
 						$scope.days = obj.data.training.days.split(" ").length - 1;
 					}
 				}
@@ -72,8 +72,8 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 					$scope.qDates = ($scope.toShowRepet === 'Weekly ') ? $scope.days : $scope.qDescr;
 
 					if (!continuous){
-						$scope.descriptions.push({text: obj.data.training.description});
 						if (obj.data.training.regular){
+							$scope.descriptions.push({text: obj.data.training.description});
 							$scope.dateStartWeekly = new Date(obj.data.training.start);
 							$scope.dateEndWeekly = new Date(obj.data.training.end);
 							var times = obj.data.training.time.split(' ');
@@ -98,11 +98,11 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						}
 						else {
 							$scope.descriptions[0] = {text: obj.data.training.description};
-							$scope.datepickers[0] = {
+							$scope.datepickers.push({
 								'dt': new Date(obj.data.training.date),
 								'time': new Date(obj.data.training.date),
 								'room': obj.data.training.location || ''
-							};
+							});
 						}
 					}
 					else {
@@ -116,12 +116,11 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 							};
 						}
 					}
-
 					$scope.duration = new Date(1, 2, 3, div(obj.data.training.duration, 60), obj.data.training.duration % 60);
 				};
 
 				$scope.toggleMin = function () {
-					$scope.minDate = new Date();
+					$scope.minDate = $scope.minDate ? null : new Date();
 				};
 				$scope.toggleMin();
 
@@ -167,10 +166,6 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						return;
 					}
 
-					$scope.$parent.totalItems = 15;
-				};
-
-				$scope.step2 = function () {
 					$scope.$parent.totalItems = 15;
 
 					/* Training language */

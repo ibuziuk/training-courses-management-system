@@ -98,6 +98,10 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	var urlParts = window.location.pathname.split('/');
 	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
 
+		$scope.approvingSettings = function(){
+			$window.location.href = 'training/approve/' + obj.data.training.trainingId;
+		};
+
 		$scope.editTraining = function(){
 			$window.location.href = 'training/edit/' + obj.data.training.trainingId;
 		};
@@ -127,13 +131,22 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		$scope.openFeedback = function () {
 			var date = new Date();
 			if (!obj.data.training.regular) {
-				return $scope.training.register != 2 && (date > obj.data.training.date);
+				return ($scope.training.register != 2) && (date > new Date(obj.data.training.date));
 			}
 			else
-				return $scope.training.register != 2 && (date > obj.data.training.start);
+				return $scope.training.register != 2 && (date > new Date(obj.data.training.start));
 		};
 
 		$scope.openFeed = $scope.openFeedback();
+
+		$scope.isFuture = function(){
+			var date = new Date();
+			if (!obj.data.training.regular) {
+				return (date < new Date(obj.data.training.date));
+			}
+			else
+				return (date < new Date(obj.date.training.start));
+		};
 
 		var getRating = function (rating) {
 			if (rating != -1) {

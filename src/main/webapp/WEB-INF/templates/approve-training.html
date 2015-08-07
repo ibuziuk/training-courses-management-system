@@ -399,16 +399,16 @@
 								<input style="width: 400px;" type="number" class="form-control" min="1"
 								       placeholder="Type here" ng-model="guests"/>
 							</div>
-							<br/>
 
-							<div style="text-align: center">
-								<a href="">
-									<button class="btn btn-primary btn-center" type="button" id="subBtn"
-									        ng-click="trainingCreation()">
-										Submit
-									</button>
-								</a>
-							</div>
+							<br/><br/>
+
+							<button class="btn btn-success" ng-show="isAdmin &#38;&#38; !training.isApproved">
+								<i class="fa fa-fw fa-thumbs-o-up"></i> Approve
+							</button>
+
+							<button class="btn btn-danger" ng-show="isAdmin &#38;&#38; !training.isApproved">
+								<i class="fa fa-fw fa-thumbs-o-down"></i> Disapprove
+							</button>
 						</div>
 					</div>
 				</div>

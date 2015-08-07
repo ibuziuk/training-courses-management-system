@@ -156,28 +156,32 @@
 			<div class="row">
 				<div class="col-xs-4">
 					<div>
-						<img class="training-img img-rounded" src="../../resources/vendors/pics/{{imgNum}}.jpg"
+						<img class="training-img img-rounded" ng-src="../../resources/vendors/pics/{{imgNum}}.jpg"
 						     th:src="@{/resources/vendors/pics/{{imgNum}}.jpg}"/>
 						<h4 ng-if="isAdmin || training.register == 2" ng-style="{color:approveColor}">
 							{{approveText}}
 						</h4>
 
-						<h4 ng-if="training.register != 2" ng-style="{color:registerColor}">
+						<h4 ng-if="training.register != 2 || !training.isApproved" ng-style="{color:registerColor}">
 							{{registerText}}
 						</h4>
 
-						<button ng-if="(training.register == 3) &#38;&#38; isApproved" id="registerBtn"
-						        class="btn btn-success" type="button"
-						        ng-click="trainingReg(true)">
-							<i class="fa fa-fw fa-plus"></i> Register
-						</button>
+						<div ng-if="(training.register == 3) &#38;&#38; training.isApproved &#38;&#38; isFuture()">
+							<button  id="registerBtn"
+							        class="btn btn-success" type="button"
+							        ng-click="trainingReg(true)">
+								<i class="fa fa-fw fa-plus"></i> Register
+							</button>
+							<br/>
+						</div>
 
-						<button ng-if="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
-						        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
-							<i class="fa fa-fw fa-times"></i> Unregister
-						</button>
-
-						<br/>
+						<div ng-if="(training.register == 0) || (training.register == 1)">
+							<button id="unregisterBtn"
+							        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
+								<i class="fa fa-fw fa-times"></i> Unregister
+							</button>
+							<br/>
+						</div>
 
 						<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 						<span class="label"
@@ -196,7 +200,7 @@
 						<h4>
 							<label style="font-size: 18px;">Audience: </label>
 							<span ng-repeat="aud in training.audiences">
-								{{aud.value}};&nbsp;
+								<br/>{{aud.value}};
 							</span>
 						</h4>
 
@@ -247,6 +251,7 @@
 					        ng-show="isAdmin || training.register == 2">
 						<i class="fa fa-fw fa-pencil"></i> Edit
 					</button>
+
 					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
 					        type="button">
 						<i class="fa fa-fw fa-book"></i> Attendence book
@@ -254,6 +259,14 @@
 					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
 					</button>
+
+					<div ng-show="isAdmin &#38;&#38; !training.isApproved">
+						<br/>
+						<button ng-click="approvingSettings()" class="btn btn-warning">
+							<i class="fa fa-fw fa-pencil-square-o"></i> Approving settings
+						</button>
+					</div>
+
 					<hr/>
 
 					<label style="font-size: 18px;">Main information</label>
@@ -448,7 +461,7 @@
 						</tbody>
 					</table>
 
-					<div ng-show="&#33;vote &#38;&#38; openFeed">
+					<div ng-show="(&#33;vote) &#38;&#38; openFeed &#38;&#38; training.isApproved">
 						<hr/>
 						<accordion close-others="oneAtATime">
 							<accordion-group is-open="status.open">

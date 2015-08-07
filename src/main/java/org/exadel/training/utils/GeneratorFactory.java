@@ -54,4 +54,11 @@ public final class GeneratorFactory {
         }
         return sb.toString();
     }
+
+    public static String translateNameToValid(String name) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Character.toUpperCase(name.charAt(0)))
+                .append(name.toLowerCase().substring(1, name.length()));
+        return sb.toString();
+    }
 }

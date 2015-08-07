@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static org.exadel.training.utils.GeneratorFactory.translateNameToValid;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -51,8 +53,13 @@ public class UserController {
         roles.add(roleService.getRole("external"));
         external.setRoles(roles);
 
-        String lastName = external.getLastName().toLowerCase();
         String firstName = external.getFirstName().toLowerCase();
+        String lastName = external.getLastName().toLowerCase();
+        String email = external.getEmail();
+
+        external.setFirstName(translateNameToValid(firstName));
+        external.setLastName(translateNameToValid(lastName));
+        external.setEmail(email.toLowerCase());
         external.setLogin(generateLogin(lastName, firstName, external.getEmail()));
 
         String password = GeneratorFactory.generatePassword(8);

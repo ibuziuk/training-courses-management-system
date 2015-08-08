@@ -90,8 +90,6 @@ public class TrainingRestController {
         }
         if (json.get("approved") != null) {
             training.setApproved(json.get("approved").getAsBoolean());
-        } else {
-            training.setApproved(false);
         }
         Language language = null;
         String languageValue = json.get("language").getAsString();
@@ -228,7 +226,7 @@ public class TrainingRestController {
         } else {
             if (json.get("rooms") != null) {
                 if (json.get("rooms").getAsJsonArray().size() != 0) {
-                    training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsInt());
+                    training.setLocation(json.get("rooms").getAsJsonArray().get(0).getAsString());
                 }
             }
 

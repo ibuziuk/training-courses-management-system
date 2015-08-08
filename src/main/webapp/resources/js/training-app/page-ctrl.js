@@ -11,11 +11,18 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		html: false
 	});
 
-	var getRandomInt = function(min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
+	var getRandomPic = function (min, max) {
+		var r = Math.floor(Math.random() * (max - min + 1)) + min;
+		if (r == 2 || r == 17 || r == 19) {
+			r += '.png';
+		}
+		else {
+			r += '.jpg';
+		}
+		return r;
 	};
 
-	$scope.imgNum = getRandomInt(5, 26);
+	$scope.img = getRandomPic(1, 24);
 
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
@@ -33,7 +40,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	/* File Upload */
 	var Url = $location.absUrl();
 	Url += '/uploadfile';
-	var uploader=$scope.uploader = new FileUploader({
+	var uploader = $scope.uploader = new FileUploader({
 		url: Url
 	});
 
@@ -41,41 +48,41 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 	// CALLBACKS
 
-	uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+	uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
 		console.info('onWhenAddingFileFailed', item, filter, options);
 	};
-	uploader.onAfterAddingFile = function(fileItem) {
+	uploader.onAfterAddingFile = function (fileItem) {
 		console.info('onAfterAddingFile', fileItem);
 	};
-	uploader.onAfterAddingAll = function(addedFileItems) {
+	uploader.onAfterAddingAll = function (addedFileItems) {
 		console.info('onAfterAddingAll', addedFileItems);
 	};
-	uploader.onBeforeUploadItem = function(item) {
+	uploader.onBeforeUploadItem = function (item) {
 		console.info('onBeforeUploadItem', item);
 	};
-	uploader.onProgressItem = function(fileItem, progress) {
+	uploader.onProgressItem = function (fileItem, progress) {
 		console.info('onProgressItem', fileItem, progress);
 	};
-	uploader.onProgressAll = function(progress) {
+	uploader.onProgressAll = function (progress) {
 		console.info('onProgressAll', progress);
 	};
-	uploader.onSuccessItem = function(fileItem, response, status, headers) {
+	uploader.onSuccessItem = function (fileItem, response, status, headers) {
 		console.info('onSuccessItem', fileItem, response, status, headers);
 	};
-	uploader.onErrorItem = function(fileItem, response, status, headers) {
+	uploader.onErrorItem = function (fileItem, response, status, headers) {
 		console.info('onErrorItem', fileItem, response, status, headers);
 	};
-	uploader.onCancelItem = function(fileItem, response, status, headers) {
+	uploader.onCancelItem = function (fileItem, response, status, headers) {
 		console.info('onCancelItem', fileItem, response, status, headers);
 	};
-	uploader.onCompleteItem = function(fileItem, response, status, headers) {
+	uploader.onCompleteItem = function (fileItem, response, status, headers) {
 		console.info('onCompleteItem', fileItem, response, status, headers);
 		$scope.files.push(response);
-		if(response != '') {
+		if (response != '') {
 			$scope.files[$scope.files.length - 1].fileLink = 'rest/downloadfile/' + $scope.files[$scope.files.length - 1].uploadId;
 		}
 	};
-	uploader.onCompleteAll = function() {
+	uploader.onCompleteAll = function () {
 		console.info('onCompleteAll');
 	};
 
@@ -98,13 +105,21 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	var urlParts = window.location.pathname.split('/');
 	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
 
-		$http.get('rest/training/' + urlParts[urlParts.length - 1] + '/files').then(function(objFiles){
-				$scope.files = objFiles.data;
-				for (var k = 0; k < $scope.files.length; k++){
-					$scope.files[k].fileLink = 'rest/downloadfile/' + $scope.files[k].uploadId;
-				}
-				console.log(objFiles.data);
-			}, function(err){
+		$scope.approvingSettings = function () {
+			$window.location.href = 'training/approve/' + obj.data.training.trainingId;
+		};
+
+		$scope.editTraining = function () {
+			$window.location.href = 'training/edit/' + obj.data.training.trainingId;
+		};
+
+		$http.get('rest/training/' + urlParts[urlParts.length - 1] + '/files').then(function (objFiles) {
+					$scope.files = objFiles.data;
+					for (var k = 0; k < $scope.files.length; k++) {
+						$scope.files[k].fileLink = 'rest/downloadfile/' + $scope.files[k].uploadId;
+					}
+					console.log(objFiles.data);
+				}, function (err) {
 					ngNotify.set(err.statusText);
 				}
 		);
@@ -113,7 +128,10 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.continuous = obj.data.training.continuous;
 
-		$scope.trainerLink = window.location.origin + '/user/' + obj.data.training.trainer.userId;
+		if ($scope.continuous)
+			$scope.parts = obj.data.parts;
+
+		$scope.trainerLink = 'user/' + obj.data.training.trainer.userId;
 		/* Training info */
 		$scope.vote = obj.data.vote;
 		$scope.isAdmin = obj.data.isAdmin;
@@ -123,13 +141,22 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		$scope.openFeedback = function () {
 			var date = new Date();
 			if (!obj.data.training.regular) {
-				return $scope.training.register != 2 && (date > obj.data.training.date);
+				return ($scope.training.register != 2) && (date > new Date(obj.data.training.date));
 			}
 			else
-				return $scope.training.register != 2 && (date > obj.data.training.start);
+				return $scope.training.register != 2 && (date > new Date(obj.data.training.start));
 		};
 
 		$scope.openFeed = $scope.openFeedback();
+
+		$scope.isFuture = function () {
+			var date = new Date();
+			if (!obj.data.training.regular) {
+				return (date < new Date(obj.data.training.date));
+			}
+			else
+				return (date < new Date(obj.date.training.start));
+		};
 
 		var getRating = function (rating) {
 			if (rating != -1) {
@@ -303,7 +330,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		$scope.sendFeedback = function () {
 			myFeedbackToSend.text = $scope.myFeedback.text;
 			myFeedbackToSend.rate = $scope.overStar;
-			$http.post('rest/feedback' + window.location.pathname, myFeedbackToSend).then(function (obj) {
+			$http.post('rest/feedback/training' + obj.data.training.trainingId, myFeedbackToSend).then(function (obj) {
 				$scope.vote = true;
 				getFeedbacks(obj.data.feedbacks);
 				getRating(obj.data.rating)
@@ -314,14 +341,14 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.trainingReg = function (flag) {
 			if (flag) {
-				$http.post('rest/register' + window.location.pathname, 'registering').then(function (obj) {
+				$http.post('rest/register/training' + obj.data.training.trainingId, 'registering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);
 				});
 			}
 			else {
-				$http.post('rest/unregister' + window.location.pathname, 'unregistering').then(function (obj) {
+				$http.post('rest/unregister/training' + obj.data.training.trainingId, 'unregistering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);

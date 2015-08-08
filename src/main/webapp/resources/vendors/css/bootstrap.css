@@ -4891,7 +4891,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pager .disabled > span {
   color: white;
   cursor: not-allowed;
-  background-color: #1A394C;
+  background-color: gray;
 }
 .label {
   display: inline;

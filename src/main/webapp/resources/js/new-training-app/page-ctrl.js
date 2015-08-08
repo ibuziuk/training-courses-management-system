@@ -39,33 +39,9 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 
 	/* Checkboxes Page 4 */
 
-	var continuous;
-	var repetitions = ['One-off ', 'Weekly ', 'Continuous '];
-	var types = ['Inner training ', 'Outer training '];
-	var languages = ['English ', 'Russian '];
-
-	$scope.toShowRepet = 'Select repetition ';
-	$scope.toShowType = 'Select type ';
-	$scope.toShowLanguage = 'Select language ';
-
-	$scope.chooseRepet = function (rep) {
-		$scope.toShowRepet = repetitions[rep];
-	};
-
-	$scope.chooseType = function (rep) {
-		$scope.toShowType = types[rep];
-	};
-
-	$scope.chooseLanguage = function (rep) {
-		$scope.toShowLanguage = languages[rep];
-	};
-
-	/* Checkboxes Page 4 */
-
 	$http.get('rest/tag').then(function (objTag) {
 		$scope.checkboxTags = objTag.data;
 		for (var k in $scope.checkboxTags) {
-			$scope.checkboxTags[k].name = '#' + $scope.checkboxTags[k].name;
 			$scope.checkboxTags[k].id = $scope.checkboxTags[k].name;
 		}
 
@@ -253,13 +229,10 @@ angular.module('newTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q'
 					var training = {};
 
 					/* Tags */
-					console.log($scope.selectedTags);
 					training.tags = angular.copy($scope.selectedTags);
 
 					for (var k = 0; k < training.tags.length; k++) {
-						console.log(training.tags[k]);
-						training.tags[k] = training.tags[k].substring(1);
-						console.log(training.tags[k]);
+						training.tags[k] = training.tags[k];
 					}
 
 					if (training.tags.length === 0) {

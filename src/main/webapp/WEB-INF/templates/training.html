@@ -87,22 +87,30 @@
 				</a>
 			</li>
 
+			<li>
+				<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+					<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+					<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
+				</ul>
+			</li>
+
 			<li class="active">
 				<a href="" th:href="@{/logout}" id="logout">
 					<i class="fa fa-fw fa-power-off"></i>
 					Log out
 				</a>
 			</li>
-
-			<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
-				<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
-				<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
-			</ul>
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
+				<li id="newtraining">
+					<a href="new-training.html" th:href="@{/training/new}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						<span th:text="#{label.newTraining}">Create new training</span>
+					</a>
+				</li>
 				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
@@ -113,12 +121,6 @@
 					<a href="my-trainings.html" th:href="@{/training/my}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
-					</a>
-				</li>
-				<li id="newtraining">
-					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle-o"></i>
-						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
@@ -156,27 +158,33 @@
 			<div class="row">
 				<div class="col-xs-4">
 					<div>
-						<img class="training-img img-rounded" src="../../resources/vendors/pics/{{imgNum}}.jpg"
-						     th:src="@{/resources/vendors/pics/{{imgNum}}.jpg}"/>
+						<img class="training-img img-rounded" ng-src="../../resources/vendors/pics/{{img}}"
+						     th:src="@{/resources/vendors/pics/{{img}}}"/>
 						<h4 ng-if="isAdmin || training.register == 2" ng-style="{color:approveColor}">
 							{{approveText}}
 						</h4>
 
-						<h4 ng-if="training.register != 2" ng-style="{color:registerColor}">
+						<h4 ng-if="training.register != 2 &#38;&#38; !training.isApproved"
+						    ng-style="{color:registerColor}">
 							{{registerText}}
 						</h4>
 
-						<button ng-if="(training.register == 3) &#38;&#38; training.isApproved" id="registerBtn"
-						        class="btn btn-success" type="button"
-						        ng-click="trainingReg(true)">
-							<i class="fa fa-fw fa-plus"></i> Register
-						</button>
-
-						<button ng-if="(training.register == 0) || (training.register == 1)" id="unregisterBtn"
-						        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
-							<i class="fa fa-fw fa-times"></i> Unregister
+						<div ng-if="(training.register == 3) &#38;&#38; training.isApproved &#38;&#38; isFuture()">
+							<button id="registerBtn"
+							        class="btn btn-success" type="button"
+							        ng-click="trainingReg(true)">
+								<i class="fa fa-fw fa-plus"></i> Register
+							</button>
 							<br/>
-						</button>
+						</div>
+
+						<div ng-if="(training.register == 0) || (training.register == 1) &#38;&#38; isFuture()">
+							<button id="unregisterBtn"
+							        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
+								<i class="fa fa-fw fa-times"></i> Unregister
+							</button>
+							<br/>
+						</div>
 
 						<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 						<span class="label"
@@ -188,18 +196,18 @@
 						<h4>
 							<label style="font-size: 18px;">Tags: </label>
 							<span ng-repeat="tag in training.tags" class="label label-{{tag.color}} tags">
-								#{{tag.name}}
+								{{tag.name}}
 							</span>
 						</h4>
 
 						<h4>
 							<label style="font-size: 18px;">Audience: </label>
 							<span ng-repeat="aud in training.audiences">
-								{{aud.value}};&nbsp;
+								<br/>{{aud.value}};
 							</span>
 						</h4>
 
-						<h4>
+						<h4 ng-show="files.length != 0">
 							<label style="font-size: 18px;">Files: </label>
 							<span ng-repeat="file in files">
 								<a href="{{file.fileLink}}" target="_blank">{{file.name}}</a> <br/>
@@ -242,10 +250,11 @@
 				</div>
 				<div class="col-xs-8">
 					<label style="font-size: 20px;">{{training.title}}&nbsp;</label>
-					<button style="padding-left: 2px;" class="btn btn-primary"
+					<button ng-click="editTraining()" style="padding-left: 2px;" class="btn btn-primary"
 					        ng-show="isAdmin || training.register == 2">
 						<i class="fa fa-fw fa-pencil"></i> Edit
 					</button>
+
 					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
 					        type="button">
 						<i class="fa fa-fw fa-book"></i> Attendence book
@@ -253,6 +262,14 @@
 					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
 					</button>
+
+					<div ng-show="isAdmin &#38;&#38; !training.isApproved">
+						<br/>
+						<button ng-click="approvingSettings()" class="btn btn-warning">
+							<i class="fa fa-fw fa-pencil-square-o"></i> Approving settings
+						</button>
+					</div>
+
 					<hr/>
 
 					<label style="font-size: 18px;">Main information</label>
@@ -447,7 +464,7 @@
 						</tbody>
 					</table>
 
-					<div ng-show="&#33;vote &#38;&#38; openFeed">
+					<div ng-show="(&#33;vote) &#38;&#38; openFeed &#38;&#38; training.isApproved">
 						<hr/>
 						<accordion close-others="oneAtATime">
 							<accordion-group is-open="status.open">

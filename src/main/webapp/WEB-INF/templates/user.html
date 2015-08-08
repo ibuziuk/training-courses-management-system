@@ -70,22 +70,30 @@
 				</a>
 			</li>
 
+			<li>
+				<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+					<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+					<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
+				</ul>
+			</li>
+
 			<li class="active">
 				<a href="" th:href="@{/logout}" id="logout">
 					<i class="fa fa-fw fa-power-off"></i>
 					Log out
 				</a>
 			</li>
-
-			<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
-				<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
-				<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
-			</ul>
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse" collapse="isCollapsed">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
+				<li id="newtraining">
+					<a href="new-training.html" th:href="@{/training/new}">
+						<i class="fa fa-fw fa-circle"></i>
+						Create new training
+					</a>
+				</li>
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle"></i>
@@ -112,12 +120,6 @@
 							</a>
 						</li>
 					</ul>
-				</li>
-				<li id="newtraining">
-					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle"></i>
-						Create new training
-					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
 					<a href="new-trainer.html" th:href="@{/user/external/new}">

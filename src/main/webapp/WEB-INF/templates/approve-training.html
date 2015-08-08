@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-      xmlns="http://www.w3.org/1999/xhtml" ng-app="newTrainingApp">
+      xmlns="http://www.w3.org/1999/xhtml" ng-app="approveTrainingApp">
 <head>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -11,7 +11,7 @@
 	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif"
 	      th:href="@{/resources/vendors/pics/favicon.gif}"/>
 
-	<title th:text="#{newTraining.page.title}">Create new training</title>
+	<title>Approve the training</title>
 
 	<!-- Bootstrap Core CSS -->
 	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
@@ -50,15 +50,16 @@
 	<script src="../../resources/vendors/js/ui-select2.js" th:src="@{/resources/vendors/js/ui-select2.js}"></script>
 
 	<!-- Angular controllers -->
-	<script src="../../resources/js/new-training-app/app.js" th:src="@{/resources/js/new-training-app/app.js}"></script>
+	<script src="../../resources/js/approve-training-app/app.js"
+	        th:src="@{/resources/js/approve-training-app/app.js}"></script>
 	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
 	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
 	<script src="../../resources/js/global-ctrls/language-ctrl.js"
 	        th:src="@{/resources/js/global-ctrls/language-ctrl.js}"></script>
-	<script src="../../resources/js/new-training-app/pagination-ctrl.js"
-	        th:src="@{/resources/js/new-training-app/pagination-ctrl.js}"></script>
-	<script src="../../resources/js/new-training-app/page-ctrl.js"
-	        th:src="@{/resources/js/new-training-app/page-ctrl.js}"></script>
+	<script src="../../resources/js/approve-training-app/pagination-ctrl.js"
+	        th:src="@{/resources/js/approve-training-app/pagination-ctrl.js}"></script>
+	<script src="../../resources/js/approve-training-app/page-ctrl.js"
+	        th:src="@{/resources/js/approve-training-app/page-ctrl.js}"></script>
 </head>
 
 <body>
@@ -105,9 +106,10 @@
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse" collapse="isCollapsed">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
+
 				<li id="newtraining">
 					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle"></i>
+						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
@@ -155,7 +157,7 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h1 class="page-header">
-							<span th:text="#{label.newTraining.creation}">New training creation</span>
+							<span><!-- TODO--> Training edition</span>
 						</h1>
 					</div>
 				</div>
@@ -171,10 +173,8 @@
 				<!-- /.row -->
 
 				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
+					<div class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8">
 						<div id="step1" ng-show="(currentPage == 1)">
-							<br/>
-
 							<div class="form-group">
 								<label>
 									Name of training *
@@ -235,8 +235,6 @@
 						</div>
 
 						<div id="step2" ng-show="(currentPage == 2)">
-							<br/>
-
 							<div>
 								<label>Language of your training *</label>
 								<br/>
@@ -266,8 +264,6 @@
 						</div>
 
 						<div id="step3" ng-show="(currentPage == 3)">
-							<br/>
-
 							<div>
 								<label>Training duration *</label>
 								<timepicker ng-model="duration" ng-change="step3()" hour-step="hstep"
@@ -296,7 +292,8 @@
 										</div>
 										<hr/>
 									</div>
-									<div ng-repeat="datepicker in datepickers">
+									<div ng-class="{'col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3': toShowRepet == 'Weekly '}"
+									     ng-repeat="datepicker in datepickers">
 										<div class="row">
 											<div ng-class="{'col-lg-8 col-md-8 col-sm-8 col-xs-8': toShowRepet == 'Continuous ' || toShowRepet == 'One-off '}">
 												<div ng-show="toShowRepet == 'One-off ' || toShowRepet == 'Continuous '">
@@ -375,7 +372,6 @@
 						</div>
 
 						<div id="step4" ng-show="(currentPage == 4)">
-							<br/>
 							<label>Tags *</label>
 							<br/>
 
@@ -407,16 +403,16 @@
 								<input style="width: 400px;" type="number" class="form-control" min="1"
 								       placeholder="Type here" ng-model="guests"/>
 							</div>
-							<br/>
 
-							<div>
-								<a href="">
-									<button class="btn btn-primary" type="button" id="subBtn"
-									        ng-click="trainingCreation()">
-										Submit
-									</button>
-								</a>
-							</div>
+							<br/><br/>
+
+							<button class="btn btn-success" ng-show="isAdmin &#38;&#38; !training.isApproved">
+								<i class="fa fa-fw fa-thumbs-o-up"></i> Approve
+							</button>
+
+							<button class="btn btn-danger" ng-show="isAdmin &#38;&#38; !training.isApproved">
+								<i class="fa fa-fw fa-thumbs-o-down"></i> Disapprove
+							</button>
 						</div>
 					</div>
 				</div>

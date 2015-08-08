@@ -25,9 +25,14 @@ public class TrainingController {
         return "all-trainings";
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    @RequestMapping(value = {"/new"}, method = RequestMethod.GET)
     public String newTraining() {
         return "new-training";
+    }
+
+    @RequestMapping(value = "/edit/{trainingId}", method = RequestMethod.GET)
+    public String editTraining() {
+        return "edit-training";
     }
 
     @RequestMapping(value = "/my", method = RequestMethod.GET)
@@ -44,6 +49,14 @@ public class TrainingController {
                 throw new AccessDeniedException("Access denied");
             }
             return "training";
+        }
+        throw new ResourceNotFoundException();
+    }
+
+    @RequestMapping(value = "approve/{trainingId:[\\d]+}")
+    public String approvePage(@PathVariable("trainingId") long trainingId) {
+        if (trainingService.getTrainingById(trainingId) != null) {
+            return "approve-training";
         }
         throw new ResourceNotFoundException();
     }

@@ -78,22 +78,31 @@
 				</a>
 			</li>
 
+			<li>
+				<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+					<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+					<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
+				</ul>
+			</li>
+
 			<li class="active">
 				<a href="" th:href="@{/logout}" id="logout">
 					<i class="fa fa-fw fa-power-off"></i>
 					<span th:text="#{label.logout}">Log out</span>
 				</a>
 			</li>
-
-			<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
-				<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
-				<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
-			</ul>
 		</ul>
 
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse" collapse="isCollapsed">
 			<ul class="nav navbar-nav side-nav" id="left-menu">
+
+				<li id="newtraining">
+					<a href="new-training.html" th:href="@{/training/new}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						<span th:text="#{label.newTraining}">Create new training</span>
+					</a>
+				</li>
 
 				<li id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
@@ -106,13 +115,6 @@
 					<a href="my-trainings.html" th:href="@{/training/my}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.myTrainings}">My trainings</span>
-					</a>
-				</li>
-
-				<li id="newtraining">
-					<a href="new-training.html" th:href="@{/training/new}">
-						<i class="fa fa-fw fa-circle-o"></i>
-						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
 
@@ -151,10 +153,12 @@
 			</div>
 			<!-- /.row -->
 
+			<br/><br/>
+
 			<div class="row">
-				<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 trainer-form">
+				<div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-2 col-sm-6 col-sm-offset-2 col-xs-8 col-xs-offset-2">
 					<form th:action="@{/user/external/new}" th:object="${user}" method="post">
-						<div align="center" class="form-group">
+						<div class="form-group">
 							<label th:text="#{label.newTrainer.firstName} + ' *'">
 								First Name *
 							</label>
@@ -166,7 +170,7 @@
 							       required="required" name="firstName" th:field="*{firstName}" type="text"/>
 						</div>
 
-						<div align="center" class="form-group">
+						<div class="form-group">
 							<label th:text="#{label.newTrainer.lastName} + ' *'">
 								Last Name *
 							</label>
@@ -178,7 +182,7 @@
 							       required="required" name="lastName" th:field="*{lastName}" type="text"/>
 						</div>
 
-						<div align="center" class="form-group">
+						<div class="form-group">
 							<label th:text="#{label.email} + ' *'">
 								E-mail *
 							</label>
@@ -190,7 +194,9 @@
 							       required="required" name="email" th:field="*{email}" type="email"/>
 						</div>
 
-						<div style="text-align: center">
+						<br/>
+
+						<div>
 							<button class="btn btn-primary btn-center" type="submit" id="subBtn"
 							        th:text="#{label.submit}">
 								Submit

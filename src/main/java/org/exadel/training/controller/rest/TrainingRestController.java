@@ -379,7 +379,16 @@ public class TrainingRestController {
         long userId = trainingService.getTrainingById(uploadFileService.getUploadFile(fileId).getTraining().getTrainingId()).getTrainer().getUserId();
         if (userDetails.hasRole(ROLE_ADMIN) || userId == userDetails.getId()) {
             uploadFileService.removeUploadFile(uploadFileService.getUploadFile(fileId));
-
         }
+    }
+
+    @RequestMapping(value = "/rest/training/recommendations", method = RequestMethod.GET,
+            params = {"sortType", "order"})
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> getRecommendations(@RequestParam String sortType, @RequestParam String order) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String, Object> map = new HashMap<>();
+        map.put("trainings", trainingService.getRecommendationsByUser(userDetails.getId()));
+        return map;
     }
 }

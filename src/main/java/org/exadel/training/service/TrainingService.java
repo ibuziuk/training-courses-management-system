@@ -38,4 +38,6 @@ public interface TrainingService {
     Map<String, Object> searchTrainings(int pageNumber, int pageSize, String searchType, String value);
 
     List<Training> getContinuousTrainings(long id);
+
+    List<Training> getRecommendationsByUser(long userId);
 }

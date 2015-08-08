@@ -3,6 +3,7 @@ package org.exadel.training.service;
 import org.exadel.training.dao.TrainingDAO;
 import org.exadel.training.dao.UserDAO;
 import org.exadel.training.dao.WaitingListDAO;
+import org.exadel.training.model.Tag;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,5 +173,48 @@ public class TrainingServiceImpl implements TrainingService {
     @Transactional
     public List<Training> getContinuousTrainings(long id) {
         return trainingDAO.getContinuousTrainings(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> getRecommendationsByUser(long userId) {
+        List<Training> trainings = trainingDAO.getTrainingsByVisitor(userId);
+        HashMap<Tag, Integer> allTags = new HashMap<>();
+        TreeMap<Integer, Training> allTrainings = new TreeMap<>((obj1, obj2) -> {
+            if (obj1 > obj2)
+                return 1;
+            else return -1;
+        });
+
+        for (Training all : trainings) {
+            Set<Tag> tag = all.getTags();
+            for (Tag trainingTag : tag) {
+                if (allTags.containsKey(trainingTag)) {
+                    allTags.put(trainingTag, allTags.get(trainingTag) + 1);
+                } else {
+                    allTags.put(trainingTag, 1);
+                }
+            }
+        }
+
+        trainings = trainingDAO.getFutureTrainingsForScheduling();
+        for (Training all : trainings) {
+            Set<Tag> tag = all.getTags();
+            int sum = 0;
+            for (Tag trainingTag : tag) {
+                if (allTags.containsKey(trainingTag)) {
+                    sum += allTags.get(trainingTag);
+                }
+            }
+            allTrainings.put(sum, all);
+        }
+
+        List<Training> result = new LinkedList<>();
+        for (int i = 0; i < 10 && !allTrainings.isEmpty(); i++) {
+            Training training = allTrainings.pollLastEntry().getValue();
+            if (training.getTrainer().getUserId() != userId && training.getVisitors().size() < training.getMaxVisitorsCount())
+                result.add(training);
+        }
+        return result;
     }
 }

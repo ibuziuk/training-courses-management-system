@@ -1,8 +1,10 @@
 package org.exadel.training.service;
 
 
+import org.exadel.training.model.Tag;
 import org.exadel.training.model.Training;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +12,6 @@ public interface TrainingService {
     void addTraining(Training training);
 
     List<Training> getAllTraining();
-
-    List<Training> getComeTrainings(String come, boolean admin);
 
     List<Training> getFutureTrainingsForScheduling();
 
@@ -27,7 +27,7 @@ public interface TrainingService {
 
     List<Training> getTrainingsByVisitor(long id);
 
-    List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin);
+    Map<String, Object> getSomeTrainingOrderBy(String person, String come, int pageNum, int pageSize, String sorting, String order, boolean admin);
 
     String registerForTraining(long trainingId, long userId);
 
@@ -35,9 +35,11 @@ public interface TrainingService {
 
     boolean containsVisitor(long trainingId, long userId);
 
-    Map<String, Object> searchTrainings(int pageNumber, int pageSize, String searchType, String value);
+    Map<String, Object> searchTrainings(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String searchType, String value);
 
     List<Training> getContinuousTrainings(long id);
 
     List<Training> getRecommendationsByUser(long userId);
+
+    HashMap<Tag, Integer> getUserTags(long userId);
 }

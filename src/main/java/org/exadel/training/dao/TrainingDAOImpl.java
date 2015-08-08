@@ -41,29 +41,6 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> getComeTrainings(String come, boolean admin) {
-        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
-        if (come.equals("future")) {
-            criteria.add(Restrictions.or(
-                    Restrictions.ge("date", date),
-                    Restrictions.ge("start", date)
-            ));
-        } else {
-            criteria.add(Restrictions.or(
-                    Restrictions.le("date", date),
-                    Restrictions.le("start", date)
-            ));
-        }
-        if (!admin) {
-            criteria.add(Restrictions.eq("isApproved", true));
-        }
-        Collection result = new LinkedHashSet<>(criteria.list());
-        return new ArrayList<>(result);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public List<Training> getTrainingsByName(String name) {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .add(Restrictions.eq("title", name)).list());
@@ -110,12 +87,18 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
+    public Map<String, Object> getSomeTrainingOrderBy(String person, String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
         Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
-                .setFirstResult((pageNum - 1) * pageSize)
-                .setProjection(Projections.distinct(Projections.property("trainingId")))
-                .setMaxResults(pageSize);
+                .setProjection(Projections.distinct(Projections.property("trainingId")));
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
         if (come.equals("future")) {
             criteria.add(Restrictions.or(
                     Restrictions.ge("date", date),
@@ -127,7 +110,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.le("end", date)
             ));
         }
-        if (!sorting.equals("trainerName")) {
+        if (!sorting.equals("coach")) {
             if (order.equals("asc")) {
                 criteria.addOrder(Order.asc(sorting));
             } else {
@@ -146,18 +129,47 @@ public class TrainingDAOImpl implements TrainingDAO {
         if (!admin) {
             criteria.add(Restrictions.eq("isApproved", true));
         }
-        List<Long> id = criteria.list();
+        int size = criteria.list().size();
+        List<Long> id = criteria.setFirstResult((pageNum - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .list();
         List<Training> result = new ArrayList<>(id.size());
         result.addAll(id.stream().map(this::getTrainingById).collect(Collectors.toList()));
-        return result;
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("size", size);
+        map.put("list", result);
+        return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> searchTrainingsByTitle(int pageNumber, int pageSize, String value) {
+    public Map<String, Object> searchTrainingsByTitle(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String value) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .add(Restrictions.like("title", "%" + value + "%"));
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("end", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("end", date)
+            ));
+        }
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
+        if (!isAdmin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize).list();
@@ -165,16 +177,39 @@ public class TrainingDAOImpl implements TrainingDAO {
         result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
         Map<String, Object> map = new HashMap<>(2);
         map.put("size", size);
-        map.put("result", result);
+        map.put("list", result);
         return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> searchTrainingsByDate(int pageNumber, int pageSize, Timestamp date) {
+    public Map<String, Object> searchTrainingsByDate(String person, String come, boolean isAdmin, int pageNumber, int pageSize, Timestamp date) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .add(Restrictions.eq("date", date));
+        Timestamp sortDate = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", sortDate),
+                    Restrictions.ge("end", sortDate)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", sortDate),
+                    Restrictions.le("end", sortDate)
+            ));
+        }
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
+        if (!isAdmin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize).list();
@@ -182,16 +217,39 @@ public class TrainingDAOImpl implements TrainingDAO {
         result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
         Map<String, Object> map = new HashMap<>(0);
         map.put("size", size);
-        map.put("result", result);
+        map.put("list", result);
         return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> searchTrainingsByTime(int pageNumber, int pageSize, String time) {
+    public Map<String, Object> searchTrainingsByTime(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String time) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .add(Restrictions.like("time", time + "%"));
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("end", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("end", date)
+            ));
+        }
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
+        if (!isAdmin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize).list();
@@ -199,16 +257,39 @@ public class TrainingDAOImpl implements TrainingDAO {
         result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
         Map<String, Object> map = new HashMap<>(0);
         map.put("size", size);
-        map.put("result", result);
+        map.put("list", result);
         return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> searchTrainingsByLocation(int pageNumber, int pageSize, int location) {
+    public Map<String, Object> searchTrainingsByLocation(String person, String come, boolean isAdmin, int pageNumber, int pageSize, int location) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .add(Restrictions.eq("location", location));
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("end", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("end", date)
+            ));
+        }
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
+        if (!isAdmin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize).list();
@@ -216,18 +297,49 @@ public class TrainingDAOImpl implements TrainingDAO {
         result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
         Map<String, Object> map = new HashMap<>(0);
         map.put("size", size);
-        map.put("result", result);
+        map.put("list", result);
         return map;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> searchTrainingsByTrainerName(int pageNumber, int pageSize, String firstName, String lastName) {
+    public Map<String, Object> searchTrainingsByTrainerName(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String firstName, String lastName) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
                 .createAlias("trainer", "t")
-                .add(Restrictions.like("t.firstName", "%" + firstName + "%"))
-                .add(Restrictions.like("t.lastName", "%" + lastName + "%"));
+                .add(Restrictions.or(
+                        Restrictions.and(
+                                Restrictions.like("t.firstName", "%" + firstName + "%"),
+                                Restrictions.like("t.lastName", "%" + lastName + "%")
+                        ),
+                        Restrictions.and(
+                                Restrictions.like("t.firstName", "%" + lastName + "%"),
+                                Restrictions.like("t.lastName", "%" + firstName + "%")
+                        )
+                ));
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("end", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("end", date)
+            ));
+        }
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
+        if (!isAdmin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize).list();
@@ -235,7 +347,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         result.addAll(idList.stream().map(this::getTrainingById).collect(Collectors.toList()));
         Map<String, Object> map = new HashMap<>(0);
         map.put("size", size);
-        map.put("result", result);
+        map.put("list", result);
         return map;
     }
 

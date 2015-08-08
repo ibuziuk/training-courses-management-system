@@ -32,10 +32,10 @@ public class WaitingListDAOImpl implements WaitingListDAO {
             User user = userDAO.getUserById(userID);
             List<Training> trainings = new ArrayList<>(1);
             trainings.add(training);
-            if (training.getContinuous()){
+            if (training.getContinuous()) {
                 trainings = trainingDAO.getContinuousTrainings(trainingID);
             }
-            for (Training elem : trainings){
+            for (Training elem : trainings) {
                 WaitingList waitingList = new WaitingList();
                 waitingList.setTraining(elem);
                 waitingList.setUser(user);
@@ -58,7 +58,7 @@ public class WaitingListDAOImpl implements WaitingListDAO {
         Training training = trainingDAO.getTrainingById(trainingID);
         List<Training> trainings = new ArrayList<>(1);
         trainings.add(training);
-        if (training.getContinuous()){
+        if (training.getContinuous()) {
             trainings = trainingDAO.getContinuousTrainings(trainingID);
         }
         List list = sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
@@ -66,7 +66,7 @@ public class WaitingListDAOImpl implements WaitingListDAO {
                 .add(Restrictions.eq("user.userId", userID))
                 .list();
         if (list.size() != 0) {
-            for (Training elem : trainings){
+            for (Training elem : trainings) {
                 WaitingList wl = (WaitingList) sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
                         .add(Restrictions.eq("training.trainingId", elem.getTrainingId()))
                         .add(Restrictions.eq("user.userId", userID))
@@ -86,13 +86,13 @@ public class WaitingListDAOImpl implements WaitingListDAO {
         return (list.size() != 0);
     }
 
-    public User getNext(long trainingId){
+    public User getNext(long trainingId) {
         List result = sessionFactory.getCurrentSession().createCriteria(WaitingList.class)
                 .createAlias("training", "t")
                 .add(Restrictions.eq("t.trainingId", trainingId))
                 .addOrder(Order.asc("date"))
                 .list();
-        if (result.size() != 0){
+        if (result.size() != 0) {
             WaitingList wl = (WaitingList) result.get(0);
             User user = wl.getUser();
             removeVisitor(trainingId, user.getUserId());

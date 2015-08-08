@@ -315,34 +315,60 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/rest/training/{come}", method = RequestMethod.GET,
-            params = {"pageNum", "pageSize", "sorting", "order"})
+            params = {"person", "pageNumber", "pageSize", "sorting", "order"})
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Object> getFutureTrainings(
+    public Map<String, Object> getComeTrainings(
             @PathVariable("come") String come,
-            @RequestParam(value = "pageNum") int pageNum,
+            @RequestParam(value = "person") String person,
+            @RequestParam(value = "pageNumber") int pageNum,
             @RequestParam(value = "pageSize") int pageSize,
             @RequestParam(value = "sorting") String sorting,
             @RequestParam(value = "order") String order) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserById(userDetails.getId());
         boolean flag = !user.getRoleForView().equals("User");
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("list", trainingService.getSomeTrainingOrderBy(come, pageNum, pageSize, sorting, order, flag));
-        map.put("size", trainingService.getComeTrainings(come, flag).size());
-        return map;
+        if (!person.equals("all")) {
+            person = userDetails.getId() + "";
+        }
+        return trainingService.getSomeTrainingOrderBy(person, come, pageNum, pageSize, sorting, order, flag);
     }
 
 
-    @RequestMapping(value = "/rest/training/search", method = RequestMethod.GET,
-            params = {"pageNumber", "pageSize", "searchType", "value"})
-
+    @RequestMapping(value = "/rest/training/{come}/search", method = RequestMethod.GET,
+            params = {"person", "pageNumber", "pageSize", "searchType", "value"})
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> searching(
             @RequestParam("pageNumber") Integer pageNumber,
+            @RequestParam(value = "person") String person,
             @RequestParam("pageSize") Integer pageSize,
             @RequestParam("searchType") String searchType,
-            @RequestParam("value") String value) {
-        return trainingService.searchTrainings(pageNumber, pageSize, searchType, value);
+            @RequestParam("value") String value,
+            @PathVariable("come") String come) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserById(userDetails.getId());
+        boolean flag = !user.getRoleForView().equals("User");
+        if (!person.equals("all")) {
+            person = userDetails.getId() + "";
+        }
+        return trainingService.searchTrainings(person, come, flag, pageNumber, pageSize, searchType, value);
+    }
+
+    @RequestMapping(value = "/rest/training/recommendations", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> getRecommendations() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", trainingService.getRecommendationsByUser(userDetails.getId()));
+        return map;
+    }
+
+    @RequestMapping(value = "/rest/training/userTags", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> getUserTags() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String, Object> map = new HashMap<>();
+        map.put("tags", trainingService.getUserTags(userDetails.getId()).keySet().toArray());
+        return map;
     }
 
     @RequestMapping(value = "/training/{trainingId}/uploadfile", method = RequestMethod.POST)
@@ -378,15 +404,5 @@ public class TrainingRestController {
         if (userDetails.hasRole(ROLE_ADMIN) || userId == userDetails.getId()) {
             uploadFileService.removeUploadFile(uploadFileService.getUploadFile(fileId));
         }
-    }
-
-    @RequestMapping(value = "/rest/training/recommendations", method = RequestMethod.GET,
-            params = {"sortType", "order"})
-    @ResponseStatus(HttpStatus.OK)
-    public Map<String, Object> getRecommendations(@RequestParam String sortType, @RequestParam String order) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Map<String, Object> map = new HashMap<>();
-        map.put("trainings", trainingService.getRecommendationsByUser(userDetails.getId()));
-        return map;
     }
 }

@@ -22,6 +22,9 @@
 	<!-- Custom CSS -->
 	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
+	<!-- Spinner CSS -->
+	<link href="../../resources/css/spinner.css" th:href="@{/resources/css/spinner.css}" rel="stylesheet"/>
+
 	<!-- Custom Fonts -->
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
@@ -51,6 +54,8 @@
 	        th:src="@{/resources/js/all-trainings-app/app.js}"></script>
 	<script src="../../resources/js/all-trainings-app/future-tab-ctrl.js"
 	        th:src="@{/resources/js/all-trainings-app/future-tab-ctrl.js}"></script>
+	<script src="../../resources/js/all-trainings-app/recommendation-tab-ctrl.js"
+	        th:src="@{/resources/js/all-trainings-app/recommendation-tab-ctrl.js}"></script>
 	<script src="../../resources/js/all-trainings-app/history-tab-ctrl.js"
 	        th:src="@{/resources/js/all-trainings-app/history-tab-ctrl.js}"></script>
 	<script src="../../resources/js/all-trainings-app/tabs-services.js"
@@ -108,7 +113,7 @@
 						<span th:text="#{label.newTraining}">Create new training</span>
 					</a>
 				</li>
-				<li id="alltrainings">
+				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
@@ -164,21 +169,29 @@
 					<li><a href="#hist" data-toggle="tab" th:text="#{label.historyOfTrainings}">History of trainings</a>
 					</li>
 				</ul>
+
 				<!-- Tab content -->
 				<div class="tab-content panel panel-default panel-body">
+
 					<!-- Future trainings -->
 					<div class="tab-pane fade in active" id="fut" ng-controller="futureController">
+
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
 						<!-- Search row -->
-						<div class="row search-row">
+						<div class="row search-row" ng-show="!loading">
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
 							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
 								<select class="form-control" ng-model="defaultConfig.searching.type">
 									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
-									<option value="date" th:text="#{label.search.byDate}">By date</option>
-									<option value="time" th:text="#{label.search.byTime}">By time</option>
+									<!--<option value="date" th:text="#{label.search.byDate}">By date</option>-->
+									<!--<option value="time" th:text="#{label.search.byTime}">By time</option>-->
 									<option value="location" th:text="#{label.search.byLocation}">By location</option>
-									<option value="trainerName" th:text="#{label.search.byTrainer}">By trainer name
-									</option>
+									<option value="coach" th:text="#{label.search.byTrainer}">By coach</option>
 									<option value="tags" th:text="#{label.search.byTags}">By tags</option>
 								</select>
 							</div>
@@ -196,7 +209,7 @@
 						<!-- /.row -->
 
 						<!-- Trainings -->
-						<div class="row">
+						<div class="row" ng-show="!loading">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="table-responsive">
 									<table class="table table-bordered table-striped table-hover"
@@ -210,8 +223,8 @@
 											<td data-title="'Date'" sortable="'date'">{{training.date}}</td>
 											<td data-title="'Time'" sortable="'time'">{{training.time}}</td>
 											<td data-title="'Location'" sortable="'location'">{{training.location}}</td>
-											<td data-title="'Trainer name'" sortable="'trainerName'">
-												{{training.trainerName}}
+											<td data-title="'Coach'" sortable="'coach'">
+												{{training.coach}}
 											</td>
 											<td data-title="'Places occupied/all'" sortable="'maxVisitorsCount'">
 												{{training.places}}
@@ -231,48 +244,24 @@
 					<!-- /Future trainings -->
 
 					<!-- Recommendations -->
-					<div class="tab-pane fade" id="rec">
-						<!-- Search row -->
-						<div class="row search-row">
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
-							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
-								<select class="form-control" ng-model="defaultConfig.searching.type">
-									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
-									<option value="date" th:text="#{label.search.byDate}">By date</option>
-									<option value="time" th:text="#{label.search.byTime}">By time</option>
-									<option value="location" th:text="#{label.search.byLocation}">By location</option>
-									<option value="trainerName" th:text="#{label.search.byTrainer}">By trainer name
-									</option>
-									<option value="tags" th:text="#{label.search.byTags}">By tags</option>
-								</select>
-							</div>
-							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-								<div class="input-group">
-									<input type="text" class="form-control" ng-model="defaultConfig.searching.value"
-									       ng-model-options="{ debounce: 500 }"
-									       placeholder="Type here"
-									       th:placeholder="#{label.typeHere}"/>
+					<div class="tab-pane fade" id="rec" ng-controller="recommendationController">
 
-									<div class="input-group-addon"><i class="fa fa-search"></i></div>
-								</div>
-							</div>
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
 						</div>
-						<!-- /.row -->
+						<!-- /Spinner -->
 
 						<!-- Tags row -->
-						<div class="row">
+						<div class="row" ng-show="!loading">
 							<div class="container-fluid">
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h3 class="panel-title" th:text="#{label.yourTags}">Your tags</h3>
 									</div>
 									<div class="panel-body">
-										<span class="label label-warning tags">#tag</span>
-										<span class="label label-danger tags">#tag</span>
-										<span class="label label-success tags">#tag</span>
-										<span class="label label-default tags">#tag</span>
-										<span class="label label-info tags">#tag</span>
-										<span class="label label-primary tags">#tag</span>
+										<span ng-repeat="tag in tags"
+										      class="label tags label-{{tag.color}}">{{tag.title}}</span>
 									</div>
 								</div>
 							</div>
@@ -280,23 +269,21 @@
 						<!-- /Tags row -->
 
 						<!-- Trainings -->
-						<div class="row">
+						<div class="row" ng-show="!loading">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="table-responsive">
 									<table class="table table-bordered table-striped table-hover"
 									       ng-table="tableParams">
 										<tr ng-repeat="training in $data" ng-class="{'danger': !training.approved}"
 										    title="{{{true: 'approved', false: 'not approved'}[training.approved]}}">
-											<td data-title="'Title'" sortable="'title'">{{training.title}}</td>
-											<td data-title="'Date'" sortable="'date'">{{training.date}}</td>
-											<td data-title="'Time'" sortable="'time'">{{training.time}}</td>
-											<td data-title="'Location'" sortable="'location'">{{training.location}}</td>
-											<td data-title="'Trainer name'" sortable="'trainerName'">
-												{{training.trainerName}}
+											<td data-title="'Title'">
+												<a target="_blank" ng-href="{{training.url}}">{{training.title}}</a>
 											</td>
-											<td data-title="'Places occupied/all'" sortable="'maxVisitorsCount'">
-												{{training.places}}
-											</td>
+											<td data-title="'Date'">{{training.date}}</td>
+											<td data-title="'Time'">{{training.time}}</td>
+											<td data-title="'Location'">{{training.location}}</td>
+											<td data-title="'Coach'">{{training.coach}}</td>
+											<td data-title="'Places occupied/all'">{{training.places}}</td>
 											<td data-title="'Tags'">
 												<span ng-repeat="tag in training.tags"
 												      class="label tags label-{{tag.color}}">{{tag.title}}</span>
@@ -312,17 +299,23 @@
 
 					<!-- History -->
 					<div class="tab-pane fade" id="hist" ng-controller="historyController">
+
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
 						<!-- Search row -->
-						<div class="row search-row">
+						<div class="row search-row" ng-show="!loading">
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
 							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
 								<select class="form-control" ng-model="defaultConfig.searching.type">
 									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
-									<option value="date" th:text="#{label.search.byDate}">By date</option>
-									<option value="time" th:text="#{label.search.byTime}">By time</option>
+									<!--<option value="date" th:text="#{label.search.byDate}">By date</option>-->
+									<!--<option value="time" th:text="#{label.search.byTime}">By time</option>-->
 									<option value="location" th:text="#{label.search.byLocation}">By location</option>
-									<option value="trainerName" th:text="#{label.search.byTrainer}">By trainer name
-									</option>
+									<option value="coach" th:text="#{label.search.byTrainer}">By coach</option>
 									<option value="tags" th:text="#{label.search.byTags}">By tags</option>
 								</select>
 							</div>
@@ -340,20 +333,20 @@
 						<!-- /.row -->
 
 						<!-- Trainings -->
-						<div class="row">
+						<div class="row" ng-show="!loading">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="table-responsive">
 									<table class="table table-bordered table-striped table-hover"
 									       ng-table="tableParams">
 										<tr ng-repeat="training in $data" ng-class="{'danger': !training.approved}"
 										    title="{{{true: 'approved', false: 'not approved'}[training.approved]}}">
-											<td data-title="'Title'" sortable="'title'">{{training.title}}</td>
+											<td data-title="'Title'" sortable="'title'">
+												<a target="_blank" ng-href="{{training.url}}">{{training.title}}</a>
+											</td>
 											<td data-title="'Date'" sortable="'date'">{{training.date}}</td>
 											<td data-title="'Time'" sortable="'time'">{{training.time}}</td>
 											<td data-title="'Location'" sortable="'location'">{{training.location}}</td>
-											<td data-title="'Trainer name'" sortable="'trainerName'">
-												{{training.trainerName}}
-											</td>
+											<td data-title="'Coach'" sortable="'coach'">{{training.coach}}</td>
 											<td data-title="'Places occupied/all'" sortable="'maxVisitorsCount'">
 												{{training.places}}
 											</td>

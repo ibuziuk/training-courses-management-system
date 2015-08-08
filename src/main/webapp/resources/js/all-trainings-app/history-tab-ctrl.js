@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('historyTab', [])
-		.controller('historyController', ['$scope', '$http', 'tableService', 'ngTableParams', function ($scope, $http, tableService, ngTableParams) {
+		.controller('historyController', ['$scope', 'tableService', 'ngTableParams', function ($scope, tableService, ngTableParams) {
 			$scope.url = {
 				all: 'rest/training/past',
-				search: 'rest/training/search'
+				search: 'rest/training/past/search'
 			};
 			$scope.defaultConfig = {
 				page: 1,
@@ -17,23 +17,34 @@ angular.module('historyTab', [])
 					value: ''
 				}
 			};
+			$scope.loading = true;
 
 			$scope.tableParams = new ngTableParams($scope.defaultConfig, {
 				counts: [10, 25, 50, 100],
 				getData: function ($defer, params) {
 					if ($scope.defaultConfig.searching.value) {
 						tableService.getSearch($scope.url.search, params.$params)
-								.then(function (result) {
-									var tmp = tableService.parsing(result.data);
+								.then(function (data) {
+									var tmp = tableService.parse(data.data);
 									params.total(tmp.size);
 									$defer.resolve(tmp.list);
+								}, function (data) {
+									console.error(data.status + ': ' + data.statusText + ' (' + data.config.url + ')');
+								})
+								.finally(function () {
+									$scope.loading = false;
 								});
 					} else {
 						tableService.get($scope.url.all, params.$params)
-								.then(function (result) {
-									var tmp = tableService.parsing(result.data);
+								.then(function (data) {
+									var tmp = tableService.parse(data.data);
 									params.total(tmp.size);
 									$defer.resolve(tmp.list);
+								}, function (data) {
+									console.error(data.status + ': ' + data.statusText + ' (' + data.config.url + ')');
+								})
+								.finally(function () {
+									$scope.loading = false;
 								});
 					}
 				}

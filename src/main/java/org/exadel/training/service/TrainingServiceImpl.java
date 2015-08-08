@@ -1,5 +1,6 @@
 package org.exadel.training.service;
 
+import org.exadel.training.dao.RegularLessonDAO;
 import org.exadel.training.dao.TrainingDAO;
 import org.exadel.training.dao.UserDAO;
 import org.exadel.training.dao.WaitingListDAO;
@@ -24,6 +25,9 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private WaitingListDAO waitingListDAO;
 
+    @Autowired
+    private RegularLessonDAO regularLessonDAO;
+
     @Override
     @Transactional
     public void addTraining(Training training) {
@@ -34,12 +38,6 @@ public class TrainingServiceImpl implements TrainingService {
     @Transactional
     public List<Training> getAllTraining() {
         return trainingDAO.getAllTrainings();
-    }
-
-    @Override
-    @Transactional
-    public List<Training> getComeTrainings(String come, boolean admin) {
-        return trainingDAO.getComeTrainings(come, admin);
     }
 
     @Override
@@ -86,8 +84,8 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public List<Training> getSomeTrainingOrderBy(String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
-        return trainingDAO.getSomeTrainingOrderBy(come, pageNum, pageSize, sorting, order, admin);
+    public Map<String, Object> getSomeTrainingOrderBy(String person, String come, int pageNum, int pageSize, String sorting, String order, boolean admin) {
+        return trainingDAO.getSomeTrainingOrderBy(person, come, pageNum, pageSize, sorting, order, admin);
     }
 
     @Override
@@ -146,22 +144,22 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional
-    public Map<String, Object> searchTrainings(int pageNumber, int pageSize, String searchType, String value) {
+    public Map<String, Object> searchTrainings(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String searchType, String value) {
         switch (searchType) {
             case "title":
-                return trainingDAO.searchTrainingsByTitle(pageNumber, pageSize, value);
+                return trainingDAO.searchTrainingsByTitle(person, come, isAdmin, pageNumber, pageSize, value);
             case "date":
-                return trainingDAO.searchTrainingsByDate(pageNumber, pageSize, new Timestamp(Long.parseLong(value)));
+                return trainingDAO.searchTrainingsByDate(person, come, isAdmin, pageNumber, pageSize, new Timestamp(Long.parseLong(value)));
             case "time":
-                return trainingDAO.searchTrainingsByTime(pageNumber, pageSize, value);
+                return trainingDAO.searchTrainingsByTime(person, come, isAdmin, pageNumber, pageSize, value);
             case "location":
-                return trainingDAO.searchTrainingsByLocation(pageNumber, pageSize, Integer.parseInt(value));
-            case "trainerName":
+                return trainingDAO.searchTrainingsByLocation(person, come, isAdmin, pageNumber, pageSize, Integer.parseInt(value));
+            case "coach":
                 List<String> str = Arrays.asList(value.split(" "));
                 if (str.size() > 1) {
-                    return trainingDAO.searchTrainingsByTrainerName(pageNumber, pageSize, str.get(0), str.get(1));
+                    return trainingDAO.searchTrainingsByTrainerName(person, come, isAdmin, pageNumber, pageSize, str.get(0), str.get(1));
                 }
-                return trainingDAO.searchTrainingsByTrainerName(pageNumber, pageSize, str.get(0), "");
+                return trainingDAO.searchTrainingsByTrainerName(person, come, isAdmin, pageNumber, pageSize, str.get(0), "");
             default:
                 Map<String, Object> map = new HashMap<>(1);
                 map.put("size", 0);
@@ -180,6 +178,7 @@ public class TrainingServiceImpl implements TrainingService {
     public List<Training> getRecommendationsByUser(long userId) {
         List<Training> trainings = trainingDAO.getTrainingsByVisitor(userId);
         HashMap<Tag, Integer> allTags = new HashMap<>();
+
         TreeMap<Integer, Training> allTrainings = new TreeMap<>((obj1, obj2) -> {
             if (obj1 > obj2)
                 return 1;
@@ -216,5 +215,24 @@ public class TrainingServiceImpl implements TrainingService {
                 result.add(training);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public HashMap<Tag, Integer> getUserTags(long userId) {
+        List<Training> trainings = trainingDAO.getTrainingsByVisitor(userId);
+        HashMap<Tag, Integer> allTags = new HashMap<>();
+
+        for (Training all : trainings) {
+            Set<Tag> tag = all.getTags();
+            for (Tag trainingTag : tag) {
+                if (allTags.containsKey(trainingTag)) {
+                    allTags.put(trainingTag, allTags.get(trainingTag) + 1);
+                } else {
+                    allTags.put(trainingTag, 1);
+                }
+            }
+        }
+        return allTags;
     }
 }

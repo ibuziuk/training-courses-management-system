@@ -160,6 +160,8 @@ public class TrainingServiceImpl implements TrainingService {
                     return trainingDAO.searchTrainingsByTrainerName(person, come, isAdmin, pageNumber, pageSize, str.get(0), str.get(1));
                 }
                 return trainingDAO.searchTrainingsByTrainerName(person, come, isAdmin, pageNumber, pageSize, str.get(0), "");
+            case "tags":
+                return trainingDAO.searchTrainingsByTags(person, come, isAdmin, pageNumber, pageSize, value.split("[/s]+"));
             default:
                 Map<String, Object> map = new HashMap<>(1);
                 map.put("size", 0);

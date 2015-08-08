@@ -37,5 +37,7 @@ public interface TrainingDAO {
 
     Map<String, Object> searchTrainingsByTrainerName(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String firstName, String lastName);
 
+    Map<String, Object> searchTrainingsByTags(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String[] values);
+
     List<Training> getContinuousTrainings(long id);
 }

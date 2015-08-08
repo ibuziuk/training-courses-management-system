@@ -3,6 +3,7 @@ package org.exadel.training.dao;
 import org.exadel.training.model.Training;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -266,7 +267,7 @@ public class TrainingDAOImpl implements TrainingDAO {
     public Map<String, Object> searchTrainingsByLocation(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String location) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
-                .add(Restrictions.like("location",  "%" + location + "%"));
+                .add(Restrictions.like("location", "%" + location + "%"));
         Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
         if (come.equals("future")) {
             criteria.add(Restrictions.or(
@@ -349,6 +350,56 @@ public class TrainingDAOImpl implements TrainingDAO {
         map.put("size", size);
         map.put("list", result);
         return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> searchTrainingsByTags(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String[] values) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
+                .setProjection(Projections.distinct(Projections.property("trainingId")))
+                .createAlias("tags", "tag");
+        Disjunction disjunction = Restrictions.disjunction();
+        for (String string : values) {
+            disjunction.add(Restrictions.like("tag.name", '%' + string + '%'));
+        }
+        criteria.add(disjunction);
+
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
+        if (come.equals("future")) {
+            criteria.add(Restrictions.or(
+                    Restrictions.ge("date", date),
+                    Restrictions.ge("end", date)
+            ));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("date", date),
+                    Restrictions.le("end", date)
+            ));
+        }
+
+        if (!person.equals("all")) {
+            long id = Long.parseLong(person);
+            criteria.createAlias("visitors", "visitorsAlias")
+                    .add(Restrictions.or(
+                            Restrictions.eq("visitorsAlias.userId", id),
+                            Restrictions.eq("trainer.userId", id)
+                    ));
+        }
+
+        if (!isAdmin) {
+            criteria.add(Restrictions.eq("isApproved", true));
+        }
+
+        int size = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize);
+        List<Long> list = criteria.list();
+        List<Training> users = new ArrayList<>(list.size());
+        users.addAll(list.stream().map(this::getTrainingById).collect(Collectors.toList()));
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("size", size);
+        result.put("list", users);
+        return result;
     }
 
 

@@ -153,7 +153,7 @@ public class TrainingServiceImpl implements TrainingService {
             case "time":
                 return trainingDAO.searchTrainingsByTime(person, come, isAdmin, pageNumber, pageSize, value);
             case "location":
-                return trainingDAO.searchTrainingsByLocation(person, come, isAdmin, pageNumber, pageSize, Integer.parseInt(value));
+                return trainingDAO.searchTrainingsByLocation(person, come, isAdmin, pageNumber, pageSize, value);
             case "coach":
                 List<String> str = Arrays.asList(value.split(" "));
                 if (str.size() > 1) {

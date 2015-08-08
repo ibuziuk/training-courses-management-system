@@ -19,7 +19,7 @@ angular.module('tabsServices', [])
 					},
 					tag = function (title, color) {
 						return {
-							title: '#' + title,
+							title: title,
 							color: color
 						};
 					};

@@ -263,10 +263,10 @@ public class TrainingDAOImpl implements TrainingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> searchTrainingsByLocation(String person, String come, boolean isAdmin, int pageNumber, int pageSize, int location) {
+    public Map<String, Object> searchTrainingsByLocation(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String location) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .setProjection(Projections.distinct(Projections.property("trainingId")))
-                .add(Restrictions.eq("location", location));
+                .add(Restrictions.like("location",  "%" + location + "%"));
         Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP").list().get(0);
         if (come.equals("future")) {
             criteria.add(Restrictions.or(

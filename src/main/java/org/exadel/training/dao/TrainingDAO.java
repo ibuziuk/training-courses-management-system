@@ -33,7 +33,7 @@ public interface TrainingDAO {
 
     Map<String, Object> searchTrainingsByTime(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String time);
 
-    Map<String, Object> searchTrainingsByLocation(String person, String come, boolean isAdmin, int pageNumber, int pageSize, int location);
+    Map<String, Object> searchTrainingsByLocation(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String location);
 
     Map<String, Object> searchTrainingsByTrainerName(String person, String come, boolean isAdmin, int pageNumber, int pageSize, String firstName, String lastName);
 

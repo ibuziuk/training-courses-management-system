@@ -8,9 +8,14 @@
 }
 
 #top-menu {
-	opacity: 0.9;
 	box-shadow: 0 2px 14px 2px #0F2736;
 	margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+	#top-menu {
+		opacity: 0.9;
+	}
 }
 
 .container1 {

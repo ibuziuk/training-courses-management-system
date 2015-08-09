@@ -14,6 +14,7 @@ public final class RoleUtil {
     public static final String ADMIN_SMALL = "administrator";
     private static final String EXTERNAL_SMALL = "external";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_EXTERNAL = "ROLE_EXTERNAL";
 
     public static String buildRoleForAuthorization(String role) {

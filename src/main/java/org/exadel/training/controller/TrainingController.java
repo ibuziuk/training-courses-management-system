@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import static org.exadel.training.utils.RoleUtil.ROLE_EXTERNAL;
+import static org.exadel.training.utils.RoleUtil.ROLE_USER;
 
 @Controller
 @RequestMapping("/training")
@@ -45,6 +46,16 @@ public class TrainingController {
         Training training = trainingService.getTrainingById(trainingId);
         if (training != null) {
             CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (training.isApproved() != null && !training.isApproved()) {
+                throw new AccessDeniedException("Access denied");
+            }
+
+            if (training.isApproved() == null) {
+                if (userDetails.hasRole(ROLE_USER) && training.getTrainer().getUserId() != userDetails.getId()) {
+                    throw new AccessDeniedException("Access denied");
+                }
+            }
+
             if (userDetails.hasRole(ROLE_EXTERNAL) && training.getTrainer().getUserId() != userDetails.getId()) {
                 throw new AccessDeniedException("Access denied");
             }

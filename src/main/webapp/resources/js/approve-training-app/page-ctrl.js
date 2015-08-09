@@ -38,6 +38,14 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 
 	var pathname = window.location.pathname;
 
+	var containsNotNullEl = function (arr){
+		for (var k = 0; k < arr.length; k++){
+			if (arr[k] != null)
+				return true;
+		}
+		return false;
+	}
+
 	$http.get('rest/training/approve/' + window.location.pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length)).then(
 			function(obj){
 				console.log(obj.data.old);
@@ -45,22 +53,22 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 
 				$scope.qDescr = 1;
 
-				var continuous = obj.data.old.continuous;
+				var continuous = obj.data.old.training.continuous;
 
 				/* Title */
-				$scope.trainingName = obj.data.old.title;
+				$scope.trainingName = obj.data.old.training.title;
 
 				if (continuous) {
 					$scope.trainingName = $scope.trainingName.substring(0, $scope.trainingName.lastIndexOf('#'));
-					if (obj.data.edit != null && obj.data.edit.title) {
-						var editTitle = obj.data.edit.title;
+					if (containsNotNullEl(obj.data.edit) && obj.data.edit[0].title) {
+						var editTitle = obj.data.edit[0].title;
 						editTitle = editTitle.substring(0, editTitle.lastIndexOf('#'));
-						$scope.trainingName += ' / ' + editTitle;
+						$scope.trainingName += ' / <b>' + editTitle + '</b>';
 					}
 				}
 				else{
 					if (obj.data.edit != null && obj.data.edit.title){
-						$scope.trainingName += ' / ' + obj.data.edit.title;
+						$scope.trainingName += ' / <b>' + obj.data.edit.title + '</b>';
 					}
 				}
 

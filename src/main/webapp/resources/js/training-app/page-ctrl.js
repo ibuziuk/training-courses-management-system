@@ -144,8 +144,12 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.continuous = obj.data.training.continuous;
 
-		if ($scope.continuous)
+		if ($scope.continuous) {
 			$scope.parts = obj.data.parts;
+			for (var k in $scope.parts){
+				$scope.parts[k].partLink = 'training/' + $scope.parts[k].trainingId;
+			}
+		}
 
 		$scope.trainerLink = 'user/' + obj.data.training.trainer.userId;
 		/* Training info */

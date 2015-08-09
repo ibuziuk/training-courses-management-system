@@ -209,12 +209,15 @@
 						<h4 ng-show="files.length != 0">
 							<label style="font-size: 18px;">Files: </label>
 							<span ng-repeat="file in files">
-								<a href="{{file.fileLink}}" target="_blank">{{file.name}}</a> <br/>
+								<br/> <a href="{{file.fileLink}}" target="_blank">{{file.name}}</a>
 							</span>
 						</h4>
 
 						<h4 ng-show="continuous">
-							<label style="font-size: 18px;">Other parts: </label>
+							<label style="font-size: 18px;">All parts: </label>
+							<span ng-repeat="part in parts">
+								<br/> <a href="{{part.partLink}}" target="_blank">{{part.title}}</a>
+							</span>
 
 						</h4>
 						<hr/>

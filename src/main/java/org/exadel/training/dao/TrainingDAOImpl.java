@@ -249,6 +249,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         return sessionFactory.getCurrentSession().createCriteria(Training.class)
                 .add(Restrictions.like("title", name + "#%"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .addOrder(Order.asc("trainingId"))
                 .list();
     }
 }

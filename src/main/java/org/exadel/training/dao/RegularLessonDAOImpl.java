@@ -3,6 +3,7 @@ package org.exadel.training.dao;
 import org.exadel.training.model.RegularLesson;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,6 +59,7 @@ public class RegularLessonDAOImpl implements RegularLessonDAO {
         return sessionFactory.getCurrentSession().createCriteria(RegularLesson.class)
                 .add(Restrictions.eq("training.trainingId", trainingId))
                 .add(Restrictions.ge("date", date))
+                .addOrder(Order.asc("date"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .setMaxResults(count)
                 .list();

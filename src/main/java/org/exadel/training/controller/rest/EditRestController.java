@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -172,14 +174,22 @@ public class EditRestController {
         Map<String, Object> old = new HashMap<>();
         Training training = trainingService.getTrainingById(id);
         old.put("training", training);
+        List<TrainingEdit> edits;
         if (training.getContinuous()) {
-            old.put("parts", trainingService.getContinuousTrainings(id));
+            List<Training> continuous = trainingService.getContinuousTrainings(id);
+            old.put("parts", continuous);
+            edits = new ArrayList<>();
+            for (Training tr : continuous) {
+                edits.add(trainingEditService.getEditByTrainingIfExist(tr.getTrainingId()));
+            }
+            map.put("edit", edits);
+        } else {
+            map.put("edit", trainingEditService.getEditByTrainingIfExist(id));
         }
         if (training.isRegular()) {
             old.put("closedLessons", regularLessonService.getSomeFutureLessonsByTraining(id, 5));
         }
         map.put("old", old);
-        map.put("edit", trainingEditService.getEditByTrainingIfExist(id));
         return map;
     }
 }

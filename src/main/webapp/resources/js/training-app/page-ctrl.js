@@ -11,19 +11,6 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		html: false
 	});
 
-	var getRandomPic = function(min, max) {
-		var r =  Math.floor(Math.random() * (max - min + 1)) + min;
-		if (r == 2 || r == 17 || r == 19){
-			r += '.png';
-		}
-		else{
-			r += '.jpg';
-		}
-		return r;
-	};
-
-	$scope.img = getRandomPic(1, 24);
-
 	/* Special arrays for feedback form */
 	var impressions = ['Happy, that took part ', 'Not disappointed, that took part ', 'Disappointed, that took part '];
 	var intelligibilities = ['Everything was clear ', 'Nothing was clear ', 'Something wasn\'t clear '];
@@ -104,6 +91,35 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 	/* Getting info about the training */
 	var urlParts = window.location.pathname.split('/');
 	$http.get('rest/training/' + urlParts[urlParts.length - 1]).then(function (obj) {
+
+		var contains = function(tags, name){
+			for (var k = 0; k < tags.length; k++){
+				if (tags[k].name == name)
+					return true;
+			}
+			return false;
+		}
+
+		var getPic = function() {
+			if (contains(obj.data.training.tags,'Java'))
+				return '1.jpg';
+			if (contains(obj.data.training.tags,'PHP'))
+				return '2.png';
+			if (contains(obj.data.training.tags,'JavaScript'))
+				return '3.png';
+			if (contains(obj.data.training.tags,'C++'))
+				return '4.png';
+			if (contains(obj.data.training.tags,'Scala'))
+				return '5.gif';
+			if (contains(obj.data.training.tags,'Go'))
+				return '6.jpg';
+			if (contains(obj.data.training.tags,'English'))
+				return '7.png';
+			if (contains(obj.data.training.tags,'General'))
+				return '8.gif';
+		};
+
+		$scope.img = getPic();
 
 		$scope.approvingSettings = function(){
 			$window.location.href = 'training/approve/' + obj.data.training.trainingId;

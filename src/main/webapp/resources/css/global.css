@@ -581,6 +581,10 @@ div.color-info > p > span.event {
 	background-color: #5cb85c;
 }
 
+.label-orange {
+	background-color: darkorange;
+}
+
 .label-black {
 	background-color: black;
 }

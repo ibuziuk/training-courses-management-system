@@ -1,10 +1,13 @@
 package org.exadel.training.dao;
 
 import org.exadel.training.model.RegularLesson;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -41,9 +44,22 @@ public class RegularLessonDAOImpl implements RegularLessonDAO {
         return (RegularLesson) sessionFactory.getCurrentSession().get(RegularLesson.class, id);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<RegularLesson> getFutureRegularLessons() {
         Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("FROM RegularLesson t WHERE t.date >= current_timestamp ").list());
         return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<RegularLesson> getSomeFutureLessonsByTraining(long trainingId, int count) {
+        Timestamp date = (Timestamp) sessionFactory.getCurrentSession().createSQLQuery("SELECT CURRENT_TIMESTAMP;").uniqueResult();
+        return sessionFactory.getCurrentSession().createCriteria(RegularLesson.class)
+                .add(Restrictions.eq("training.trainingId", trainingId))
+                .add(Restrictions.ge("date", date))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setMaxResults(count)
+                .list();
     }
 }

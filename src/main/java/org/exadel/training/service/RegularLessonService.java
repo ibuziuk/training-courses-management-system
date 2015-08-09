@@ -14,4 +14,6 @@ public interface RegularLessonService {
     RegularLesson getRegularLessonById(long id);
 
     List<RegularLesson> getFutureRegularLessons();
+
+    List<RegularLesson> getSomeFutureLessonsByTraining(long trainingId, int count);
 }

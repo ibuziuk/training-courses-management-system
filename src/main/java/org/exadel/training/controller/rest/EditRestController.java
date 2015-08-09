@@ -3,6 +3,7 @@ package org.exadel.training.controller.rest;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.TrainingEdit;
 import org.exadel.training.service.LanguageService;
+import org.exadel.training.service.RegularLessonService;
 import org.exadel.training.service.TrainingEditService;
 import org.exadel.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class EditRestController {
     private TrainingService trainingService;
     @Autowired
     private LanguageService languageService;
+    @Autowired
+    private RegularLessonService regularLessonService;
 
     @RequestMapping(value = "/rest/training/edit/{editId}", method = RequestMethod.POST)
     public Map<String, Object> editTraining(@RequestBody Map<String, Object> requestMap, @PathVariable("editId") long id) {
@@ -166,7 +169,16 @@ public class EditRestController {
     @RequestMapping(value = "/rest/training/approve/{trainingId}")
     public Map<String, Object> editionTraining(@PathVariable("trainingId") long id) {
         Map<String, Object> map = new HashMap<>(2);
-        map.put("old", trainingService.getTrainingById(id));
+        Map<String, Object> old = new HashMap<>();
+        Training training = trainingService.getTrainingById(id);
+        old.put("training", training);
+        if (training.getContinuous()) {
+            old.put("parts", trainingService.getContinuousTrainings(id));
+        }
+        if (training.isRegular()) {
+            old.put("closedLessons", regularLessonService.getSomeFutureLessonsByTraining(id, 5));
+        }
+        map.put("old", old);
         map.put("edit", trainingEditService.getEditByTrainingIfExist(id));
         return map;
     }

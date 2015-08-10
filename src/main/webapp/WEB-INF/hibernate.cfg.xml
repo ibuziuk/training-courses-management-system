@@ -11,6 +11,7 @@
         <mapping class="org.exadel.training.model.EmployeeFeedback"/>
         <mapping class="org.exadel.training.model.Language"/>
         <mapping class="org.exadel.training.model.LessonEdit"/>
+        <mapping class="org.exadel.training.model.Notification"/>
         <mapping class="org.exadel.training.model.RegularLesson"/>
         <mapping class="org.exadel.training.model.Role"/>
         <mapping class="org.exadel.training.model.Tag"/>

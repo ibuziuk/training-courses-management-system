@@ -400,7 +400,7 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/rest/training/{come}/search", method = RequestMethod.GET,
-            params = {"pageNumber", "pageSize", "searchType", "value"})
+            params = {"person", "pageNumber", "pageSize", "searchType", "value"})
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> searching(
             @RequestParam("pageNumber") Integer pageNumber,

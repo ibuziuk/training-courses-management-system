@@ -3,10 +3,7 @@ package org.exadel.training.controller.rest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.exadel.training.model.*;
-import org.exadel.training.service.EmployeeFeedbackService;
-import org.exadel.training.service.TrainingFeedbackService;
-import org.exadel.training.service.TrainingService;
-import org.exadel.training.service.UserService;
+import org.exadel.training.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -32,6 +29,9 @@ public class FeedbackController {
 
     @Autowired
     private EmployeeFeedbackService employeeFeedbackService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
     public Map<String, Object> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
@@ -85,6 +85,7 @@ public class FeedbackController {
         Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());
+        notificationService.addNotification(trainingId, 0L, 1);
         return resultMap;
     }
 

@@ -18,7 +18,7 @@ public class Notification {
 
     private String trainingName;
 
-    private String type;
+    private int type;
 
     private Timestamp date;
 
@@ -50,11 +50,11 @@ public class Notification {
         this.trainingId = trainingId;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

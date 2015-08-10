@@ -27,10 +27,75 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TrainingService trainingService;
+
     @Override
     @Transactional
-    public void addNotification(Notification notification) {
-        notificationDAO.addNotification(notification);
+    public void addNotification(long trainingId, long userId, int type) {
+        List<User> admins = userService.getUsersByRole(RoleUtil.ADMIN_SMALL);
+        Set<User> visitors = trainingService.getTrainingById(trainingId).getVisitors();
+        switch (type) {
+            case 1://add feedback
+                for (User admin : admins) {
+                    notificationDAO.addNotification(trainingId, admin.getUserId(), type);
+                }
+                break;
+            case 2://approve training
+                for (User admin : admins) {
+                    notificationDAO.addNotification(trainingId, admin.getUserId(), type);
+                }
+                break;
+            case 3://disapprove training
+                for (User admin : admins) {
+                    notificationDAO.addNotification(trainingId, admin.getUserId(), type);
+                }
+                break;
+            case 4://for visitors about edit in training
+                for (User visitor : visitors) {
+                    notificationDAO.addNotification(trainingId, visitor.getUserId(), type);
+                }
+                break;
+            case 5:// create training
+                for (User admin : admins) {
+                    notificationDAO.addNotification(trainingId, admin.getUserId(), type);
+                }
+                break;
+            case 6://remove user from waiting list and add to training list
+                notificationDAO.addNotification(trainingId, userId, type);
+                break;
+            case 7://upload file
+                for (User admin : admins) {
+                    notificationDAO.addNotification(trainingId, admin.getUserId(), type);
+                }
+                break;
+            case 8://edit training
+                for (User admin : admins) {
+                    notificationDAO.addNotification(trainingId, admin.getUserId(), type);
+                }
+                break;
+            case 9://approve edit training
+                notificationDAO.addNotification(trainingId, userId, type);
+                break;
+            case 10://disapprove edit trainind
+                notificationDAO.addNotification(trainingId, userId, type);
+                break;
+            case 11://for hour
+                for (User visitor : visitors) {
+                    notificationDAO.addNotification(trainingId, visitor.getUserId(), type);
+                }
+                notificationDAO.addNotification(trainingId, trainingService.getTrainingById(trainingId)
+                        .getTrainer().getUserId(), type);
+                break;
+            case 12://for day
+                for (User visitor : visitors) {
+                    notificationDAO.addNotification(trainingId, visitor.getUserId(), type);
+                }
+                notificationDAO.addNotification(trainingId, trainingService.getTrainingById(trainingId)
+                        .getTrainer().getUserId(), type);
+                break;
+        }
+
     }
 
     @Override
@@ -41,8 +106,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
-    public List<Notification> getAllNotificationsByUser(long userId) {
-        return notificationDAO.getAllNotificationsByUser(userId);
+    public List<Notification> getAllNotificationsByUser(long userId, long token) {
+        return notificationDAO.getAllNotificationsByUser(userId, token);
     }
 
     @Override

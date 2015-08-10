@@ -218,7 +218,7 @@ public class TrainingRestController {
                         regularLesson.setTraining(training);
                         regularLessonService.addRegularLesson(regularLesson);
 
-//                        scheduleNotificationService.addRegularLessonToSchedule(regularLesson);
+                        scheduleNotificationService.addRegularLessonToSchedule(regularLesson);
 
                         iterationCalendar.set(iterationCalendar.get(Calendar.YEAR), iterationCalendar.get(Calendar.MONTH), iterationCalendar.get(Calendar.DATE) + 7);
                     }
@@ -264,14 +264,15 @@ public class TrainingRestController {
             }
             trainingService.addTraining(training);
 
-//            scheduleNotificationService.addTrainingToSchedule(training);
+            scheduleNotificationService.addTrainingToSchedule(training);
         }
 
-//        final Training finalTraining = training;
-//        new Thread(() ->
-//                notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
-//        ).start();
+        final Training finalTraining = training;
+        new Thread(() ->
+                notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
+        ).start();
 
+        notificationService.addNotification(training.getTrainingId(), 0L, 5);
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 
     }
@@ -451,8 +452,10 @@ public class TrainingRestController {
                 uploadId = uploadFileService.addUploadFile(trainingId, file);
             }
         }
-        if (uploadId != -1)
+        if (uploadId != -1) {
+            notificationService.addNotification(trainingId, userDetails.getId(), 7);
             return uploadFileService.getUploadFile(uploadId);
+        }
         return null;
     }
 

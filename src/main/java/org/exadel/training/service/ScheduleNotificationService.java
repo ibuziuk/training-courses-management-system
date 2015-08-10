@@ -83,6 +83,7 @@ public class ScheduleNotificationService {
             Training training = notificationTrainingPerDay.poll();
             if (training.getDate().getTime() > date) {
                 sendNotificationTrainingByEmail(training);
+                notificationService.addNotification(training.getTrainingId(), 0L, 12);
             }
         }
 
@@ -90,6 +91,7 @@ public class ScheduleNotificationService {
             Training training = notificationTrainingPerHour.poll();
             if (training.getDate().getTime() > date) {
                 sendNotificationTrainingByEmail(training);
+                notificationService.addNotification(training.getTrainingId(), 0L, 11);
             }
         }
 
@@ -97,6 +99,8 @@ public class ScheduleNotificationService {
             RegularLesson regularLesson = notificationRegularLessonPerDay.poll();
             if (regularLesson.getDate().getTime() > date) {
                 sendNotificationRegularLessonByEmail(regularLesson);
+                notificationService.addNotification(regularLesson.getTraining().getTrainingId(), 0L, 12);
+
             }
         }
 
@@ -104,6 +108,7 @@ public class ScheduleNotificationService {
             RegularLesson regularLesson = notificationRegularLessonPerHour.poll();
             if (regularLesson.getDate().getTime() > date) {
                 sendNotificationRegularLessonByEmail(regularLesson);
+                notificationService.addNotification(regularLesson.getTraining().getTrainingId(), 0L, 11);
             }
         }
     }

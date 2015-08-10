@@ -28,6 +28,9 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private RegularLessonDAO regularLessonDAO;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     @Transactional
     public void addTraining(Training training) {
@@ -122,6 +125,7 @@ public class TrainingServiceImpl implements TrainingService {
                 trainings = getContinuousTrainings(trainingId);
             }
             User next = waitingListDAO.getNext(trainingId);
+            notificationService.addNotification(trainingId, next.getUserId(), 6);
             for (Training elem : trainings) {
                 elem.getVisitors().remove(user);
                 if (next != null) {

@@ -3,6 +3,7 @@ package org.exadel.training.controller.rest;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.TrainingEdit;
 import org.exadel.training.service.LanguageService;
+import org.exadel.training.service.NotificationService;
 import org.exadel.training.service.TrainingEditService;
 import org.exadel.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class EditRestController {
 
     @Autowired
     private LanguageService languageService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping(value = "/rest/training/edit/{editId}", method = RequestMethod.POST)
     public Map<String, Object> editTraining(@RequestBody Map<String, Object> requestMap, @PathVariable("editId") long id) {
@@ -112,6 +116,8 @@ public class EditRestController {
         }
         Map<String, Object> map = new HashMap<>(1);
         map.put("id", id);
+        notificationService.addNotification(training.getTrainingId(), 0L, 8);
+
         return map;
     }
 
@@ -156,8 +162,12 @@ public class EditRestController {
                 if (trainingEdit.getLanguage() != null) {
                     training.setLanguage(trainingEdit.getLanguage());
                 }
+                notificationService.addNotification(id, training.getTrainer().getUserId(), 9);
+                notificationService.addNotification(id, training.getTrainer().getUserId(), 4);
             } else {
                 trainingEdit.setIsApproved(false);
+                notificationService.addNotification(id, trainingService.getTrainingById(id).getTrainer().getUserId(), 10);
+
             }
             trainingEditService.updateEdit(trainingEdit);
             map.put("id", id);

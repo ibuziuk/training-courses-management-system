@@ -26,7 +26,7 @@ CREATE TABLE `audience` (
   `audience_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`audience_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `audience` (
 
 LOCK TABLES `audience` WRITE;
 /*!40000 ALTER TABLE `audience` DISABLE KEYS */;
-INSERT INTO `audience` VALUES (1,'Java developers'),(2,'PHP developers'),(3,'JavaScript developers'),(4,'C++ developers'),(5,'Scala developers'),(6,'Go developers'),(7,'Testers');
+INSERT INTO `audience` VALUES (1,'Java developers'),(2,'PHP developers'),(3,'JavaScript developers'),(4,'C++ developers'),(5,'Scala developers'),(6,'Go developers'),(7,'Testers'),(8,'Everybody'),(9,'C# developers'),(10,'Python developers'),(11,'Ruby developers'),(12,'Android developers'),(13,'IOS developers'),(14,'SQL developers');
 /*!40000 ALTER TABLE `audience` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +50,7 @@ CREATE TABLE `language` (
   `language_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`language_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +59,7 @@ CREATE TABLE `language` (
 
 LOCK TABLES `language` WRITE;
 /*!40000 ALTER TABLE `language` DISABLE KEYS */;
-INSERT INTO `language` VALUES (1,'English'),(2,'Russian');
+INSERT INTO `language` VALUES (1,'English'),(2,'French'),(3,'German'),(4,'Italian'),(5,'Russian'),(6,'Spanish');
 /*!40000 ALTER TABLE `language` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +100,7 @@ CREATE TABLE `tag` (
   `color` varchar(255) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (1,'red','Java'),(2,'yellow','PHP'),(3,'brown','JavaScript'),(4,'green','C++'),(5,'pink','Scala'),(6,'blue','Go'),(7,'purple','English');
+INSERT INTO `tag` VALUES (1,'red','Java'),(2,'yellow','PHP'),(3,'brown','JavaScript'),(4,'blue','C++'),(5,'pink','Scala'),(6,'blue','Go'),(7,'purple','English'),(8,'orange','General'),(9,'purple','C#'),(10,'yellow','Python'),(11,'red','Ruby'),(12,'green','Android'),(13,'grey','IOS'),(14,'brown','SQL');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'shchaurouski.slava@yandex.ru','John','Doe','jdoe','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(2,'j.depp@example.com','Johnny','Depp','depp','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(3,'cyrus@example.com','Miley','Syrus','miley','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(4,'gennady.trubach@mail.ru','Gennady','Trubach','gtrubach','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(5,'yaroshevich.yana@gmail.com','Yana','Yaroshevich','yaroshevich','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(6,'phantom.rvr@gmail.com','Victor','Romashko','phantom','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(7,'toshabely@gmail.com','Anton','Bely','bely','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(8,'alexey_hw@tut.by','Alexey','Khvorostovskiy','khvorostovskiy','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(9,'shchaurouski.slava@gmail.com','Sviatoslau','Shchaurouski','shchaurouski','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(10,'trubach1996@mail.ru','Ivan','Ivanov','iivanov','$2a$10$ieljGmA3L4km/dhfbo2EaOBw8F42ub2l5D7SGA9nCq9TF3KW3SKQa'),(11,'gennadiy96@tut.by','Ivan','Ivanov','ivani','$2a$10$lqnp25sw6IfX60sNTm2Ew.a/cqoWC4cp8HUVNt3nuP/nIV5Z.TTOW');
+INSERT INTO `user` VALUES (1,'shchaurouski.slava@yandex.ru','John','Doe','jdoe','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(2,'j.depp@example.com','Johnny','Depp','depp','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(3,'cyrus@example.com','Miley','Syrus','miley','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(4,'gennady.trubach@mail.ru','Gennady','Trubach','gtrubach','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(5,'yaroshevich.yana@gmail.com','Yana','Yaroshevich','yaroshevich','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(6,'phantom.rvr@gmail.com','Victor','Romashko','phantom','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(7,'toshabely@gmail.com','Anton','Bely','bely','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(8,'alexey_hw@tut.by','Alexey','Khvorostovskiy','khvorostovskiy','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq'),(9,'shchaurouski.slava@gmail.com','Sviatoslau','Shchaurouski','shchaurouski','$2a$10$fw1N2/nyt3Qg5WHWv230bOlKFw5fnM9my61L4fsbfHISj5rhGZhdq');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,7 +166,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,1),(2,1),(4,1),(5,1),(6,1),(8,1),(3,2),(7,2),(9,2),(10,3),(11,3);
+INSERT INTO `user_role` VALUES (1,1),(2,1),(4,1),(5,1),(6,1),(8,1),(3,2),(7,2),(9,2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -179,4 +179,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-10 20:35:55
+-- Dump completed on 2015-08-10 21:40:55

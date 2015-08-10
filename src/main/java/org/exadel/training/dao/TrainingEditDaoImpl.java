@@ -28,7 +28,8 @@ public class TrainingEditDaoImpl implements TrainingEditDAO {
     public TrainingEdit getEditByTrainingIfExist(long trainingId) {
         return (TrainingEdit) sessionFactory.getCurrentSession().createCriteria(TrainingEdit.class)
                 .add(Restrictions.eq("training.trainingId", trainingId))
-                .add(Restrictions.isNull("isApproved"))
+                .add(Restrictions.eq("isApproved", false))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .uniqueResult();
     }
 

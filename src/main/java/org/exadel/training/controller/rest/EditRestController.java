@@ -149,6 +149,7 @@ public class EditRestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        te.setIsApproved(false);
         te.setTraining(training);
         if (flag) {
             training.setApproved(null);
@@ -161,7 +162,10 @@ public class EditRestController {
         training.setIsEditing(true);
         trainingService.updateTraining(training);
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator") || !action.equals("edit")) {
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
+            approveEdit("approve", id);
+        }
+        if (!action.equals("edit")) {
             approveEdit(action, id);
         }
         Map<String, Object> map = new HashMap<>(1);

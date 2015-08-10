@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import static org.exadel.training.utils.RoleUtil.ROLE_ADMIN;
 import static org.exadel.training.utils.RoleUtil.ROLE_EXTERNAL;
 import static org.exadel.training.utils.RoleUtil.ROLE_USER;
 
@@ -32,8 +33,16 @@ public class TrainingController {
     }
 
     @RequestMapping(value = "/edit/{trainingId}", method = RequestMethod.GET)
-    public String editTraining() {
-        return "edit-training";
+    public String editTraining(@PathVariable("trainingId") long trainingId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Training training = trainingService.getTrainingById(trainingId);
+        if (training != null) {
+            if (!userDetails.hasRole(ROLE_ADMIN) && training.getTrainer().getUserId() != userDetails.getId()) {
+                throw new AccessDeniedException("Access denied");
+            }
+            return "edit-training";
+        }
+        throw new ResourceNotFoundException();
     }
 
     @RequestMapping(value = "/my", method = RequestMethod.GET)

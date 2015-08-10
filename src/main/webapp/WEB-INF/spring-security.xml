@@ -17,6 +17,7 @@
         <security:intercept-url pattern="/rest/register/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/rest/unregister/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/trainer/new" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/trainer/approve/**" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/user/**" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/rest/user/all*" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/rest/user/search*" access="hasRole('ROLE_ADMIN')"/>

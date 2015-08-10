@@ -20,9 +20,12 @@
 	   align="center">Dear <span th:text="${mailReceiver}">sir,</span></p>
 
 	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;">
-		<span th:text="${startText}"></span>
-		<b><a th:href="${reference}"><span th:text="${nameTraining}"></span></a></b><b><span th:if="${login != null}" th:utext="${#strings.replace(#strings.escapeJava(login),'\n','&lt;br /&gt;')}"></span></b><span th:text="${middleText}"></span><b><span
-			th:utext="${#strings.replace(#strings.escapeJava(date),'\n','&lt;br /&gt;')}"></span></b><br/><span th:text="${endText}"></span></p>
+		<span th:text="${startText}"></span><b><a th:href="${reference}"><span th:text="${nameTraining}"></span></a></b><b><span
+			th:if="${login != null}"
+			th:utext="${#strings.replace(#strings.escapeJava(login),'\n','&lt;br /&gt;')}"></span></b><span
+			th:text="${middleText}"></span><b><span
+			th:utext="${#strings.replace(#strings.escapeJava(date),'\n','&lt;br /&gt;')}"></span></b><br/><span
+			th:text="${endText}"></span></p>
 
 	<p style="color: #1A394C; font-size: 15px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px;"> Sincerely,
 		Exadel Training System.</p>

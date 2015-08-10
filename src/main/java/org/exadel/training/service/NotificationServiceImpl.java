@@ -27,6 +27,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private UserService userService;
 
+    private String host;
+
     @Override
     @Transactional
     public void addNotification(Notification notification) {
@@ -60,6 +62,7 @@ public class NotificationServiceImpl implements NotificationService {
         for (User user : users) {
             context.setVariable("mailReceiver", user.getFirstName());
             context.setVariable("startText", "New training created: \"");
+            context.setVariable("reference", host + "/training/" + training.getTrainingId());
             context.setVariable("nameTraining", training.getTitle());
             context.setVariable("middleText", "\" on ");
             context.setVariable("date", dateFormat.format(date) + ".");
@@ -76,6 +79,7 @@ public class NotificationServiceImpl implements NotificationService {
         context.setVariable("startText", "You trainer on: \"");
         context.setVariable("middleText", "\" on ");
         context.setVariable("date", training.getDateAndTimeOnString());
+        context.setVariable("reference", host + "/training/" + training.getTrainingId());
         context.setVariable("nameTraining", training.getTitle());
         emailNotifierService.sendEmailNotification(trainer.getEmail(), "Notification about the training", context);
 
@@ -97,6 +101,7 @@ public class NotificationServiceImpl implements NotificationService {
         context.setVariable("startText", "You trainer on: \"");
         context.setVariable("middleText", "\" on ");
         context.setVariable("date", regularLesson.getDateAndTimeOnString());
+        context.setVariable("reference", host + "/training/" + regularLesson.getTraining().getTrainingId());
         context.setVariable("nameTraining", regularLesson.getTraining().getTitle());
         emailNotifierService.sendEmailNotification(trainer.getEmail(), "Notification about the training", context);
 
@@ -125,5 +130,9 @@ public class NotificationServiceImpl implements NotificationService {
             context.setVariable("mailReceiver", user.getFirstName());
             emailNotifierService.sendEmailNotification(user.getEmail(), "New user account has been created", context);
         }
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 }

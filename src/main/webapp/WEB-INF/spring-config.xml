@@ -96,6 +96,7 @@
             <list>
                 <value>WEB-INF/jdbc.properties</value>
                 <value>WEB-INF/mail.properties</value>
+                <value>WEB-INF/host.properties</value>
             </list>
         </property>
     </bean>
@@ -125,6 +126,10 @@
     <bean id="myUserDetailsService" class="org.exadel.training.service.UserDetailsServiceImpl"/>
 
     <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <bean id="notificationService" class="org.exadel.training.service.NotificationServiceImpl">
+        <property name="host" value="${applicationHost}"/>
+    </bean>
 
     <tx:annotation-driven/>
 

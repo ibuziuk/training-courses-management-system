@@ -43,7 +43,7 @@ public class TrainingFeedback {
 
     private Boolean recommending;
 
-    @Column(name = "is_approved", nullable = false)
+    @Column(name = "is_approved")
     private Boolean isApproved;
 
     @Column(name = "is_deleted", nullable = false)

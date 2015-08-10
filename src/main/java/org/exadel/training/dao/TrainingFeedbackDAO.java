@@ -10,4 +10,8 @@ public interface TrainingFeedbackDAO {
     boolean containsUserByTraining(long trainingId, long userId);
 
     double getAverageRatingByTrainingID(long trainingId);
+
+    TrainingFeedback getFeedbackById(long id);
+
+    void updateFeedback (TrainingFeedback trainingFeedback);
 }

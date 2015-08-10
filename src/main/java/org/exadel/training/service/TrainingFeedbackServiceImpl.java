@@ -31,4 +31,16 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService {
     public double getAverageRatingByTrainingID(long trainingId) {
         return trainingFeedbackDAO.getAverageRatingByTrainingID(trainingId);
     }
+
+    @Override
+    @Transactional
+    public TrainingFeedback getFeedbackById(long id) {
+        return trainingFeedbackDAO.getFeedbackById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateFeedback (TrainingFeedback trainingFeedback) {
+        trainingFeedbackDAO.updateFeedback(trainingFeedback);
+    }
 }

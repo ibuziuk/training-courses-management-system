@@ -1,11 +1,13 @@
 package org.exadel.training.controller.rest;
 
 import org.exadel.training.model.TrainingFeedback;
+import org.exadel.training.model.User;
 import org.exadel.training.service.TrainingFeedbackService;
 import org.exadel.training.service.TrainingService;
 import org.exadel.training.service.UserService;
 import org.exadel.training.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,7 @@ public class FeedbackController {
     private UserService userService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
@@ -67,13 +70,35 @@ public class FeedbackController {
             trainingFeedback.setStarCount(Integer.parseInt(map.get("rate").toString()));
         }
         if (flag) {
+            User user = userService.getUserById(userDetails.getId());
+            if (user.getRoleForView().equals("Administrator")) {
+                trainingFeedback.setIsApproved(true);
+            } else {
+                trainingFeedback.setIsApproved(null);
+            }
             trainingFeedback.setIsDeleted(false);
-            trainingFeedback.setIsApproved(false);
             trainingFeedback.setDate(new Timestamp(new Date().getTime()));
-            trainingFeedback.setUser(userService.getUserById(userDetails.getId()));
+            trainingFeedback.setUser(user);
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
+        resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> approvingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
+        TrainingFeedback tf = trainingFeedbackService.getFeedbackById(Long.parseLong(map.get("id").toString()));
+        if (map.get("approved").toString().equals("approve")) {
+            tf.setIsApproved(true);
+        } else {
+            tf.setIsApproved(false);
+        }
+//        do not work this method!
+        trainingFeedbackService.updateFeedback(tf);
         Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());

@@ -350,7 +350,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		$scope.sendFeedback = function () {
 			myFeedbackToSend.text = $scope.myFeedback.text;
 			myFeedbackToSend.rate = $scope.overStar;
-			$http.post('rest/feedback/training' + obj.data.training.trainingId, myFeedbackToSend).then(function (obj) {
+			$http.post('rest/feedback/training/' + obj.data.training.trainingId, myFeedbackToSend).then(function (obj) {
 				$scope.vote = true;
 				getFeedbacks(obj.data.feedbacks);
 				getRating(obj.data.rating)
@@ -361,14 +361,14 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 
 		$scope.trainingReg = function (flag) {
 			if (flag) {
-				$http.post('rest/register/training' + obj.data.training.trainingId, 'registering').then(function (obj) {
+				$http.post('rest/register/training/' + obj.data.training.trainingId, 'registering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);
 				});
 			}
 			else {
-				$http.post('rest/unregister/training' + obj.data.training.trainingId, 'unregistering').then(function (obj) {
+				$http.post('rest/unregister/training/' + obj.data.training.trainingId, 'unregistering').then(function (obj) {
 					$window.location.reload();
 				}, function (err) {
 					ngNotify.set(err.statusText);

@@ -6,6 +6,7 @@ import org.exadel.training.service.NotificationService;
 import org.exadel.training.service.RoleService;
 import org.exadel.training.service.UserService;
 import org.exadel.training.utils.GeneratorFactory;
+import org.exadel.training.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,7 +52,10 @@ public class UserController {
 
     @RequestMapping(value = "/external/new", method = RequestMethod.POST)
     public String addExternal(@Valid @ModelAttribute("user") User external, BindingResult result) {
-        if (result.hasErrors()) {
+    	UserValidator userValidator = new UserValidator(userService);
+        userValidator.validate(external, result);
+    	
+    	if (result.hasErrors()) {
             return "new-trainer";
         }
 

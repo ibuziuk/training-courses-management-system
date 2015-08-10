@@ -1,16 +1,28 @@
 package org.exadel.training.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.exadel.training.validator.Unique;
+import static org.exadel.training.utils.RoleUtil.buildRoleForView;
+
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Set;
-
-import static org.exadel.training.utils.RoleUtil.buildRoleForView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user")
@@ -41,7 +53,6 @@ public class User {
 
     @NotEmpty
     @Email
-    @Unique
     @Column(name = "e_mail", unique = true)
     private String email;
 

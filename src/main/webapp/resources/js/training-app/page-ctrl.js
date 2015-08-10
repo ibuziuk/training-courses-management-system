@@ -97,7 +97,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 					return true;
 			}
 			return false;
-		}
+		};
 
 		var getPic = function () {
 			if (contains(obj.data.training.tags, 'Java'))
@@ -116,6 +116,18 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 				return '7.png';
 			if (contains(obj.data.training.tags, 'General'))
 				return '8.gif';
+			if (contains(obj.data.training.tags, 'C#'))
+				return '9.jpg';
+			if (contains(obj.data.training.tags, 'Python'))
+				return '10.png';
+			if (contains(obj.data.training.tags, 'Ruby'))
+				return '11.png';
+			if (contains(obj.data.training.tags, 'Android'))
+				return '12.png';
+			if (contains(obj.data.training.tags, 'IOS'))
+				return '13.gif';
+			if (contains(obj.data.training.tags, 'SQL'))
+				return '14.jpg';
 		};
 
 		$scope.img = getPic();

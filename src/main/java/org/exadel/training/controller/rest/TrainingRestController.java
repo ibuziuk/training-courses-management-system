@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.exadel.training.utils.RoleUtil.ROLE_ADMIN;
 
@@ -333,6 +334,66 @@ public class TrainingRestController {
         return trainingService.getSomeTrainingOrderBy(person, come, pageNum, pageSize, sorting, order, flag);
     }
 
+    @RequestMapping(value = "/rest/training/hot", method = RequestMethod.GET,
+            params = {"person", "pageNumber", "pageSize", "sorting", "order"})
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> getHotTrainings(
+            @RequestParam(value = "person") String person,
+            @RequestParam(value = "pageNumber") int pageNum,
+            @RequestParam(value = "pageSize") int pageSize,
+            @RequestParam(value = "sorting") String sorting,
+            @RequestParam(value = "order") String order) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserById(userDetails.getId());
+        boolean flag = !user.getRoleForView().equals("User");
+
+        Map<String, Object> result = trainingService.getSomeTrainingOrderBy(person, "future", pageNum, pageSize, sorting, order, flag);
+        List<Training> trainings = (List<Training>) result.get("list");
+        List<Training> hotTrainings = new LinkedList<>();
+        int i = 0;
+        for (Training training : trainings) {
+            if (training.getMaxVisitorsCount() > training.getVisitors().size() && i < 10) {
+                hotTrainings.add(training);
+                i++;
+            }
+        }
+        result.put("list", hotTrainings);
+        return result;
+    }
+
+    @RequestMapping(value = "/rest/training/new", method = RequestMethod.GET,
+            params = {"person", "pageNumber", "pageSize", "sorting", "order"})
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> getNewTrainings(
+            @RequestParam(value = "person") String person,
+            @RequestParam(value = "pageNumber") int pageNum,
+            @RequestParam(value = "pageSize") int pageSize,
+            @RequestParam(value = "sorting") String sorting,
+            @RequestParam(value = "order") String order) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserById(userDetails.getId());
+        boolean flag = !user.getRoleForView().equals("User");
+
+        Map<String, Object> result = trainingService.getSomeTrainingOrderBy(person, "future", pageNum, pageSize, sorting, order, flag);
+        List<Training> trainings = (List<Training>) result.get("list");
+        List<Training> newTrainings = new LinkedList<>();
+        int i = 0;
+        for (Training training : trainings) {
+            if (training.getMaxVisitorsCount() > training.getVisitors().size() && i < 10) {
+                newTrainings.add(training);
+                i++;
+            }
+        }
+        Collections.sort(newTrainings, (o1, o2) -> {
+            if (o1.getTrainingId() > o2.getTrainingId()) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+        result.put("list", newTrainings);
+        return result;
+    }
 
     @RequestMapping(value = "/rest/training/{come}/search", method = RequestMethod.GET,
             params = {"person", "pageNumber", "pageSize", "searchType", "value"})

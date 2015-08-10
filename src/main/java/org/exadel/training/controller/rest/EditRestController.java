@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -30,6 +31,9 @@ public class EditRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping(value = "/rest/training/{action}/{trainingId}", method = RequestMethod.POST)
     public Map<String, Object> editTraining(@RequestBody Map<String, Object> requestMap, @PathVariable("trainingId") long id, @PathVariable("action") String action) {
@@ -162,6 +166,8 @@ public class EditRestController {
         }
         Map<String, Object> map = new HashMap<>(1);
         map.put("id", id);
+        notificationService.addNotification(training.getTrainingId(), 0L, 8);
+
         return map;
     }
 
@@ -208,8 +214,11 @@ public class EditRestController {
                 training.setApproved(true);
                 training.setIsEditing(false);
                 trainingService.updateTraining(training);
+                notificationService.addNotification(id, training.getTrainer().getUserId(), 9);
+                notificationService.addNotification(id, training.getTrainer().getUserId(), 4);
             } else {
                 te.setIsApproved(false);
+                notificationService.addNotification(id, trainingService.getTrainingById(id).getTrainer().getUserId(), 10);
             }
             trainingEditService.updateEdit(te);
             map.put("id", id);
@@ -236,9 +245,7 @@ public class EditRestController {
             List<Training> continuous = trainingService.getContinuousTrainings(id);
             old.put("parts", continuous);
             edits = new ArrayList<>();
-            for (Training tr : continuous) {
-                edits.add(trainingEditService.getEditByTrainingIfExist(tr.getTrainingId()));
-            }
+            edits.addAll(continuous.stream().map(tr -> trainingEditService.getEditByTrainingIfExist(tr.getTrainingId())).collect(Collectors.toList()));
             map.put("edit", edits);
         } else {
             map.put("edit", trainingEditService.getEditByTrainingIfExist(id));

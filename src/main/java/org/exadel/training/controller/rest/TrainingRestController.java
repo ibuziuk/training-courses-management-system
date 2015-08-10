@@ -274,6 +274,7 @@ public class TrainingRestController {
                 notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
         ).start();
 
+        notificationService.addNotification(training.getTrainingId(), 0L, 5);
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
     }
 
@@ -452,8 +453,10 @@ public class TrainingRestController {
                 uploadId = uploadFileService.addUploadFile(trainingId, file);
             }
         }
-        if (uploadId != -1)
+        if (uploadId != -1) {
+            notificationService.addNotification(trainingId, userDetails.getId(), 7);
             return uploadFileService.getUploadFile(uploadId);
+        }
         return null;
     }
 

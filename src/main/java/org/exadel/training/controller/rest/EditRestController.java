@@ -1,12 +1,11 @@
 package org.exadel.training.controller.rest;
 
+import org.exadel.training.model.CustomUserDetails;
 import org.exadel.training.model.Training;
 import org.exadel.training.model.TrainingEdit;
-import org.exadel.training.service.LanguageService;
-import org.exadel.training.service.RegularLessonService;
-import org.exadel.training.service.TrainingEditService;
-import org.exadel.training.service.TrainingService;
+import org.exadel.training.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -24,6 +23,8 @@ public class EditRestController {
     private LanguageService languageService;
     @Autowired
     private RegularLessonService regularLessonService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/rest/training/edit/{editId}", method = RequestMethod.POST)
     public Map<String, Object> editTraining(@RequestBody Map<String, Object> requestMap, @PathVariable("editId") long id) {
@@ -124,6 +125,10 @@ public class EditRestController {
                 trainingEditService.updateEdit(te);
             }
         }
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
+            approveEdit("approve", id);
+        }
         Map<String, Object> map = new HashMap<>(1);
         map.put("id", id);
         return map;
@@ -170,6 +175,7 @@ public class EditRestController {
                 if (te.getLanguage() != null) {
                     training.setLanguage(te.getLanguage());
                 }
+                trainingService.updateTraining(training);
             } else {
                 te.setIsApproved(false);
             }

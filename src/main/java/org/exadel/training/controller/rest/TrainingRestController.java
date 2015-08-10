@@ -86,8 +86,10 @@ public class TrainingRestController {
         if (json.get("continuous") != null) {
             training.setContinuous(json.get("continuous").getAsBoolean());
         }
-        if (json.get("approved") != null) {
-            training.setApproved(json.get("approved").getAsBoolean());
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
+            training.setApproved(true);
+        } else {
+            training.setApproved(null);
         }
         Language language = null;
         String languageValue = json.get("language").getAsString();
@@ -333,7 +335,6 @@ public class TrainingRestController {
 
     @RequestMapping(value = "/rest/training/search", method = RequestMethod.GET,
             params = {"pageNumber", "pageSize", "searchType", "value"})
-
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> searching(
             @RequestParam("pageNumber") Integer pageNumber,

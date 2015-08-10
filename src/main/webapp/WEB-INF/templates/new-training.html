@@ -266,14 +266,21 @@
 						</div>
 
 						<div id="step3" ng-show="(currentPage == 3)">
-							<br/>
-
-							<div>
-								<label>Training duration *</label>
-								<timepicker ng-model="duration" ng-change="step3()" hour-step="hstep"
-								            minute-step="mstep"
-								            show-meridian="ismeridian"></timepicker>
+							<div class="row">
+								<div class="col-xs-12">
+									<label>Training duration *</label>
+								</div>
 							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div>
+										<timepicker ng-model="duration" ng-change="step3()" hour-step="hstep"
+										            minute-step="mstep"
+										            show-meridian="ismeridian"></timepicker>
+									</div>
+								</div>
+							</div>
+
 							<div>
 								<div style="display:inline-block; min-height:290px;">
 									<div ng-show="toShowRepet == 'Weekly '">
@@ -282,7 +289,8 @@
 												<label>Choose day of start *</label>
 												<datepicker ng-model="dateStartWeekly" min-date="minDate"
 												            show-weeks="true"
-												            class="well well-sm" custom-class="getDayClass(date, mode)"
+												            class="well well-sm"
+												            custom-class="getDayClass(date, 'day')"
 												            starting-day="1"></datepicker>
 
 											</div>
@@ -290,37 +298,69 @@
 												<label>Choose day of end *</label>
 												<datepicker ng-model="dateEndWeekly" min-date="minDate"
 												            show-weeks="true"
-												            class="well well-sm" custom-class="getDayClass(date, mode)"
+												            class="well well-sm"
+												            custom-class="getDayClass(date, 'day')"
 												            starting-day="1"></datepicker>
 											</div>
 										</div>
 										<hr/>
 									</div>
 									<div ng-repeat="datepicker in datepickers">
-										<div class="row">
-											<div ng-class="{'col-lg-8 col-md-8 col-sm-8 col-xs-8': toShowRepet == 'Continuous ' || toShowRepet == 'One-off '}">
-												<div ng-show="toShowRepet == 'One-off ' || toShowRepet == 'Continuous '">
+										<div ng-show="toShowRepet == 'One-off ' || toShowRepet == 'Continuous '"
+										     class="row">
+											<div class="col-xs-7">
+												<label>Choose day for training #{{$index+1}}*</label>
+												<br/>
+												<datepicker ng-model="datepicker.dt" min-date="minDate"
+												            show-weeks="true"
+												            class="well well-sm"
+												            custom-class="getDayClass(date, mode)"
+												            starting-day="1"></datepicker>
+											</div>
+
+											<div class="col-xs-5">
+												<div class="row">
+													<div class="col-xs-12">
+														<label>Choose time for training #{{$index+1}}*</label>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-6">
+														<div>
+															<timepicker ng-model="datepicker.time"
+															            hour-step="hstep" minute-step="mstep"
+															            show-meridian="ismeridian">
+															</timepicker>
+														</div>
+													</div>
+												</div>
+
+												<div sec:authorize="hasRole('ROLE_ADMIN')">
+													<div>
+														<label>Training place #{{$index+1}} *</label>
+													</div>
+													<input type="text" class="form-control" placeholder="Type here"
+													       ng-model="datepicker.room"/>
+												</div>
+											</div>
+										</div>
+
+										<div ng-show="toShowRepet == 'Weekly '">
+											<div class="row">
+												<div class="col-xs-12">
 													<label>Choose day of week for training #{{$index+1}}*</label>
-													<br/>
-													<datepicker ng-model="datepicker.dt" min-date="minDate"
-													            show-weeks="true"
-													            class="well well-sm"
-													            custom-class="getDayClass(date, mode)"
-													            starting-day="1"></datepicker>
 												</div>
 											</div>
 
-											<div ng-class="{'col-lg-4 col-md-4 col-sm-4 col-xs-4': toShowRepet == 'Continuous ' || toShowRepet == 'One-off '}">
-												<div>
-													<div class="btn-group" dropdown="" dropdown-append-to-body=""
-													     ng-show="toShowRepet == 'Weekly '">
-														<label>Choose day of week for training #{{$index+1}}*</label>
-														<br/>
-
-														<button style="margin-left:45px" type="button"
+											<div class="row">
+												<div class="col-xs-6">
+													<div class="btn-group"
+													     dropdown="" dropdown-append-to-body="">
+														<button type="button"
 														        class="btn btn-primary dropdown-toggle"
 														        dropdown-toggle="">
-															{{datepicker.toShowWeekDay}}<span class="caret"></span>
+															{{datepicker.toShowWeekDay}}<span
+																class="caret"></span>
 														</button>
 														<ul class="dropdown-menu" role="menu">
 															<li><a href=""
@@ -347,26 +387,36 @@
 														</ul>
 													</div>
 												</div>
-												<br/>
+											</div>
 
-												<div>
+											<div class="row">
+												<div class="col-xs-12">
 													<label>Choose time for training #{{$index+1}}*</label>
-													<br/>
-													<timepicker ng-model="datepicker.time"
-													            hour-step="hstep" minute-step="mstep"
-													            show-meridian="ismeridian">
-													</timepicker>
 												</div>
+											</div>
 
-												<div sec:authorize="hasRole('ROLE_ADMIN')">
+											<div class="row">
+												<div class="col-xs-6">
 													<div>
-														<label>Training place #{{$index+1}} *</label>
+														<timepicker ng-model="datepicker.time"
+														            hour-step="hstep" minute-step="mstep"
+														            show-meridian="ismeridian">
+														</timepicker>
 													</div>
-													<input type="text" class="form-control" placeholder="Type here"
-													       ng-model="datepicker.room"/>
 												</div>
-												<hr/>
-												<br/>
+											</div>
+
+											<div class="row">
+												<div class="col-xs-6">
+													<div sec:authorize="hasRole('ROLE_ADMIN')">
+														<div>
+															<label>Training place #{{$index+1}} *</label>
+														</div>
+														<input type="text" class="form-control" placeholder="Type here"
+														       ng-model="datepicker.room"/>
+													</div>
+													<hr/>
+												</div>
 											</div>
 										</div>
 									</div>

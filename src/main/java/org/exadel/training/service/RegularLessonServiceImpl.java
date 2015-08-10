@@ -42,4 +42,10 @@ public class RegularLessonServiceImpl implements RegularLessonService {
     public RegularLesson getRegularLessonById(long id) {
         return regularLessonDAO.getRegularLessonById(id);
     }
+
+    @Override
+    @Transactional
+    public List<RegularLesson> getSomeFutureLessonsByTraining(long trainingId, int count) {
+        return regularLessonDAO.getSomeFutureLessonsByTraining(trainingId, count);
+    }
 }

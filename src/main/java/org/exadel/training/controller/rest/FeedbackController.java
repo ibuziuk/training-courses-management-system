@@ -1,16 +1,14 @@
 package org.exadel.training.controller.rest;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.exadel.training.model.*;
+import org.exadel.training.model.CustomUserDetails;
+import org.exadel.training.model.TrainingFeedback;
+import org.exadel.training.model.User;
 import org.exadel.training.service.EmployeeFeedbackService;
 import org.exadel.training.service.TrainingFeedbackService;
 import org.exadel.training.service.TrainingService;
 import org.exadel.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +32,7 @@ public class FeedbackController {
     private EmployeeFeedbackService employeeFeedbackService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean flag = false;
@@ -75,10 +74,15 @@ public class FeedbackController {
             trainingFeedback.setStarCount(Integer.parseInt(map.get("rate").toString()));
         }
         if (flag) {
+            User user = userService.getUserById(userDetails.getId());
+            if (user.getRoleForView().equals("Administrator")) {
+                trainingFeedback.setIsApproved(true);
+            } else {
+                trainingFeedback.setIsApproved(null);
+            }
             trainingFeedback.setIsDeleted(false);
-            trainingFeedback.setIsApproved(false);
             trainingFeedback.setDate(new Timestamp(new Date().getTime()));
-            trainingFeedback.setUser(userService.getUserById(userDetails.getId()));
+            trainingFeedback.setUser(user);
             trainingFeedback.setTraining(trainingService.getTrainingById(trainingId));
             trainingFeedbackService.addFeedback(trainingFeedback);
         }
@@ -88,36 +92,20 @@ public class FeedbackController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/rest/feedback/training/{trainingId}/user/{userId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void createTraining(HttpEntity<String> httpEntity, @PathVariable("trainingId") long trainingId, @PathVariable("userId") long userId) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User trainerUser = userService.getUserById(userDetails.getId());
-        User user = userService.getUserById(userId);
-        Training training = trainingService.getTrainingById(trainingId);
-
-        if (training.getTrainer().getUserId() != trainerUser.getUserId()) {
-            throw new AccessDeniedException("method not resolved");
+    public Map<String, Object> approvingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
+        TrainingFeedback tf = trainingFeedbackService.getFeedbackById(Long.parseLong(map.get("id").toString()));
+        if (map.get("approved").toString().equals("approve")) {
+            tf.setIsApproved(true);
+        } else {
+            tf.setIsApproved(false);
         }
-
-        if (!training.getVisitors().contains(user)) {
-            throw new AccessDeniedException("method not resolved");
-        }
-
-        String jsonString = httpEntity.getBody();
-        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-
-        EmployeeFeedback employeeFeedback = new EmployeeFeedback();
-        if (json.get("starCount") != null) {
-            employeeFeedback.setStarCount(json.get("starCount").getAsInt());
-        }
-        if (json.get("text") != null) {
-            employeeFeedback.setText(json.get("text").getAsString());
-        }
-        Date curentDate = new Date();
-        employeeFeedback.setDate(new Timestamp(curentDate.getTime()));
-        employeeFeedback.setUser(user);
-        employeeFeedback.setTraining(training);
-        employeeFeedbackService.addFeedback(employeeFeedback);
+//        do not work this method!
+        trainingFeedbackService.updateFeedback(tf);
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
+        resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());
+        return resultMap;
     }
 }

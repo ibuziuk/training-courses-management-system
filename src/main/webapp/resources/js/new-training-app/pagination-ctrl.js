@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('newTrainingApp').controller('paginationCtrl', function ($scope) {
-	$scope.totalItems = 5;
-	$scope.currentPage = 1;
-	$scope.itemsPerPage = 1;
-
-	$scope.dynamic = 1;
+  $scope.totalItems = 5;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 1;
+    
+  $scope.dynamic = 1;
+    
+  $scope.showDynamic = function(page){
+      $scope.dynamic = page;
+  };
 
 	$scope.showDynamic = function (page) {
 		$scope.dynamic = page;

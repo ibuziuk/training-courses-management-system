@@ -38,8 +38,13 @@
 
 	<!-- Angular -->
 	<script src="../../resources/vendors/js/angular.min.js" th:src="@{/resources/vendors/js/angular.min.js}"></script>
+	<<<<<<< HEAD
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
 	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+	=======
+	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.13.3.min.js"
+	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.13.3.min.js}"></script>
+	>>>>>>> origin/approving
 
 	<!-- ngNotify -->
 	<script src="../../resources/vendors/js/ng-notify.min.js"
@@ -115,6 +120,7 @@
 				</li>
 
 				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
+					>>>>>>> origin/approving
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
@@ -157,7 +163,11 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h1 class="page-header">
+							<<<<<<< HEAD
 							<span><!-- TODO--> Training edition</span>
+							=======
+							<span>Training approving</span>
+							>>>>>>> origin/approving
 						</h1>
 					</div>
 				</div>
@@ -173,102 +183,231 @@
 				<!-- /.row -->
 
 				<div class="row">
-					<div class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8">
+					<div class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-12">
 						<div id="step1" ng-show="(currentPage == 1)">
-							<div class="form-group">
-								<label>
-									Name of training *
-								</label>
-								<input style="width: 400px;" class="form-control" placeholder="Type here"
-								       required="required"
-								       ng-model="trainingName" ng-change="step1()"/>
-							</div>
-
-							<div>
-								<label>Type of your training *</label>
-								<br/>
-
-								<div class="btn-group" dropdown="" dropdown-append-to-body="">
-									<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="">
-										{{toShowType}}<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="" ng-click="chooseType(0); step1();">Inner training </a></li>
-										<li><a href="" ng-click="chooseType(1); step1();">Outer training </a></li>
-									</ul>
+							<div class="row">
+								<div class="col-xs-12">
+									<label>
+										Name of training *
+									</label>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group">
+										<input ng-show="editTitle" style="width: 100%;"
+										       class="form-control"
+										       placeholder="Type here"
+										       required="required"
+										       ng-model="trainingNameEd" ng-change="step1()"/>
+										<input ng-show="!editTitle" style="width: 100%;"
+										       class="form-control"
+										       placeholder="Type here"
+										       required="required"
+										       ng-model="trainingName" ng-change="step1()"/>
+									</div>
+								</div>
 
-							<br/>
-
-							<div>
-								<label>Repetition frequency of your training *</label>
-								<br/>
-
-								<div class="btn-group" dropdown="" dropdown-append-to-body="">
-									<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="">
-										{{toShowRepet}}<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="" ng-click="chooseRepet(0); toShow(); step1();">One-off </a></li>
-										<li><a href="" ng-click="chooseRepet(1); toShow(); step1();">Weekly </a></li>
-										<li><a href="" ng-click="chooseRepet(2); toShow(); step1();">Continuous </a>
-										</li>
-									</ul>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<input ng-show="editTitle" style="width: 100%;"
+										       class="form-control"
+										       placeholder="Type here"
+										       required="required"
+										       ng-model="trainingName" ng-change="step1()"
+										       disabled="disabled"/>
+									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<div>
+										<label>Type of your training *</label>
+										<br/>
 
-							<div ng-show="toShowRepet == 'Weekly '">
-								<br/>
-								<label>Quantity of days per week *</label>
-								<br/>
-								<input type="number" min="1" max="7" placeholder="Type here" ng-model="days"
-								       ng-change="toShow(); step1();"/>
-							</div>
-							<div ng-show="toShowRepet == 'Continuous '">
-								<br/>
-								<label>Quantity of days *</label>
-								<br/>
-								<input type="number" min="1" max="10" placeholder="Type here" ng-model="days"
-								       ng-change="toShow(); step1();"/>
+										<div class="btn-group" dropdown="" dropdown-append-to-body="">
+											<button type="button"
+											        class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="" disabled="disabled">
+												{{toShowType}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseType(0); step1();">Inner
+													training </a>
+												</li>
+												<li><a href="" ng-click="chooseType(1); step1();">Outer
+													training </a>
+												</li>
+											</ul>
+										</div>
+									</div>
+
+									<br/>
+
+									<div>
+										<label>Repetition frequency of your training *</label>
+										<br/>
+
+										<div class="btn-group" dropdown="" dropdown-append-to-body="">
+											<button type="button"
+											        class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="" disabled="disabled">
+												{{toShowRepet}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href=""
+												       ng-click="chooseRepet(0); toShow(); step1();">One-off </a>
+												</li>
+												<li><a href=""
+												       ng-click="chooseRepet(1); toShow(); step1();">Weekly </a>
+												</li>
+												<li><a href=""
+												       ng-click="chooseRepet(2); toShow(); step1();">Continuous </a>
+												</li>
+											</ul>
+										</div>
+									</div>
+
+									<div ng-show="toShowRepet == 'Weekly '">
+										<br/>
+										<label>Quantity of days per week *</label>
+										<br/>
+										<input type="number" min="1" max="7" placeholder="Type here"
+										       ng-model="days"
+										       ng-change="toShow(); step1();" disabled="disabled"/>
+									</div>
+									<div ng-show="toShowRepet == 'Continuous '">
+										<br/>
+										<label>Quantity of days *</label>
+										<br/>
+										<input type="number" min="1" max="10" placeholder="Type here"
+										       ng-model="days"
+										       ng-change="toShow(); step1();" disabled="disabled"/>
+									</div>
+								</div>
 							</div>
 						</div>
 
 						<div id="step2" ng-show="(currentPage == 2)">
-							<div>
-								<label>Language of your training *</label>
-								<br/>
-
-								<div class="btn-group" dropdown="" dropdown-append-to-body="">
-									<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle="">
-										{{toShowLanguage}}<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="" ng-click="chooseLanguage(0); step2();">English </a></li>
-										<li><a href="" ng-click="chooseLanguage(1); step2();">Russian </a></li>
-									</ul>
+							<div class="row">
+								<div class="col-xs-12">
+									<label>
+										Language of your training *
+									</label>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div ng-show="toShowLanguageEd" class="btn-group" dropdown=""
+									     dropdown-append-to-body="">
+										<button type="button" class="btn btn-primary dropdown-toggle"
+										        dropdown-toggle="">
+											{{toShowLanguageEd}}<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a href="" ng-click="chooseLanguage(0); step2();">English </a>
+											</li>
+											<li><a href="" ng-click="chooseLanguage(1); step2();">Russian </a>
+											</li>
+										</ul>
+									</div>
+
+									<div ng-show="!toShowLanguageEd" class="btn-group" dropdown=""
+									     dropdown-append-to-body="">
+										<button type="button" class="btn btn-primary dropdown-toggle"
+										        dropdown-toggle="">
+											{{toShowLanguage}}<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a href="" ng-click="chooseLanguage(0); step2();">English </a>
+											</li>
+											<li><a href="" ng-click="chooseLanguage(1); step2();">Russian </a>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-xs-6">
+									<div ng-show="toShowLanguageEd" class="btn-group" dropdown=""
+									     dropdown-append-to-body="">
+										<button type="button" class="btn btn-primary dropdown-toggle"
+										        dropdown-toggle=""
+										        disabled="disabled">
+											{{toShowLanguage}}<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a href="" ng-click="chooseLanguage(0); step2();">English </a>
+											</li>
+											<li><a href="" ng-click="chooseLanguage(1); step2();">Russian </a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
 							<br/>
 
 							<div ng-repeat="description in descriptions track by $index">
-								<div class="form-group">
-									<label>Training description #{{$index + 1}}*</label>
+								<div class="row">
+									<div class="col-xs-12">
+										<label>Training description #{{$index + 1}}*</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-6">
+										<div ng-show="description.hasEdDescr" class="form-group">
+											<textarea style="width: 100%;" class="form-control" rows="5"
+											          placeholder="Key concepts"
+											          ng-model="description.textEd" ng-change="step2();"></textarea>
+										</div>
 
-									<p>Some sentences about your training</p>
-									<textarea style="width: 400px;" class="form-control" rows="5"
-									          placeholder="Key concepts"
-									          ng-model="description.text" ng-change="step2();"></textarea>
+										<div ng-show="!description.hasEdDescr" class="form-group">
+											<textarea style="width: 100%;" class="form-control" rows="5"
+											          placeholder="Key concepts"
+											          ng-model="description.text" ng-change="step2();"></textarea>
+										</div>
+									</div>
+									<div class="col-xs-6">
+										<div ng-show="description.hasEdDescr" class="form-group">
+											<textarea style="width: 100%;" class="form-control" rows="5"
+											          placeholder="Key concepts"
+											          ng-model="description.text" ng-change="step2();"
+											          disabled="disabled"></textarea>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 
 						<div id="step3" ng-show="(currentPage == 3)">
-							<div>
-								<label>Training duration *</label>
-								<timepicker ng-model="duration" ng-change="step3()" hour-step="hstep"
-								            minute-step="mstep"
-								            show-meridian="ismeridian"></timepicker>
+							<div class="row">
+								<div class="col-xs-12">
+									<label>Training duration *</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div ng-show="hasEdDur">
+										<timepicker ng-model="durationEd" ng-change="step3()"
+										            hour-step="hstep"
+										            minute-step="mstep"
+										            show-meridian="ismeridian"></timepicker>
+									</div>
+									<div ng-show="!hasEdDur">
+										<timepicker ng-model="duration" ng-change="step3()"
+										            hour-step="hstep"
+										            minute-step="mstep"
+										            show-meridian="ismeridian"></timepicker>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div ng-show="hasEdDur">
+										<input style="width:50px; height: 34px; margin-top: 34px; border-radius: 4px; text-align: center"
+										       disabled="disabled" placeholder="{{durHours}}"/>:
+										<input style="width:50px; height: 34px; margin-top: 34px; border-radius: 4px; text-align: center"
+										       disabled="disabled" placeholder="{{durMins}}"/>
+									</div>
+								</div>
 							</div>
 							<div>
 								<div style="display:inline-block; min-height:290px;">
@@ -276,50 +415,157 @@
 										<div class="row">
 											<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 												<label>Choose day of start *</label>
-												<datepicker ng-model="dateStartWeekly" min-date="minDate"
+												<datepicker ng-model="dateStartWeekly"
+												            min-date="minDate"
 												            show-weeks="true"
-												            class="well well-sm" custom-class="getDayClass(date, mode)"
+												            class="well well-sm"
+												            custom-class="getDayClass(date, 'day', 0)"
 												            starting-day="1"></datepicker>
 
 											</div>
 											<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 												<label>Choose day of end *</label>
-												<datepicker ng-model="dateEndWeekly" min-date="minDate"
+												<datepicker ng-model="dateEndWeekly"
+												            min-date="minDate"
 												            show-weeks="true"
-												            class="well well-sm" custom-class="getDayClass(date, mode)"
+												            class="well well-sm"
+												            custom-class="getDayClass(date, 'day',
+																				1)"
 												            starting-day="1"></datepicker>
 											</div>
 										</div>
+										<span mg-show="" disabled="disabled">
+											<i style="color: limegreen;" class="fa fa-circle"></i> - dates before edition
+										</span>
 										<hr/>
 									</div>
-									<div ng-class="{'col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3': toShowRepet == 'Weekly '}"
-									     ng-repeat="datepicker in datepickers">
-										<div class="row">
-											<div ng-class="{'col-lg-8 col-md-8 col-sm-8 col-xs-8': toShowRepet == 'Continuous ' || toShowRepet == 'One-off '}">
-												<div ng-show="toShowRepet == 'One-off ' || toShowRepet == 'Continuous '">
-													<label>Choose day of week for training #{{$index+1}}*</label>
-													<br/>
-													<datepicker ng-model="datepicker.dt" min-date="minDate"
-													            show-weeks="true"
-													            class="well well-sm"
-													            custom-class="getDayClass(date, mode)"
-													            starting-day="1"></datepicker>
+									<div ng-repeat="datepicker in datepickers">
+										<div ng-show="toShowRepet == 'One-off ' || toShowRepet == 'Continuous '"
+										     class="row">
+											<div class="col-xs-7">
+												<label>Choose day for training
+													#{{$index+1}}*</label>
+												<br/>
+												<datepicker ng-model="datepicker.dt"
+												            min-date="minDate"
+												            show-weeks="true"
+												            class="well well-sm"
+												            custom-class="getDayClass(date, mode, $index)"
+												            starting-day="1"></datepicker>
+											</div>
+
+											<div class="col-xs-5">
+												<div class="row">
+													<div class="col-xs-12">
+														<label>Choose time for training
+															#{{$index+1}}*</label>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-6">
+														<div ng-show="datepicker.hasTimeEd">
+															<timepicker
+																	ng-model="datepicker.timeEd"
+																	hour-step="hstep"
+																	minute-step="mstep"
+																	show-meridian="ismeridian">
+															</timepicker>
+														</div>
+														<div ng-show="!datepicker.hasTimeEd">
+															<timepicker
+																	ng-model="datepicker.time"
+																	hour-step="hstep"
+																	minute-step="mstep"
+																	show-meridian="ismeridian">
+															</timepicker>
+														</div>
+													</div>
+
+													<div class="col-xs-6">
+														<div ng-show="datepicker.hasTimeEd"
+														     style="margin-top: 34px;">
+															<timepicker
+																	ng-model="datepicker.time"
+																	hour-step="hstep"
+																	minute-step="mstep"
+																	show-meridian="ismeridian"
+																	readonly-input="true"
+																	show-spinners="false">
+															</timepicker>
+														</div>
+													</div>
+												</div>
+
+												<div sec:authorize="hasRole('ROLE_ADMIN')">
+													<div>
+														<label>Training place #{{$index+1}}
+															*</label>
+													</div>
+													<input type="text" class="form-control"
+													       placeholder="Type here"
+													       ng-model="datepicker.room"/>
+												</div>
+											</div>
+										</div>
+
+										<div ng-show="toShowRepet == 'Weekly '">
+											<div class="row">
+												<div class="col-xs-12">
+													<label>Choose day of week for training
+														#{{$index+1}}*</label>
 												</div>
 											</div>
 
-											<div ng-class="{'col-lg-4 col-md-4 col-sm-4 col-xs-4': toShowRepet == 'Continuous ' || toShowRepet == 'One-off '}">
-												<div>
-													<div class="btn-group" dropdown="" dropdown-append-to-body=""
-													     ng-show="toShowRepet == 'Weekly '">
-														<label>Choose day of week for training #{{$index+1}}*</label>
-														<br/>
-
-														<button style="margin-left:45px" type="button"
+											<div class="row">
+												<div class="col-xs-6">
+													<div ng-show="datepicker.toShowWeekDayEd"
+													     class="btn-group"
+													     dropdown=""
+													     dropdown-append-to-body="">
+														<button type="button"
 														        class="btn btn-primary dropdown-toggle"
 														        dropdown-toggle="">
-															{{datepicker.toShowWeekDay}}<span class="caret"></span>
+															{{datepicker.toShowWeekDayEd}}<span
+																class="caret"></span>
 														</button>
-														<ul class="dropdown-menu" role="menu">
+														<ul class="dropdown-menu"
+														    role="menu">
+															<li><a href=""
+															       ng-click="chooseWeekDay(0, $index); step3();">Monday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(1, $index); step3();">Tuesday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(2, $index); step3();">Wednesday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(3, $index); step3();">Thursday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(4, $index); step3();">Friday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(5, $index); step3();">Saturday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(6, $index); step3();">Sunday </a>
+															</li>
+														</ul>
+													</div>
+
+													<div ng-show="!datepicker.toShowWeekDayEd"
+													     class="btn-group"
+													     dropdown=""
+													     dropdown-append-to-body="">
+														<button type="button"
+														        class="btn btn-primary dropdown-toggle"
+														        dropdown-toggle="">
+															{{datepicker.toShowWeekDay}}<span
+																class="caret"></span>
+														</button>
+														<ul class="dropdown-menu"
+														    role="menu">
 															<li><a href=""
 															       ng-click="chooseWeekDay(0, $index); step3();">Monday </a>
 															</li>
@@ -344,26 +590,103 @@
 														</ul>
 													</div>
 												</div>
-												<br/>
-
-												<div>
-													<label>Choose time for training #{{$index+1}}*</label>
-													<br/>
-													<timepicker ng-model="datepicker.time"
-													            hour-step="hstep" minute-step="mstep"
-													            show-meridian="ismeridian">
-													</timepicker>
-												</div>
-
-												<div sec:authorize="hasRole('ROLE_ADMIN')">
-													<div>
-														<label>Training place #{{$index+1}} *</label>
+												<div class="col-xs-6">
+													<div ng-show="datepicker.toShowWeekDayEd"
+													     class="btn-group"
+													     dropdown=""
+													     dropdown-append-to-body="">
+														<button type="button"
+														        disabled="disabled"
+														        class="btn btn-primary dropdown-toggle"
+														        dropdown-toggle="">
+															{{datepicker.toShowWeekDay}}<span
+																class="caret"></span>
+														</button>
+														<ul class="dropdown-menu"
+														    role="menu">
+															<li><a href=""
+															       ng-click="chooseWeekDay(0, $index); step3();">Monday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(1, $index); step3();">Tuesday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(2, $index); step3();">Wednesday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(3, $index); step3();">Thursday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(4, $index); step3();">Friday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(5, $index); step3();">Saturday </a>
+															</li>
+															<li><a href=""
+															       ng-click="chooseWeekDay(6, $index); step3();">Sunday </a>
+															</li>
+														</ul>
+														<br/>
 													</div>
-													<input type="text" class="form-control" placeholder="Type here"
-													       ng-model="datepicker.room"/>
 												</div>
-												<hr/>
-												<br/>
+											</div>
+
+											<div class="row">
+												<div class="col-xs-12">
+													<label>Choose time for training
+														#{{$index+1}}*</label>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-xs-6">
+													<div ng-show="datepicker.hasTimeEd">
+														<timepicker
+																ng-model="datepicker.timeEd"
+																hour-step="hstep"
+																minute-step="mstep"
+																show-meridian="ismeridian">
+														</timepicker>
+													</div>
+													<div ng-show="!datepicker.hasTimeEd">
+														<timepicker
+																ng-model="datepicker.time"
+																hour-step="hstep"
+																minute-step="mstep"
+																show-meridian="ismeridian">
+														</timepicker>
+													</div>
+												</div>
+
+												<div class="col-xs-6">
+													<div ng-show="datepicker.hasTimeEd"
+													     style="margin-top: 34px;">
+														<timepicker
+																ng-model="datepicker.time"
+																hour-step="hstep"
+																minute-step="mstep"
+																show-meridian="ismeridian"
+																readonly-input="true"
+																show-spinners="false">
+														</timepicker>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-xs-6">
+													<div sec:authorize="hasRole('ROLE_ADMIN')">
+														<div>
+															<label>Training place
+																#{{$index+1}} *</label>
+														</div>
+														<input type="text"
+														       class="form-control"
+														       placeholder="Type here"
+														       ng-model="datepicker.room"/>
+													</div>
+													<hr/>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -372,45 +695,54 @@
 						</div>
 
 						<div id="step4" ng-show="(currentPage == 4)">
-							<label>Tags *</label>
+							<h4>
+								<label style="font-size: 18px;">Tags: </label><br/>
+								<span ng-repeat="tag in tags" class="label label-{{tag.color}} tags">
+									{{tag.name}}
+								</span>
+							</h4>
+
+							<h4>
+								<label style="font-size: 18px;">Audience: </label><br/>
+								<span ng-repeat="aud in audiences">
+									{{aud.value}};&nbsp;
+								</span>
+							</h4>
+
 							<br/>
 
-							<div class="select2-custom">
-								<select style="width: 400px" class="select2-new-training" ui-select2="select2Options"
-								        ng-model="selectedTags" multiple="multiple" data-placeholder='Tags'>
-									<option ng-repeat="tag in checkboxTags" value="{{tag.id}}">{{tag.name}}</option>
-								</select>
+							<div class="row">
+								<div class="col-xs-12">
+									<label>Maximum number of guests*</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6">
+									<input ng-show="hasGuestsEd" type="number"
+									       class="form-control" min="1"
+									       placeholder="Type here" ng-model="guestsEd"/>
+									<input ng-show="!hasGuestsEd" type="number"
+									       class="form-control" min="1"
+									       placeholder="Type here" ng-model="guests"/>
+								</div>
+								<div class="col-xs-6">
+									<input ng-show="hasGuestsEd" type="number"
+									       class="form-control" min="1"
+									       placeholder="Type here" ng-model="guests"
+									       disabled="disabled"/>
+								</div>
 							</div>
 
 							<br/><br/>
 
-							<label>Audience for your training *</label>
-							<br/>
-
-							<div class="select2-custom">
-								<select style="width: 400px" class="select2-new-training" ui-select2="select2Options"
-								        ng-model="selectedAudiences" multiple="multiple" data-placeholder='Audience'>
-									<option ng-repeat="audience in checkboxAudiences" value="{{audience.id}}">
-										{{audience.value}}
-									</option>
-								</select>
-							</div>
-
-							<br/><br/>
-
-							<div>
-								<label>Maximum number of guests*</label>
-								<input style="width: 400px;" type="number" class="form-control" min="1"
-								       placeholder="Type here" ng-model="guests"/>
-							</div>
-
-							<br/><br/>
-
-							<button class="btn btn-success" ng-show="isAdmin &#38;&#38; !training.isApproved">
+							<button class="btn btn-success"
+							        ng-click="approveCreation()">
 								<i class="fa fa-fw fa-thumbs-o-up"></i> Approve
 							</button>
 
-							<button class="btn btn-danger" ng-show="isAdmin &#38;&#38; !training.isApproved">
+							<button class="btn btn-danger"
+							        ng-click="disapproveCreation()">
 								<i class="fa fa-fw fa-thumbs-o-down"></i> Disapprove
 							</button>
 						</div>

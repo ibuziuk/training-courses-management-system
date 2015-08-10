@@ -41,7 +41,7 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 				$scope.trainingName = obj.data.training.title;
 
 				if (continuous) {
-					$scope.trainingName = $scope.trainingName.substring(0, $scope.trainingName.lastIndexOf('#'));
+					$scope.trainingName = $scope.trainingName.substring(0, $scope.trainingName.lastIndexOf('#') - 1);
 				}
 
 				/* Repetition */
@@ -86,7 +86,8 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 								times[l] = times[l].split('-')[0];
 								hours[l] = times[l].split(':')[0];
 								minutes[l] = times[l].split(':')[1];
-								rooms[l] = obj.data.training.lessons[l].location || '';
+								if (obj.data.training.lessons.length > 0)
+									rooms[l] = obj.data.training.lessons[l].location || '';
 							}
 
 							for (var k = 0; k < $scope.qDates; k++) {
@@ -107,10 +108,9 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 						}
 					}
 					else {
-						for (var l in obj.data.parts) {
-							var indl = obj.data.parts[l].title.substring(obj.data.parts[l].title.lastIndexOf('#') + 1, obj.data.parts[l].title.length);
-							$scope.descriptions[indl - 1] = {text: obj.data.parts[l].description};
-							$scope.datepickers[indl - 1] = {
+						for (var l = 0; l < obj.data.parts.length; l++) {
+							$scope.descriptions[l] = {text: obj.data.parts[l].description};
+							$scope.datepickers[l] = {
 								'dt': new Date(obj.data.parts[l].date),
 								'time': new Date(obj.data.parts[l].date),
 								'room': obj.data.parts[l].location || ''
@@ -256,7 +256,16 @@ angular.module('editTrainingApp').controller('pageCtrl', ['$scope', '$http', '$q
 							training.date = date;
 							training.times += ($scope.datepickers[i].time.getHours() + ':' + $scope.datepickers[i].time.getMinutes()) + ' ';
 						}
-						trainingsRequests[i] = $http.post('rest' + window.location.pathname, training);
+
+						var curId;
+						if (continuous) {
+							var curPart = training.title.substring(training.title.lastIndexOf('#') + 1, training.title.length);
+							curId = obj.data.parts[curPart - 1].trainingId;
+						}
+						else {
+							curId = obj.data.training.trainingId;
+						}
+						trainingsRequests[i] = $http.post('rest/training/edit/' + curId, training);
 					}
 					$q.all(trainingsRequests).then(function (results) {
 						$window.location.href = 'training/' + results[0].data.id;

@@ -14,4 +14,6 @@ public interface RegularLessonDAO {
     RegularLesson getRegularLessonById(long id);
 
     List<RegularLesson> getFutureRegularLessons();
+
+    List<RegularLesson> getSomeFutureLessonsByTraining(long trainingId, int count);
 }

@@ -66,7 +66,7 @@ public class TrainingRestController {
         if (json.get("title") != null) {
             training.setTitle(json.get("title").getAsString());
         }
-
+        training.setIsEditing(false);
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User trainer = userService.getUserById(userDetails.getId());
         training.setTrainer(trainer);
@@ -89,8 +89,10 @@ public class TrainingRestController {
         if (json.get("continuous") != null) {
             training.setContinuous(json.get("continuous").getAsBoolean());
         }
-        if (json.get("approved") != null) {
-            training.setApproved(json.get("approved").getAsBoolean());
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
+            training.setApproved(true);
+        } else {
+            training.setApproved(null);
         }
         Language language = null;
         String languageValue = json.get("language").getAsString();
@@ -397,8 +399,9 @@ public class TrainingRestController {
         return result;
     }
 
-    @RequestMapping(value = "/rest/training/{come}/search", method = RequestMethod.GET,
-            params = {"person", "pageNumber", "pageSize", "searchType", "value"})
+
+    @RequestMapping(value = "/rest/training/search", method = RequestMethod.GET,
+            params = {"pageNumber", "pageSize", "searchType", "value"})
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> searching(
             @RequestParam("pageNumber") Integer pageNumber,

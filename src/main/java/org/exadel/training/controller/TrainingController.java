@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import static org.exadel.training.utils.RoleUtil.ROLE_ADMIN;
-import static org.exadel.training.utils.RoleUtil.ROLE_EXTERNAL;
-import static org.exadel.training.utils.RoleUtil.ROLE_USER;
+import static org.exadel.training.utils.RoleUtil.*;
 
 @Controller
 @RequestMapping("/training")

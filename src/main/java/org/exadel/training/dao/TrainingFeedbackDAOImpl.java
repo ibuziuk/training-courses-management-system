@@ -41,4 +41,14 @@ public class TrainingFeedbackDAOImpl implements TrainingFeedbackDAO {
         }
         return (double) list.get(0);
     }
+
+    @Override
+    public TrainingFeedback getFeedbackById(long id) {
+        return (TrainingFeedback) sessionFactory.getCurrentSession().get(TrainingFeedback.class, id);
+    }
+
+    @Override
+    public void updateFeedback(TrainingFeedback trainingFeedback) {
+        sessionFactory.getCurrentSession().update(trainingFeedback);
+    }
 }

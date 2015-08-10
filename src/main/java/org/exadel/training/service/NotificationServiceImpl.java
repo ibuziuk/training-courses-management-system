@@ -120,7 +120,7 @@ public class NotificationServiceImpl implements NotificationService {
         Context context = new Context();
         context.setVariable("mailReceiver", external.getFirstName());
         context.setVariable("startText", "Your credentials for visiting Exadel Training System:");
-        context.setVariable("nameTraining", "\nlogin: " + external.getLogin());
+        context.setVariable("login", "\nlogin: " + external.getLogin());
         context.setVariable("date", "\npassword: " + password);
         emailNotifierService.sendEmailNotification(external.getEmail(), "Your account has been created", context);
 

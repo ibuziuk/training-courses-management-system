@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class EditRestController {
@@ -60,9 +57,22 @@ public class EditRestController {
             flag = true;
             te.setMaxVisitorsCount(Integer.parseInt(requestMap.get("maxVisitorsCount").toString()));
         }
-        if (requestMap.containsKey("times") && !requestMap.get("times").toString().equals(training.getTime())) {
-            flag = true;
-            te.setTime(requestMap.get("times").toString());
+        if (requestMap.containsKey("times")) {
+            SimpleDateFormat hourDateFormater = new SimpleDateFormat("HH:mm");
+            try{
+                java.util.Date parsedTime = hourDateFormater.parse(requestMap.get("times").toString());
+                String time = hourDateFormater.format(parsedTime);
+                Calendar calendarTime = GregorianCalendar.getInstance();
+                calendarTime.setTime(parsedTime);
+                calendarTime.set(Calendar.MINUTE, calendarTime.get(Calendar.MINUTE) + Integer.parseInt(requestMap.get("duration").toString()));
+                time += "-" + hourDateFormater.format(calendarTime.getTime());
+                if (!time.equals(training.getTime())) {
+                    flag = true;
+                    te.setTime(time);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (!regular && requestMap.containsKey("rooms") && !requestMap.get("rooms").toString().equals(training.getLocation())) {
             flag = true;
@@ -107,6 +117,7 @@ public class EditRestController {
         }
         te.setTraining(training);
         if (flag) {
+            training.setApproved(null);
             if (flagNew) {
                 trainingEditService.addEdit(te);
             } else {

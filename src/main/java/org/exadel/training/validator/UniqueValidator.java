@@ -1,6 +1,5 @@
 package org.exadel.training.validator;
 
-import org.exadel.training.model.User;
 import org.exadel.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 

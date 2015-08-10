@@ -30,4 +30,16 @@ public class AbsenceServiceImpl implements AbsenceService {
     public List<Absence> getAllAbsences() {
         return absenceDAO.getAllAbsences();
     }
+
+    @Override
+    @Transactional
+    public List<Absence> getAbsencesByUser(long userId) {
+        return absenceDAO.getAbsencesByUser(userId);
+    }
+
+    @Override
+    @Transactional
+    public Absence getAbsenceByUserAndTraining(long userId, long trainingId) {
+        return absenceDAO.getAbsenceByUserAndTraining(userId, trainingId);
+    }
 }

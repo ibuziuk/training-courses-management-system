@@ -119,6 +119,14 @@ public class Training {
     @OneToMany(mappedBy = "training")
     private Set<Absence> absences;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "training")
+    private Set<AbsenceLesson> absenceLessons;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER)
+    private Set<EmployeeFeedback> trainerFeedbacks;
+
     public long getTrainingId() {
         return trainingId;
     }
@@ -351,5 +359,21 @@ public class Training {
 
     public void setIsEditing(Boolean isEditing) {
         this.isEditing = isEditing;
+    }
+
+    public Set<EmployeeFeedback> getTrainerFeedbacks() {
+        return trainerFeedbacks;
+    }
+
+    public void setTrainerFeedbacks(Set<EmployeeFeedback> trainerFeedbacks) {
+        this.trainerFeedbacks = trainerFeedbacks;
+    }
+
+    public Set<AbsenceLesson> getAbsenceLessons() {
+        return absenceLessons;
+    }
+
+    public void setAbsenceLessons(Set<AbsenceLesson> absenceLessons) {
+        this.absenceLessons = absenceLessons;
     }
 }

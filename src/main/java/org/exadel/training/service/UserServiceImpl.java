@@ -1,6 +1,8 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.UserDAO;
+import org.exadel.training.model.Absence;
+import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +94,23 @@ public class UserServiceImpl implements UserService {
                 return userDAO.searchUsersByRole(pageNumber, pageSize, value);
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public List<Training> getExTrainings(long userId) {
+        return userDAO.getExTrainings(userId);
+    }
+
+    @Override
+    @Transactional
+    public List<Absence> getAbsences(User user) {
+        return userDAO.getAbsences(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Training> getLeads(User user) {
+        return userDAO.getLeads(user);
     }
 }

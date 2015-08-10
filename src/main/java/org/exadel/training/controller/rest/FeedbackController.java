@@ -1,11 +1,16 @@
 package org.exadel.training.controller.rest;
 
-import org.exadel.training.model.TrainingFeedback;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.exadel.training.model.*;
+import org.exadel.training.service.EmployeeFeedbackService;
 import org.exadel.training.service.TrainingFeedbackService;
 import org.exadel.training.service.TrainingService;
 import org.exadel.training.service.UserService;
-import org.exadel.training.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +29,9 @@ public class FeedbackController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmployeeFeedbackService employeeFeedbackService;
 
     @RequestMapping(value = "/rest/feedback/training/{trainingId}", method = RequestMethod.POST)
     public Map<String, Object> addTrainingFeedback(@RequestBody Map<String, Object> map, @PathVariable("trainingId") long trainingId) {
@@ -78,5 +86,38 @@ public class FeedbackController {
         resultMap.put("rating", trainingFeedbackService.getAverageRatingByTrainingID(trainingId));
         resultMap.put("feedbacks", trainingService.getTrainingById(trainingId).getTrainingFeedbacks());
         return resultMap;
+    }
+
+    @RequestMapping(value = "/rest/feedback/training/{trainingId}/user/{userId}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void createTraining(HttpEntity<String> httpEntity, @PathVariable("trainingId") long trainingId, @PathVariable("userId") long userId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User trainerUser = userService.getUserById(userDetails.getId());
+        User user = userService.getUserById(userId);
+        Training training = trainingService.getTrainingById(trainingId);
+
+        if (training.getTrainer().getUserId() != trainerUser.getUserId()) {
+            throw new AccessDeniedException("method not resolved");
+        }
+
+        if (!training.getVisitors().contains(user)) {
+            throw new AccessDeniedException("method not resolved");
+        }
+
+        String jsonString = httpEntity.getBody();
+        JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
+
+        EmployeeFeedback employeeFeedback = new EmployeeFeedback();
+        if (json.get("starCount") != null) {
+            employeeFeedback.setStarCount(json.get("starCount").getAsInt());
+        }
+        if (json.get("text") != null) {
+            employeeFeedback.setText(json.get("text").getAsString());
+        }
+        Date curentDate = new Date();
+        employeeFeedback.setDate(new Timestamp(curentDate.getTime()));
+        employeeFeedback.setUser(user);
+        employeeFeedback.setTraining(training);
+        employeeFeedbackService.addFeedback(employeeFeedback);
     }
 }

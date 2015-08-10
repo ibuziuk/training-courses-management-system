@@ -24,4 +24,16 @@ public class EmployeeFeedbackServiceImpl implements EmployeeFeedbackService {
     public List<EmployeeFeedback> getAllFeedbacks() {
         return employeeFeedbackDAO.getAllFeedbacks();
     }
+
+    @Override
+    @Transactional
+    public List<EmployeeFeedback> getFeedbacksByUserAndTraining(long userId, long trainingId) {
+        return employeeFeedbackDAO.getFeedbacksByUserAndTraining(userId, trainingId);
+    }
+
+    @Override
+    @Transactional
+    public List<EmployeeFeedback> getFeedbacksByUser(long userId) {
+        return employeeFeedbackDAO.getFeedbacksByUser(userId);
+    }
 }

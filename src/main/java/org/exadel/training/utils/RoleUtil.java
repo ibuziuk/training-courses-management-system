@@ -5,17 +5,17 @@ import org.exadel.training.model.Role;
 import java.util.Set;
 
 public final class RoleUtil {
+    public static final String ADMIN_SMALL = "administrator";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
+    public static final String ROLE_EXTERNAL = "ROLE_EXTERNAL";
     private static final String ROLE = "ROLE";
     private static final String UNDERLINE = "_";
     private static final String ADMINISTRATOR = "Administrator";
     private static final String USER = "User";
     private static final String EXTERNAL = "External";
     private static final String ADMIN_BIG = "ADMIN";
-    public static final String ADMIN_SMALL = "administrator";
     private static final String EXTERNAL_SMALL = "external";
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String ROLE_EXTERNAL = "ROLE_EXTERNAL";
 
     public static String buildRoleForAuthorization(String role) {
         StringBuilder sb = new StringBuilder(ROLE);

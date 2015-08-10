@@ -1,5 +1,7 @@
 package org.exadel.training.service;
 
+import org.exadel.training.model.Absence;
+import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 
 import java.util.List;
@@ -26,5 +28,11 @@ public interface UserService {
 
     List<User> getUsersByRole(String role);
 
+    List<Absence> getAbsences(User user);
+
+    List<Training> getLeads(User user);
+
     Map<String, Object> searchUsers(int pageNumber, int pageSize, String searchType, String value);
+
+    List<Training> getExTrainings(long userId);
 }

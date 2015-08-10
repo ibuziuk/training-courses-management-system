@@ -1,5 +1,7 @@
 package org.exadel.training.dao;
 
+import org.exadel.training.model.Absence;
+import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 
 import java.util.List;
@@ -32,7 +34,13 @@ public interface UserDAO {
 
     Map<String, Object> searchUsersByLogin(int pageNumber, int pageSize, String login);
 
+    List<Absence> getAbsences(User user);
+
+    List<Training> getLeads(User user);
+
     Map<String, Object> searchUsersByEmail(int pageNumber, int pageSize, String email);
 
     Map<String, Object> searchUsersByRole(int pageNumber, int pageSize, String role);
+
+    List<Training> getExTrainings(long userId);
 }

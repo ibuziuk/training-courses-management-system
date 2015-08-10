@@ -3,6 +3,14 @@ textarea {
 	resize: none;
 }
 
+.select2-input.select2-default {
+	width: 100% !important;
+}
+
+.select2-new-training .select2-container {
+	width: 100% !important;
+}
+
 .href-square {
 	color: white;
 }
@@ -501,6 +509,10 @@ ul.alert-dropdown {
 	padding-right: 0;
 }
 
+.datepickers {
+	margin-bottom: 10px;
+}
+
 .tags {
 	font-size: initial;
 	margin-right: 5px;
@@ -535,6 +547,11 @@ ul.alert-dropdown {
 
 .glyphicon-remove {
 	color: #ffffff;
+}
+
+.statistic-datepicker {
+	display: inline-block;
+	min-height: 290px;
 }
 
 .color-info {
@@ -601,6 +618,30 @@ div.color-info > p > span.event {
 	background-color: #713ec3;
 }
 
+/*.subscribedTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
+/*color: #a94442;*/
+/*background-color: #f2dede;*/
+/*border-color: #ebccd1;*/
+/*}*/
+
+/*.visitedTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
+/*color: #3c763d;*/
+/*background-color: #dff0d8;*/
+/*border-color: #d6e9c6;*/
+/*}*/
+
+/*.exTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
+/*color: #31708f;*/
+/*background-color: #d9edf7;*/
+/*border-color: #bce8f1;*/
+/*}*/
+
+/*.waitingListTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
+/*color: #8a6d3b;*/
+/*background-color: #fcf8e3;*/
+/*border-color: #faebcc;*/
+/*}*/
+
 .nav-tabs > li > a {
 	background-color: #E4EDF2;
 }
@@ -618,4 +659,54 @@ div.color-info > p > span.event {
 
 .ng-table-group {
 	background-color: #E4EDF2 !important;
+}
+
+.select2-custom .select-box {
+	width: 100%;
+	margin-right: 0;
+}
+
+.select2-custom .select-box > a {
+	border: 1px #CCC solid;
+	border-radius: 0;
+	height: 34px;
+	line-height: 34px;
+	font-size: 14px;
+	text-align: left;
+	background: none;
+	box-shadow: none;
+}
+
+.select2-custom .select-box.select2-container-active > a {
+	border: 1px solid #5897FB;
+}
+
+.select2-custom .select-box .select2-arrow {
+	border-radius: 0;
+}
+
+.select2-custom .select-box .select2-choice .select2-arrow {
+	border-left: 1px #DDD solid;
+	background: #EEE;
+}
+
+.select2-custom .select-box .select2-choice .select2-arrow b {
+	background-position: 0 5px;
+}
+
+.select2-custom .select-box.select2-dropdown-open .select2-choice .select2-arrow b {
+	background-position: -18px 15px;
+}
+
+.select2-custom .select-box.select2-dropdown-open .select2-choice .select2-arrow {
+	border: 0;
+	background: none;
+}
+
+.ng-table th {
+	text-align: left !important;
+}
+
+.download-button {
+	float: right;
 }

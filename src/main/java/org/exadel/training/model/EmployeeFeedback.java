@@ -1,7 +1,6 @@
 package org.exadel.training.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -21,8 +20,8 @@ public class EmployeeFeedback {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "trainer_id")
-    private User trainer;
+    @JoinColumn(name = "training_id")
+    private Training training;
 
     private Timestamp date;
 
@@ -45,6 +44,9 @@ public class EmployeeFeedback {
 
     @Column(length = 45)
     private String mark;
+
+    @Column(name = "rating")
+    private Integer starCount;
 
     public int getId() {
         return id;
@@ -130,12 +132,12 @@ public class EmployeeFeedback {
         this.mark = mark;
     }
 
-    public User getTrainer() {
-        return trainer;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setTrainer(User trainer) {
-        this.trainer = trainer;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     public User getUser() {
@@ -144,5 +146,13 @@ public class EmployeeFeedback {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Integer getStarCount() {
+        return starCount;
+    }
+
+    public void setStarCount(Integer starCount) {
+        this.starCount = starCount;
     }
 }

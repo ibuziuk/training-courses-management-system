@@ -124,6 +124,9 @@ public class TrainingRestController {
             if (json.get("days") != null) {
                 training.setDays(json.get("days").getAsString());
             }
+            if (json.get("rooms") != null) {
+                training.setLocation(json.get("rooms").getAsString());
+            }
             String startDateString = null;
             if (json.get("date") != null) {
                 startDateString = json.get("date").getAsString();
@@ -191,16 +194,16 @@ public class TrainingRestController {
                     if (json.get("times") != null) {
                         time = json.get("times").getAsJsonArray().get(i).getAsString();
                     }
-                    int location = -1;
+                    String location = null;
                     if (json.get("rooms") != null) {
                         if (json.get("rooms").getAsJsonArray().size() != 0) {
-                            location = json.get("rooms").getAsJsonArray().get(i).getAsInt();
+                            location = json.get("rooms").getAsJsonArray().get(i).getAsString();
                         }
                     }
                     while (iterationCalendar.getTimeInMillis() <= endCalendar.getTimeInMillis()) {
                         RegularLesson regularLesson = new RegularLesson();
 
-                        if (location != -1) {
+                        if (location != null) {
                             regularLesson.setLocation(location);
                         }
                         Date fullDate = fullDateFormater.parse(dateFormater.format(iterationCalendar.getTime()) + " " + time);
@@ -211,11 +214,11 @@ public class TrainingRestController {
                         calendarTime.setTime(parsedTime);
                         calendarTime.set(calendarTime.get(Calendar.YEAR), calendarTime.get(Calendar.MONTH), calendarTime.get(Calendar.DATE), calendarTime.get(Calendar.HOUR_OF_DAY), calendarTime.get(Calendar.MINUTE) + training.getDuration());
 
-                        regularLesson.setTime(hourDateFormater.format(parsedTime) + " - " + hourDateFormater.format(calendarTime.getTime()));
+                        regularLesson.setTime(hourDateFormater.format(parsedTime) + "-" + hourDateFormater.format(calendarTime.getTime()));
                         regularLesson.setTraining(training);
                         regularLessonService.addRegularLesson(regularLesson);
 
-                        scheduleNotificationService.addRegularLessonToSchedule(regularLesson);
+//                        scheduleNotificationService.addRegularLessonToSchedule(regularLesson);
 
                         iterationCalendar.set(iterationCalendar.get(Calendar.YEAR), iterationCalendar.get(Calendar.MONTH), iterationCalendar.get(Calendar.DATE) + 7);
                     }
@@ -254,20 +257,20 @@ public class TrainingRestController {
                 Calendar calendar = GregorianCalendar.getInstance();
                 calendar.setTime(parsedDate);
                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) + training.getDuration());
-                time = hourDateFormater.format(parsedDate) + " - " + hourDateFormater.format(calendar.getTime());
+                time = hourDateFormater.format(parsedDate) + "-" + hourDateFormater.format(calendar.getTime());
                 training.setTime(time);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
             trainingService.addTraining(training);
 
-            scheduleNotificationService.addTrainingToSchedule(training);
+//            scheduleNotificationService.addTrainingToSchedule(training);
         }
 
-        final Training finalTraining = training;
-        new Thread(() ->
-                notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
-        ).start();
+//        final Training finalTraining = training;
+//        new Thread(() ->
+//                notificationService.newTrainingEmailNotificationForAdmins(finalTraining)
+//        ).start();
 
         return "{\"id\":\"" + training.getTrainingId() + "\"}";
 

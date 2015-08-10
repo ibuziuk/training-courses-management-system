@@ -34,7 +34,7 @@ angular.module('tabsServices', [])
 					for (j = 0; j < data.list[i].tags.length; j++) {
 						tags.push(tag(data.list[i].tags[j].name, data.list[i].tags[j].color));
 					}
-					if (data.list[i].regular === true) {
+					if (data.list[i].regular) {
 						events.push(event(data.list[i].title,
 								moment(data.list[i].start).format('DD.MM.YYYY') + ' - ' + moment(data.list[i].end).format('DD.MM.YYYY'),
 								service.weekDays(data.list[i].days, data.list[i].time),
@@ -152,6 +152,41 @@ angular.module('tabsServices', [])
 							break;
 						case '6':
 							schedule += ', Sunday(' + tmpTime[j++] + ')';
+							break;
+					}
+				}
+				schedule = schedule.slice(2, schedule.length);
+
+				return schedule;
+			};
+
+			service.weekDays = function (days) {
+				var schedule = '',
+						i,
+						tmp = days.split(' ');
+
+				for (i = 0; i < tmp.length; i++) {
+					switch (tmp[i]) {
+						case '0':
+							schedule += ', Monday';
+							break;
+						case '1':
+							schedule += ', Tuesday';
+							break;
+						case '2':
+							schedule += ', Wednesday';
+							break;
+						case '3':
+							schedule += ', Thursday';
+							break;
+						case '4':
+							schedule += ', Friday';
+							break;
+						case '5':
+							schedule += ', Saturday';
+							break;
+						case '6':
+							schedule += ', Sunday';
 							break;
 					}
 				}

@@ -11,4 +11,8 @@ public interface AbsenceService {
     void updateAbsence(Absence absence);
 
     List<Absence> getAllAbsences();
+
+    List<Absence> getAbsencesByUser(long userId);
+
+    Absence getAbsenceByUserAndTraining(long userId, long trainingId);
 }

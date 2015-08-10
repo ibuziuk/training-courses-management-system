@@ -48,45 +48,49 @@
 		<div class="row row1"></div>
 		<div class="row row2">
 			<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-				<!-- Login window -->
-				<div class="panel panel-default login-window">
-					<div class="panel-body">
-						<form class="form" role="form" th:action="@{/login}" method="post">
-							<div class="form-group">
-								<div th:if="${loginError}" id="alertLog" class="alert alert-danger" role="alert">
-									<p th:text="#{wrongCredentials.text}">Wrong password or login</p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="username" th:text="#{label.login}">Login</label>
-								<input type="text" class="form-control" id="username" name="username"
-								       placeholder="Login" th:placeholder="#{label.login}" autofocus="autofocus"
-								       required="required"/>
-							</div>
-							<div class="form-group">
-								<label for="password" th:text="#{label.password}">Password</label>
-								<input type="password" class="form-control" id="password" name="password"
-								       placeholder="Password" th:placeholder="#{label.password}" required="required"/>
-							</div>
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" name="remember-me" th:text="#{label.rememberMe}">Remember
-											me</input>
-										</label>
+				<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1">
+					<!-- Login window -->
+					<div class="panel panel-default login-window">
+						<div class="panel-body">
+							<form class="form" role="form" th:action="@{/login}" method="post">
+								<div class="form-group">
+									<div th:if="${loginError}" id="alertLog" class="alert alert-danger" role="alert">
+										<p th:text="#{wrongCredentials.text}">Wrong password or login</p>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									<button type="submit" class="btn btn-primary sign-in-btn" th:text="#{label.signin}">
-										Sign in
-									</button>
+								<div class="form-group">
+									<label for="username" th:text="#{label.login}">Login</label>
+									<input type="text" class="form-control" id="username" name="username"
+									       placeholder="Login" th:placeholder="#{label.login}" autofocus="autofocus"
+									       required="required"/>
 								</div>
-							</div>
-						</form>
+								<div class="form-group">
+									<label for="password" th:text="#{label.password}">Password</label>
+									<input type="password" class="form-control" id="password" name="password"
+									       placeholder="Password" th:placeholder="#{label.password}"
+									       required="required"/>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" name="remember-me"
+												       th:text="#{label.rememberMe}"/>
+											</label>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<button type="submit" class="btn btn-primary sign-in-btn"
+										        th:text="#{label.signin}">
+											Sign in
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
+					<!-- /.login-window -->
 				</div>
-				<!-- /.login-window -->
 			</div>
 		</div>
 	</div>

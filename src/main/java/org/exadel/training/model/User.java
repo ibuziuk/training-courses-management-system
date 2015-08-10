@@ -73,10 +73,6 @@ public class User {
     private Set<EmployeeFeedback> employeeFeedbacks;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
-    private Set<EmployeeFeedback> feedbacksAboutMe;
-
-    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<WaitingList> waiting;
 
@@ -220,13 +216,6 @@ public class User {
         this.employeeFeedbacks = employeeFeedbacks;
     }
 
-    public Set<EmployeeFeedback> getFeedbacksAboutMe() {
-        return feedbacksAboutMe;
-    }
-
-    public void setFeedbacksAboutMe(Set<EmployeeFeedback> feedbacksAboutMe) {
-        this.feedbacksAboutMe = feedbacksAboutMe;
-    }
 
     public Set<TrainerFeedback> getTrainerFeedbacks() {
         return trainerFeedbacks;

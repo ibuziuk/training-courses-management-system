@@ -15,6 +15,10 @@ public class AbsenceLesson {
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
+
+    @ManyToOne
     @JoinColumn(name = "lesson_id")
     private RegularLesson lesson;
 
@@ -58,5 +62,13 @@ public class AbsenceLesson {
 
     public void setIsReasonable(Boolean isReasonable) {
         this.isReasonable = isReasonable;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }

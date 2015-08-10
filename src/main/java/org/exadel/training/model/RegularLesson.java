@@ -18,7 +18,7 @@ public class RegularLesson {
 
     private Timestamp date;
 
-    private Integer location;
+    private String location;
 
     @Column(length = 20)
     private String time;
@@ -52,11 +52,11 @@ public class RegularLesson {
         this.time = time;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

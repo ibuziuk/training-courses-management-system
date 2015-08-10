@@ -1,5 +1,7 @@
 package org.exadel.training.dao;
 
+import org.exadel.training.model.Absence;
+import org.exadel.training.model.Training;
 import org.exadel.training.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -23,6 +25,15 @@ public class UserDAOImpl implements UserDAO {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
         criteria.addOrder(Order.asc("firstName")).addOrder(Order.asc("lastName"));
         return new ArrayList<>(new LinkedHashSet(criteria.list()));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getExTrainings(long userId) {
+        return sessionFactory.getCurrentSession().createCriteria(Training.class).createAlias("exVisitors", "exVisitorsAlias")
+                .add(Restrictions.eq("exVisitorsAlias.userId", userId))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
     @SuppressWarnings("unchecked")
@@ -220,5 +231,17 @@ public class UserDAOImpl implements UserDAO {
         result.put("users", users);
         result.put("size", size);
         return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Absence> getAbsences(User user) {
+        return new ArrayList<>(user.getAbsences());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getLeads(User user) {
+        return new ArrayList<>(user.getLeads());
     }
 }

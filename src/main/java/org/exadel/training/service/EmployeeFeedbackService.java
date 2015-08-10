@@ -9,4 +9,8 @@ public interface EmployeeFeedbackService {
     void addFeedback(EmployeeFeedback feedback);
 
     List<EmployeeFeedback> getAllFeedbacks();
+
+    List<EmployeeFeedback> getFeedbacksByUserAndTraining(long userId, long trainingId);
+
+    List<EmployeeFeedback> getFeedbacksByUser(long userId);
 }

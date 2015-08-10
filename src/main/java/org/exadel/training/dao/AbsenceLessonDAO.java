@@ -1,13 +1,17 @@
 package org.exadel.training.dao;
 
-import org.exadel.training.model.Absence;
+import org.exadel.training.model.AbsenceLesson;
 
 import java.util.List;
 
 public interface AbsenceLessonDAO {
-    void addAbsence(Absence absence);
+    void addAbsence(AbsenceLesson absence);
 
-    void updateAbsence(Absence absence);
+    void updateAbsence(AbsenceLesson absence);
 
-    List<Absence> getAllAbsences();
+    List<AbsenceLesson> getAllAbsences();
+
+    List<AbsenceLesson> getAbsencesByUser(long userId);
+
+    List<AbsenceLesson> getAbsencesByUserAndTraining(long userId, long trainingId);
 }

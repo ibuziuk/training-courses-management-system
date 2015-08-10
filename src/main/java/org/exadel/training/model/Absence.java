@@ -15,7 +15,7 @@ public class Absence {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "trainer_id")
+    @JoinColumn(name = "training_id")
     private Training training;
 
     @Column(name = "reason_text", length = 4500)

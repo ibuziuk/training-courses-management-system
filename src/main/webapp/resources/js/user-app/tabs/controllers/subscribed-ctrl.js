@@ -3,6 +3,7 @@
 angular.module('tabs.controllers')
 		.controller('subscribedController', ['$scope', 'tabsService', function ($scope, tabsService) {
 			var type = 'subscribed';
+			$scope.loading = true;
 			tabsService.get(type)
 					.then(function (data) {
 						$scope.subscribedTrainings = tabsService.parse(data.data, type);

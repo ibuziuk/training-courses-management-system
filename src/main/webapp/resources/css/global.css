@@ -473,7 +473,7 @@ ul.alert-dropdown {
 	background-color: #5CB85C;
 }
 
-.panel-green > a {
+.panel-green {
 	color: #5CB85C;
 }
 
@@ -491,7 +491,7 @@ ul.alert-dropdown {
 	background-color: #D9534F;
 }
 
-.panel-red > a {
+.panel-red {
 	color: #D9534F;
 }
 
@@ -509,7 +509,7 @@ ul.alert-dropdown {
 	background-color: #F0AD4E;
 }
 
-.panel-yellow > a {
+.panel-yellow {
 	color: #F0AD4E;
 }
 
@@ -634,30 +634,6 @@ div.color-info > p > span.event {
 	background-color: #713ec3;
 }
 
-/*.subscribedTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
-/*color: #a94442;*/
-/*background-color: #f2dede;*/
-/*border-color: #ebccd1;*/
-/*}*/
-
-/*.visitedTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
-/*color: #3c763d;*/
-/*background-color: #dff0d8;*/
-/*border-color: #d6e9c6;*/
-/*}*/
-
-/*.exTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
-/*color: #31708f;*/
-/*background-color: #d9edf7;*/
-/*border-color: #bce8f1;*/
-/*}*/
-
-/*.waitingListTrainings > accordion > .panel-group > .panel-default > .panel-heading {*/
-/*color: #8a6d3b;*/
-/*background-color: #fcf8e3;*/
-/*border-color: #faebcc;*/
-/*}*/
-
 .nav-tabs > li > a {
 	background-color: #E4EDF2;
 }
@@ -725,4 +701,8 @@ div.color-info > p > span.event {
 
 .download-button {
 	float: right;
+}
+
+.recent {
+	font-size: 18px;
 }

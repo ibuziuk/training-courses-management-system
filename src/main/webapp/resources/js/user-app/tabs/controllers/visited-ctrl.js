@@ -3,6 +3,7 @@
 angular.module('tabs.controllers')
 		.controller('visitedController', ['$scope', 'tabsService', function ($scope, tabsService) {
 			var type = 'visited';
+			$scope.loading = true;
 			tabsService.get(type)
 					.then(function (data) {
 						$scope.visitedTrainings = tabsService.parse(data.data, type);

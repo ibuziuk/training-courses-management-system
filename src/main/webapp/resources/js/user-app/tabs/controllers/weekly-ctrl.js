@@ -3,6 +3,7 @@
 angular.module('tabs.controllers')
 		.controller('weeklyController', ['$scope', 'tabsService', function ($scope, tabsService) {
 			var type = 'weekly';
+			$scope.loading = true;
 			tabsService.get(type)
 					.then(function (data) {
 						$scope.weeklyTrainings = tabsService.parse(data.data, type);

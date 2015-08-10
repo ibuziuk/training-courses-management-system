@@ -31,7 +31,7 @@ angular.module('calendar').factory('calendarService', ['$http', function ($http)
 		for (i = 0; i < data.trainings.list.length; i++) {
 			if (data.trainings.list[i].regular) {
 				for (j = 0; j < data.trainings.list[i].lessons.length; j++) {
-					type = service.setType(data.trainings.list[i], data.id);
+					type = service.setType(data.trainings.list[i], data.id, j);
 					trainings.push(training(data.trainings.list[i].title,
 							type.text,
 							type.type,
@@ -52,15 +52,15 @@ angular.module('calendar').factory('calendarService', ['$http', function ($http)
 		return trainings;
 	};
 
-	service.setType = function (training, id) {
+	service.setType = function (training, id, index) {
 		if (id === training.trainer.userId) {
 			if (!training.approved) {
 				return {
 					text: 'Not approved',
 					type: 'inverse'
 				};
-			} else 	if (training.regular) {
-				if (service.isFuture(today, training.end)) {
+			} else if (training.regular) {
+				if (service.isFuture(today, moment(training.lessons[index].date).unix())) {
 					return {
 						text: 'Future as trainer',
 						type: 'info'
@@ -72,7 +72,7 @@ angular.module('calendar').factory('calendarService', ['$http', function ($http)
 					};
 				}
 			} else {
-				if (service.isFuture(today, training.date)) {
+				if (service.isFuture(today, moment(training.date).unix())) {
 					return {
 						text: 'Future as trainer',
 						type: 'info'
@@ -86,7 +86,7 @@ angular.module('calendar').factory('calendarService', ['$http', function ($http)
 			}
 		} else {
 			if (training.regular) {
-				if (service.isFuture(today, training.end)) {
+				if (service.isFuture(today, moment(training.lessons[index].date).unix())) {
 					return {
 						text: 'Future as visitor',
 						type: 'success'
@@ -98,7 +98,7 @@ angular.module('calendar').factory('calendarService', ['$http', function ($http)
 					};
 				}
 			} else {
-				if (service.isFuture(today, training.date)) {
+				if (service.isFuture(today, moment(training.date).unix())) {
 					return {
 						text: 'Future as visitor',
 						type: 'success'
@@ -114,7 +114,6 @@ angular.module('calendar').factory('calendarService', ['$http', function ($http)
 	};
 
 	service.isFuture = function (today, trainingDay) {
-		trainingDay /= 1000;
 		return today < trainingDay;
 	};
 

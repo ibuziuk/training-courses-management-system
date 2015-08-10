@@ -95,6 +95,18 @@ angular.module('tabsServices', [])
 				return encodeURI(uri);
 			};
 
+			service.createNewHotUrl = function (url, type) {
+				var ret = [],
+						uri;
+				ret.push('person=' + 'all');
+				ret.push('pageNumber=' + 1);
+				ret.push('pageSize=' + 10);
+				ret.push('sorting=' + 'date');
+				ret.push('order=' + type);
+				uri = url + '?' + ret.join("&");
+				return encodeURI(uri);
+			};
+
 			service.createSearchUrl = function (url, config) {
 				var ret = [],
 						uri;
@@ -107,12 +119,32 @@ angular.module('tabsServices', [])
 				return encodeURI(uri);
 			};
 
+			service.createCustomUrl = function (url) {
+				var ret = [],
+						uri;
+				ret.push('person=' + 'all');
+				ret.push('pageNumber=' + 1);
+				ret.push('pageSize=' + 10);
+				ret.push('searchType=' + 'tags');
+				ret.push('value=' + 'general');
+				uri = url + '?' + ret.join("&");
+				return encodeURI(uri);
+			};
+
 			service.get = function (url, config) {
 				return $http.get(service.createUrl(url, config));
 			};
 
 			service.getSearch = function (url, config) {
 				return $http.get(service.createSearchUrl(url, config));
+			};
+
+			service.getNewHotSearch = function (url, type) {
+				return $http.get(service.createNewHotUrl(url, type));
+			};
+
+			service.getCustomSearch = function (url) {
+				return $http.get(service.createCustomUrl(url));
 			};
 
 			service.getRecommend = function (url) {

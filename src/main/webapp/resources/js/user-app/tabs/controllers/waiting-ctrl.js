@@ -3,6 +3,7 @@
 angular.module('tabs.controllers')
 		.controller('waitingController', ['$scope', 'tabsService', function ($scope, tabsService) {
 			var type = 'waitingList';
+			$scope.loading = true;
 			tabsService.get(type)
 					.then(function (data) {
 						$scope.waitingTrainings = tabsService.parse(data.data, type);

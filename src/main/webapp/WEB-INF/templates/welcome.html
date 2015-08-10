@@ -145,107 +145,109 @@
 			<div sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" class="row" ng-controller="squareCtrl">
 				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
 					<!-- 1 -->
-					<div class="panel panel-red">
-						<div class="panel-heading">
-							<!-- row -->
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-									<i class="fa fa-bomb fa-5x"></i>
+					<a href="" th:href="@{training/all#hot}">
+						<div class="panel panel-red recent">
+							<div class="panel-heading">
+								<!-- row -->
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<i class="fa fa-bomb fa-5x"></i>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
+										<div class="huge">{{hot}}</div>
+										<div th:text="#{label.hotTrainings}">Hot trainings!</div>
+									</div>
 								</div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
-									<div class="huge">{{hot}}</div>
-									<div th:text="#{label.hotTrainings}">Hot trainings!</div>
-								</div>
+								<!-- row -->
 							</div>
-							<!-- row -->
-						</div>
-						<a href="" th:href="@{training/all}">
+
 							<div class="panel-footer">
 								<span class="pull-left" th:text="#{label.viewDetails}">View Details</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
 								<div class="clearfix"></div>
 							</div>
-						</a>
-					</div>
+						</div>
+					</a>
 				</div>
 				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
 					<!-- 2 -->
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<!-- row -->
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-									<i class="fa fa-tasks fa-5x"></i>
+					<a href="" th:href="@{training/all#new}">
+						<div class="panel panel-green recent">
+							<div class="panel-heading">
+								<!-- row -->
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<i class="fa fa-tasks fa-5x"></i>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
+										<div class="huge">{{new}}</div>
+										<div th:text="#{label.newTrainings}">New trainings!</div>
+									</div>
 								</div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
-									<div class="huge">{{new}}</div>
-									<div th:text="#{label.newTrainings}">New trainings!</div>
-								</div>
+								<!-- row -->
 							</div>
-							<!-- row -->
-						</div>
-						<a href="" th:href="@{training/all}">
+
 							<div class="panel-footer">
 								<span class="pull-left" th:text="#{label.viewDetails}">View Details</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
 								<div class="clearfix"></div>
 							</div>
-						</a>
-					</div>
+
+						</div>
+					</a>
 				</div>
 				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
 					<!-- 3 -->
-					<div class="panel panel-yellow">
-						<div class="panel-heading">
-							<!-- row -->
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-									<i class="fa fa-shopping-cart fa-5x"></i>
+					<a href="" th:href="@{training/all#rec}">
+						<div class="panel panel-yellow recent">
+							<div class="panel-heading">
+								<!-- row -->
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<i class="fa fa-thumbs-up fa-5x"></i>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
+										<div class="huge">{{recommend}}</div>
+										<div th:text="#{label.recommendTrainings}">We recommend!</div>
+									</div>
 								</div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
-									<div class="huge">{{recommend}}</div>
-									<div th:text="#{label.recommendTrainings}">We recommend!</div>
-								</div>
+								<!-- row -->
 							</div>
-							<!-- row -->
-						</div>
-						<a href="" th:href="@{training/all}">
 							<div class="panel-footer">
 								<span class="pull-left" th:text="#{label.viewDetails}">View Details</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
 								<div class="clearfix"></div>
 							</div>
-						</a>
-					</div>
+						</div>
+					</a>
 				</div>
 				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
 					<!-- 4 -->
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<!-- row -->
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-									<i class="fa fa-users fa-5x"></i>
+					<a href="" th:href="@{/training/all#gen}">
+						<div class="panel panel-primary recent">
+							<div class="panel-heading">
+								<!-- row -->
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<i class="fa fa-users fa-5x"></i>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
+										<div class="huge">{{general}}</div>
+										<div th:text="#{label.generalTrainings}">General trainings!</div>
+									</div>
 								</div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-right">
-									<div class="huge">{{general}}</div>
-									<div th:text="#{label.generalTrainings}">General trainings!</div>
-								</div>
+								<!-- row -->
 							</div>
-							<!-- row -->
-						</div>
-						<a href="" th:href="@{/training/all}">
 							<div class="panel-footer">
 								<span class="pull-left" th:text="#{label.viewDetails}">View Details</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
 								<div class="clearfix"></div>
 							</div>
-						</a>
-					</div>
+						</div>
+					</a>
 				</div>
 			</div>
 			<!-- /.row -->

@@ -22,6 +22,9 @@
 	<!-- Custom CSS -->
 	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
+	<!-- Spinner CSS -->
+	<link href="../../resources/css/spinner.css" th:href="@{/resources/css/spinner.css}" rel="stylesheet"/>
+
 	<!-- Custom Fonts -->
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
@@ -165,7 +168,6 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 	<div id="page-wrapper">
 		<div class="container-fluid">
-
 			<div ng-controller="profileController">
 				<!-- Page Heading -->
 				<div class="row">
@@ -204,7 +206,6 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 				<!-- /General -->
 			</div>
 
-
 			<!-- Tabs -->
 			<div class="tabs">
 				<ul class="nav nav-tabs">
@@ -222,7 +223,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 				<div class="tab-content panel panel-default panel-body">
 					<!-- Visited -->
 					<div class="tab-pane fade in active" id="vis" ng-controller="visitedController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Title</th>
 								<th>Coach</th>
@@ -245,7 +253,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- Subscribed -->
 					<div class="tab-pane fade in" id="subs" ng-controller="subscribedController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Title</th>
 								<th>Coach</th>
@@ -269,7 +284,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- Absence -->
 					<div class="tab-pane fade in" id="abs" ng-controller="absenceController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Training</th>
 								<th>Date</th>
@@ -291,7 +313,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- Waiting list -->
 					<div class="tab-pane fade in" id="wait" ng-controller="waitingController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Title</th>
 								<th>Coach</th>
@@ -314,7 +343,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- Weekly -->
 					<div class="tab-pane fade in" id="week" ng-controller="weeklyController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Title</th>
 								<th>Coach</th>
@@ -337,7 +373,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- Refused -->
 					<div class="tab-pane fade in" id="ref" ng-controller="refusedController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Title</th>
 								<th>Coach</th>
@@ -360,7 +403,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- Feedbacks -->
 					<div class="tab-pane fade in" id="feed" ng-controller="feedbacksController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Training</th>
 								<th>Date</th>
@@ -380,7 +430,14 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 
 					<!-- As trainer -->
 					<div class="tab-pane fade in" id="astr" ng-controller="asTrainerController">
-						<table class="table table-bordered table-condensed table-hover table-striped">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<table class="table table-bordered table-condensed table-hover table-striped"
+						       ng-show="!loading">
 							<tr>
 								<th>Title</th>
 								<th>Coach</th>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('recommendationTab', [])
-		.controller('recommendationController', ['$scope', 'tableService', 'ngTableParams', function ($scope, tableService, ngTableParams) {
+		.controller('recommendationController', ['$scope', '$location', 'tableService', 'ngTableParams', '$anchorScroll', function ($scope, $location, tableService, ngTableParams, $anchorScroll) {
 			$scope.url = {
 				recommend: 'rest/training/recommendations',
 				tags: 'rest/training/userTags'

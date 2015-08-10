@@ -74,13 +74,13 @@ angular.module('table').factory('tableService', ['$http', function ($http) {
 
 		if (id === training.trainer.userId) {
 			if (training.regular) {
-				if (service.isFuture(today, training.end)) {
+				if (service.isFuture(today, moment(training.end).unix())) {
 					return 'Future as trainer';
 				} else {
 					return 'Past as trainer';
 				}
 			} else {
-				if (service.isFuture(today, training.date)) {
+				if (service.isFuture(today, moment(training.date).unix())) {
 					return 'Future as trainer';
 				} else {
 					return 'Past as trainer';
@@ -88,13 +88,13 @@ angular.module('table').factory('tableService', ['$http', function ($http) {
 			}
 		} else {
 			if (training.regular) {
-				if (service.isFuture(today, training.end)) {
+				if (service.isFuture(today, moment(training.end).unix())) {
 					return 'Future as visitor';
 				} else {
 					return 'Past as visitor';
 				}
 			} else {
-				if (service.isFuture(today, training.date)) {
+				if (service.isFuture(today, moment(training.date).unix())) {
 					return 'Future as visitor';
 				} else {
 					return 'Past as visitor';
@@ -128,17 +128,14 @@ angular.module('table').factory('tableService', ['$http', function ($http) {
 	};
 
 	service.get = function (url, config) {
-		console.log(service.createUrl(url, config));
 		return $http.get(service.createUrl(url, config));
 	};
 
 	service.getSearch = function (url, config) {
-		console.log(service.createSearchUrl(url, config));
 		return $http.get(service.createSearchUrl(url, config));
 	};
 
 	service.isFuture = function (today, trainingDay) {
-		trainingDay /= 1000;
 		return today < trainingDay;
 	};
 

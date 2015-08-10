@@ -3,6 +3,7 @@
 angular.module('tabs.controllers')
 		.controller('refusedController', ['$scope', 'tabsService', function ($scope, tabsService) {
 			var type = 'refused';
+			$scope.loading = true;
 			tabsService.get(type)
 					.then(function (data) {
 						$scope.refusedTrainings = tabsService.parse(data.data, type);

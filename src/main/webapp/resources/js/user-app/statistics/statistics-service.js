@@ -21,7 +21,7 @@ angular.module('statistics')
 				ret.push('from=' + 0);
 				ret.push('to=' + 0);
 				ret.push('userId=' + id);
-				ret.push('mask=' + 31);
+				ret.push('mask=' + 63);
 
 				uri = url + '?' + ret.join('&');
 				return encodeURI(uri);

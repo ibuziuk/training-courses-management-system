@@ -3,6 +3,7 @@
 angular.module('tabs.controllers')
 		.controller('feedbacksController', ['$scope', 'tabsService', function ($scope, tabsService) {
 			var type = 'feedbacks';
+			$scope.loading = true;
 			tabsService.get(type)
 					.then(function (data) {
 						$scope.feedbacks = tabsService.parse(data.data, type)

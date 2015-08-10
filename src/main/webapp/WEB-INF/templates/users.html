@@ -22,6 +22,9 @@
 	<!-- Custom CSS -->
 	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
+	<!-- Spinner CSS -->
+	<link href="../../resources/css/spinner.css" th:href="@{/resources/css/spinner.css}" rel="stylesheet"/>
+
 	<!-- Custom Fonts -->
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
@@ -179,7 +182,13 @@
 				<!-- Users -->
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="table-responsive">
+						<!-- Spinner -->
+						<div class="row" ng-show="loading">
+							<div class="loader"></div>
+						</div>
+						<!-- /Spinner -->
+
+						<div class="table-responsive" ng-show="!loading">
 							<table class="table table-bordered table-striped table-hover table-condensed"
 							       ng-table="tableParams">
 								<tbody>

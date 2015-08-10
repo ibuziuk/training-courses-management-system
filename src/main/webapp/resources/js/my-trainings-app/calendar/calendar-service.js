@@ -1,72 +1,116 @@
 'use strict';
 
-angular.module('calendar').factory('calendarService', ['$http', 'moment', function ($http, moment) {
+angular.module('calendar').factory('calendarService', ['$http', function ($http) {
 	var service = {},
-			event = function (title, type, startsAt, endsAt, deletable) {
+			training = function (title, typeText, type, startsAt, endsAt, trainingId) {
 				return {
-					title: title,
+					title: title + ' (' + typeText + ')',
 					type: type,
 					startsAt: startsAt,
 					endsAt: endsAt,
-					deletable: deletable,
+					deletable: false,
 					editable: false,
 					draggable: false,
 					resizable: false,
-					incrementsBadgeTotal: true
+					incrementsBadgeTotal: true,
+					url: 'training/' + trainingId
 				};
 			},
-			today = moment(moment()).unix();
+			today = moment().unix();
 
-	service.trainerParsing = function (data) {
-		var eventsTrainer = [],
-				type,
-				deletable = false,
-				i;
-
-		for (i = 0; i < data.length; i++) {
-			if (data[i].approved) {
-				if (service.isFuture(today, data[i].date)) {
-					type = 'info';
-					deletable = true;
-					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
-				} else {
-					type = 'important';
-					deletable = false;
-					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
-				}
-			} else {
-				if (service.isFuture(today, data[i].date)) {
-					type = 'inverse';
-					deletable = true;
-					eventsTrainer.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
-				}
-			}
-		}
-		return eventsTrainer;
+	service.get = function (url) {
+		return $http.get(url);
 	};
 
-	service.visitorParsing = function (data) {
-		var type,
-				deletable = false,
-				eventsVisitor = [],
-				i;
+	service.parse = function (data) {
+		var trainings = [],
+				type,
+				i,
+				j;
 
-		for (i = 0; i < data.length; i++) {
-			if (data[i].approved) {
-				if (service.isFuture(today, data[i].date)) {
-					type = 'success';
-					deletable = true;
-					eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
+		for (i = 0; i < data.trainings.list.length; i++) {
+			if (data.trainings.list[i].regular) {
+				for (j = 0; j < data.trainings.list[i].lessons.length; j++) {
+					type = service.setType(data.trainings.list[i], data.id);
+					trainings.push(training(data.trainings.list[i].title,
+							type.text,
+							type.type,
+							data.trainings.list[i].lessons[j].date,
+							service.endsAt(data.trainings.list[i].lessons[j].date, data.trainings.list[i].duration),
+							data.trainings.list[i].trainingId));
+				}
+			} else {
+				type = service.setType(data.trainings.list[i], data.id);
+				trainings.push(training(data.trainings.list[i].title,
+						type.text,
+						type.type,
+						data.trainings.list[i].date,
+						service.endsAt(data.trainings.list[i].date, data.trainings.list[i].duration),
+						data.trainings.list[i].trainingId));
+			}
+		}
+		return trainings;
+	};
+
+	service.setType = function (training, id) {
+		if (id === training.trainer.userId) {
+			if (!training.approved) {
+				return {
+					text: 'Not approved',
+					type: 'inverse'
+				};
+			} else 	if (training.regular) {
+				if (service.isFuture(today, training.end)) {
+					return {
+						text: 'Future as trainer',
+						type: 'info'
+					};
 				} else {
-					if (service.isFuture(today, data[i].date)) {
-						type = 'warning';
-						deletable = false;
-						eventsVisitor.push(event(data[i].title, type, data[i].date, service.endsAt(data[i].date, data[i].duration), deletable));
-					}
+					return {
+						text: 'Past as trainer',
+						type: 'warning'
+					};
+				}
+			} else {
+				if (service.isFuture(today, training.date)) {
+					return {
+						text: 'Future as trainer',
+						type: 'info'
+					};
+				} else {
+					return {
+						text: 'Past as trainer',
+						type: 'warning'
+					};
+				}
+			}
+		} else {
+			if (training.regular) {
+				if (service.isFuture(today, training.end)) {
+					return {
+						text: 'Future as visitor',
+						type: 'success'
+					};
+				} else {
+					return {
+						text: 'Past as visitor',
+						type: 'important'
+					};
+				}
+			} else {
+				if (service.isFuture(today, training.date)) {
+					return {
+						text: 'Future as visitor',
+						type: 'success'
+					};
+				} else {
+					return {
+						text: 'Past as visitor',
+						type: 'important'
+					};
 				}
 			}
 		}
-		return eventsVisitor;
 	};
 
 	service.isFuture = function (today, trainingDay) {
@@ -74,8 +118,8 @@ angular.module('calendar').factory('calendarService', ['$http', 'moment', functi
 		return today < trainingDay;
 	};
 
-	service.endsAt = function (startsAt, duration) {
-		return startsAt + duration * 60000;
+	service.endsAt = function (date, duration) {
+		return date + duration * 60000;
 	};
 
 	return service;

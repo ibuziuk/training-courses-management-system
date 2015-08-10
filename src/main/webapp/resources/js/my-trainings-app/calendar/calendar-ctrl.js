@@ -1,46 +1,50 @@
 'use strict';
 
-angular.module('calendar', []).controller('calendarController', ['$scope', '$http', '$location', '$q', 'calendarService', 'moment', function ($scope, $http, $location, $q, calendarService, moment) {
-	var vm = this,
-			now = moment(),
-			trainerPromise = $http.get('rest/calendar/trainer'),
-			visitorPromise = $http.get('rest/calendar/visitor'),
-			events = [];
-	moment.locale('en');
+angular.module('calendar', [])
+		.controller('calendarController', ['$scope', '$window', 'calendarService', function ($scope, $window, calendarService) {
+			$scope.url = {
+				all: 'rest/calendar'
+			};
+			$scope.loading = true;
 
-	$q.all([trainerPromise, visitorPromise]).then(function (results) {
-		events = events.concat(calendarService.trainerParsing(results[0].data));
-		events = events.concat(calendarService.visitorParsing(results[1].data));
+			var vm = this,
+					now = moment(),
+					events = [];
+			moment.locale('ru');
 
-		vm.events = events;
-		vm.calendarDay = now;
-		vm.calendarView = 'month';
+			calendarService.get($scope.url.all)
+					.then(function (data) {
+						events = calendarService.parse(data.data);
 
-		vm.eventClicked = function (event) {
+						vm.events = events;
+						vm.calendarDay = now;
+						vm.calendarView = 'month';
 
-		};
+						vm.eventClicked = function (event) {
+							$window.open(event.url);
+						};
 
-		vm.eventEdited = function (event) {
+						vm.eventEdited = function (event) {
 
-		};
+						};
 
-		vm.eventDeleted = function (event) {
-			var answer = confirm('Do you really want delete this training?');
+						vm.eventDeleted = function (event) {
 
-			if (answer) {
-				var x = vm.events.indexOf(event);
-				vm.events.splice(x, 1);
-			}
-		};
+						};
 
-		vm.eventTimesChanged = function (event) {
+						vm.eventTimesChanged = function (event) {
 
-		};
+						};
 
-		vm.toggle = function ($event, field, event) {
-			$event.preventDefault();
-			$event.stopPropagation();
-			event[field] = !event[field];
-		};
-	});
-}]);
+						vm.toggle = function ($event, field, event) {
+							$event.preventDefault();
+							$event.stopPropagation();
+							event[field] = !event[field];
+						};
+					}, function (data) {
+						console.error(data.status + ': ' + data.statusText + ' (' + data.config.url + ')');
+					})
+					.finally(function () {
+						$scope.loading = false;
+					});
+		}]);

@@ -7,6 +7,7 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -81,7 +82,7 @@ public class TrainingDAOImpl implements TrainingDAO {
     @Override
     public List<Training> getTrainingsByVisitor(long id) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Training.class);
-        criteria.createAlias("visitors", "visitorsAlias").add(Restrictions.eq("visitorsAlias.userId", id));
+        criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN).add(Restrictions.eq("visitorsAlias.userId", id));
         Collection result = new LinkedHashSet(criteria.list());
         return new ArrayList<>(result);
     }
@@ -94,10 +95,10 @@ public class TrainingDAOImpl implements TrainingDAO {
                 .setProjection(Projections.distinct(Projections.property("trainingId")));
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
-                            Restrictions.eq("visitorsAlias.userId", id),
-                            Restrictions.eq("trainer.userId", id)
+                            Restrictions.eq("trainer.userId", id),
+                            Restrictions.eq("visitorsAlias.userId", id)
                     ));
         }
         if (come.equals("future")) {
@@ -105,7 +106,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", date),
                     Restrictions.ge("end", date)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", date),
                     Restrictions.le("end", date)
@@ -129,6 +130,11 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!admin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
         int size = criteria.list().size();
         List<Long> id = criteria.setFirstResult((pageNum - 1) * pageSize)
@@ -154,7 +160,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", date),
                     Restrictions.ge("end", date)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", date),
                     Restrictions.le("end", date)
@@ -162,7 +168,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
                             Restrictions.eq("visitorsAlias.userId", id),
                             Restrictions.eq("trainer.userId", id)
@@ -170,6 +176,11 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!isAdmin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
@@ -194,7 +205,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", sortDate),
                     Restrictions.ge("end", sortDate)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", sortDate),
                     Restrictions.le("end", sortDate)
@@ -202,7 +213,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
                             Restrictions.eq("visitorsAlias.userId", id),
                             Restrictions.eq("trainer.userId", id)
@@ -210,6 +221,11 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!isAdmin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
@@ -234,7 +250,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", date),
                     Restrictions.ge("end", date)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", date),
                     Restrictions.le("end", date)
@@ -242,7 +258,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
                             Restrictions.eq("visitorsAlias.userId", id),
                             Restrictions.eq("trainer.userId", id)
@@ -250,6 +266,11 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!isAdmin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
@@ -274,7 +295,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", date),
                     Restrictions.ge("end", date)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", date),
                     Restrictions.le("end", date)
@@ -282,7 +303,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
                             Restrictions.eq("visitorsAlias.userId", id),
                             Restrictions.eq("trainer.userId", id)
@@ -290,6 +311,11 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!isAdmin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
@@ -324,7 +350,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", date),
                     Restrictions.ge("end", date)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", date),
                     Restrictions.le("end", date)
@@ -332,7 +358,7 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
                             Restrictions.eq("visitorsAlias.userId", id),
                             Restrictions.eq("trainer.userId", id)
@@ -340,6 +366,11 @@ public class TrainingDAOImpl implements TrainingDAO {
         }
         if (!isAdmin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
         Integer size = criteria.list().size();
         List<Long> idList = criteria.setFirstResult((pageNumber - 1) * pageSize)
@@ -370,7 +401,7 @@ public class TrainingDAOImpl implements TrainingDAO {
                     Restrictions.ge("date", date),
                     Restrictions.ge("end", date)
             ));
-        } else {
+        } else if (come.equals("past")) {
             criteria.add(Restrictions.or(
                     Restrictions.le("date", date),
                     Restrictions.le("end", date)
@@ -379,7 +410,7 @@ public class TrainingDAOImpl implements TrainingDAO {
 
         if (!person.equals("all")) {
             long id = Long.parseLong(person);
-            criteria.createAlias("visitors", "visitorsAlias")
+            criteria.createAlias("visitors", "visitorsAlias", JoinType.LEFT_OUTER_JOIN)
                     .add(Restrictions.or(
                             Restrictions.eq("visitorsAlias.userId", id),
                             Restrictions.eq("trainer.userId", id)
@@ -388,6 +419,11 @@ public class TrainingDAOImpl implements TrainingDAO {
 
         if (!isAdmin) {
             criteria.add(Restrictions.eq("isApproved", true));
+        } else {
+            criteria.add(Restrictions.or(
+                    Restrictions.eq("isApproved", true),
+                    Restrictions.isNull("isApproved")
+            ));
         }
 
         int size = criteria.list().size();

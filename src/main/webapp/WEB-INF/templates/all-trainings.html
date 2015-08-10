@@ -187,9 +187,7 @@
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
 							     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
 								<select class="form-control" ng-model="defaultConfig.searching.type">
-									<option value="title" th:text="#{label.search.byTitle}">By training title</option>
-									<!--<option value="date" th:text="#{label.search.byDate}">By date</option>-->
-									<!--<option value="time" th:text="#{label.search.byTime}">By time</option>-->
+									<option value="title" th:text="#{label.search.byTitle}">By title</option>
 									<option value="location" th:text="#{label.search.byLocation}">By location</option>
 									<option value="coach" th:text="#{label.search.byTrainer}">By coach</option>
 									<option value="tags" th:text="#{label.search.byTags}">By tags</option>

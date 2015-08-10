@@ -23,6 +23,9 @@
 	<!-- Custom CSS -->
 	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
+	<!-- Spinner CSS -->
+	<link href="../../resources/css/spinner.css" th:href="@{/resources/css/spinner.css}" rel="stylesheet"/>
+
 	<!-- Custom Fonts -->
 	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
 	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
@@ -32,7 +35,8 @@
 	      th:href="@{/resources/vendors/css/angular-bootstrap-calendar.css}" rel="stylesheet" type="text/css"/>
 
 	<!-- ng-table CSS -->
-	<link href="../../resources/vendors/css/ng-table.min.css" th:href="@{/resources/vendors/css/ng-table.min.css}"/>
+	<link href="../../resources/vendors/css/ng-table.min.css" th:href="@{/resources/vendors/css/ng-table.min.css}"
+	      rel="stylesheet"/>
 
 	<!-- jQuery -->
 	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
@@ -177,8 +181,15 @@
 			<div class="tab-content panel panel-default panel-body">
 				<!-- Calendar-view -->
 				<div class="tab-pane fade in active" id="calendar" ng-controller="calendarController as vm">
+
+					<!-- Spinner -->
+					<div class="row" ng-show="loading">
+						<div class="loader"></div>
+					</div>
+					<!-- /Spinner -->
+
 					<!-- Button group -->
-					<div class="row calendar-button-group">
+					<div class="row calendar-button-group" ng-show="!loading">
 						<div class="col-lg-12">
 							<div class="panel panel-default panel-body">
 								<div class="row">
@@ -221,7 +232,8 @@
 											       btn-radio="'month'" th:text="#{label.month}">Month</label>
 											<label class="btn btn-primary" ng-model="vm.calendarView"
 											       btn-radio="'week'" th:text="#{label.week}">Week</label>
-											<label class="btn btn-primary" ng-model="vm.calendarView" btn-radio="'day'"
+											<label class="btn btn-primary" ng-model="vm.calendarView"
+											       btn-radio="'day'"
 											       th:text="#{label.day}">Day</label>
 										</div>
 									</div>
@@ -232,7 +244,7 @@
 					<!-- /Button group -->
 
 					<!-- Calendar -->
-					<div class="calendar">
+					<div class="calendar" ng-show="!loading">
 						<mwl-calendar
 								events="vm.events"
 								view="vm.calendarView"
@@ -241,7 +253,7 @@
 								on-event-click="vm.eventClicked(calendarEvent)"
 								on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
 								edit-event-html=""
-								delete-event-html="'&lt;i class=\'glyphicon glyphicon-remove\'&gt;&lt;/i&gt;'"
+								delete-event-html=""
 								on-edit-event-click="vm.eventEdited(calendarEvent)"
 								on-delete-event-click="vm.eventDeleted(calendarEvent)"
 								auto-open="true"
@@ -252,34 +264,6 @@
 						</mwl-calendar>
 					</div>
 					<!-- /Calendar -->
-
-					<!-- Color Info -->
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Color info</h3>
-								</div>
-								<div class="panel-body color-info">
-									<p><span class="pull-left event event-inverse"></span><span> - not approved trainings (as trainer)</span>
-									</p>
-
-									<p><span class="pull-left event event-warning"></span><span> - history of trainings (as visitor)</span>
-									</p>
-
-									<p><span class="pull-left event event-success"></span><span> - future trainings (as visitor)</span>
-									</p>
-
-									<p><span class="pull-left event event-important"></span><span> - history of trainings (as trainer)</span>
-									</p>
-
-									<p><span class="pull-left event event-info"></span><span> - future trainings (as trainer)</span>
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- /Color Info -->
 				</div>
 				<!-- Calendar-view -->
 
@@ -287,76 +271,67 @@
 				<div class="tab-pane fade in" id="table" ng-controller="tableController">
 
 					<!-- Search row -->
-					<div class="search-row row">
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select">
-							<select class="form-control" ng-model="type">
-								<option th:text="#{label.search.byTitle}" value="title">By training title</option>
-								<option th:text="#{label.search.byDate}" value="date">By date</option>
-								<option th:text="#{label.search.byTime}" value="time">By time</option>
-								<option th:text="#{label.search.byLocation}" value="location">By location</option>
-								<option th:text="#{label.search.byTrainer}" value="trainerName">By trainer name</option>
-								<option th:text="#{label.search.byTags}" value="tags">By tags</option>
+					<div class="row search-row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 search-select"
+						     ng-model="defaultConfig.searching" ng-init="defaultConfig.searching.type = 'title'">
+							<select class="form-control" ng-model="defaultConfig.searching.type">
+								<option value="title" th:text="#{label.search.byTitle}">By training title</option>
+								<option value="location" th:text="#{label.search.byLocation}">By location</option>
+								<option value="coach" th:text="#{label.search.byTrainer}">By coach</option>
+								<option value="tags" th:text="#{label.search.byTags}">By tags</option>
 							</select>
 						</div>
-						<div class="col-lg-9 col-md-9 col+-sm-9 col-xs-9">
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 							<div class="input-group">
-								<input type="text" class="form-control" ng-model="request" placeholder="Type here"
+								<input type="text" class="form-control" ng-model="defaultConfig.searching.value"
+								       ng-model-options="{ debounce: 500 }"
+								       placeholder="Type here"
 								       th:placeholder="#{label.typeHere}"/>
-                                    	<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" th:text="#{label.search}"
-									                ng-click="onSearchButtonClick()">
-										        Search
-									        </button>
-      									</span>
+
+								<div class="input-group-addon"><i class="fa fa-search"></i></div>
 							</div>
 						</div>
 					</div>
 					<!-- /.row -->
 
-					<div class="table-responsive">
-						<table class="table table-bordered table-striped table-hover" ng-table="tableParams">
-							<tr ng-repeat="training in trainings" class="{{training.type}}">
-								<td data-title="'Title'">{{training.title}}</td>
-								<td data-title="'Date'">{{training.date}}</td>
-								<td data-title="'Time'">{{training.time}}</td>
-								<td data-title="'Location'">{{training.location}}</td>
-								<td data-title="'Trainer name'">{{training.trainerName}}</td>
-								<td data-title="'Places occupied/all'">{{training.places}}</td>
-								<td data-title="'Tags'">
-									<span ng-repeat="tag in training.tags"
-									      class="label tags label-{{tag.color}}">{{tag.title}}</span>
-								</td>
-							</tr>
-						</table>
-					</div>
-
-					<!-- Color Info -->
+					<!-- Trainings -->
 					<div class="row">
-						<div class="col-lg-12">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Color info</h3>
-								</div>
-								<div class="panel-body color-info">
-									<p><span class="pull-left event event-inverse"></span><span> - not approved trainings (as trainer)</span>
-									</p>
-
-									<p><span class="pull-left event event-warning"></span><span> - history of trainings (as visitor)</span>
-									</p>
-
-									<p><span class="pull-left event event-success"></span><span> - future trainings (as visitor)</span>
-									</p>
-
-									<p><span class="pull-left event event-important"></span><span> - history of trainings (as trainer)</span>
-									</p>
-
-									<p><span class="pull-left event event-info"></span><span> - future trainings (as trainer)</span>
-									</p>
-								</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-hover"
+								       ng-table="tableParams">
+									<tbody ng-repeat="group in $groups">
+									<tr class="ng-table-group">
+										<td colspan="{{$columns.length}}">
+											<a href="" ng-click="group.$hideRows = !group.$hideRows">
+												<span class="glyphicon"
+												      ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+												<strong>{{ group.value }}</strong>
+											</a>
+										</td>
+									</tr>
+									<tr ng-hide="group.$hideRows" ng-repeat="training in group.data">
+										<td data-title="'Title'" sortable="'title'">
+											<a target="_blank" ng-href="{{training.url}}">{{training.title}}</a>
+										</td>
+										<td data-title="'Date'" sortable="'date'">{{training.date}}</td>
+										<td data-title="'Time'" sortable="'time'">{{training.time}}</td>
+										<td data-title="'Location'" sortable="'location'">{{training.location}}</td>
+										<td data-title="'Coach'" sortable="'coach'">{{training.coach}}</td>
+										<td data-title="'Busy/all'" sortable="'maxVisitorsCount'">
+											{{training.places}}
+										</td>
+										<td data-title="'Tags'">
+												<span ng-repeat="tag in training.tags"
+												      class="label tags label-{{tag.color}}">{{tag.title}}</span>
+										</td>
+									</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-					<!-- /Color Info -->
+					<!-- /Trainings -->
 				</div>
 				<!-- /Table view -->
 			</div>

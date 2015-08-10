@@ -82,7 +82,8 @@ angular.module('tabsServices', [])
 			};
 
 			service.createUrl = function (url, config) {
-				var ret = [];
+				var ret = [],
+						uri;
 				ret.push('person=' + 'all');
 				ret.push('pageNumber=' + config.page);
 				ret.push('pageSize=' + config.count);
@@ -90,17 +91,20 @@ angular.module('tabsServices', [])
 					ret.push('sorting=' + param);
 					ret.push('order=' + config.sorting[param]);
 				}
-				return url + '?' + ret.join("&");
+				uri = url + '?' + ret.join("&");
+				return encodeURI(uri);
 			};
 
 			service.createSearchUrl = function (url, config) {
-				var ret = [];
+				var ret = [],
+						uri;
 				ret.push('person=' + 'all');
 				ret.push('pageNumber=' + config.page);
 				ret.push('pageSize=' + config.count);
 				ret.push('searchType=' + config.searching.type);
-				ret.push('value=' + config.searching.value);
-				return url + '?' + ret.join("&");
+				ret.push('value=' + encodeURIComponent(config.searching.value));
+				uri = url + '?' + ret.join("&");
+				return encodeURI(uri);
 			};
 
 			service.get = function (url, config) {

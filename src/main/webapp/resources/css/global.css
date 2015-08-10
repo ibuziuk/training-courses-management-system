@@ -520,10 +520,6 @@ ul.alert-dropdown {
 	float: right;
 }
 
-.calendar {
-	padding-bottom: 15px;
-}
-
 .switcher {
 	padding-bottom: 15px;
 }
@@ -615,6 +611,11 @@ div.color-info > p > span.event {
 	background-color: #3D6178;
 }
 
-.ng-table th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
+.ng-table th.sortable.sort-desc,
+.ng-table th.sortable.sort-asc {
 	background-color: #E4EDF2;
+}
+
+.ng-table-group {
+	background-color: #E4EDF2 !important;
 }

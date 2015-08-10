@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.exadel.training.utils.RoleUtil.ROLE_ADMIN;
 
@@ -411,7 +411,13 @@ public class TrainingRestController {
         if (!person.equals("all")) {
             person = userDetails.getId() + "";
         }
-        return trainingService.searchTrainings(person, come, flag, pageNumber, pageSize, searchType, value);
+        String val = null;
+        try {
+            val = URLDecoder.decode(value, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return trainingService.searchTrainings(person, come, flag, pageNumber, pageSize, searchType, val);
     }
 
     @RequestMapping(value = "/rest/training/recommendations", method = RequestMethod.GET)

@@ -19,6 +19,8 @@ public class StatisticsService {
     private final int IN_WAITING_LIST = 1 << 2;
     private final int VISITED = 1 << 3;
     private final int SUBSCRIBED = 1 << 4;
+    private final int AS_TRAINER = 1 << 5;
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -123,6 +125,7 @@ public class StatisticsService {
             List<Training> subscribedTrainigs = new ArrayList<>();
             List<Training> visitedTrainigs = new ArrayList<>();
             List<Training> weeklyTrainigs = new ArrayList<>();
+            List<Training> asTrainer = trainingService.getTrainingsByTrainer(userId);
             List<Training> trainings = trainingService.getTrainingsByVisitor(user.getUserId());
 
             Date curentDate = new Date();
@@ -207,6 +210,52 @@ public class StatisticsService {
                     Cell cell = row.createCell(1);
                     cell.setCellStyle(styles.get("infoStyle"));
                     cell.setCellValue("Weekly");
+                }
+            }
+
+            if ((bitMask & AS_TRAINER) == AS_TRAINER) {
+
+                for (Training training : asTrainer) {
+                    Row row = sheet.createRow(freeRow++);
+                    CellStyle cellStyle = styles.get("infoStyle");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                    int freeCellTrainer = 0;
+                    Cell cell = row.createCell(freeCellTrainer++);
+                    cell.setCellStyle(cellStyle);
+                    cell.setCellValue(user.getLastName() + "\n" + user.getFirstName());
+
+                    cell = row.createCell(freeCellTrainer++);
+                    cell.setCellStyle(styles.get("infoStyle"));
+                    cell.setCellValue("As trainer");
+
+                    cell = row.createCell(freeCellTrainer++);
+                    cell.setCellStyle(cellStyle);
+                    cell.setCellValue(training.getTitle());
+
+                    if (!training.isRegular()) {
+                        cell = row.createCell(freeCellTrainer++);
+                        cell.setCellStyle(cellStyle);
+                        cell.setCellValue(dateFormat.format(training.getDate()));
+                    } else {
+                        cell = row.createCell(freeCellTrainer++);
+                        cell.setCellStyle(cellStyle);
+                        cell.setCellValue("from: " + dateFormat.format(training.getStart()) + "\n" + "to: " + dateFormat.format(training.getEnd()));
+                    }
+                    freeCellTrainer += 2;
+                    Cell goodFeedbackCell = row.createCell(freeCellTrainer++);
+                    Cell badFeedbackCell = row.createCell(freeCellTrainer++);
+                    badFeedbackCell.setCellStyle(cellStyle);
+                    goodFeedbackCell.setCellStyle(cellStyle);
+                    Set<TrainingFeedback> feedbacks = training.getTrainingFeedbacks();
+                    for (TrainingFeedback feedback : feedbacks) {
+                        if (feedback.getUser().getUserId() == user.getUserId()) {
+                            if (feedback.getStarCount() > 4) {
+                                goodFeedbackCell.setCellValue(goodFeedbackCell.getStringCellValue() + "\n " + dateFormat.format(feedback.getDate()) + ": " + feedback.getText());
+                            } else {
+                                badFeedbackCell.setCellValue(badFeedbackCell.getStringCellValue() + "\n " + dateFormat.format(feedback.getDate()) + ": " + feedback.getText());
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -309,6 +358,16 @@ public class StatisticsService {
                     trainingsAsTrainer.add(training);
                 }
             }
+            else {
+                Training weeklyTraining = new Training();
+                weeklyTraining.setLanguage(training.getLanguage());
+                weeklyTraining.setLocation(training.getLocation());
+                weeklyTraining.setTrainer(training.getTrainer());
+                weeklyTraining.setDate(new Timestamp(training.getStart().getTime()));
+                weeklyTraining.setTitle(training.getTitle());
+                weeklyTraining.setTime(training.getTime());
+                trainingsAsTrainer.add(weeklyTraining);
+            }
         }
 
         return trainingsAsTrainer;
@@ -396,7 +455,7 @@ public class StatisticsService {
             cell.setCellStyle(cellStyle);
             List<AbsenceLesson> absences = absenceLessonService.getAbsencesByUserAndTraining(user.getUserId(), training.getTrainingId());
             for (AbsenceLesson absence : absences) {
-                cell.setCellValue(cell.getStringCellValue() + feedbackDateFormat.format(absence.getLesson().getDate()) + " :\n");
+                cell.setCellValue(cell.getStringCellValue() + dateFormat.format(absence.getLesson().getDate()) + " :\n");
                 cell.setCellValue(cell.getStringCellValue() + absence.getReasonText() + "\n");
             }
         }
@@ -409,9 +468,9 @@ public class StatisticsService {
         for (EmployeeFeedback feedback : feedbacks) {
             if (feedback.getUser().getUserId() == user.getUserId()) {
                 if (feedback.getStarCount() > 4) {
-                    goodFeedbackCell.setCellValue(goodFeedbackCell.getStringCellValue() + "\n " + feedbackDateFormat.format(feedback.getDate()) + " " + feedback.getText());
+                    goodFeedbackCell.setCellValue(goodFeedbackCell.getStringCellValue() + "\n " + feedbackDateFormat.format(feedback.getDate()) + ": " + feedback.getText());
                 } else {
-                    badFeedbackCell.setCellValue(badFeedbackCell.getStringCellValue() + "\n " + feedbackDateFormat.format(feedback.getDate()) + " " + feedback.getText());
+                    badFeedbackCell.setCellValue(badFeedbackCell.getStringCellValue() + "\n " + feedbackDateFormat.format(feedback.getDate()) + ": " + feedback.getText());
                 }
             }
         }

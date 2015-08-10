@@ -38,13 +38,8 @@
 
 	<!-- Angular -->
 	<script src="../../resources/vendors/js/angular.min.js" th:src="@{/resources/vendors/js/angular.min.js}"></script>
-	<<<<<<< HEAD
-	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
-	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
-	=======
 	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.13.3.min.js"
 	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.13.3.min.js}"></script>
-	>>>>>>> origin/approving
 
 	<!-- ngNotify -->
 	<script src="../../resources/vendors/js/ng-notify.min.js"
@@ -120,7 +115,6 @@
 				</li>
 
 				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
-					>>>>>>> origin/approving
 					<a href="all-trainings.html" th:href="@{/training/all}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.allTrainings}">All trainings</span>
@@ -163,11 +157,7 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h1 class="page-header">
-							<<<<<<< HEAD
-							<span><!-- TODO--> Training edition</span>
-							=======
 							<span>Training approving</span>
-							>>>>>>> origin/approving
 						</h1>
 					</div>
 				</div>

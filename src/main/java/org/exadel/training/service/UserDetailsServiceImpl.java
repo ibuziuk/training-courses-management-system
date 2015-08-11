@@ -1,9 +1,9 @@
 package org.exadel.training.service;
 
 import org.exadel.training.dao.UserDAO;
+import org.exadel.training.model.CustomUserDetails;
 import org.exadel.training.model.Role;
 import org.exadel.training.model.User;
-import org.exadel.training.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import static org.exadel.training.utils.RoleUtil.EXTERNAL_VISITOR_SMALL;
 import static org.exadel.training.utils.RoleUtil.buildRoleForAuthorization;
 
 @Service
@@ -33,14 +34,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Wrong login");
         }
         List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
+        for (Role role : user.getRoles()) {
+            if (role.getRole().equals(EXTERNAL_VISITOR_SMALL)) {
+                return new CustomUserDetails(user.getUserId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), false, authorities);
+            }
+        }
         return new CustomUserDetails(user.getUserId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), authorities);
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
-        Set<GrantedAuthority> authoritySet = new HashSet<>();
-        for (Role role : roles) {
-            authoritySet.add(new SimpleGrantedAuthority(buildRoleForAuthorization(role.getRole())));
-        }
+        Set<GrantedAuthority> authoritySet = roles.stream().map(role -> new SimpleGrantedAuthority(buildRoleForAuthorization(role.getRole()))).collect(Collectors.toSet());
         return new ArrayList<>(authoritySet);
     }
 }

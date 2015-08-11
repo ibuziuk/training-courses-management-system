@@ -6,6 +6,7 @@ import org.exadel.training.service.NotificationService;
 import org.exadel.training.service.RoleService;
 import org.exadel.training.service.UserService;
 import org.exadel.training.utils.GeneratorFactory;
+import org.exadel.training.utils.RoleUtil;
 import org.exadel.training.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -23,6 +24,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.exadel.training.utils.GeneratorFactory.translateNameToValid;
+import static org.exadel.training.utils.RoleUtil.EXTERNAL_SMALL;
+import static org.exadel.training.utils.RoleUtil.EXTERNAL_VISITOR_SMALL;
 
 @Controller
 @RequestMapping("/user")
@@ -50,6 +53,12 @@ public class UserController {
         return "new-trainer";
     }
 
+    @RequestMapping(value = "/visitor/new", method = RequestMethod.GET)
+    public String newVisitor(Map<String, Object> map) {
+        map.put("user", new User());
+        return "new-user";
+    }
+
     @RequestMapping(value = "/external/new", method = RequestMethod.POST)
     public String addExternal(@Valid @ModelAttribute("user") User external, BindingResult result) {
     	UserValidator userValidator = new UserValidator(userService);
@@ -60,7 +69,7 @@ public class UserController {
         }
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleService.getRole("external"));
+        roles.add(roleService.getRole(EXTERNAL_SMALL));
         external.setRoles(roles);
 
         String firstName = external.getFirstName().toLowerCase();
@@ -81,6 +90,35 @@ public class UserController {
         new Thread(() ->
                 notificationService.newExternalCreationNotification(finalExternal, password)
         ).start();
+
+        return "redirect:/user/" + external.getUserId();
+    }
+
+    @RequestMapping(value = "/visitor/new", method = RequestMethod.POST)
+    public String addExternalVisitor(@Valid @ModelAttribute("user") User external, BindingResult result) {
+        UserValidator userValidator = new UserValidator(userService);
+        userValidator.validate(external, result);
+
+        if (result.hasErrors()) {
+            return "new-user";
+        }
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.getRole(EXTERNAL_VISITOR_SMALL));
+        external.setRoles(roles);
+
+        String firstName = external.getFirstName().toLowerCase();
+        String lastName = external.getLastName().toLowerCase();
+        String email = external.getEmail();
+
+        external.setFirstName(translateNameToValid(firstName));
+        external.setLastName(translateNameToValid(lastName));
+        external.setEmail(email.toLowerCase());
+        external.setLogin("");
+
+        external.setPassword("");
+
+        userService.addUser(external);
 
         return "redirect:/user/" + external.getUserId();
     }

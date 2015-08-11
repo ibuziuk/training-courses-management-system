@@ -281,7 +281,7 @@
 					</button>
 					<button ng-show="external &#38;&#38; (isFuture() || training.regular)"
 					        sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
-						<i class="fa fa-fw fa-user-plus"></i> Add an external user
+						<i class="fa fa-fw fa-user-plus"></i><a th:href="@{/user/visitor/new}">Add an external user</a>
 					</button>
 
 					<div ng-show="(isAdmin &#38;&#38; (!training.isApproved || training.isEditing))">

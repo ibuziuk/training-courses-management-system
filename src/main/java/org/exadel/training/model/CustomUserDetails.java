@@ -30,6 +30,19 @@ public class CustomUserDetails implements UserDetails {
         this.isAccountNonExpired = true;
     }
 
+    public CustomUserDetails(long id, String firstName, String lastName, String login, String password, boolean isEnabled, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.authorities = authorities;
+        this.isEnabled = isEnabled;
+        this.isCredentialsNonExpired = true;
+        this.isAccountNonLocked = true;
+        this.isAccountNonExpired = true;
+    }
+
     public long getId() {
         return id;
     }

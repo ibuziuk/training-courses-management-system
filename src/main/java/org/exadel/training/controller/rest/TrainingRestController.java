@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.exadel.training.utils.RoleUtil.ROLE_ADMIN;
+import static org.exadel.training.utils.RoleUtil.ROLE_USER;
 
 @RestController
 public class TrainingRestController {
@@ -337,8 +338,8 @@ public class TrainingRestController {
             @RequestParam(value = "sorting") String sorting,
             @RequestParam(value = "order") String order) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserById(userDetails.getId());
-        boolean flag = !user.getRoleForView().equals("User");
+        boolean flag = !userDetails.hasRole(ROLE_USER);
+
         if (!person.equals("all")) {
             person = userDetails.getId() + "";
         }
@@ -355,8 +356,7 @@ public class TrainingRestController {
             @RequestParam(value = "sorting") String sorting,
             @RequestParam(value = "order") String order) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserById(userDetails.getId());
-        boolean flag = !user.getRoleForView().equals("User");
+        boolean flag = !userDetails.hasRole(ROLE_USER);
 
         Map<String, Object> result = trainingService.getSomeTrainingOrderBy(person, "future", pageNum, pageSize, sorting, order, flag);
         List<Training> trainings = (List<Training>) result.get("list");
@@ -382,8 +382,7 @@ public class TrainingRestController {
             @RequestParam(value = "sorting") String sorting,
             @RequestParam(value = "order") String order) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserById(userDetails.getId());
-        boolean flag = !user.getRoleForView().equals("User");
+        boolean flag = !userDetails.hasRole(ROLE_USER);
 
         Map<String, Object> result = trainingService.getSomeTrainingOrderBy(person, "future", pageNum, pageSize, sorting, order, flag);
         List<Training> trainings = (List<Training>) result.get("list");
@@ -417,8 +416,8 @@ public class TrainingRestController {
             @RequestParam("value") String value,
             @PathVariable("come") String come) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserById(userDetails.getId());
-        boolean flag = !user.getRoleForView().equals("User");
+        boolean flag = !userDetails.hasRole(ROLE_USER);
+
         if (!person.equals("all")) {
             person = userDetails.getId() + "";
         }
@@ -436,9 +435,24 @@ public class TrainingRestController {
     public Map<String, Object> getRecommendations() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String, Object> map = new HashMap<>();
-        map.put("list", trainingService.getRecommendationsByUser(userDetails.getId()));
+        List<Training> list = trainingService.getRecommendationsByUser(userDetails.getId());
+        map.put("list", list);
+        map.put("size", list.size());
         return map;
     }
+
+
+    @RequestMapping(value = "/rest/number", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Integer> getTrainingCounts() {
+        List<Integer> list = new ArrayList<>();
+        list.add((Integer) getHotTrainings("all", 1, 1, "title", "asc").get("size"));
+        list.add((Integer) getNewTrainings("all", 1, 1, "title", "asc").get("size"));
+        list.add((Integer) getRecommendations().get("size"));
+        list.add((Integer) searching(1, "all", 1, "tags", "General", "future").get("size"));
+        return list;
+    }
+
 
     @RequestMapping(value = "/rest/training/userTags", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

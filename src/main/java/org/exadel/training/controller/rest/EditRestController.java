@@ -162,11 +162,11 @@ public class EditRestController {
         training.setIsEditing(true);
         trainingService.updateTraining(training);
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
-            approveEdit("approve", id);
-        }
         if (!action.equals("edit")) {
             approveEdit(action, id);
+        }
+        if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
+            approveEdit("approve", id);
         }
         Map<String, Object> map = new HashMap<>(1);
         map.put("id", id);

@@ -125,7 +125,9 @@ public class TrainingServiceImpl implements TrainingService {
                 trainings = getContinuousTrainings(trainingId);
             }
             User next = waitingListDAO.getNext(trainingId);
-            notificationService.addNotification(trainingId, next.getUserId(), 6);
+            if (next != null) {
+                notificationService.addNotification(trainingId, next.getUserId(), 6);
+            }
             for (Training elem : trainings) {
                 elem.getVisitors().remove(user);
                 if (next != null) {

@@ -129,7 +129,8 @@ public class TrainingDAOImpl implements TrainingDAO {
             }
         }
         if (!admin) {
-            criteria.add(Restrictions.eq("isApproved", true));
+            criteria.add(Restrictions.or(Restrictions.eq("isApproved", true),
+                    Restrictions.eq("isEditing", true)));
         } else {
             criteria.add(Restrictions.or(
                     Restrictions.eq("isApproved", true),

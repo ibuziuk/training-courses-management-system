@@ -57,7 +57,7 @@ public class TrainingController {
                 throw new AccessDeniedException("Access denied");
             }
 
-            if (training.isApproved() == null) {
+            if (training.isApproved() == null && !training.getIsEditing()) {
                 if (userDetails.hasRole(ROLE_USER) && training.getTrainer().getUserId() != userDetails.getId()) {
                     throw new AccessDeniedException("Access denied");
                 }

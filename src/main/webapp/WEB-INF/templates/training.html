@@ -155,6 +155,14 @@
 			</div>
 			<!-- /Page Heading -->
 
+			<div ng-show="training.isEditing" class="row">
+				<div class="col-xs-12">
+					<div style="background-color: #F6989D; text-align: center" class="well">
+						There are some not approved editions.
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-xs-4">
 					<div>
@@ -164,12 +172,12 @@
 							{{approveText}}
 						</h4>
 
-						<h4 ng-if="training.register != 2 &#38;&#38; !training.isApproved"
+						<h4 ng-if="training.register != 2 &#38;&#38; (training.isApproved || training.isEditing)&#38;&#38; (isFuture() || training.regular)"
 						    ng-style="{color:registerColor}">
 							{{registerText}}
 						</h4>
 
-						<div ng-if="(training.register == 3) &#38;&#38; training.isApproved &#38;&#38; isFuture()">
+						<div ng-if="(training.register == 3) &#38;&#38; (training.isApproved || training.isEditing) &#38;&#38; (isFuture() || training.regular)">
 							<button id="registerBtn"
 							        class="btn btn-success" type="button"
 							        ng-click="trainingReg(true)">
@@ -217,10 +225,17 @@
 						<h4 ng-show="continuous">
 							<label style="font-size: 18px;">All parts: </label>
 							<span ng-repeat="part in parts">
-								<br/> <a href="{{part.partLink}}" target="_blank">{{part.title}}</a>
-							</span>
+								<br/> <a href="{{part.partLink}}" target="_blank">{{part.title}}</a></span>
 
 						</h4>
+
+						<h4 ng-show="room">
+							<label style="font-size: 18px;">Room: </label>
+							<span>
+								{{room}}
+							</span>
+						</h4>
+
 						<hr/>
 						<accordion close-others="oneAtATime">
 							<accordion-group is-open="status.open">
@@ -255,15 +270,17 @@
 					<label style="font-size: 20px;">{{training.title}}&nbsp;</label>
 					<br/>
 					<button ng-click="editTraining()" style="padding-left: 2px;" class="btn btn-primary"
-					        ng-show="isAdmin || training.register == 2">
+					        ng-show="(isAdmin || training.register == 2)  &#38;&#38; (isFuture() || training.regular)">
 						<i class="fa fa-fw fa-pencil"></i> Edit
 					</button>
 
-					<button ng-show="isAdmin || training.register == 2" id="attendenceBtn" class="btn btn-primary"
+					<button ng-show="(isAdmin || training.register == 2) &#38;&#38; !isFuture()" id="attendenceBtn"
+					        class="btn btn-primary"
 					        type="button">
 						<i class="fa fa-fw fa-book"></i> Attendence book
 					</button>
-					<button sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
+					<button ng-show="external &#38;&#38; (isFuture() || training.regular)"
+					        sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
 						<i class="fa fa-fw fa-user-plus"></i> Add an external user
 					</button>
 
@@ -403,6 +420,11 @@
 									{{weekDay.time}}
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{weekDay.room}}
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -468,7 +490,7 @@
 						</tbody>
 					</table>
 
-					<div ng-show="(&#33;vote) &#38;&#38; openFeed &#38;&#38; training.isApproved">
+					<div ng-show="(!vote) &#38;&#38; training.register == 0 &#38;&#38; training.isApproved &#38;&#38; openFeedback()">
 						<hr/>
 						<accordion close-others="oneAtATime">
 							<accordion-group is-open="status.open">

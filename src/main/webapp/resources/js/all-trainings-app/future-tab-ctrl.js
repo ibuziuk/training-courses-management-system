@@ -54,7 +54,7 @@ angular.module('futureTab', [])
 								.finally(function () {
 									$scope.loading = false;
 								});
-					} else if($scope.defaultConfig.searching.value) {
+					} else if ($scope.defaultConfig.searching.value) {
 						tableService.getSearch($scope.url.search, params.$params)
 								.then(function (data) {
 									var tmp = tableService.parse(data.data);

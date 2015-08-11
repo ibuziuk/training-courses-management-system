@@ -117,7 +117,7 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			if (contains(obj.data.training.tags, 'General'))
 				return '8.gif';
 			if (contains(obj.data.training.tags, 'C#'))
-				return '9.jpg';
+				return '9.png';
 			if (contains(obj.data.training.tags, 'Python'))
 				return '10.png';
 			if (contains(obj.data.training.tags, 'Ruby'))
@@ -125,9 +125,9 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			if (contains(obj.data.training.tags, 'Android'))
 				return '12.png';
 			if (contains(obj.data.training.tags, 'IOS'))
-				return '13.gif';
+				return '13.png';
 			if (contains(obj.data.training.tags, 'SQL'))
-				return '14.jpg';
+				return '14.png';
 		};
 
 		$scope.img = getPic();
@@ -161,7 +161,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 				$scope.parts[k].partLink = 'training/' + $scope.parts[k].trainingId;
 			}
 		}
-		;
+
+		$scope.external = obj.data.training.externalType;
 
 		$scope.trainerLink = 'user/' + obj.data.training.trainer.userId;
 		/* Training info */
@@ -174,21 +175,34 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 		$scope.openFeedback = function () {
 			var date = new Date();
 			if (!obj.data.training.regular) {
-				return ($scope.training.register != 2) && (date > new Date(obj.data.training.date));
+				var time = obj.data.training.time;
+				time = time.split("-")[0];
+				var hour = time.split(":")[0];
+				var min = time.split(":")[1];
+				var trainDate = new Date(obj.data.training.date);
+				return (date > new Date(trainDate.getFullYear(), trainDate.getMonth(), trainDate.getDate(), hour, min));
 			}
-			else
-				return $scope.training.register != 2 && (date > new Date(obj.data.training.start));
+			else {
+				var trainStart = new Date(obj.data.training.start);
+				return (date > new Date(trainStart.getFullYear(), trainStart.getMonth(), trainStart.getDate(), 0, 0));
+			}
 		};
 
-		$scope.openFeed = $scope.openFeedback();
 
 		$scope.isFuture = function () {
 			var date = new Date();
 			if (!obj.data.training.regular) {
-				return (date < new Date(obj.data.training.date));
+				var time = obj.data.training.time;
+				time = time.split("-")[0];
+				var hour = time.split(":")[0];
+				var min = time.split(":")[1];
+				var trainDate = new Date(obj.data.training.date);
+				return (date < new Date(trainDate.getFullYear(), trainDate.getMonth(), trainDate.getDate(), hour, min));
 			}
-			else
-				return (date < new Date(obj.date.training.start));
+			else {
+				var trainStart = new Date(obj.data.training.start);
+				return (date < new Date(trainStart.getFullYear(), trainStart.getMonth(), trainStart.getDate(), 0, 0));
+			}
 		};
 
 		var getRating = function (rating) {
@@ -215,6 +229,8 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			$scope.training.isApproved = obj.data.training.approved;
 
 			if (!$scope.training.regular) {
+				if (obj.data.training.location)
+					$scope.room = obj.data.training.location;
 				$scope.training.date = obj.data.training.dateOnString;
 				$scope.training.time = obj.data.training.time;
 			}
@@ -223,10 +239,14 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 				$scope.training.days = [];
 				var weekDays = obj.data.training.days.substring(0, obj.data.training.days.length - 1).split(" ");
 				var times = obj.data.training.time.substring(0, obj.data.training.time.length - 1).split(" ");
+				if (obj.data.training.location)
+					var rooms = obj.data.training.location.split(" ");
 				for (var k = 0; k < weekDays.length; k++) {
 					$scope.training.days[k] = {};
 					$scope.training.days[k].day = days[weekDays[k]];
 					$scope.training.days[k].time = times[k];
+					if (rooms && rooms[k])
+						$scope.training.days[k].room = rooms[k];
 				}
 			}
 			$scope.training.trainerName = obj.data.training.trainer.firstName + ' ' + obj.data.training.trainer.lastName;

@@ -127,7 +127,13 @@ public class TrainingRestController {
                 training.setDays(json.get("days").getAsString());
             }
             if (json.get("rooms") != null) {
-                training.setLocation(json.get("rooms").getAsString());
+                String rooms = "";
+                for (JsonElement jsonElement : json.get("rooms").getAsJsonArray()) {
+                    rooms += jsonElement.getAsString() + " ";
+                }
+                if (rooms.length() > 0) {
+                    training.setLocation(rooms.trim());
+                }
             }
             String startDateString = null;
             if (json.get("date") != null) {

@@ -54,23 +54,12 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 	$scope.step3 = function () {
 		$scope.$parent.totalItems = 25;
 
-		if (($scope.durationEd.getHours() === 0 && $scope.durationEd.getMinutes() === 0) || ($scope.duration.getHours() === 0 && $scope.duration.getMinutes() === 0)) {
+		if (($scope.durationEd && $scope.durationEd.getHours() === 0 && $scope.durationEd.getMinutes() === 0) || ($scope.duration.getHours() === 0 && $scope.duration.getMinutes() === 0)) {
 			$scope.$parent.totalItems = 25;
 			return;
 		}
 
 		$scope.$parent.totalItems = 35;
-
-		/*if (obj.data.training.regular === 'Weekly ') {
-		 for (var j = 0; j < $scope.datepickers.length; j++) {
-		 if ($scope.datepickers[j].toShowWeekDay === 'Select day of week ') {
-		 ngNotify.set('Enter day of week ');
-		 return false;
-		 }
-		 }
-		 }*/
-
-		//$scope.step4();
 	};
 
 	$scope.step2 = function () {
@@ -91,11 +80,6 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 		$scope.$parent.totalItems = 5;
 
 		if (!$scope.trainingNameEd || $scope.trainingNameEd.length === 0 || ($scope.trainingNameEd === null && ($scope.trainingName === undefined || $scope.trainingName.length === 0))) {
-			$scope.$parent.totalItems = 5;
-			return;
-		}
-
-		if (!$scope.days || $scope.days <= 0) {
 			$scope.$parent.totalItems = 5;
 			return;
 		}
@@ -160,17 +144,18 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 
 				if (!continuous) {
 					if (obj.data.old.training.regular) {
+
 						if (obj.data.edit && obj.data.edit.start) {
 							$scope.dateStartWeekly = new Date(obj.data.edit.start);
 							$scope.hasDateEd = true;
 						}
 						else {
 							$scope.dateStartWeekly = new Date(obj.data.old.training.start);
-							$scope.hasDateEd = true;
 						}
 
 						if (obj.data.edit && obj.data.edit.end) {
 							$scope.dateEndWeekly = new Date(obj.data.edit.end);
+							$scope.hasDateEd = true;
 						}
 						else {
 							$scope.dateEndWeekly = new Date(obj.data.old.training.end);
@@ -187,6 +172,7 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 								}
 							}
 						}
+
 						var weekDays = (obj.data.old.training.days.substring(0, obj.data.old.training.days.length - 1)).split(" ");
 						for (var k = 0; k < weekDays.length; k++) {
 							if ($scope.datepickers[k]) {
@@ -201,6 +187,7 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 							var timesEd = (obj.data.edit.time.substring(0, obj.data.edit.time.length - 1)).split(" ");
 							var hours, minutes;
 							for (var k = 0; k < timesEd.length; k++) {
+								timesEd[k] = timesEd[k].split('-')[0];
 								hours = timesEd[k].split(':')[0];
 								minutes = timesEd[k].split(':')[1];
 								if ($scope.datepickers[k]) {
@@ -215,6 +202,8 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 
 						var times = (obj.data.old.training.time.substring(0, obj.data.old.training.time.length - 1)).split(" ");
 						var hours, minutes;
+						if (obj.data.old.training.location)
+							var rooms = obj.data.old.training.location.split(" ");
 						for (var k = 0; k < times.length; k++) {
 							times[k] = times[k].split('-')[0];
 							hours = times[k].split(':')[0];
@@ -225,34 +214,61 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 							else {
 								$scope.datepickers[k] = {time: new Date(80, 2, 3, hours, minutes)};
 							}
+							if (rooms && rooms[k])
+								$scope.datepickers[k].room = rooms[k];
 						}
+
 					}
 
-					else {
+					else if (!obj.data.old.training.regular) {
 						if (obj.data.edit && obj.data.edit.time) {
+							var time = obj.data.edit.time.split("-")[0];
+							var hour = time.split(":")[0];
+							var minute = time.split(":")[1];
 							if ($scope.datepickers[0]) {
 								$scope.datepickers[0].hasTimeEd = true;
-								$scope.datepickers[0].timeEd = obj.data.edit.time;
+								$scope.datepickers[0].timeEd = new Date(80, 2, 3, hour, minute);
 							}
 							else {
-								$scope.datepickers[0] = {hasTimeEd: true, timeEd: obj.data.edit.time};
+								$scope.datepickers[0] = {hasTimeEd: true, timeEd: new Date(80, 2, 3, hour, minute)};
 							}
 						}
 
-						var time = obj.data.old.training.time.split('-')[0];
-						var hours = time.split(':')[0];
-						var minutes = time.split(':')[1];
-
+						var time = obj.data.old.training.time.split("-")[0];
+						var hour = time.split(":")[0];
+						var minute = time.split(":")[1];
 						if ($scope.datepickers[0])
-							$scope.datepickers[0].time = new Date(80, 2, 3, hours, minutes);
+							$scope.datepickers[0].time = new Date(80, 2, 3, hour, minute);
 						else
-							$scope.datepickers[0] = {time: new Date(80, 2, 3, hours, minutes)};
+							$scope.datepickers[0] = {time: new Date(80, 2, 3, hour, minute)};
+
+						if (obj.data.edit && obj.data.edit.date) {
+							if ($scope.datepickers[0]) {
+								$scope.datepickers[0].dt = new Date(obj.data.edit.date);
+							}
+							else {
+								$scope.datepickers[0] = {dt: new Date(obj.data.edit.date)};
+							}
+							$scope.hasDateEd = true;
+						}
+						else {
+							if ($scope.datepickers[0]) {
+								$scope.datepickers[0].dt = new Date(obj.data.old.training.date);
+							}
+							else {
+								$scope.datepickers[0] = {dt: new Date(obj.data.old.training.date)};
+							}
+						}
+
+						if (obj.data.old.training.location)
+							$scope.datepickers[0].room = obj.data.old.training.location;
 					}
 
 					if (obj.data.edit && obj.data.edit.maxVisitorsCount) {
-						$scope.guests = obj.data.edit.maxVisitorsCount;
+						$scope.guestsEd = obj.data.edit.maxVisitorsCount;
 						$scope.hasGuestsEd = true;
 					}
+
 					$scope.descriptions[0] = {text: obj.data.old.training.description};
 					if (obj.data.edit && obj.data.edit.description) {
 						$scope.descriptions[0].hasEdDescr = true;
@@ -262,6 +278,7 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 						$scope.hasEdDur = true;
 						$scope.durationEd = new Date(80, 2, 3, div(obj.data.edit.duration, 60), obj.data.edit.duration % 60);
 					}
+					$scope.duration = new Date(80, 2, 3, div(obj.data.old.training.duration, 60), obj.data.old.training.duration % 60);
 				}
 				else {
 					for (var l = 0; l < obj.data.old.parts.length; l++) {
@@ -275,54 +292,55 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 						$scope.hasEdDur = true;
 						$scope.durationEd = new Date(80, 2, 3, div(obj.data.edit[0].duration, 60), obj.data.edit[0].duration % 60);
 					}
+					$scope.duration = new Date(80, 2, 3, div(obj.data.old.training.duration, 60), obj.data.old.training.duration % 60);
 					if (containsNotNullEl(obj.data.edit) && obj.data.edit[0].maxVisitorsCount) {
 						$scope.guestsEd = obj.data.edit[0].maxVisitorsCount;
 						$scope.hasGuestsEd = true;
 					}
 
-					if (containsNotNullEl(obj.data.edit)) {
-						for (var k = 0; k < obj.data.edit.length; k++) {
-							if (obj.data.edit[k] && obj.data.edit[k].date) {
-								if ($scope.datepickers[k]) {
-									$scope.datepickers[k].dt = new Date(obj.data.edit[k].date);
-								}
-								else {
-									$scope.datepickers[k] = {dt: new Date(obj.data.edit[k].date)};
-								}
-								$scope.hasDateEd = true;
+					for (var k = 0; k < obj.data.edit.length; k++) {
+						if (obj.data.edit[k] && obj.data.edit[k].date) {
+							if ($scope.datepickers[k]) {
+								$scope.datepickers[k].dt = new Date(obj.data.edit[k].date);
 							}
 							else {
-								if ($scope.datepickers[k]) {
-									$scope.datepickers[k].dt = new Date(obj.data.old.parts[k].date);
-								}
-								else {
-									$scope.datepickers[k] = {dt: new Date(obj.data.old.parts[k].date)};
-								}
+								$scope.datepickers[k] = {dt: new Date(obj.data.edit[k].date)};
 							}
+							$scope.hasDateEd = true;
+						}
+						else {
+							if ($scope.datepickers[k]) {
+								$scope.datepickers[k].dt = new Date(obj.data.old.parts[k].date);
+							}
+							else {
+								$scope.datepickers[k] = {dt: new Date(obj.data.old.parts[k].date)};
+							}
+						}
 
-							if (obj.data.edit[k] && obj.data.edit[k].time) {
-								var time = obj.data.edit[k].time.split('-')[0];
-								var hour = time.split(':')[0];
-								var minute = time.split(':')[1];
-								if ($scope.datepickers[k]) {
-									$scope.datepickers[k].time = new Date(80, 2, 3, hour, minute);
-								}
-								else {
-									$scope.datepickers[k] = {time: new Date(80, 2, 3, hour, minute)};
-								}
-								$scope.datepickers[k].hasTimeEd = true;
+						if (obj.data.edit[k] && obj.data.edit[k].time) {
+							var time = obj.data.edit[k].time.split('-')[0];
+							var hour = time.split(':')[0];
+							var minute = time.split(':')[1];
+							if ($scope.datepickers[k]) {
+								$scope.datepickers[k].timeEd = new Date(80, 2, 3, hour, minute);
 							}
 							else {
-								var times = obj.data.old.parts[k].time.split('-')[0];
-								hours = times.split(':')[0];
-								minutes = times.split(':')[1];
-								if ($scope.datepickers[k]) {
-									$scope.datepickers[k].time = new Date(80, 2, 3, hours, minutes);
-								}
-								else {
-									$scope.datepickers[k] = {time: new Date(80, 2, 3, hours, minutes)};
-								}
+								$scope.datepickers[k] = {timeEd: new Date(80, 2, 3, hour, minute)};
 							}
+							$scope.datepickers[k].hasTimeEd = true;
+						}
+						var times = obj.data.old.parts[k].time.split('-')[0];
+						hours = times.split(':')[0];
+						minutes = times.split(':')[1];
+						if ($scope.datepickers[k]) {
+							$scope.datepickers[k].time = new Date(80, 2, 3, hours, minutes);
+						}
+						else {
+							$scope.datepickers[k] = {time: new Date(80, 2, 3, hours, minutes)};
+						}
+
+						if (obj.data.old.parts[k] && obj.data.old.parts[k].location) {
+							$scope.datepickers[k].room = obj.data.old.parts[k].location;
 						}
 					}
 				}
@@ -333,9 +351,6 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 				$scope.mstep = 10;
 
 				$scope.ismeridian = false;
-
-				var tomorrow = new Date();
-				tomorrow.setDate(tomorrow.getDate() + 1);
 
 				$scope.events = [];
 
@@ -366,6 +381,15 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 					}
 				}
 
+				else {
+					if ($scope.hasDateEd) {
+						$scope.events[0] = {
+							date: new Date(obj.data.old.training.date),
+							status: 'full'
+						};
+					}
+				}
+
 				$scope.getDayClass = function (date, mode, num) {
 					if (mode === 'day') {
 						var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
@@ -392,6 +416,25 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 				$scope.audiences = obj.data.old.training.audiences;
 
 				$scope.guests = obj.data.old.training.maxVisitorsCount;
+
+				$scope.disapproveCreation = function () {
+					if (continuous) {
+						for (var k in obj.data.old.parts) {
+							$http.post('rest/training/disapprove/' + obj.data.old.parts[k].trainingId, {}).then(
+									function (data) {
+										$window.location.href = 'welcome';
+									}
+							);
+						}
+					}
+					else {
+						$http.post('rest/training/disapprove/' + obj.data.old.training.trainingId, {}).then(
+								function (data) {
+									$window.location.href = 'welcome';
+								}
+						);
+					}
+				};
 
 				$scope.approveCreation = function () {
 					var trainingsRequests = [];
@@ -490,16 +533,6 @@ angular.module('approveTrainingApp').controller('pageCtrl', ['$scope', '$http', 
 						ngNotify.set(data);
 					});
 
-				};
-
-				$scope.disapproveCreation = function () {
-					for (var k in obj.data.old.parts) {
-						$http.post('rest/training/disapprove/' + obj.data.old.parts[k].trainingId, {}).then(
-								function (data) {
-									$window.location.href = 'welcome';
-								}
-						);
-					}
 				};
 
 			}).catch(function (err) {

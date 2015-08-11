@@ -32,6 +32,14 @@ textarea {
 	overflow: hidden;
 }
 
+.external-a {
+	color: white;
+}
+
+.external-a:hover {
+	color: white;
+}
+
 .well-trainer {
 	background-color: #2980b9;
 	color: white;

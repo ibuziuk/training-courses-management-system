@@ -1,15 +1,66 @@
 'use strict';
 
-var alertCtrl = angular.module('alertCtrl', []);
+var notificationCtrl = angular.module('notificationCtrl', []);
 
-alertCtrl.controller('alertCtrl', ['$scope', '$sce', '$http', '$timeout', function ($scope, $sce, $http, $timeout) {
-	var arr = 0;
+notificationCtrl.controller('notificationCtrl', ['$scope', '$sce', '$http', '$timeout', function ($scope, $sce, $http, $timeout) {
+	var id = 0;
+	var types = ['info', 'danger', 'success', 'warning'];
+	$scope.notifications = [];
+
+	var getType = function (type) {
+		if (type == 5) {
+			return types[0];
+		}
+	};
+
+	var getLink = function (id) {
+		return 'training/' + id;
+	};
+
+	var getMsg = function (type) {
+		if (type == 5) {
+			return 'The training $$trainingName$$ has been created. ';
+		}
+	};
+
+	var getCoolDate = function (date) {
+		var str = '';
+		str += date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ' ';
+		str += date.getHours() + ':' + date.getMinutes() + ' ';
+		return str;
+	};
+
+	var createNotifications = function (arr) {
+		var notifications = [];
+		for (var k in arr) {
+			var notification = {};
+			notification.type = getType(arr[k].type);
+			notification.id = arr[k].notificationId;
+			notification.trainingName = arr[k].trainingName;
+			notification.time = getCoolDate(new Date(arr[k].date));
+			notification.msg = getMsg(arr[k].type);
+			notification.link = getLink(arr[k].trainingId);
+			notifications.push(notification);
+		}
+		return notifications;
+	};
 
 	var poll = function () {
-		$http.get('rest/notification/' + arr).then(
+		$http.get('rest/notification/' + id).then(
 				function (obj) {
-					console.log(obj.data);
-					arr += obj.data.length;
+					for (var k in obj.data) {
+						if (obj.data[k].notificationId > id) {
+							id = obj.data[k].notificationId;
+						}
+					}
+					$scope.notifications = $scope.notifications.concat(createNotifications(obj.data));
+
+					$scope.messages = $scope.notifications.map(function (notification) {
+						var s = '<b><time>' + notification.time + '</time></b>' + notification.msg;
+						s = $sce.trustAsHtml(s.replace('$$trainingName$$', '<a href="' + notification.link + '"class="notification-link">' + notification.trainingName + '</a>'));
+						return s;
+					});
+
 					$timeout(poll, 10000);
 				}
 		).catch(function (err) {
@@ -20,62 +71,13 @@ alertCtrl.controller('alertCtrl', ['$scope', '$sce', '$http', '$timeout', functi
 
 	poll();
 
-	$scope.alerts = [
-		{
-			type: 'info',
-			msg: ' Your training $$trainingName$$ is aproved. ',
-			time: '2016-07-21 18:20',
-			link: '../training.html',
-			trainingName: 'Assembler: best-practice',
-			id: 1
-		},
-		{
-			type: 'danger',
-			msg: ' You have got training $$trainingName$$ in an hour! ',
-			time: '2016-07-21 15:10',
-			link: '../training.html',
-			trainingName: 'C++',
-			id: 2
-		},
-		{
-			type: 'success',
-			msg: ' You have got training $$trainingName$$ in a day! ',
-			time: '2016-07-21 12:07',
-			link: '../training.html',
-			trainingName: 'Scala and Go',
-			id: 3
-		},
-		{
-			type: 'warning',
-			msg: ' User $$userName$$ sent you new $$trainingName$$ to approve. ',
-			time: '2016-07-21 12:07',
-			link: '../training.html',
-			trainingName: 'Scala and Go',
-			userName: 'Yana Yaroshevich',
-			userLink: '../user.html',
-			id: 4
-		}
-	];
 
-	$scope.messages = $scope.alerts.map(function (alert) {
-		var s = '<b><time>' + alert.time + '</time></b>' + alert.msg;
-		if (alert.type == 'warning') {
-			s = s.replace('$$userName$$', '<a href="' + alert.userLink + '"class="alert-link">' + alert.userName + '</a>');
-		}
-		s = $sce.trustAsHtml(s.replace('$$trainingName$$', '<a href="' + alert.link + '"class="alert-link">' + alert.trainingName + '</a>'));
-		return s;
-	});
-
-	$scope.getAlerts = function () {
-		//TODO
-	};
-
-	$scope.closeAlert = function (index) {
-		$http.delete('rest/notification/' + alerts[$index].id).then(function () {
-			arr -= 1;
+	$scope.closeNotification = function (index) {
+		$http.delete('rest/notification/' + notifications[index].id).then(function () {
+			id -= 1;
 		}).catch(function (err) {
 			console.log(err.statusText);
 		});
-		$scope.alerts.splice(index, 1);
+		$scope.notifications.splice(index, 1);
 	};
 }]);

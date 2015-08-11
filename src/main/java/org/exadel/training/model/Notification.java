@@ -1,8 +1,6 @@
 package org.exadel.training.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -14,7 +12,6 @@ public class Notification {
     @Column(name = "notification_id")
     private long notificationId;
 
-    @JsonIgnore
     private long userId;
 
     private long trainingId;

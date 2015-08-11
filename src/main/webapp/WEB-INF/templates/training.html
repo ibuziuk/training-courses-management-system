@@ -124,7 +124,7 @@
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
-					<a href="new-trainer.html" th:href="@{/user/external/new}">
+					<a class="external-a" href="new-trainer.html" th:href="@{/user/external/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
@@ -277,7 +277,7 @@
 					<button ng-show="(isAdmin || training.register == 2) &#38;&#38; !isFuture()" id="attendenceBtn"
 					        class="btn btn-primary"
 					        type="button">
-						<i class="fa fa-fw fa-book"></i> Attendence book
+						<i class="fa fa-fw fa-book"></i> Attendance book
 					</button>
 					<button ng-show="external &#38;&#38; (isFuture() || training.regular)"
 					        sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">

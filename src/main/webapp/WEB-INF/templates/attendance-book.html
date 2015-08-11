@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns="http://www.w3.org/1999/xhtml" ng-app="attendanceApp">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="description" content=""/>
+	<meta name="author" content=""/>
+
+	<base th:href="@{/}"/>
+
+	<link rel="shortcut icon" href="../../resources/vendors/pics/favicon.gif"
+	      th:href="@{/resources/vendors/pics/favicon.gif}"/>
+
+	<title>Attendance book</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
+	      rel="stylesheet"/>
+
+	<!-- Custom CSS -->
+	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
+
+	<!-- Spinner CSS -->
+	<link href="../../resources/css/spinner.css" th:href="@{/resources/css/spinner.css}" rel="stylesheet"/>
+
+	<!-- Custom Fonts -->
+	<link href="../../resources/vendors/font-awesome/css/font-awesome.min.css"
+	      th:href="@{/resources/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+
+	<!-- jQuery -->
+	<script src="../../resources/vendors/js/jquery-2.1.4.min.js"
+	        th:src="@{/resources/vendors/js/jquery-2.1.4.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../../resources/vendors/js/bootstrap.js" th:src="@{/resources/vendors/js/bootstrap.js}"></script>
+
+	<!-- Angular -->
+	<script src="../../resources/vendors/js/angular.min.js"
+	        th:src="@{/resources/vendors/js/angular.min.js}"></script>
+	<script src="../../resources/vendors/js/moment.js"
+	        th:src="@{/resources/vendors/js/moment.js}"></script>
+	<script src="../../resources/js/global-ctrls/collapse-ctrl.js"
+	        th:src="@{/resources/js/global-ctrls/collapse-ctrl.js}"></script>
+	<script src="../../resources/js/global-ctrls/language-ctrl.js"
+	        th:src="@{/resources/js/global-ctrls/language-ctrl.js}"></script>
+	<script src="../../resources/vendors/js/ui-bootstrap-tpls-0.12.1.js"
+	        th:src="@{/resources/vendors/js/ui-bootstrap-tpls-0.12.1.js}"></script>
+	<script src="../../resources/js/attendance-app/app.js"
+	        th:src="@{/resources/js/attendance-app/app.js}"></script>
+	<script src="../../resources/js/attendance-app/book-ctrl.js"
+	        th:src="@{/resources/js/attendance-app/book-ctrl.js}"></script>
+</head>
+
+<body>
+<div id="wrapper">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-menu">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" id="menu-button">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+
+			<a class="navbar-brand" href="welcome.html" th:href="@{/welcome}">
+				<img alt="Brand" src="../../resources/vendors/pics/exadel-logo.png"
+				     th:src="@{/resources/vendors/pics/exadel-logo.png}"/>
+			</a>
+		</div>
+
+		<!-- Top Menu Items -->
+		<ul class="nav navbar-right top-nav">
+			<li class="active">
+				<a href="welcome.html" th:href="@{/welcome}">
+					<i class="fa fa-fw fa-user"></i>
+					<span sec:authentication="principal.firstName"></span>
+				</a>
+			</li>
+
+			<li>
+				<ul class="nav navbar-right top-nav language-panel" ng-controller="languageCtrl">
+					<li><a class="lang" href="" ng-click="languageSwitcher('en')">En</a></li>
+					<li><a class="lang" href="" ng-click="languageSwitcher('ru')">Ru</a></li>
+				</ul>
+			</li>
+
+			<li class="active">
+				<a href="" th:href="@{/logout}" id="logout">
+					<i class="fa fa-fw fa-power-off"></i>
+					<span th:text="#{label.logout}">Log out</span>
+				</a>
+			</li>
+		</ul>
+
+		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav side-nav" id="left-menu">
+				<li id="newtraining">
+					<a href="new-training.html" th:href="@{/training/new}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						<span th:text="#{label.newTraining}">Create new training</span>
+					</a>
+				</li>
+				<li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" id="alltrainings">
+					<a href="all-trainings.html" th:href="@{/training/all}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						<span th:text="#{label.allTrainings}">All trainings</span>
+					</a>
+				</li>
+				<li id="mytrainings">
+					<a href="my-trainings.html" th:href="@{/training/my}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						<span th:text="#{label.myTrainings}">My trainings</span>
+					</a>
+				</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
+					<a href="new-trainer.html" th:href="@{/user/external/new}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						Add new external trainer
+					</a>
+				</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">
+					<a href="users.html" th:href="@{/user/all}">
+						<i class="fa fa-fw fa-circle-o"></i>
+						<span th:text="#{label.users}">Users</span>
+					</a>
+				</li>
+				<li id="copyright">
+					<footer>
+						<span th:text="#{label.copyright}">©Exadel, Inc. All Rights Reserved.</span>
+					</footer>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<!-- /Navigation -->
+
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<div ng-controller="bookController">
+				<!-- Page Heading -->
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">
+							{{book.title}}
+						</h1>
+					</div>
+				</div>
+				<!-- /Page Heading -->
+
+				<!-- Spinner -->
+				<div class="row" ng-show="loading">
+					<div class="loader"></div>
+				</div>
+				<!-- /Spinner -->
+
+				<!-- Attendance book -->
+				<div class="row" ng-show="!loading">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped table-hover">
+								<tr>
+									<th></th>
+									<th class="rotate" ng-repeat="lesson in book.lessons">
+										<div><span>{{lesson.date}}</span></div>
+									</th>
+								</tr>
+								<tr ng-repeat="visitor in book.visitors">
+									<td>
+										<a href="">{{visitor.login}}</a>
+									</td>
+									<td ng-repeat="absence in visitor.absences"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- Attendance book -->
+
+			</div>
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+</body>
+</html>

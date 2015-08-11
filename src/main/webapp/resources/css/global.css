@@ -706,3 +706,22 @@ div.color-info > p > span.event {
 .recent {
 	font-size: 18px;
 }
+
+th.rotate {
+	/* Something you can count on */
+	height: 140px;
+	white-space: nowrap;
+}
+
+th.rotate > div {
+	transform:
+		/* Magic Numbers */
+	translate(25px, 51px)
+		/* 45 is really 360 - 45 */
+	rotate(315deg);
+	width: 30px;
+}
+th.rotate > div > span {
+	border-bottom: 1px solid #ccc;
+	padding: 5px 10px;
+}

@@ -498,6 +498,7 @@ public class TrainingRestController {
             Map<String, Object> result = new HashMap<>();
             result.put("absences", absenceLessonService.getAbsencesByTraining(trainingId));
             result.put("users", trainingService.getTrainingById(trainingId).getVisitors());
+            result.put("lessons", trainingService.getTrainingById(trainingId).getLessons());
             return result;
         }
         else{

@@ -140,6 +140,10 @@ angular.module('trainingApp').controller('pageCtrl', ['$scope', '$http', '$windo
 			$window.location.href = 'training/edit/' + obj.data.training.trainingId;
 		};
 
+		$scope.attendanceBook = function () {
+			$window.location.href = 'training/attendance/' + obj.data.training.trainingId;
+		};
+
 		$http.get('rest/training/' + urlParts[urlParts.length - 1] + '/files').then(function (objFiles) {
 					$scope.files = objFiles.data;
 					for (var k = 0; k < $scope.files.length; k++) {

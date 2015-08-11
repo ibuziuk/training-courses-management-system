@@ -7,37 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 public class NotificationRestController {
     @Autowired
     private NotificationService notificationService;
 
-    private final Map<DeferredResult<List<Notification>>, Long> requests = new ConcurrentHashMap<>();
-
     @RequestMapping(value = "/rest/notification/{notificationIndex}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public DeferredResult<List<Notification>> getAllNotificationByUser(@PathVariable long notificationIndex) {
+    public List<Notification> getAllNotificationByUser(@PathVariable long notificationIndex) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = userDetails.getId();
 
-        final DeferredResult<List<Notification>> deferredResult = new DeferredResult<>(100000L, Collections.emptyList());
-        requests.put(deferredResult, notificationIndex);
-
-        deferredResult.onCompletion(() -> requests.remove(deferredResult));
-
-        List<Notification> notifications = notificationService.getAllNotificationsByUser(userId, notificationIndex);
-        if (!notifications.isEmpty()) {
-            deferredResult.setResult(notifications);
-        }
-
-        return deferredResult;
+        return notificationService.getAllNotificationsByUser(userId, notificationIndex);
     }
 
     @RequestMapping(value = "/rest/notification/{notificationId}", method = RequestMethod.DELETE)

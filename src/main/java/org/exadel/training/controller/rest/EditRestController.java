@@ -39,6 +39,9 @@ public class EditRestController {
     public Map<String, Object> editTraining(@RequestBody Map<String, Object> requestMap, @PathVariable("trainingId") long id, @PathVariable("action") String action) {
         Training training = trainingService.getTrainingById(id);
         TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
+        if (action.equals("disapprove")) {
+            return approveEdit(action, id, te);
+        }
         boolean flagNew = false;
         boolean flag = false;
         boolean regular = Boolean.parseBoolean(requestMap.get("regular").toString());
@@ -97,18 +100,19 @@ public class EditRestController {
                     calendarTime.setTime(parsedTime);
                     calendarTime.set(Calendar.MINUTE, calendarTime.get(Calendar.MINUTE) + Integer.parseInt(requestMap.get("duration").toString()));
                     time += "-" + hourDateFormater.format(calendarTime.getTime()) + " ";
-                    if (!time.equals(training.getTime())) {
-                        flag = true;
-                        te.setTime(time);
-                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            if (!time.equals(training.getTime())) {
+                flag = true;
+                te.setTime(time);
+            }
         }
 
 
-        if (!regular && requestMap.containsKey("rooms") && !requestMap.get("rooms").toString().equals(training.getLocation())) {
+        if (requestMap.containsKey("rooms") && !requestMap.get("rooms").toString().equals(training.getLocation())) {
             flag = true;
             te.setLocation(requestMap.get("rooms").toString());
         }
@@ -163,10 +167,10 @@ public class EditRestController {
         trainingService.updateTraining(training);
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!action.equals("edit")) {
-            approveEdit(action, id);
+            return approveEdit(action, id, te);
         }
         if (userService.getUserById(userDetails.getId()).getRoleForView().equals("Administrator")) {
-            approveEdit("approve", id);
+            return approveEdit("approve", id, te);
         }
         Map<String, Object> map = new HashMap<>(1);
         map.put("id", id);
@@ -175,8 +179,7 @@ public class EditRestController {
         return map;
     }
 
-    private Map<String, Object> approveEdit(String approve, long id) {
-        TrainingEdit te = trainingEditService.getEditByTrainingIfExist(id);
+    private Map<String, Object> approveEdit(String approve, long id, TrainingEdit te) {
         Training training = trainingService.getTrainingById(id);
         Map<String, Object> map = new HashMap<>();
         if (te != null) {
@@ -221,20 +224,16 @@ public class EditRestController {
                 notificationService.addNotification(id, training.getTrainer().getUserId(), 9);
                 notificationService.addNotification(id, training.getTrainer().getUserId(), 4);
             } else {
-                te.setIsApproved(false);
+                te.setIsApproved(true);
                 notificationService.addNotification(id, trainingService.getTrainingById(id).getTrainer().getUserId(), 10);
             }
             trainingEditService.updateEdit(te);
-            map.put("id", id);
         } else {
-            if (approve.equals("approve")) {
-                training.setApproved(true);
-            } else {
-                training.setApproved(false);
-            }
+            training.setApproved(false);
             training.setIsEditing(false);
             trainingService.updateTraining(training);
         }
+        map.put("id", id);
         return map;
     }
 

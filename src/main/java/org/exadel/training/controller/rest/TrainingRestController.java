@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.access.AccessDeniedException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
@@ -55,6 +56,9 @@ public class TrainingRestController {
 
     @Autowired
     private UploadFileService uploadFileService;
+
+    @Autowired
+    private AbsenceLessonService absenceLessonService;
 
     @RequestMapping(value = "/rest/training", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
@@ -483,6 +487,21 @@ public class TrainingRestController {
         long userId = trainingService.getTrainingById(uploadFileService.getUploadFile(fileId).getTraining().getTrainingId()).getTrainer().getUserId();
         if (userDetails.hasRole(ROLE_ADMIN) || userId == userDetails.getId()) {
             uploadFileService.removeUploadFile(uploadFileService.getUploadFile(fileId));
+        }
+    }
+
+    @RequestMapping(value = "/rest/attendance/{id}", method = RequestMethod.GET)
+    public  Map<String, Object> getAttendance(@PathVariable("id") long trainingId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Training training = trainingService.getTrainingById(trainingId);
+        if (userDetails.hasRole(ROLE_ADMIN) || userDetails.getId() == training.getTrainer().getUserId()) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("absences", absenceLessonService.getAbsencesByTraining(trainingId));
+            result.put("users", trainingService.getTrainingById(trainingId).getVisitors());
+            return result;
+        }
+        else{
+            throw new AccessDeniedException("Access denied");
         }
     }
 }

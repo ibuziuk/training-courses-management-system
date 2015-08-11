@@ -55,4 +55,13 @@ public class AbsenceLessonDAOImpl implements AbsenceLessonDAO {
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AbsenceLesson> getAbsencesByTraining(long trainingId) {
+        return sessionFactory.getCurrentSession().createCriteria(AbsenceLesson.class)
+                .add(Restrictions.eq("training.trainingId", trainingId))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+    }
 }

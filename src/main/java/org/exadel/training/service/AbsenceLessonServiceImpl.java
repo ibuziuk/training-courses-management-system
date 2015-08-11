@@ -42,4 +42,10 @@ public class AbsenceLessonServiceImpl implements AbsenceLessonService {
     public List<AbsenceLesson> getAbsencesByUserAndTraining(long userId, long trainingId) {
         return absenceLessonDAO.getAbsencesByUserAndTraining(userId, trainingId);
     }
+
+    @Override
+    @Transactional
+    public List<AbsenceLesson> getAbsencesByTraining(long trainingId) {
+        return absenceLessonDAO.getAbsencesByTraining(trainingId);
+    }
 }

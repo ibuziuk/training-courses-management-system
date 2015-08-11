@@ -14,4 +14,6 @@ public interface AbsenceLessonDAO {
     List<AbsenceLesson> getAbsencesByUser(long userId);
 
     List<AbsenceLesson> getAbsencesByUserAndTraining(long userId, long trainingId);
+
+    List<AbsenceLesson> getAbsencesByTraining(long trainingId);
 }

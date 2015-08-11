@@ -47,11 +47,13 @@ public class NotificationServiceImpl implements NotificationService {
                 for (User admin : admins) {
                     notificationDAO.addNotification(trainingId, admin.getUserId(), type);
                 }
+                notificationDAO.addNotification(trainingId, userId, type);
                 break;
             case 3://disapprove training
                 for (User admin : admins) {
                     notificationDAO.addNotification(trainingId, admin.getUserId(), type);
                 }
+                notificationDAO.addNotification(trainingId, userId, type);
                 break;
             case 4://for visitors about edit in training
                 for (User visitor : visitors) {

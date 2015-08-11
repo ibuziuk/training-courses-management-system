@@ -124,6 +124,10 @@ public class EditRestController {
             flag = true;
             te.setDescription(requestMap.get("description").toString());
         }
+        if (requestMap.containsKey("maxVisitorsCount") && Integer.parseInt(requestMap.get("maxVisitorsCount").toString()) != training.getMaxVisitorsCount()) {
+            flag = true;
+            te.setMaxVisitorsCount(Integer.parseInt(requestMap.get("maxVisitorsCount").toString()));
+        }
         if (requestMap.containsKey("language") && !requestMap.get("language").toString().equals(training.getLanguage().getValue())) {
             flag = true;
             te.setLanguage(languageService.getLanguageByValue(requestMap.get("language").toString()));

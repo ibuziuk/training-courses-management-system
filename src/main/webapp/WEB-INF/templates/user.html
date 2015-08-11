@@ -147,7 +147,7 @@ th:src="@{/resources/js/user-app/feedbacks/feedbacks-ctrl.js}"></script>-->
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
 					<a href="new-trainer.html" th:href="@{/user/external/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
-						Add new external trainer
+						<span th:text="#{label.newTainer}"></span>
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="users">

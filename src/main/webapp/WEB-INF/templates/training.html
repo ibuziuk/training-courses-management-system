@@ -274,14 +274,9 @@
 						<i class="fa fa-fw fa-pencil"></i> Edit
 					</button>
 
-					<button ng-show="(isAdmin || training.register == 2) &#38;&#38; !isFuture()" id="attendenceBtn"
-					        class="btn btn-primary"
-					        type="button">
-						<i class="fa fa-fw fa-book"></i> Attendance book
-					</button>
 					<button ng-show="external &#38;&#38; (isFuture() || training.regular)"
 					        sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
-						<i class="fa fa-fw fa-user-plus"></i> Add an external user
+						<i class="fa fa-fw fa-user-plus"></i>><a class="external-a" th:href="@{/user/visitor/new}"> Add an external user</a>
 					</button>
 
 					<div ng-show="(isAdmin &#38;&#38; (!training.isApproved || training.isEditing))">

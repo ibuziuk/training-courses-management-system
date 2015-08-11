@@ -714,3 +714,7 @@ div.color-info > p > span.event {
 .recent {
 	font-size: 18px;
 }
+
+.progress {
+	background-color: #808080;
+}

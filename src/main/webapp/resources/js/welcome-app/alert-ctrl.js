@@ -8,19 +8,19 @@ notificationCtrl.controller('notificationCtrl', ['$scope', '$sce', '$http', '$ti
 	$scope.notifications = [];
 
 	var getType = function (type) {
-		if (type == 1){
+		if (type == 1) {
 			return types[0];
 		}
 
-		if (type == 2){
+		if (type == 2) {
 			return types[2];
 		}
 
-		if (type == 3){
+		if (type == 3) {
 			return types[1];
 		}
 
-		if (type == 4){
+		if (type == 4) {
 			return types[3];
 		}
 
@@ -28,23 +28,23 @@ notificationCtrl.controller('notificationCtrl', ['$scope', '$sce', '$http', '$ti
 			return types[0];
 		}
 
-		if (type == 6){
+		if (type == 6) {
 			return types[2];
 		}
 
-		if (type == 7){
+		if (type == 7) {
 			return types[0];
 		}
 
-		if (type == 9){
+		if (type == 9) {
 			return types[0];
 		}
 
-		if(type == 11){
+		if (type == 11) {
 			return types[3];
 		}
 
-		if(type == 12){
+		if (type == 12) {
 			return types[1];
 		}
 	};
@@ -54,19 +54,19 @@ notificationCtrl.controller('notificationCtrl', ['$scope', '$sce', '$http', '$ti
 	};
 
 	var getMsg = function (type) {
-		if (type == 1){
+		if (type == 1) {
 			return 'Somebody left a feedback on $$trainingName$$ page. ';
 		}
 
-		if (type == 2){
+		if (type == 2) {
 			return 'The training $$trainingName$$ is approved. ';
 		}
 
-		if (type == 3){
+		if (type == 3) {
 			return 'The training $$trainingName$$ is disapproved. ';
 		}
 
-		if (type == 4){
+		if (type == 4) {
 			return 'The training $$trainingName$$ was edited. ';
 		}
 
@@ -74,31 +74,35 @@ notificationCtrl.controller('notificationCtrl', ['$scope', '$sce', '$http', '$ti
 			return 'The training $$trainingName$$ has been created. ';
 		}
 
-		if (type == 6){
+		if (type == 6) {
 			return 'You are in a visitors list on $$trainingName$$. ';
 		}
 
-		if (type == 7){
+		if (type == 7) {
 			return 'The file was uploaded on $$trainingName$$. ';
 		}
 
-		if (type == 9){
+		if (type == 9) {
 			return 'The $$trainingName$$ edition was approved. ';
 		}
 
-		if (type == 11){
+		if (type == 11) {
 			return 'The training $$trainingName$$ is in an hour. ';
 		}
 
-		if (type == 12){
-			return 'The training $$trainingName$$ is in a month. ';
+		if (type == 12) {
+			return 'The training $$trainingName$$ is in a day. ';
 		}
 	};
 
 	var getCoolDate = function (date) {
 		var str = '';
 		str += date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ' ';
-		str += date.getHours() + ':' + date.getMinutes() + ' ';
+
+		if (date.getMinutes() >= 10)
+			str += date.getHours() + ':' + date.getMinutes() + ' ';
+		else
+			str += date.getHours() + ':' + '0' + date.getMinutes() + ' ';
 		return str;
 	};
 
@@ -136,20 +140,19 @@ notificationCtrl.controller('notificationCtrl', ['$scope', '$sce', '$http', '$ti
 					$timeout(poll, 10000);
 				}
 		).catch(function (err) {
-			console.log(err.statusText);
-			poll();
-		});
+					console.log(err.statusText);
+					poll();
+				});
 	};
 
 	poll();
 
 
 	$scope.closeNotification = function (index) {
-		$http.delete('rest/notification/' + notifications[index].id).then(function () {
-			id -= 1;
+		$http.delete('rest/notification/' + $scope.notifications[index].id).then(function () {
+			$scope.notifications.splice(index, 1);
 		}).catch(function (err) {
 			console.log(err.statusText);
 		});
-		$scope.notifications.splice(index, 1);
 	};
 }]);

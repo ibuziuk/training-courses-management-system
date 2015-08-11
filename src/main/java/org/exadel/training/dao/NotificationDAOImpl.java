@@ -4,6 +4,7 @@ import org.exadel.training.model.Notification;
 import org.exadel.training.service.TrainingService;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,7 +48,8 @@ public class NotificationDAOImpl implements NotificationDAO {
     public List<Notification> getAllNotificationsByUser(long userId, long token) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Notification.class)
                 .add(Restrictions.eq("userId", userId))
-                .add(Restrictions.gt("notificationId", token));
+                .add(Restrictions.gt("notificationId", token))
+                .addOrder(Order.desc("notificationId"));
         Set<Notification> result = new LinkedHashSet<>(criteria.list());
         return new ArrayList<>(result);
     }

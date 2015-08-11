@@ -96,7 +96,7 @@ public class StatisticsService {
         titleCell.setCellValue("Trainer");
         trainerColumn = columnCounter++;
 
-        titleCell = headerRow.createCell(freeCell++);
+/*        titleCell = headerRow.createCell(freeCell++);
         titleCell.setCellStyle(styles.get("title"));
         titleCell.setCellValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         absenceColumn = columnCounter++;
@@ -116,7 +116,7 @@ public class StatisticsService {
         titleCell.setCellValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         badFeedbackColumn = columnCounter++;
         sheet.autoSizeColumn(badFeedbackColumn);
-        titleCell.setCellValue("Bad feedbacks");
+        titleCell.setCellValue("Bad feedbacks");*/
 
 
         Date date = new Date();

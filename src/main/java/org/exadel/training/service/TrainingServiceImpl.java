@@ -225,7 +225,7 @@ public class TrainingServiceImpl implements TrainingService {
                     written = true;
                 }
             }
-            if (!written && training.getTrainer().getUserId() != userId && training.getVisitors().size() < training.getMaxVisitorsCount()) {
+            if (!written && training.getTrainer().getUserId() != userId && training.getVisitors().size() < training.getMaxVisitorsCount() && training.isApproved() != null && training.isApproved()) {
                 result.add(training);
             }
         }

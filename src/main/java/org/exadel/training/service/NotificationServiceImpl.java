@@ -57,7 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             case 4://for visitors about edit in training
                 for (User visitor : visitors) {
-                    notificationDAO.addNotification(trainingId, visitor.getUserId(), type);
+                    //notificationDAO.addNotification(trainingId, visitor.getUserId(), type);
                 }
                 break;
             case 5:// create training
@@ -79,7 +79,7 @@ public class NotificationServiceImpl implements NotificationService {
                 }
                 break;
             case 9://approve edit training
-                notificationDAO.addNotification(trainingId, userId, type);
+                //notificationDAO.addNotification(trainingId, userId, type);
                 break;
             case 10://disapprove edit trainind
                 notificationDAO.addNotification(trainingId, userId, type);

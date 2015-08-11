@@ -363,7 +363,7 @@ public class TrainingRestController {
         List<Training> hotTrainings = new LinkedList<>();
         int i = 0;
         for (Training training : trainings) {
-            if (training.getMaxVisitorsCount() > training.getVisitors().size() && i < 10) {
+            if (training.getMaxVisitorsCount() > training.getVisitors().size() && i < 10 && training.isApproved()) {
                 hotTrainings.add(training);
                 i++;
             }
@@ -389,7 +389,7 @@ public class TrainingRestController {
         List<Training> newTrainings = new LinkedList<>();
         int i = 0;
         for (Training training : trainings) {
-            if (training.getMaxVisitorsCount() > training.getVisitors().size() && i < 10) {
+            if (training.getMaxVisitorsCount() > training.getVisitors().size() && i < 10  && training.isApproved()) {
                 newTrainings.add(training);
                 i++;
             }

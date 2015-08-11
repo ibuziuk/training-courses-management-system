@@ -221,17 +221,16 @@ public class EditRestController {
                 training.setApproved(true);
                 training.setIsEditing(false);
                 trainingService.updateTraining(training);
-                notificationService.addNotification(id, training.getTrainer().getUserId(), 9);
-                notificationService.addNotification(id, training.getTrainer().getUserId(), 4);
+                notificationService.addNotification(id, training.getTrainer().getUserId(), 2);
             } else {
                 te.setIsApproved(true);
-                notificationService.addNotification(id, trainingService.getTrainingById(id).getTrainer().getUserId(), 10);
             }
             trainingEditService.updateEdit(te);
         } else {
             training.setApproved(false);
             training.setIsEditing(false);
             trainingService.updateTraining(training);
+            notificationService.addNotification(id, training.getTrainer().getUserId(), 3);
         }
         map.put("id", id);
         return map;

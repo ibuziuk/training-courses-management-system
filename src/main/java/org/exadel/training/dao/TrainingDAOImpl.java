@@ -37,7 +37,14 @@ public class TrainingDAOImpl implements TrainingDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<Training> getFutureTrainingsForScheduling() {
-        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("FROM Training t WHERE t.date >= current_timestamp ").list());
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("FROM Training t WHERE t.date >= current_timestamp and (t.isApproved = true or t.isApproved = null)").list());
+        return new ArrayList<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Training> getFutureTrainingsForRecommendation() {
+        Collection result = new LinkedHashSet(sessionFactory.getCurrentSession().createQuery("FROM Training t WHERE (t.date >= current_timestamp or t.end >= current_date )and (t.isApproved = true or t.isApproved = null)").list());
         return new ArrayList<>(result);
     }
 

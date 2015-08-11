@@ -204,7 +204,7 @@ public class TrainingServiceImpl implements TrainingService {
             }
         }
 
-        trainings = trainingDAO.getFutureTrainingsForScheduling();
+        trainings = trainingDAO.getFutureTrainingsForRecommendation();
         for (Training all : trainings) {
             Set<Tag> tag = all.getTags();
             int sum = 0;
@@ -218,9 +218,16 @@ public class TrainingServiceImpl implements TrainingService {
 
         List<Training> result = new LinkedList<>();
         for (int i = 0; i < 10 && !allTrainings.isEmpty(); i++) {
+            boolean written = false;
             Training training = allTrainings.pollLastEntry().getValue();
-            if (training.getTrainer().getUserId() != userId && training.getVisitors().size() < training.getMaxVisitorsCount())
+            for (User visitor : training.getVisitors()) {
+                if (visitor.getUserId() == userId) {
+                    written = true;
+                }
+            }
+            if (!written && training.getTrainer().getUserId() != userId && training.getVisitors().size() < training.getMaxVisitorsCount()) {
                 result.add(training);
+            }
         }
         return result;
     }

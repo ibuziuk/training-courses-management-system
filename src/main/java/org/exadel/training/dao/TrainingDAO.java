@@ -19,6 +19,8 @@ public interface TrainingDAO {
 
     void removeTrainingById(long id);
 
+    List<Training> getFutureTrainingsForRecommendation();
+
     Training getTrainingById(long id);
 
     List<Training> getTrainingsByTrainer(long id);

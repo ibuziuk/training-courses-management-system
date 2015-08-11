@@ -17,9 +17,6 @@
 	<link href="../../resources/vendors/css/bootstrap.css" th:href="@{/resources/vendors/css/bootstrap.css}"
 	      rel="stylesheet"/>
 
-	<!-- Spinner CSS -->
-	<link href="../../resources/css/spinner.css" th:href="@{/resources/css/spinner.css}" rel="stylesheet"/>
-
 	<!-- Custom CSS -->
 	<link href="../../resources/css/global.css" th:href="@{/resources/css/global.css}" rel="stylesheet"/>
 
@@ -127,7 +124,7 @@
 					</a>
 				</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')" id="newtrainer">
-					<a class="external-a" href="new-trainer.html" th:href="@{/user/external/new}">
+					<a href="new-trainer.html" th:href="@{/user/external/new}">
 						<i class="fa fa-fw fa-circle-o"></i>
 						<span th:text="#{label.newTainer}">Add new external trainer</span>
 					</a>
@@ -158,123 +155,115 @@
 			</div>
 			<!-- /Page Heading -->
 
-			<!-- Spinner -->
-			<div class="row" ng-show="loading">
-				<div class="loader"></div>
-			</div>
-			<!-- /Spinner -->
-
-			<div ng-show="!loading">
-				<div ng-show="training.isEditing" class="row">
-					<div class="col-xs-12">
-						<div style="background-color: #F6989D; text-align: center" class="well">
-							There are some not approved editions.
-						</div>
+			<div ng-show="training.isEditing" class="row">
+				<div class="col-xs-12">
+					<div style="background-color: #F6989D; text-align: center" class="well">
+						There are some not approved editions.
 					</div>
 				</div>
+			</div>
 
-				<div class="row">
-					<div class="col-xs-4">
-						<div>
-							<img class="training-img img-rounded" ng-src="../../resources/vendors/pics/{{img}}"
-							     th:src="@{/resources/vendors/pics/{{img}}}"/>
-							<h4 ng-if="isAdmin || training.register == 2" ng-style="{color:approveColor}">
-								{{approveText}}
-							</h4>
+			<div class="row">
+				<div class="col-xs-4">
+					<div>
+						<img class="training-img img-rounded" ng-src="../../resources/vendors/pics/{{img}}"
+						     th:src="@{/resources/vendors/pics/{{img}}}"/>
+						<h4 ng-if="isAdmin || training.register == 2" ng-style="{color:approveColor}">
+							{{approveText}}
+						</h4>
 
-							<h4 ng-if="training.register != 2 &#38;&#38; (training.isApproved || training.isEditing)&#38;&#38; (isFuture() || training.regular)"
-							    ng-style="{color:registerColor}">
-								{{registerText}}
-							</h4>
+						<h4 ng-if="training.register != 2 &#38;&#38; (training.isApproved || training.isEditing)&#38;&#38; (isFuture() || training.regular)"
+						    ng-style="{color:registerColor}">
+							{{registerText}}
+						</h4>
 
-							<div ng-if="(training.register == 3) &#38;&#38; (training.isApproved || training.isEditing) &#38;&#38; (isFuture() || training.regular)">
-								<button id="registerBtn"
-								        class="btn btn-success" type="button"
-								        ng-click="trainingReg(true)">
-									<i class="fa fa-fw fa-plus"></i> Register
-								</button>
-								<br/>
-							</div>
+						<div ng-if="(training.register == 3) &#38;&#38; (training.isApproved || training.isEditing) &#38;&#38; (isFuture() || training.regular)">
+							<button id="registerBtn"
+							        class="btn btn-success" type="button"
+							        ng-click="trainingReg(true)">
+								<i class="fa fa-fw fa-plus"></i> Register
+							</button>
+							<br/>
+						</div>
 
-							<div ng-if="(training.register == 0) || (training.register == 1) &#38;&#38; isFuture()">
-								<button id="unregisterBtn"
-								        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
-									<i class="fa fa-fw fa-times"></i> Unregister
-								</button>
-								<br/>
-							</div>
+						<div ng-if="(training.register == 0) || (training.register == 1) &#38;&#38; isFuture()">
+							<button id="unregisterBtn"
+							        class="btn btn-danger" type="button" ng-click="trainingReg(false)">
+								<i class="fa fa-fw fa-times"></i> Unregister
+							</button>
+							<br/>
+						</div>
 
-							<rating ng-model="training.genRate" max="max" readonly="true"></rating>
+						<rating ng-model="training.genRate" max="max" readonly="true"></rating>
 						<span class="label"
 						      ng-class="{&#39;label-warning&#39;: genPercent&lt;30, &#39;label-info&#39;: genPercent&gt;&#61;30 &amp;&amp; genPercent&lt;70, &#39;label-success&#39;: genPercent&gt;&#61;70}">{{genPercent}}%</span>
-							<span ng-show="toShowNoRatings"> (No ratings are left) </span>
+						<span ng-show="toShowNoRatings"> (No ratings are left) </span>
 
-							<br/>
+						<br/>
 
-							<h4>
-								<label style="font-size: 18px;">Tags: </label>
+						<h4>
+							<label style="font-size: 18px;">Tags: </label>
 							<span ng-repeat="tag in training.tags" class="label label-{{tag.color}} tags">
 								{{tag.name}}
 							</span>
-							</h4>
+						</h4>
 
-							<h4>
-								<label style="font-size: 18px;">Audience: </label>
+						<h4>
+							<label style="font-size: 18px;">Audience: </label>
 							<span ng-repeat="aud in training.audiences">
 								<br/>{{aud.value}};
 							</span>
-							</h4>
+						</h4>
 
-							<h4 ng-show="files.length != 0">
-								<label style="font-size: 18px;">Files: </label>
+						<h4 ng-show="files.length != 0">
+							<label style="font-size: 18px;">Files: </label>
 							<span ng-repeat="file in files">
 								<br/> <a href="{{file.fileLink}}" target="_blank">{{file.name}}</a>
 							</span>
-							</h4>
+						</h4>
 
-							<h4 ng-show="continuous">
-								<label style="font-size: 18px;">All parts: </label>
+						<h4 ng-show="continuous">
+							<label style="font-size: 18px;">All parts: </label>
 							<span ng-repeat="part in parts">
 								<br/> <a href="{{part.partLink}}" target="_blank">{{part.title}}</a></span>
 
-							</h4>
+						</h4>
 
-							<h4 ng-show="room">
-								<label style="font-size: 18px;">Room: </label>
+						<h4 ng-show="room">
+							<label style="font-size: 18px;">Room: </label>
 							<span>
 								{{room}}
 							</span>
-							</h4>
+						</h4>
 
-							<hr/>
-							<accordion close-others="oneAtATime">
-								<accordion-group is-open="status.open">
-									<accordion-heading>
-										<div style="font-size:1.17em;">
-											<label style="font-size: 18px;">Visitors: </label>
-											{{training.visitors.length + training.waiting.length}}/{{training.maxVis}}
-											<i class="pull-right glyphicon"
-											   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+						<hr/>
+						<accordion close-others="oneAtATime">
+							<accordion-group is-open="status.open">
+								<accordion-heading>
+									<div style="font-size:1.17em;">
+										<label style="font-size: 18px;">Visitors: </label>
+										{{training.visitors.length + training.waiting.length}}/{{training.maxVis}}
+										<i class="pull-right glyphicon"
+										   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+									</div>
+								</accordion-heading>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<label>Visitors: </label>
+
+										<div ng-repeat="visitor in training.visitors">
+											<h4>{{visitor.firstName}}&nbsp;{{visitor.lastName}}</h4>
 										</div>
-									</accordion-heading>
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<label>Visitors: </label>
+										<hr/>
+										<label>Waiting list: </label>
 
-											<div ng-repeat="visitor in training.visitors">
-												<h4>{{visitor.firstName}}&nbsp;{{visitor.lastName}}</h4>
-											</div>
-											<hr/>
-											<label>Waiting list: </label>
-
-											<div ng-repeat="person in training.waiting">
-												<h4>{{person.user.firstName}}&nbsp;{{person.user.lastName}}</h4>
-											</div>
+										<div ng-repeat="person in training.waiting">
+											<h4>{{person.user.firstName}}&nbsp;{{person.user.lastName}}</h4>
 										</div>
 									</div>
-								</accordion-group>
-							</accordion>
-						</div>
+								</div>
+							</accordion-group>
+						</accordion>
 					</div>
 				</div>
 				<div class="col-xs-8">
@@ -297,452 +286,424 @@
 
 					<div ng-show="(isAdmin &#38;&#38; (!training.isApproved || training.isEditing))">
 						<br/>
-						<button ng-click="editTraining()" style="padding-left: 2px;" class="btn btn-primary"
-						        ng-show="(isAdmin || training.register == 2)  &#38;&#38; (isFuture() || training.regular)">
-							<i class="fa fa-fw fa-pencil"></i> Edit
+						<button ng-click="approvingSettings()" class="btn btn-warning">
+							<i class="fa fa-fw fa-pencil-square-o"></i> Approving settings
 						</button>
+					</div>
 
-						<button ng-show="(isAdmin || training.register == 2) &#38;&#38; !isFuture()" id="attendenceBtn"
-						        class="btn btn-primary"
-						        type="button">
-							<i class="fa fa-fw fa-book"></i> Attendance book
-						</button>
-						<button ng-show="external &#38;&#38; (isFuture() || training.regular)"
-						        sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary"
-						        type="button">
-							<i class="fa fa-fw fa-user-plus"></i><a th:href="@{/user/visitor/new}">Add an external
-							user</a>
-						</button>
+					<hr/>
 
-						<div ng-show="(isAdmin &#38;&#38; (!training.isApproved || training.isEditing))">
-							<br/>
-							<button ng-click="approvingSettings()" class="btn btn-warning">
-								<i class="fa fa-fw fa-pencil-square-o"></i> Approving settings
-							</button>
+					<label style="font-size: 18px;">Main information</label>
+
+					<div class="row col-wrap">
+						<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-trainer">
+							<a class="href-square" href="{{trainerLink}}">
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										Trainer
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<i class="fa fa-user fa-3x"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 square-font">
+										{{training.trainerName}}
+									</div>
+								</div>
+							</a>
 						</div>
 
+						<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-language">
+							<div class="row href-square">
+								<div class="col-xs-12 square-font">
+									Language
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<i class="fa fa-flag-o fa-3x"></i>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{training.language}}
+								</div>
+							</div>
+						</div>
+
+						<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar">
+							<div class="row">
+								<div ng-show="training.regular" class="col-xs-12 square-font">
+									Date of start
+								</div>
+								<div ng-show="!training.regular" class="col-xs-12 square-font">
+									Date
+								</div>
+							</div>
+							<div class="row">
+								<div ng-show="training.regular" class="col-xs-12">
+									<i class="fa fa-calendar-check-o fa-3x"></i>
+								</div>
+								<div ng-show="!training.regular" class="col-xs-12">
+									<i class="fa fa-calendar fa-3x"></i>
+								</div>
+							</div>
+							<div class="row">
+								<div ng-show="training.regular" class="col-xs-12 square-font">
+									{{training.start}}
+								</div>
+								<div ng-show="!training.regular" class="col-xs-12 square-font">
+									{{training.date}}
+								</div>
+							</div>
+						</div>
+
+						<div ng-show="training.regular" align="center"
+						     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar-end">
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									Date of end
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<i class="fa fa-calendar-times-o fa-3x"></i>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{training.end}}
+								</div>
+							</div>
+						</div>
+
+						<div ng-show="!training.regular" align="center"
+						     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar-end">
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									Time
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<i class="fa fa-clock-o fa-3x"></i>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{training.time}}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<br/>
+
+					<div ng-show="training.regular" align="center" class="row col-wrap">
+						<div ng-repeat="weekDay in training.days"
+						     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well square-week-day">
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									Day #{{$index+1}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{weekDay.day}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{weekDay.time}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 square-font">
+									{{weekDay.room}}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr/>
+
+					<label style="font-size: 18px;">Description</label>
+
+					<div class="row col-wrap">
+						<div class="col-xs-12 well">
+							<div class="square-font">
+								<p>{{training.description}}</p>
+							</div>
+						</div>
+					</div>
+
+					<div ng-show="training.register == 2 || isAdmin" nv-file-drop="" uploader="uploader"
+					     filters="queueLimit, customFilter">
 						<hr/>
+						<label style="font-size: 18px;">File upload </label>
+						<input type="file" nv-file-select="" uploader="uploader"/>
+					</div>
 
-						<label style="font-size: 18px;">Main information</label>
+					<table ng-show="training.register == 2 || isAdmin" class="table">
+						<thead>
+						<tr>
+							<th width="50%">Name</th>
+							<th ng-show="uploader.isHTML5">Size</th>
+							<th ng-show="uploader.isHTML5">Progress</th>
+							<th>Status</th>
+							<th>Actions</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="item in uploader.queue">
+							<td><strong>{{ item.file.name }}</strong></td>
+							<td ng-show="uploader.isHTML5" nowrap="nowrap">{{ item.file.size/1024/1024|number:2 }} MB
+							</td>
+							<td ng-show="uploader.isHTML5">
+								<div class="progress" style="margin-bottom: 0;">
+									<div class="progress-bar" role="progressbar"
+									     ng-style="{ 'width': item.progress + '%' }"></div>
+								</div>
+							</td>
+							<td class="text-center">
+								<span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+								<span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+								<span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+							</td>
+							<td nowrap="nowrap">
+								<button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
+								        ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+									<span class="glyphicon glyphicon-upload"></span> Upload
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()"
+								        ng-disabled="!item.isUploading">
+									<span class="glyphicon glyphicon-ban-circle"></span> Cancel
+								</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+									<span class="glyphicon glyphicon-trash"></span> Remove
+								</button>
+							</td>
+						</tr>
+						</tbody>
+					</table>
 
-						<div class="row col-wrap">
-							<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-trainer">
-								<a class="href-square" href="{{trainerLink}}">
-									<div class="row">
-										<div class="col-xs-12 square-font">
-											Trainer
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-xs-12">
-											<i class="fa fa-user fa-3x"></i>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-xs-12 square-font">
-											{{training.trainerName}}
-										</div>
-									</div>
-								</a>
-							</div>
-
-							<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-language">
-								<div class="row href-square">
-									<div class="col-xs-12 square-font">
-										Language
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<i class="fa fa-flag-o fa-3x"></i>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										{{training.language}}
-									</div>
-								</div>
-							</div>
-
-							<div align="center" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar">
-								<div class="row">
-									<div ng-show="training.regular" class="col-xs-12 square-font">
-										Date of start
-									</div>
-									<div ng-show="!training.regular" class="col-xs-12 square-font">
-										Date
-									</div>
-								</div>
-								<div class="row">
-									<div ng-show="training.regular" class="col-xs-12">
-										<i class="fa fa-calendar-check-o fa-3x"></i>
-									</div>
-									<div ng-show="!training.regular" class="col-xs-12">
-										<i class="fa fa-calendar fa-3x"></i>
-									</div>
-								</div>
-								<div class="row">
-									<div ng-show="training.regular" class="col-xs-12 square-font">
-										{{training.start}}
-									</div>
-									<div ng-show="!training.regular" class="col-xs-12 square-font">
-										{{training.date}}
-									</div>
-								</div>
-							</div>
-
-							<div ng-show="training.regular" align="center"
-							     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar-end">
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										Date of end
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<i class="fa fa-calendar-times-o fa-3x"></i>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										{{training.end}}
-									</div>
-								</div>
-							</div>
-
-							<div ng-show="!training.regular" align="center"
-							     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well well-calendar-end">
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										Time
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<i class="fa fa-clock-o fa-3x"></i>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										{{training.time}}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<br/>
-
-						<div ng-show="training.regular" align="center" class="row col-wrap">
-							<div ng-repeat="weekDay in training.days"
-							     class="col-lg-3 col-md-3 col-sm-3 col-xs-3 well square-week-day">
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										Day #{{$index+1}}
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										{{weekDay.day}}
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										{{weekDay.time}}
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 square-font">
-										{{weekDay.room}}
-									</div>
-								</div>
-							</div>
-						</div>
-
+					<div ng-show="(!vote) &#38;&#38; training.register == 0 &#38;&#38; training.isApproved &#38;&#38; openFeedback()">
 						<hr/>
-
-						<label style="font-size: 18px;">Description</label>
-
-						<div class="row col-wrap">
-							<div class="col-xs-12 well">
-								<div class="square-font">
-									<p>{{training.description}}</p>
-								</div>
-							</div>
-						</div>
-
-						<div ng-show="training.register == 2 || isAdmin" nv-file-drop="" uploader="uploader"
-						     filters="queueLimit, customFilter">
-							<hr/>
-							<label style="font-size: 18px;">File upload </label>
-							<input type="file" nv-file-select="" uploader="uploader"/>
-						</div>
-
-						<table ng-show="training.register == 2 || isAdmin" class="table">
-							<thead>
-							<tr>
-								<th width="50%">Name</th>
-								<th ng-show="uploader.isHTML5">Size</th>
-								<th ng-show="uploader.isHTML5">Progress</th>
-								<th>Status</th>
-								<th>Actions</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr ng-repeat="item in uploader.queue">
-								<td><strong>{{ item.file.name }}</strong></td>
-								<td ng-show="uploader.isHTML5" nowrap="nowrap">{{ item.file.size/1024/1024|number:2 }}
-									MB
-								</td>
-								<td ng-show="uploader.isHTML5">
-									<div class="progress" style="margin-bottom: 0;">
-										<div class="progress-bar" role="progressbar"
-										     ng-style="{ 'width': item.progress + '%' }"></div>
+						<accordion close-others="oneAtATime">
+							<accordion-group is-open="status.open">
+								<accordion-heading>
+									<div style="font-size:1.17em;">
+										<label style="font-size: 18px;">Leave an anonymous opinion</label>
+										<i class="pull-right glyphicon"
+										   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 									</div>
-								</td>
-								<td class="text-center">
-									<span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-									<span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-									<span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-								</td>
-								<td nowrap="nowrap">
-									<button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
-									        ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-										<span class="glyphicon glyphicon-upload"></span> Upload
-									</button>
-									<button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()"
-									        ng-disabled="!item.isUploading">
-										<span class="glyphicon glyphicon-ban-circle"></span> Cancel
-									</button>
-									<button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-										<span class="glyphicon glyphicon-trash"></span> Remove
-									</button>
-								</td>
-							</tr>
-							</tbody>
-						</table>
+								</accordion-heading>
 
-						<div ng-show="(!vote) &#38;&#38; training.register == 0 &#38;&#38; training.isApproved &#38;&#38; openFeedback()">
-							<hr/>
-							<accordion close-others="oneAtATime">
-								<accordion-group is-open="status.open">
-									<accordion-heading>
-										<div style="font-size:1.17em;">
-											<label style="font-size: 18px;">Leave an anonymous opinion</label>
-											<i class="pull-right glyphicon"
-											   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-										</div>
-									</accordion-heading>
-
-									<rating ng-model="rate" max="max" readonly="false"
-									        on-hover="hoveringOver(value)"></rating>
+								<rating ng-model="rate" max="max" readonly="false"
+								        on-hover="hoveringOver(value)"></rating>
 								<span class="label"
 								      ng-class="{&#39;label-warning&#39;: percent&lt;30, &#39;label-info&#39;: percent&gt;&#61;30 &amp;&amp; percent&lt;70, &#39;label-success&#39;: percent&gt;&#61;70}">{{percent}}%</span>
 
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<br/>
-											<label>Your impression about the training: </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.impression}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseImpression(0)">Happy, that took
-														part </a>
-													</li>
-													<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that
-														took
-														part </a>
-													</li>
-													<li><a href="" ng-click="chooseImpression(2)">Disappointed, that
-														took
-														part </a></li>
-												</ul>
-											</div>
-
-											<br/><br/>
-											<label>Was everything clear? </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.intelligibility}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseIntelligibility(0)">Everything was
-														clear </a>
-													</li>
-													<li><a href="" ng-click="chooseIntelligibility(1)">Nothing was
-														clear </a>
-													</li>
-													<li><a href="" ng-click="chooseIntelligibility(2)">Something wasn't
-														clear </a></li>
-												</ul>
-											</div>
-
-											<br/><br/>
-											<label>Was the training interesting? </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.interest}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at
-														all </a>
-													</li>
-													<li><a href="" ng-click="chooseInterest(1)">Was boring in some
-														moments </a>
-													</li>
-													<li><a href="" ng-click="chooseInterest(2)">Was very
-														interesting </a>
-													</li>
-												</ul>
-											</div>
-
-											<br/><br/>
-											<label>Did you learn anything new? </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.update}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseUpdate(0)">Learnt nothing </a></li>
-													<li><a href="" ng-click="chooseUpdate(1)">Learnt something </a></li>
-													<li><a href="" ng-click="chooseUpdate(2)">Everything was new </a>
-													</li>
-												</ul>
-											</div>
-										</div>
-
-										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<br/>
-											<label>Estimate the effectiveness of the training </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.effectiveness}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseEffectiveness(1)">1 </a></li>
-													<li><a href="" ng-click="chooseEffectiveness(2)">2 </a></li>
-													<li><a href="" ng-click="chooseEffectiveness(3)">3 </a></li>
-													<li><a href="" ng-click="chooseEffectiveness(4)">4 </a></li>
-													<li><a href="" ng-click="chooseEffectiveness(5)">5 </a></li>
-												</ul>
-											</div>
-
-											<br/><br/>
-											<label>Will you recommend this training? </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.recommending}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseRecommendation(0)">Yes </a></li>
-													<li><a href="" ng-click="chooseRecommendation(1)">No </a></li>
-												</ul>
-											</div>
-
-											<br/><br/>
-											<label>Do you want to listen to this trainer again? </label>
-											<br/>
-
-											<div class="btn-group" dropdown="dropdown"
-											     dropdown-append-to-body="dropdown-append-to-body">
-												<button type="button" class="btn btn-primary dropdown-toggle"
-												        dropdown-toggle="dropdown-toggle">
-													{{myFeedback.trainerRecommending}}<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="" ng-click="chooseTrainer(0)">Yes </a></li>
-													<li><a href="" ng-click="chooseTrainer(1)">No </a></li>
-												</ul>
-											</div>
-
-											<br/><br/>
-											<label>Leave your comment about the training </label>
-											<br/>
-											<textarea style="width:80%" ng-model="myFeedback.text"></textarea>
-										</div>
-									</div>
-
-									<br/><br/>
-									<button class="btn btn-success" type="button" style="width: 100px"
-									        ng-click="sendFeedback()">
-										Send
-									</button>
-								</accordion-group>
-							</accordion>
-						</div>
-
-						<hr/>
-						<div class="row" ng-show="feedbacks.length &#62; 0">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<label style="font-size: 18px;">Feedbacks</label>
-								<br/>
-
-								<pagination total-items="totalItems" ng-model="currentPage"
-								            ng-change="pageChanged()"></pagination>
-								<div ng-repeat="feedback in feedbacks">
-									<div class="well">
-										<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px"
-										   ng-show="isAdmin">{{feedback.user.firstName}}
-											{{feedback.user.lastName}}</b>
-
-										<p class="field"><label>Date:&nbsp;</label>{{feedback.date}}</p>
-										<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
-							<span class="label"
-							      ng-class="{&#39;label-warning&#39;: feedback.percent&lt;30, &#39;label-info&#39;: feedback.percent&gt;&#61;30 &amp;&amp; feedback.percent&lt;70, &#39;label-success&#39;: feedback.percent&gt;&#61;70}">{{feedback.percent}}%</span>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<br/>
+										<label>Your impression about the training: </label>
 										<br/>
 
-										<p ng-show="feedback.impression.length != 0" class="field">
-											<label>Impression:&nbsp;</label>{{feedback.impression}}</p>
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.impression}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseImpression(0)">Happy, that took part </a>
+												</li>
+												<li><a href="" ng-click="chooseImpression(1)">Not disappointed, that
+													took
+													part </a>
+												</li>
+												<li><a href="" ng-click="chooseImpression(2)">Disappointed, that took
+													part </a></li>
+											</ul>
+										</div>
 
-										<p ng-show="feedback.intelligibility.length != 0" class="field"><label>Intelligibility:&nbsp;</label>{{feedback.intelligibility}}
-										</p>
+										<br/><br/>
+										<label>Was everything clear? </label>
+										<br/>
 
-										<p ng-show="feedback.interest.length != 0" class="field">
-											<label>Interest:&nbsp;</label>{{feedback.interest}}</p>
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.intelligibility}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseIntelligibility(0)">Everything was
+													clear </a>
+												</li>
+												<li><a href="" ng-click="chooseIntelligibility(1)">Nothing was
+													clear </a>
+												</li>
+												<li><a href="" ng-click="chooseIntelligibility(2)">Something wasn't
+													clear </a></li>
+											</ul>
+										</div>
 
-										<p ng-show="feedback.update.length != 0" class="field"><label>New
-											knowledge:&nbsp;</label>{{feedback.update}}</p>
+										<br/><br/>
+										<label>Was the training interesting? </label>
+										<br/>
 
-										<p ng-show="feedback.effectiveness.length != 0" class="field"><label>Effectiveness:&nbsp;</label>{{feedback.effectiveness}}
-										</p>
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.interest}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseInterest(0)">Wasn't interesting at
+													all </a>
+												</li>
+												<li><a href="" ng-click="chooseInterest(1)">Was boring in some
+													moments </a>
+												</li>
+												<li><a href="" ng-click="chooseInterest(2)">Was very interesting </a>
+												</li>
+											</ul>
+										</div>
 
-										<p ng-show="feedback.recommending === true || feedback.recommending === false"
-										   class="field"><label>Will recommend:&nbsp;</label>{{feedback.recommending}}
-										</p>
+										<br/><br/>
+										<label>Did you learn anything new? </label>
+										<br/>
 
-										<p ng-show="feedback.trainerRecommending === true || feedback.trainerRecommending === false"
-										   class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainerRecommending}}
-										</p>
-
-										<p ng-show="feedback.text.length != 0" class="field">
-											<label>Comment:&nbsp;</label>{{feedback.text}}
-										</p>
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.update}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseUpdate(0)">Learnt nothing </a></li>
+												<li><a href="" ng-click="chooseUpdate(1)">Learnt something </a></li>
+												<li><a href="" ng-click="chooseUpdate(2)">Everything was new </a></li>
+											</ul>
+										</div>
 									</div>
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<br/>
+										<label>Estimate the effectiveness of the training </label>
+										<br/>
+
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.effectiveness}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseEffectiveness(1)">1 </a></li>
+												<li><a href="" ng-click="chooseEffectiveness(2)">2 </a></li>
+												<li><a href="" ng-click="chooseEffectiveness(3)">3 </a></li>
+												<li><a href="" ng-click="chooseEffectiveness(4)">4 </a></li>
+												<li><a href="" ng-click="chooseEffectiveness(5)">5 </a></li>
+											</ul>
+										</div>
+
+										<br/><br/>
+										<label>Will you recommend this training? </label>
+										<br/>
+
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.recommending}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseRecommendation(0)">Yes </a></li>
+												<li><a href="" ng-click="chooseRecommendation(1)">No </a></li>
+											</ul>
+										</div>
+
+										<br/><br/>
+										<label>Do you want to listen to this trainer again? </label>
+										<br/>
+
+										<div class="btn-group" dropdown="dropdown"
+										     dropdown-append-to-body="dropdown-append-to-body">
+											<button type="button" class="btn btn-primary dropdown-toggle"
+											        dropdown-toggle="dropdown-toggle">
+												{{myFeedback.trainerRecommending}}<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="" ng-click="chooseTrainer(0)">Yes </a></li>
+												<li><a href="" ng-click="chooseTrainer(1)">No </a></li>
+											</ul>
+										</div>
+
+										<br/><br/>
+										<label>Leave your comment about the training </label>
+										<br/>
+										<textarea style="width:80%" ng-model="myFeedback.text"></textarea>
+									</div>
+								</div>
+
+								<br/><br/>
+								<button class="btn btn-success" type="button" style="width: 100px"
+								        ng-click="sendFeedback()">
+									Send
+								</button>
+							</accordion-group>
+						</accordion>
+					</div>
+
+					<hr/>
+					<div class="row" ng-show="feedbacks.length &#62; 0">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label style="font-size: 18px;">Feedbacks</label>
+							<br/>
+
+							<pagination total-items="totalItems" ng-model="currentPage"
+							            ng-change="pageChanged()"></pagination>
+							<div ng-repeat="feedback in feedbacks">
+								<div class="well">
+									<b sec:authorize="hasRole('ROLE_ADMIN')" style="font-size:16px" ng-show="isAdmin">{{feedback.user.firstName}}
+										{{feedback.user.lastName}}</b>
+
+									<p class="field"><label>Date:&nbsp;</label>{{feedback.date}}</p>
+									<rating ng-model="feedback.rate" max="max" readonly="true"></rating>
+							<span class="label"
+							      ng-class="{&#39;label-warning&#39;: feedback.percent&lt;30, &#39;label-info&#39;: feedback.percent&gt;&#61;30 &amp;&amp; feedback.percent&lt;70, &#39;label-success&#39;: feedback.percent&gt;&#61;70}">{{feedback.percent}}%</span>
+									<br/>
+
+									<p ng-show="feedback.impression.length != 0" class="field">
+										<label>Impression:&nbsp;</label>{{feedback.impression}}</p>
+
+									<p ng-show="feedback.intelligibility.length != 0" class="field"><label>Intelligibility:&nbsp;</label>{{feedback.intelligibility}}
+									</p>
+
+									<p ng-show="feedback.interest.length != 0" class="field">
+										<label>Interest:&nbsp;</label>{{feedback.interest}}</p>
+
+									<p ng-show="feedback.update.length != 0" class="field"><label>New
+										knowledge:&nbsp;</label>{{feedback.update}}</p>
+
+									<p ng-show="feedback.effectiveness.length != 0" class="field"><label>Effectiveness:&nbsp;</label>{{feedback.effectiveness}}
+									</p>
+
+									<p ng-show="feedback.recommending === true || feedback.recommending === false"
+									   class="field"><label>Will recommend:&nbsp;</label>{{feedback.recommending}}</p>
+
+									<p ng-show="feedback.trainerRecommending === true || feedback.trainerRecommending === false"
+									   class="field"><label>Want to listen again:&nbsp;</label>{{feedback.trainerRecommending}}
+									</p>
+
+									<p ng-show="feedback.text.length != 0" class="field"><label>Comment:&nbsp;</label>{{feedback.text}}
+									</p>
 								</div>
 							</div>
 						</div>

@@ -14,7 +14,6 @@ squareCtrl.controller('squareCtrl', ['$scope', '$http', '$timeout', function ($s
 
 		}).catch(function (err) {
 			console.log(err.statusText);
-			getNums();
 		});
 	};
 

@@ -16,9 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 public class NotificationRestController {
-    private final Map<DeferredResult<List<Notification>>, Long> chatRequests = new ConcurrentHashMap<>();
     @Autowired
     private NotificationService notificationService;
+
+    private final Map<DeferredResult<List<Notification>>, Long> requests = new ConcurrentHashMap<>();
 
     @RequestMapping(value = "/rest/notification/{notificationIndex}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -27,9 +28,9 @@ public class NotificationRestController {
         Long userId = userDetails.getId();
 
         final DeferredResult<List<Notification>> deferredResult = new DeferredResult<>(100000L, Collections.emptyList());
-        this.chatRequests.put(deferredResult, notificationIndex);
+        requests.put(deferredResult, notificationIndex);
 
-        deferredResult.onCompletion(() -> chatRequests.remove(deferredResult));
+        deferredResult.onCompletion(() -> requests.remove(deferredResult));
 
         List<Notification> notifications = notificationService.getAllNotificationsByUser(userId, notificationIndex);
         if (!notifications.isEmpty()) {
@@ -39,7 +40,7 @@ public class NotificationRestController {
         return deferredResult;
     }
 
-    @RequestMapping(value = "/rest/notification/delete/{notificationId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/rest/notification/{notificationId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteNotification(@PathVariable("notificationId") long notificationId) {
         notificationService.removeNotification(notificationService.getNotificationById(notificationId));

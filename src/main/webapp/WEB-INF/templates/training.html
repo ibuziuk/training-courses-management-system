@@ -276,8 +276,26 @@
 							</accordion>
 						</div>
 					</div>
-					<div class="col-xs-8">
-						<label style="font-size: 20px;">{{training.title}}&nbsp;</label>
+				</div>
+				<div class="col-xs-8">
+					<label style="font-size: 20px;">{{training.title}}&nbsp;</label>
+					<br/>
+					<button ng-click="editTraining()" style="padding-left: 2px;" class="btn btn-primary"
+					        ng-show="(isAdmin || training.register == 2)  &#38;&#38; (isFuture() || training.regular)">
+						<i class="fa fa-fw fa-pencil"></i> Edit
+					</button>
+
+					<button ng-show="(isAdmin || training.register == 2) &#38;&#38; !isFuture()" id="attendenceBtn"
+					        class="btn btn-primary"
+					        type="button">
+						<i class="fa fa-fw fa-book"></i> Attendance book
+					</button>
+					<button ng-show="external &#38;&#38; (isFuture() || training.regular)"
+					        sec:authorize="hasRole('ROLE_ADMIN')" id="addUserBtn" class="btn btn-primary" type="button">
+						<i class="fa fa-fw fa-user-plus"></i> Add an external user
+					</button>
+
+					<div ng-show="(isAdmin &#38;&#38; (!training.isApproved || training.isEditing))">
 						<br/>
 						<button ng-click="editTraining()" style="padding-left: 2px;" class="btn btn-primary"
 						        ng-show="(isAdmin || training.register == 2)  &#38;&#38; (isFuture() || training.regular)">

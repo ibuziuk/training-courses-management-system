@@ -2,7 +2,7 @@
 
 var squareCtrl = angular.module('squareCtrl', []);
 
-squareCtrl.controller('squareCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+squareCtrl.controller('squareCtrl', ['$scope', function ($scope) {
 	var getNums = function () {
 		$http.get('rest/number').then(function (obj) {
 			$scope.hot = obj.data[0];
@@ -11,6 +11,7 @@ squareCtrl.controller('squareCtrl', ['$scope', '$http', '$timeout', function ($s
 			$scope.general = obj.data[3];
 
 			$timeout(getNums, 10000);
+
 		}).catch(function (err) {
 			console.log(err.statusText);
 			getNums();
@@ -18,5 +19,4 @@ squareCtrl.controller('squareCtrl', ['$scope', '$http', '$timeout', function ($s
 	};
 
 	getNums();
-
 }]);

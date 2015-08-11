@@ -256,8 +256,7 @@
 			<div class="row" ng-controller="notificationCtrl">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div>
-						<alert ng-repeat="notification in notifications" type="{{notification.type}}"
-						       close="closeNotification($index)">
+						<alert ng-repeat="notification in notifications" type="{{notification.type}}" close="closeNotification($index)">
 							<p>
 								<i class="fa fa-info-circle"></i>
 								<span ng-bind-html="messages[$index]"></span>

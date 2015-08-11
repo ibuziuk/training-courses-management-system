@@ -2,7 +2,7 @@
 
 var squareCtrl = angular.module('squareCtrl', []);
 
-squareCtrl.controller('squareCtrl', ['$scope', function ($scope) {
+squareCtrl.controller('squareCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
 	var getNums = function () {
 		$http.get('rest/number').then(function (obj) {
 			$scope.hot = obj.data[0];
